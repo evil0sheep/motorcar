@@ -7,13 +7,15 @@ HEADERS += \
     qopenglwindow.h \
     motorcarcompositor.h \
     textureblitter.h \
-    scenegraphnode.h
+    scenegraphnode.h \
+    motorcarsurfacenode.h
 
 SOURCES += main.cpp \
     qopenglwindow.cpp \
     motorcarcompositor.cpp \
     textureblitter.cpp \
-    scenegraphnode.cpp
+    scenegraphnode.cpp \
+    motorcarsurfacenode.cpp
 
 # to make QtCompositor/... style includes working without installing
 INCLUDEPATH += $$PWD/../../include

@@ -40,6 +40,7 @@
 
 #include "motorcarcompositor.h"
 
+
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QTouchEvent>
@@ -56,6 +57,7 @@
 MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
     , m_window(window)
+    , m_sceneGraphRoot(new SceneGraphNode(NULL))
     , m_textureBlitter(0)
     , m_renderScheduler(this)
     , m_draggingWindow(0)
@@ -64,6 +66,7 @@ MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     , m_cursorHotspotX(0)
     , m_cursorHotspotY(0)
     , m_modifiers(Qt::NoModifier)
+
 {
     m_window->makeCurrent();
 
@@ -111,17 +114,24 @@ QImage MotorcarCompositor::makeBackgroundImage(const QString &fileName)
     return patternedBackground;
 }
 
+//TODO: consider revising to take  MotorcarSurfaceNode as argument depending on call sites
 void MotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *oldSurface)
 {
     QWaylandSurface *kbdFocus = defaultInputDevice()->keyboardFocus();
-    if (kbdFocus == oldSurface || !kbdFocus)
-        defaultInputDevice()->setKeyboardFocus(m_surfaces.isEmpty() ? 0 : m_surfaces.last());
+    if (kbdFocus == oldSurface || !kbdFocus){
+       MotorcarSurfaceNode *n = m_sceneGraphRoot->getSurfaceNode();
+       // defaultInputDevice()->setKeyboardFocus(m_surfaces.isEmpty() ? 0 : m_surfaces.last());
+       defaultInputDevice()->setKeyboardFocus(n ? NULL : n->surface());
+    }
 }
 
 void MotorcarCompositor::surfaceDestroyed(QObject *object)
 {
     QWaylandSurface *surface = static_cast<QWaylandSurface *>(object);
-    m_surfaces.removeOne(surface);
+    //m_surfaces.removeOne(surface);
+    if(surface){ //because calling getSurfaceNode with NULL will cause the first surface node to be returned
+        delete m_sceneGraphRoot->getSurfaceNode(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
+    }
     ensureKeyboardFocusSurface(surface);
     m_renderScheduler.start(0);
 }
@@ -130,31 +140,33 @@ void MotorcarCompositor::surfaceMapped()
 {
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
     QPoint pos;
-    if (!m_surfaces.contains(surface)) {
-        uint px = 0;
-        uint py = 0;
-        if (!QCoreApplication::arguments().contains(QLatin1String("-stickytopleft"))) {
-            px = 1 + (qrand() % (m_window->width() - surface->size().width() - 2));
-            py = 1 + (qrand() % (m_window->height() - surface->size().height() - 2));
+    //if (!m_surfaces.contains(surface)) {
+    if (!m_sceneGraphRoot->getSurfaceNode(surface)) {
+//        uint px = 0;
+//        uint py = 0;
+//        if (!QCoreApplication::arguments().contains(QLatin1String("-stickytopleft"))) {
+//            px = 1 + (qrand() % (m_window->width() - surface->size().width() - 2));
+//            py = 1 + (qrand() % (m_window->height() - surface->size().height() - 2));
+//        }
+//        pos = QPoint(px, py);
+//        surface->setPos(pos);
+        surface->setPos(QPoint(0, 0));
+        //Sometimes surfaces dont have shell_surfaces, so don't render them
+        if (surface->hasShellSurface()) {
+            //m_surfaces.append(surface);
+            new MotorcarSurfaceNode(m_sceneGraphRoot, surface);
+            defaultInputDevice()->setKeyboardFocus(surface);
         }
-        pos = QPoint(px, py);
-        surface->setPos(pos);
-    } else {
-        m_surfaces.removeOne(surface);
     }
-    //Sometimes surfaces dont have shell_surfaces, so don't render them
-    if (surface->hasShellSurface()) {
-        m_surfaces.append(surface);
-        defaultInputDevice()->setKeyboardFocus(surface);
-    }
+
     m_renderScheduler.start(0);
 }
 
 void MotorcarCompositor::surfaceUnmapped()
 {
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
-    if (m_surfaces.removeOne(surface))
-        m_surfaces.insert(0, surface);
+//    if (m_surfaces.removeOne(surface))
+//        m_surfaces.insert(0, surface);
 
     ensureKeyboardFocusSurface(surface);
 }
@@ -223,18 +235,19 @@ void MotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX
     m_cursorHotspotY = hotspotY;
 }
 
+//TODO write sceneGraph iterator and traverse scene to find closest surface under point and transform into surface local coordinates
 QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *local)
 {
-    for (int i = m_surfaces.size() - 1; i >= 0; --i) {
-        QWaylandSurface *surface = m_surfaces.at(i);
-        QRectF geo(surface->pos(), surface->size());
-        if (geo.contains(point)) {
-            if (local)
-                *local = toSurface(surface, point);
-            return surface;
-        }
-    }
-    return 0;
+//    for (int i = m_surfaces.size() - 1; i >= 0; --i) {
+//        QWaylandSurface *surface = m_surfaces.at(i);
+//        QRectF geo(surface->pos(), surface->size());
+//        if (geo.contains(point)) {
+//            if (local)
+//                *local = toSurface(surface, point);
+//            return surface;
+//        }
+//    }
+    return NULL;
 }
 
 GLuint MotorcarCompositor::composeSurface(QWaylandSurface *surface)
@@ -296,13 +309,14 @@ void MotorcarCompositor::render()
                                   window()->size(),
                                   0, false, true);
 
-    foreach (QWaylandSurface *surface, m_surfaces) {
-        if (!surface->visible())
-            continue;
-        GLuint texture = composeSurface(surface);
-        QRect geo(surface->pos().toPoint(),surface->size());
-        m_textureBlitter->drawTexture(texture,geo,m_window->size(),0,false,surface->isYInverted());
-    }
+//    foreach (QWaylandSurface *surface, m_surfaces) {
+//        if (!surface->visible())
+//            continue;
+//        GLuint texture = composeSurface(surface);
+//        QRect geo(surface->pos().toPoint(),surface->size());
+//        m_textureBlitter->drawTexture(texture,geo,m_window->size(),0,false,surface->isYInverted());
+//    }
+    m_sceneGraphRoot->traverse(0);
 
     m_textureBlitter->release();
     frameFinished();
@@ -344,8 +358,8 @@ bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
         } else {
             if (targetSurface && input->keyboardFocus() != targetSurface) {
                 input->setKeyboardFocus(targetSurface);
-                m_surfaces.removeOne(targetSurface);
-                m_surfaces.append(targetSurface);
+//                m_surfaces.removeOne(targetSurface);
+//                m_surfaces.append(targetSurface);
                 m_renderScheduler.start(0);
             }
             input->sendMousePressEvent(me->button(), local, me->localPos());

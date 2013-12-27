@@ -42,9 +42,10 @@
 #define QWINDOWCOMPOSITOR_H
 
 #include "qwaylandcompositor.h"
-#include "qwaylandsurface.h"
 #include "textureblitter.h"
 #include "qopenglwindow.h"
+
+#include "motorcarsurfacenode.h"
 
 #include <QtGui/private/qopengltexturecache_p.h>
 #include <QObject>
@@ -91,7 +92,8 @@ private:
     QOpenGLWindow *m_window;
     QImage m_backgroundImage;
     GLuint m_backgroundTexture;
-    QList<QWaylandSurface *> m_surfaces;
+    SceneGraphNode *m_sceneGraphRoot;
+    //QList<QWaylandSurface *> m_surfaces;
     TextureBlitter *m_textureBlitter;
     QOpenGLTextureCache *m_textureCache;
     GLuint m_surface_fbo;
