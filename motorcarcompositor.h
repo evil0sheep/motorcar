@@ -50,12 +50,12 @@
 #include <QObject>
 #include <QTimer>
 
-class QWindowCompositor : public QObject, public QWaylandCompositor
+class MotorcarCompositor : public QObject, public QWaylandCompositor
 {
     Q_OBJECT
 public:
-    QWindowCompositor(QOpenGLWindow *window);
-    ~QWindowCompositor();
+    MotorcarCompositor(QOpenGLWindow *window);
+    ~MotorcarCompositor();
 
 private slots:
     void surfaceDestroyed(QObject *object);

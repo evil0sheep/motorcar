@@ -6,12 +6,14 @@ LIBS += -L ../../lib
 HEADERS += \
     qopenglwindow.h \
     motorcarcompositor.h \
-    textureblitter.h
+    textureblitter.h \
+    scenegraphnode.h
 
 SOURCES += main.cpp \
     qopenglwindow.cpp \
     motorcarcompositor.cpp \
-    textureblitter.cpp
+    textureblitter.cpp \
+    scenegraphnode.cpp
 
 # to make QtCompositor/... style includes working without installing
 INCLUDEPATH += $$PWD/../../include

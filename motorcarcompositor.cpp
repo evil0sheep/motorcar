@@ -53,7 +53,7 @@
 
 #include <QtCompositor/qwaylandinput.h>
 
-QWindowCompositor::QWindowCompositor(QOpenGLWindow *window)
+MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
     , m_window(window)
     , m_textureBlitter(0)
@@ -84,14 +84,14 @@ QWindowCompositor::QWindowCompositor(QOpenGLWindow *window)
     setOutputRefreshRate(qRound(qGuiApp->primaryScreen()->refreshRate() * 1000.0));
 }
 
-QWindowCompositor::~QWindowCompositor()
+MotorcarCompositor::~MotorcarCompositor()
 {
     delete m_textureBlitter;
     delete m_textureCache;
 }
 
 
-QImage QWindowCompositor::makeBackgroundImage(const QString &fileName)
+QImage MotorcarCompositor::makeBackgroundImage(const QString &fileName)
 {
     Q_ASSERT(m_window);
 
@@ -111,14 +111,14 @@ QImage QWindowCompositor::makeBackgroundImage(const QString &fileName)
     return patternedBackground;
 }
 
-void QWindowCompositor::ensureKeyboardFocusSurface(QWaylandSurface *oldSurface)
+void MotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *oldSurface)
 {
     QWaylandSurface *kbdFocus = defaultInputDevice()->keyboardFocus();
     if (kbdFocus == oldSurface || !kbdFocus)
         defaultInputDevice()->setKeyboardFocus(m_surfaces.isEmpty() ? 0 : m_surfaces.last());
 }
 
-void QWindowCompositor::surfaceDestroyed(QObject *object)
+void MotorcarCompositor::surfaceDestroyed(QObject *object)
 {
     QWaylandSurface *surface = static_cast<QWaylandSurface *>(object);
     m_surfaces.removeOne(surface);
@@ -126,7 +126,7 @@ void QWindowCompositor::surfaceDestroyed(QObject *object)
     m_renderScheduler.start(0);
 }
 
-void QWindowCompositor::surfaceMapped()
+void MotorcarCompositor::surfaceMapped()
 {
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
     QPoint pos;
@@ -150,7 +150,7 @@ void QWindowCompositor::surfaceMapped()
     m_renderScheduler.start(0);
 }
 
-void QWindowCompositor::surfaceUnmapped()
+void MotorcarCompositor::surfaceUnmapped()
 {
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
     if (m_surfaces.removeOne(surface))
@@ -159,25 +159,25 @@ void QWindowCompositor::surfaceUnmapped()
     ensureKeyboardFocusSurface(surface);
 }
 
-void QWindowCompositor::surfaceDamaged(const QRect &rect)
+void MotorcarCompositor::surfaceDamaged(const QRect &rect)
 {
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
     surfaceDamaged(surface, rect);
 }
 
-void QWindowCompositor::surfacePosChanged()
+void MotorcarCompositor::surfacePosChanged()
 {
     m_renderScheduler.start(0);
 }
 
-void QWindowCompositor::surfaceDamaged(QWaylandSurface *surface, const QRect &rect)
+void MotorcarCompositor::surfaceDamaged(QWaylandSurface *surface, const QRect &rect)
 {
     Q_UNUSED(surface)
     Q_UNUSED(rect)
     m_renderScheduler.start(0);
 }
 
-void QWindowCompositor::surfaceCreated(QWaylandSurface *surface)
+void MotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
 {
     connect(surface, SIGNAL(destroyed(QObject *)), this, SLOT(surfaceDestroyed(QObject *)));
     connect(surface, SIGNAL(mapped()), this, SLOT(surfaceMapped()));
@@ -188,13 +188,13 @@ void QWindowCompositor::surfaceCreated(QWaylandSurface *surface)
     m_renderScheduler.start(0);
 }
 
-void QWindowCompositor::sendExpose()
+void MotorcarCompositor::sendExpose()
 {
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
     surface->sendOnScreenVisibilityChange(true);
 }
 
-void QWindowCompositor::updateCursor()
+void MotorcarCompositor::updateCursor()
 {
     if (!m_cursorSurface)
         return;
@@ -208,12 +208,12 @@ void QWindowCompositor::updateCursor()
     }
 }
 
-QPointF QWindowCompositor::toSurface(QWaylandSurface *surface, const QPointF &pos) const
+QPointF MotorcarCompositor::toSurface(QWaylandSurface *surface, const QPointF &pos) const
 {
     return pos - surface->pos();
 }
 
-void QWindowCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY)
+void MotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY)
 {
     if ((m_cursorSurface != surface) && surface)
         connect(surface, SIGNAL(damaged(QRect)), this, SLOT(updateCursor()));
@@ -223,7 +223,7 @@ void QWindowCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX,
     m_cursorHotspotY = hotspotY;
 }
 
-QWaylandSurface *QWindowCompositor::surfaceAt(const QPointF &point, QPointF *local)
+QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *local)
 {
     for (int i = m_surfaces.size() - 1; i >= 0; --i) {
         QWaylandSurface *surface = m_surfaces.at(i);
@@ -237,7 +237,7 @@ QWaylandSurface *QWindowCompositor::surfaceAt(const QPointF &point, QPointF *loc
     return 0;
 }
 
-GLuint QWindowCompositor::composeSurface(QWaylandSurface *surface)
+GLuint MotorcarCompositor::composeSurface(QWaylandSurface *surface)
 {
     GLuint texture = 0;
 
@@ -260,7 +260,7 @@ GLuint QWindowCompositor::composeSurface(QWaylandSurface *surface)
     return texture;
 }
 
-void QWindowCompositor::paintChildren(QWaylandSurface *surface, QWaylandSurface *window) {
+void MotorcarCompositor::paintChildren(QWaylandSurface *surface, QWaylandSurface *window) {
 
     if (surface->subSurfaces().size() == 0)
         return;
@@ -284,7 +284,7 @@ void QWindowCompositor::paintChildren(QWaylandSurface *surface, QWaylandSurface 
 }
 
 
-void QWindowCompositor::render()
+void MotorcarCompositor::render()
 {
     m_window->makeCurrent();
     m_backgroundTexture = m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_backgroundImage);
@@ -310,7 +310,7 @@ void QWindowCompositor::render()
     m_window->swapBuffers();
 }
 
-bool QWindowCompositor::eventFilter(QObject *obj, QEvent *event)
+bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj != m_window)
         return false;

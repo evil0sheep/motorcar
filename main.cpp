@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
                      screenGeometry.width() / 2, screenGeometry.height() / 2);
 
     QOpenGLWindow window(format, geom);
-    QWindowCompositor compositor(&window);
+    MotorcarCompositor compositor(&window);
 
     window.show();
 
