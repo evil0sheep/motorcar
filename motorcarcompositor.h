@@ -42,12 +42,12 @@
 #define QWINDOWCOMPOSITOR_H
 
 #include "qwaylandcompositor.h"
-#include "textureblitter.h"
-#include "qopenglwindow.h"
+
 
 #include "motorcarsurfacenode.h"
+#include "opengldata.h"
 
-#include <QtGui/private/qopengltexturecache_p.h>
+
 #include <QObject>
 #include <QTimer>
 
@@ -72,8 +72,8 @@ protected:
 
     QWaylandSurface* surfaceAt(const QPointF &point, QPointF *local = 0);
 
-    GLuint composeSurface(QWaylandSurface *surface);
-    void paintChildren(QWaylandSurface *surface, QWaylandSurface *window);
+//    GLuint composeSurface(QWaylandSurface *surface);
+//    void paintChildren(QWaylandSurface *surface, QWaylandSurface *window);
 
 
     bool eventFilter(QObject *obj, QEvent *event);
@@ -82,21 +82,17 @@ protected:
     void setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY);
 
     void ensureKeyboardFocusSurface(QWaylandSurface *oldSurface);
-    QImage makeBackgroundImage(const QString &fileName);
+//    QImage makeBackgroundImage(const QString &fileName);
 
 private slots:
     void sendExpose();
     void updateCursor();
 
 private:
-    QOpenGLWindow *m_window;
-    QImage m_backgroundImage;
-    GLuint m_backgroundTexture;
+
     SceneGraphNode *m_sceneGraphRoot;
     //QList<QWaylandSurface *> m_surfaces;
-    TextureBlitter *m_textureBlitter;
-    QOpenGLTextureCache *m_textureCache;
-    GLuint m_surface_fbo;
+    OpenGLData *m_glData;
     QTimer m_renderScheduler;
 
     //Dragging windows around

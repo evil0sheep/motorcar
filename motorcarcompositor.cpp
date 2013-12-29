@@ -41,24 +41,22 @@
 #include "motorcarcompositor.h"
 
 
+
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QTouchEvent>
-#include <QOpenGLFunctions>
 #include <QGuiApplication>
 #include <QCursor>
 #include <QPixmap>
-#include <QLinkedList>
 #include <QScreen>
-#include <QPainter>
+
 
 #include <QtCompositor/qwaylandinput.h>
 
 MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
-    , m_window(window)
     , m_sceneGraphRoot(new SceneGraphNode(NULL))
-    , m_textureBlitter(0)
+    , m_glData(new OpenGLData(window))
     , m_renderScheduler(this)
     , m_draggingWindow(0)
     , m_dragKeyIsPressed(false)
@@ -68,16 +66,11 @@ MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     , m_modifiers(Qt::NoModifier)
 
 {
-    m_window->makeCurrent();
 
-    m_textureCache = new QOpenGLTextureCache(m_window->context());
-    m_textureBlitter = new TextureBlitter();
-    m_backgroundImage = makeBackgroundImage(QLatin1String(":/background.jpg"));
     m_renderScheduler.setSingleShot(true);
     connect(&m_renderScheduler,SIGNAL(timeout()),this,SLOT(render()));
 
-    QOpenGLFunctions *functions = m_window->context()->functions();
-    functions->glGenFramebuffers(1, &m_surface_fbo);
+
 
     window->installEventFilter(this);
 
@@ -89,30 +82,11 @@ MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
 
 MotorcarCompositor::~MotorcarCompositor()
 {
-    delete m_textureBlitter;
-    delete m_textureCache;
+    delete m_glData;
 }
 
 
-QImage MotorcarCompositor::makeBackgroundImage(const QString &fileName)
-{
-    Q_ASSERT(m_window);
 
-    int width = m_window->width();
-    int height = m_window->height();
-    QImage baseImage(fileName);
-    QImage patternedBackground(width, height, baseImage.format());
-    QPainter painter(&patternedBackground);
-
-    QSize imageSize = baseImage.size();
-    for (int y = 0; y < height; y += imageSize.height()) {
-        for (int x = 0; x < width; x += imageSize.width()) {
-            painter.drawImage(x, y, baseImage);
-        }
-    }
-
-    return patternedBackground;
-}
 
 //TODO: consider revising to take  MotorcarSurfaceNode as argument depending on call sites
 void MotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *oldSurface)
@@ -250,83 +224,30 @@ QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *lo
     return NULL;
 }
 
-GLuint MotorcarCompositor::composeSurface(QWaylandSurface *surface)
-{
-    GLuint texture = 0;
-
-    QOpenGLFunctions *functions = QOpenGLContext::currentContext()->functions();
-    functions->glBindFramebuffer(GL_FRAMEBUFFER, m_surface_fbo);
-
-    if (surface->type() == QWaylandSurface::Shm) {
-        texture = m_textureCache->bindTexture(QOpenGLContext::currentContext(),surface->image());
-    } else if (surface->type() == QWaylandSurface::Texture) {
-        texture = surface->texture(QOpenGLContext::currentContext());
-    }
-
-    functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                                       GL_TEXTURE_2D, texture, 0);
-    paintChildren(surface,surface);
-    functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                                       GL_TEXTURE_2D,0, 0);
-
-    functions->glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    return texture;
-}
-
-void MotorcarCompositor::paintChildren(QWaylandSurface *surface, QWaylandSurface *window) {
-
-    if (surface->subSurfaces().size() == 0)
-        return;
-
-    QLinkedListIterator<QWaylandSurface *> i(surface->subSurfaces());
-    while (i.hasNext()) {
-        QWaylandSurface *subSurface = i.next();
-        QPointF p = subSurface->mapTo(window,QPointF(0,0));
-        if (subSurface->size().isValid()) {
-            GLuint texture = 0;
-            if (subSurface->type() == QWaylandSurface::Texture) {
-                texture = subSurface->texture(QOpenGLContext::currentContext());
-            } else if (surface->type() == QWaylandSurface::Shm ) {
-                texture = m_textureCache->bindTexture(QOpenGLContext::currentContext(),surface->image());
-            }
-            QRect geo(p.toPoint(),subSurface->size());
-            m_textureBlitter->drawTexture(texture,geo,window->size(),0,window->isYInverted(),subSurface->isYInverted());
-        }
-        paintChildren(subSurface,window);
-    }
-}
-
 
 void MotorcarCompositor::render()
 {
-    m_window->makeCurrent();
-    m_backgroundTexture = m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_backgroundImage);
+    m_glData->m_window->makeCurrent();
+    m_glData->m_backgroundTexture = m_glData->m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_glData->m_backgroundImage);
 
-    m_textureBlitter->bind();
+    m_glData->m_textureBlitter->bind();
     // Draw the background image texture
-    m_textureBlitter->drawTexture(m_backgroundTexture,
-                                  QRect(QPoint(0, 0), m_backgroundImage.size()),
-                                  window()->size(),
+    m_glData->m_textureBlitter->drawTexture(m_glData->m_backgroundTexture,
+                                  QRect(QPoint(0, 0), m_glData->m_backgroundImage.size()),
+                                  m_glData->m_window->size(),
                                   0, false, true);
 
-//    foreach (QWaylandSurface *surface, m_surfaces) {
-//        if (!surface->visible())
-//            continue;
-//        GLuint texture = composeSurface(surface);
-//        QRect geo(surface->pos().toPoint(),surface->size());
-//        m_textureBlitter->drawTexture(texture,geo,m_window->size(),0,false,surface->isYInverted());
-//    }
-    m_sceneGraphRoot->traverse(0);
+    m_sceneGraphRoot->traverse(0, m_glData);
 
-    m_textureBlitter->release();
+    m_glData->m_textureBlitter->release();
     frameFinished();
     // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.
-    m_window->swapBuffers();
+    m_glData->m_window->swapBuffers();
 }
 
 bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj != m_window)
+    if (obj != m_glData->m_window)
         return false;
 
     QWaylandInputDevice *input = defaultInputDevice();
@@ -334,7 +255,7 @@ bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
     switch (event->type()) {
     case QEvent::Expose:
         m_renderScheduler.start(0);
-        if (m_window->isExposed()) {
+        if (m_glData->m_window->isExposed()) {
             // Alt-tabbing away normally results in the alt remaining in
             // pressed state in the clients xkb state. Prevent this by sending
             // a release. This is not an issue in a "real" compositor but

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtDebug>
 #include "qwaylandsurface.h"
+#include "opengldata.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -25,13 +26,13 @@ public:
     virtual bool animate(const float deltaTime);
     //draw the contents of this node if necccessary
     //returns whether or not the draw call was successful
-    virtual bool draw() const;
+    virtual bool draw(OpenGLData *glData);
     //traverse the children of this node in the scenegraph
     //left virtual in case it is desireable to handle the failure of child node traversals
-    virtual void traverseChildren(float deltaTime);
+    virtual void traverseChildren(float deltaTime, OpenGLData *glData);
 
     //traverses this node in the scenegraph, drawing/animating/updating as neccessary with respect to the number of milliseconds elapsed since the last traversal of the scenegraph (deltaTime)
-    bool traverse(float deltaTime);
+    bool traverse(float deltaTime, OpenGLData *glData);
 
 
     //returns this node's transform relative to its parent

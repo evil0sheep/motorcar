@@ -3,7 +3,7 @@
 
 #include "scenegraphnode.h"
 #include "qwaylandsurface.h"
-#include "textureblitter.h"
+
 
 
 class MotorcarSurfaceNode : public SceneGraphNode
@@ -12,15 +12,17 @@ public:
     MotorcarSurfaceNode(QObject *parent, QWaylandSurface *surface);
     QWaylandSurface *surface() const;
     void setSurface(QWaylandSurface *surface);
-    virtual bool draw() const;
+    virtual bool draw(OpenGLData *glData);
 
     virtual MotorcarSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = 0);
 
 
 private:
     QWaylandSurface *m_surface;
-    TextureBlitter *m_textureBlitter;
-    GLuint composeSurface(QWaylandSurface *surface);
+
+protected:
+    GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
+    void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData);
 };
 
 #endif // WAYLANDSURFACENODE_H
