@@ -56,7 +56,7 @@
 MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
     , m_sceneGraphRoot(new SceneGraphNode(NULL))
-    , m_glData(new OpenGLData(window))
+    , m_glData(new OpenGLData(window, NULL))
     , m_renderScheduler(this)
     , m_draggingWindow(0)
     , m_dragKeyIsPressed(false)
@@ -95,7 +95,7 @@ void MotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *oldSurface)
     if (kbdFocus == oldSurface || !kbdFocus){
        MotorcarSurfaceNode *n = m_sceneGraphRoot->getSurfaceNode();
        // defaultInputDevice()->setKeyboardFocus(m_surfaces.isEmpty() ? 0 : m_surfaces.last());
-       defaultInputDevice()->setKeyboardFocus(n ? NULL : n->surface());
+       defaultInputDevice()->setKeyboardFocus(n ?  n->surface() : NULL);
     }
 }
 
@@ -228,18 +228,19 @@ QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *lo
 void MotorcarCompositor::render()
 {
     m_glData->m_window->makeCurrent();
-    m_glData->m_backgroundTexture = m_glData->m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_glData->m_backgroundImage);
+ //   m_glData->m_backgroundTexture = m_glData->m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_glData->m_backgroundImage);
 
-    m_glData->m_textureBlitter->bind();
-    // Draw the background image texture
-    m_glData->m_textureBlitter->drawTexture(m_glData->m_backgroundTexture,
-                                  QRect(QPoint(0, 0), m_glData->m_backgroundImage.size()),
-                                  m_glData->m_window->size(),
-                                  0, false, true);
+//    m_glData->m_textureBlitter->bind();
+//    // Draw the background image texture
+//    m_glData->m_textureBlitter->drawTexture(m_glData->m_backgroundTexture,
+//                                  QRect(QPoint(0, 0), m_glData->m_backgroundImage.size()),
+//                                  m_glData->m_window->size(),
+//                                  0, false, true);
+//    m_glData->m_textureBlitter->release();
 
+    m_glData->calculateVPMatrix();
     m_sceneGraphRoot->traverse(0, m_glData);
 
-    m_glData->m_textureBlitter->release();
     frameFinished();
     // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.
     m_glData->m_window->swapBuffers();

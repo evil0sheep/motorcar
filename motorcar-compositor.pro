@@ -33,3 +33,7 @@ target.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
 sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS motorcar-compositor.pro
 sources.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
 INSTALLS += target sources
+
+OTHER_FILES += \
+    motorcarsurface.vert \
+    motorcarsurface.frag

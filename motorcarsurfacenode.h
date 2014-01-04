@@ -3,6 +3,7 @@
 
 #include "scenegraphnode.h"
 #include "qwaylandsurface.h"
+#include <QtDebug>
 
 
 
@@ -10,6 +11,7 @@ class MotorcarSurfaceNode : public SceneGraphNode
 {
 public:
     MotorcarSurfaceNode(QObject *parent, QWaylandSurface *surface);
+    virtual ~MotorcarSurfaceNode();
     QWaylandSurface *surface() const;
     void setSurface(QWaylandSurface *surface);
     virtual bool draw(OpenGLData *glData);
@@ -23,6 +25,7 @@ private:
 protected:
     GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
     void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData);
+    glm::mat4 surfaceTransform(OpenGLData *glData);
 };
 
 #endif // WAYLANDSURFACENODE_H

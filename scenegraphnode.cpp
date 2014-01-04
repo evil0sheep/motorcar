@@ -2,6 +2,7 @@
 
 SceneGraphNode::SceneGraphNode(QObject *parent) :
     QObject(parent)
+  , m_parentNode(NULL)
 { 
     if(dynamic_cast<SceneGraphNode*>(parent) != NULL){
         SceneGraphNode *parentNode = dynamic_cast<SceneGraphNode*>(parent);
@@ -69,7 +70,9 @@ void SceneGraphNode::addChildNode(SceneGraphNode *child)
 
 void SceneGraphNode::removeChildNode(SceneGraphNode *node)
 {
-    this->m_childNodes.removeOne(node);
+    if(!m_childNodes.isEmpty()){
+        m_childNodes.removeOne(node);
+    }
 }
 
 bool SceneGraphNode::existsInSubtree(SceneGraphNode *node)

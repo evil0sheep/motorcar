@@ -42,6 +42,7 @@
 #define TEXTUREBLITTER_H
 
 #include <QtGui/QMatrix4x4>
+#include <QtDebug>
 
 class QOpenGLShaderProgram;
 class TextureBlitter

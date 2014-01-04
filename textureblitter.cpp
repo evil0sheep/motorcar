@@ -134,6 +134,8 @@ void TextureBlitter::drawTexture(int textureId, const QRectF &targetRect, const 
         GLfloat(x1), GLfloat(y2), zValue
     };
 
+
+
     //Set matrix to transfrom geometry values into gl coordinate space.
     m_transformMatrix.setToIdentity();
     m_transformMatrix.scale( 2.0f / targetSize.width(), 2.0f / targetSize.height() );
