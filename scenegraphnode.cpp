@@ -1,8 +1,9 @@
 #include "scenegraphnode.h"
 
-SceneGraphNode::SceneGraphNode(QObject *parent) :
+SceneGraphNode::SceneGraphNode(QObject *parent, glm::mat4 transform) :
     QObject(parent)
   , m_parentNode(NULL)
+  , m_transform(transform)
 { 
     if(dynamic_cast<SceneGraphNode*>(parent) != NULL){
         SceneGraphNode *parentNode = dynamic_cast<SceneGraphNode*>(parent);

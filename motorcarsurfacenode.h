@@ -25,7 +25,7 @@ private:
 protected:
     GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
     void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData);
-    glm::mat4 surfaceTransform(OpenGLData *glData);
+    glm::mat4 surfaceTransform(float ppcm);
 };
 
 #endif // WAYLANDSURFACENODE_H

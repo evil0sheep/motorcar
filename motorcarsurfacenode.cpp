@@ -6,10 +6,7 @@ MotorcarSurfaceNode::MotorcarSurfaceNode(QObject *parent, QWaylandSurface *surfa
     this->setSurface(surface);
 }
 
-MotorcarSurfaceNode::~MotorcarSurfaceNode()
-{
-    //delete m_surface;
-}
+MotorcarSurfaceNode::~MotorcarSurfaceNode(){}
 
 QWaylandSurface *MotorcarSurfaceNode::surface() const
 {
@@ -40,21 +37,18 @@ bool MotorcarSurfaceNode::draw(OpenGLData *glData)
 
             const GLfloat textureCoordinates[] = {
                 0, 0,
-                1, 0,
+                0, 1,
                 1, 1,
-                0, 1
+                1, 0
             };
             const GLfloat vertexCoordinates[] ={
                 0, 0, 0,
-                1, 0, 0,
+                0, 1, 0,
                 1, 1, 0,
-                0, 1, 0
+                1, 0, 0
             };
 
-
-            glm::mat4 model = this->worldTransform() * this->surfaceTransform(glData);
-
-            QMatrix4x4 MVPMatrix(glm::value_ptr(glData->viewProjectionMatrix() * this->worldTransform() * this->surfaceTransform(glData)));
+            QMatrix4x4 MVPMatrix(glm::value_ptr(glData->viewProjectionMatrix() * this->worldTransform() * this->surfaceTransform(glData->ppcm())));
 
             QOpenGLContext *currentContext = QOpenGLContext::currentContext();
             currentContext->functions()->glEnableVertexAttribArray(aPositionLocation);
@@ -132,10 +126,15 @@ void MotorcarSurfaceNode::paintChildren(QWaylandSurface *surface, QWaylandSurfac
     }
 }
 
-glm::mat4 MotorcarSurfaceNode::surfaceTransform(OpenGLData *glData)
-{
 
-    return glm::scale(glm::mat4(), glm::vec3(1, -1, 1));
+
+glm::mat4 MotorcarSurfaceNode::surfaceTransform(float ppcm)
+{
+    float ppm = ppcm * 100.f;
+    //return glm::scale(glm::mat4(), glm::vec3(1, -1 , 1));
+
+    return glm::scale(glm::mat4(), glm::vec3(m_surface->size().width() / ppm, -1 * m_surface->size().height() / ppm, 1));
+
 }
 
 MotorcarSurfaceNode *MotorcarSurfaceNode::getSurfaceNode(const QWaylandSurface *surface)

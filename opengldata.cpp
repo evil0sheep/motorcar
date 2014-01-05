@@ -7,6 +7,7 @@ OpenGLData::OpenGLData(QOpenGLWindow *window, SceneGraphNode *camera)
     , m_surfaceShader(new QOpenGLShaderProgram)
     , m_cameraNode(camera)
     , m_fov(45.f)
+    , m_ppcm(16)
 {
     m_window->makeCurrent();
 
@@ -53,9 +54,17 @@ QImage OpenGLData::makeBackgroundImage(const QString &fileName)
 
 void OpenGLData::calculateVPMatrix()
 {
-    m_projectionMatrix = glm::perspective(m_fov, ((float) m_window->size().width())/ ((float) m_window->size().height()), 0.1f, 1000.f);
-
-    m_viewMatrix = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0),glm::vec3(0, 1, 0));
+    m_projectionMatrix = glm::perspective(m_fov, ((float) m_window->size().width())/ ((float) m_window->size().height()), 0.01f, 100.f);
+    if(m_cameraNode != NULL){
+        glm::mat4 trans = m_cameraNode->worldTransform();
+        glm::vec3 center = glm::vec3(trans * glm::vec4(0, 0, 0, 1));
+        glm::vec3 target = glm::vec3(trans * glm::vec4(0, 0, 1, 1));
+        glm::vec3 up = glm::normalize(glm::vec3(trans * glm::vec4(0, 1, 0, 0)));
+//        glm::vec3 vec = target;
+//        qDebug() << vec.x << ", " << vec.y << ", " << vec.z;
+        m_viewMatrix = glm::lookAt(center, target, up);
+    }
+   //m_viewMatrix = glm::lookAt(glm::vec3(0,0,-1.f), glm::vec3(0,0,0), glm::vec3(0,1,0));
     m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
 }
 

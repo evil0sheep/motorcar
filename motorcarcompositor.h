@@ -106,6 +106,8 @@ private:
     int m_cursorHotspotY;
 
     Qt::KeyboardModifiers m_modifiers;
+
+    int m_renderCount = 0;
 };
 
 #endif // QWINDOWCOMPOSITOR_H

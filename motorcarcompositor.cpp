@@ -56,7 +56,7 @@
 MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
     , m_sceneGraphRoot(new SceneGraphNode(NULL))
-    , m_glData(new OpenGLData(window, NULL))
+    , m_glData(new OpenGLData(window, new SceneGraphNode(m_sceneGraphRoot, glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0,0,1.5f)), 180.f, glm::vec3(0,1,0)))))
     , m_renderScheduler(this)
     , m_draggingWindow(0)
     , m_dragKeyIsPressed(false)
@@ -78,6 +78,8 @@ MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
 
     setOutputGeometry(QRect(QPoint(0, 0), window->size()));
     setOutputRefreshRate(qRound(qGuiApp->primaryScreen()->refreshRate() * 1000.0));
+    glClearColor(0.f, 0.f, 0.f, 1.0f);
+    //glClearDepth(0.1f);
 }
 
 MotorcarCompositor::~MotorcarCompositor()
@@ -101,9 +103,10 @@ void MotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *oldSurface)
 
 void MotorcarCompositor::surfaceDestroyed(QObject *object)
 {
+
     QWaylandSurface *surface = static_cast<QWaylandSurface *>(object);
     //m_surfaces.removeOne(surface);
-    if(surface){ //because calling getSurfaceNode with NULL will cause the first surface node to be returned
+    if(surface != NULL){ //because calling getSurfaceNode with NULL will cause the first surface node to be returned
         delete m_sceneGraphRoot->getSurfaceNode(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
     }
     ensureKeyboardFocusSurface(surface);
@@ -138,11 +141,14 @@ void MotorcarCompositor::surfaceMapped()
 
 void MotorcarCompositor::surfaceUnmapped()
 {
+
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
 //    if (m_surfaces.removeOne(surface))
 //        m_surfaces.insert(0, surface);
 
     ensureKeyboardFocusSurface(surface);
+
+    //m_renderScheduler.start(0);
 }
 
 void MotorcarCompositor::surfaceDamaged(const QRect &rect)
@@ -227,6 +233,7 @@ QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *lo
 
 void MotorcarCompositor::render()
 {
+    qDebug() << "rendering frame: " << m_renderCount++;
     m_glData->m_window->makeCurrent();
  //   m_glData->m_backgroundTexture = m_glData->m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_glData->m_backgroundImage);
 
@@ -239,6 +246,7 @@ void MotorcarCompositor::render()
 //    m_glData->m_textureBlitter->release();
 
     m_glData->calculateVPMatrix();
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     m_sceneGraphRoot->traverse(0, m_glData);
 
     frameFinished();
@@ -323,6 +331,10 @@ bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
         QKeyEvent *ke = static_cast<QKeyEvent *>(event);
         if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
             m_dragKeyIsPressed = true;
+        }else if(ke->key() == Qt::Key_Up){
+            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,0.001f)) * m_glData->m_cameraNode->transform());
+        }else if(ke->key() == Qt::Key_Down){
+            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,-0.001f)) * m_glData->m_cameraNode->transform());
         }
         m_modifiers = ke->modifiers();
         QWaylandSurface *targetSurface = input->keyboardFocus();

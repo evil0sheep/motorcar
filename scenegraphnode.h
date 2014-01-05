@@ -16,7 +16,7 @@ class SceneGraphNode : public QObject
 {
     Q_OBJECT
 public:
-    explicit SceneGraphNode(QObject *parent = 0);
+    explicit SceneGraphNode(QObject *parent = 0, glm::mat4 transform = glm::mat4(1));
 
     //calls destructor on all children and removes this node from its parent's list of children
     virtual ~SceneGraphNode();
