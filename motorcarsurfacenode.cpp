@@ -48,7 +48,8 @@ bool MotorcarSurfaceNode::draw(OpenGLData *glData)
                 1, 0, 0
             };
 
-            QMatrix4x4 MVPMatrix(glm::value_ptr(glData->viewProjectionMatrix() * this->worldTransform() * this->surfaceTransform(glData->ppcm())));
+            computeSurfaceTransform(glData->ppcm());
+            QMatrix4x4 MVPMatrix(glm::value_ptr(glData->viewProjectionMatrix() * this->worldTransform() * this->surfaceTransform()));
 
             QOpenGLContext *currentContext = QOpenGLContext::currentContext();
             currentContext->functions()->glEnableVertexAttribArray(aPositionLocation);
@@ -128,23 +129,52 @@ void MotorcarSurfaceNode::paintChildren(QWaylandSurface *surface, QWaylandSurfac
 
 
 
-glm::mat4 MotorcarSurfaceNode::surfaceTransform(float ppcm)
+void MotorcarSurfaceNode::computeSurfaceTransform(float ppcm)
 {
-    float ppm = ppcm * 100.f;
-    //return glm::scale(glm::mat4(), glm::vec3(1, -1 , 1));
+    if(ppcm > 0){
+        float ppm = ppcm * 100.f;
+        m_surfaceTransform = glm::scale(glm::mat4(), glm::vec3(m_surface->size().width() / ppm, -1 * m_surface->size().height() / ppm, 1));
+    }
 
-    return glm::scale(glm::mat4(), glm::vec3(m_surface->size().width() / ppm, -1 * m_surface->size().height() / ppm, 1));
+
 
 }
 
 MotorcarSurfaceNode *MotorcarSurfaceNode::getSurfaceNode(const QWaylandSurface *surface)
 {
-    if(surface == NULL || surface == this->m_surface) return this;
-    foreach (SceneGraphNode *child, m_childNodes) {
-        if (child != NULL){
-            MotorcarSurfaceNode *node = child->getSurfaceNode(surface);
-            if(node) return node;
-        }
+    if(surface == NULL || surface == this->m_surface) {
+        return this;
+    }else{
+        return SceneGraphNode::getSurfaceNode(surface);
     }
-    return NULL;
+
+}
+
+SceneGraphNode::RaySurfaceIntersection *MotorcarSurfaceNode::intersectWithSurfaces(const Geometry::Ray &ray)
+{
+    SceneGraphNode::RaySurfaceIntersection *closestSubtreeIntersection = SceneGraphNode::intersectWithSurfaces(ray);
+
+    //could be incorrect matrix order
+    Geometry::Ray transformedRay = ray.transform(glm::inverse(surfaceTransform()) * m_inverseTransform);
+    Geometry::Plane surfacePlane = Geometry::Plane(glm::vec3(0), glm::vec3(0,0,1));
+    float t = surfacePlane.intersect(transformedRay);
+    if(closestSubtreeIntersection == NULL || t < closestSubtreeIntersection->t){
+        glm::vec3 pos = transformedRay.solve(t);
+        if(pos.x >= 0 && pos.x <=1 && pos.y >= 0 && pos.y <=1){
+            return new SceneGraphNode::RaySurfaceIntersection(this, glm::vec2(pos), ray, t);
+        }else{
+            return NULL;
+        }
+
+    }else{
+        return closestSubtreeIntersection;
+    }
+
+
+
+}
+
+glm::mat4 MotorcarSurfaceNode::surfaceTransform() const
+{
+    return m_surfaceTransform;
 }

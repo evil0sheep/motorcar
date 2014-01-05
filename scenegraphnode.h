@@ -5,13 +5,16 @@
 #include <QtDebug>
 #include "qwaylandsurface.h"
 #include "opengldata.h"
+#include "geometry.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+
 class OpenGLData;
 class MotorcarSurfaceNode;
+class Geometry;
 class SceneGraphNode : public QObject
 {
     Q_OBJECT
@@ -57,8 +60,24 @@ public:
     virtual MotorcarSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = 0);
 
 
+
+    struct RaySurfaceIntersection
+    {
+        RaySurfaceIntersection(MotorcarSurfaceNode *surfaceNode, glm::vec2 surfaceLocalCoordinates , const Geometry::Ray &ray , float t );
+        MotorcarSurfaceNode *surfaceNode;
+        glm::vec2 surfaceLocalCoordinates;
+        Geometry::Ray ray;
+        float t;
+    };
+
+    //returns the intersection of the given ray with the closest surface in the scenegraph subtree rooted at this node or NULL if no intersection is found
+    virtual SceneGraphNode::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
+
+
+
+
 protected:
-    glm::mat4 m_transform;
+    glm::mat4 m_transform, m_inverseTransform;
     SceneGraphNode *m_parentNode;
     QList<SceneGraphNode *> m_childNodes;
 

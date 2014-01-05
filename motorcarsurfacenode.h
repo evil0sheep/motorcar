@@ -16,16 +16,19 @@ public:
     void setSurface(QWaylandSurface *surface);
     virtual bool draw(OpenGLData *glData);
 
-    virtual MotorcarSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = 0);
-
+    virtual MotorcarSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = NULL);
+    virtual SceneGraphNode::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
+    glm::mat4 surfaceTransform() const;
 
 private:
     QWaylandSurface *m_surface;
+    glm::mat4 m_surfaceTransform;
 
 protected:
     GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
     void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData);
-    glm::mat4 surfaceTransform(float ppcm);
+    void computeSurfaceTransform(float ppcm);
+
 };
 
 #endif // WAYLANDSURFACENODE_H

@@ -4,6 +4,7 @@
 #include "scenegraphnode.h"
 #include "textureblitter.h"
 #include "qopenglwindow.h"
+#include "geometry.h"
 
 
 #include <QtGui/private/qopengltexturecache_p.h>
@@ -28,6 +29,7 @@ public:
     GLuint m_surface_fbo;
     QOpenGLShaderProgram *m_surfaceShader;
     SceneGraphNode *m_cameraNode;
+    Geometry::Camera *m_camera;
 
 
     OpenGLData(QOpenGLWindow *window, SceneGraphNode *camera);
@@ -39,7 +41,7 @@ public:
     float ppcm();
 
 private:
-     float m_fov, m_ppcm;
+     float m_ppcm;
      glm::mat4 m_viewMatrix, m_projectionMatrix, m_viewProjectionMatrix;
 
 

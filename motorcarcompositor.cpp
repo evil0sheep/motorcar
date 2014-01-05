@@ -218,6 +218,16 @@ void MotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX
 //TODO write sceneGraph iterator and traverse scene to find closest surface under point and transform into surface local coordinates
 QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *local)
 {
+    SceneGraphNode::RaySurfaceIntersection *intersection = m_sceneGraphRoot->intersectWithSurfaces(m_glData->m_camera->computeRay(point.x(), point.y()));
+    if(intersection){
+        if (local)
+            *local = QPointF(intersection->surfaceLocalCoordinates.x, intersection->surfaceLocalCoordinates.y);
+
+        return intersection->surfaceNode->surface();
+    }else{
+        return NULL;
+    }
+
 //    for (int i = m_surfaces.size() - 1; i >= 0; --i) {
 //        QWaylandSurface *surface = m_surfaces.at(i);
 //        QRectF geo(surface->pos(), surface->size());
@@ -227,7 +237,7 @@ QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *lo
 //            return surface;
 //        }
 //    }
-    return NULL;
+//    return NULL;
 }
 
 

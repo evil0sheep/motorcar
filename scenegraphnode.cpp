@@ -3,8 +3,9 @@
 SceneGraphNode::SceneGraphNode(QObject *parent, glm::mat4 transform) :
     QObject(parent)
   , m_parentNode(NULL)
-  , m_transform(transform)
+
 { 
+    setTransform(transform);
     if(dynamic_cast<SceneGraphNode*>(parent) != NULL){
         SceneGraphNode *parentNode = dynamic_cast<SceneGraphNode*>(parent);
         setParentNode(parentNode);
@@ -101,6 +102,22 @@ MotorcarSurfaceNode *SceneGraphNode::getSurfaceNode(const QWaylandSurface *surfa
 
 }
 
+SceneGraphNode::RaySurfaceIntersection *SceneGraphNode::intersectWithSurfaces(const Geometry::Ray &ray)
+{
+    SceneGraphNode::RaySurfaceIntersection *closestIntersection = NULL, *currentIntersection;
+    Geometry::Ray transformedRay = ray.transform(m_inverseTransform);
+    foreach (SceneGraphNode *child, m_childNodes) {
+        if (child != NULL){
+            currentIntersection = child->intersectWithSurfaces(transformedRay);
+            if(currentIntersection != NULL && currentIntersection->t < closestIntersection->t){
+                delete closestIntersection;
+                closestIntersection = currentIntersection;
+            }
+        }
+    }
+    return closestIntersection;
+}
+
 glm::mat4 SceneGraphNode::worldTransform()
 {
     if(this->m_parentNode != NULL){
@@ -125,6 +142,15 @@ glm::mat4 SceneGraphNode::transform() const
 void SceneGraphNode::setTransform(const glm::mat4 &value)
 {
     m_transform = value;
+    m_inverseTransform = glm::inverse(m_transform);
+}
+
+SceneGraphNode::RaySurfaceIntersection::RaySurfaceIntersection(MotorcarSurfaceNode *surfaceNode, glm::vec2 surfaceLocalCoordinates, const Geometry::Ray &ray, float t)
+    : surfaceNode(surfaceNode)
+    , surfaceLocalCoordinates(surfaceLocalCoordinates)
+    , ray(ray)
+    , t(t)
+{
 }
 
 
