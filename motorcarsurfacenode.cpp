@@ -154,14 +154,15 @@ SceneGraphNode::RaySurfaceIntersection *MotorcarSurfaceNode::intersectWithSurfac
 {
     SceneGraphNode::RaySurfaceIntersection *closestSubtreeIntersection = SceneGraphNode::intersectWithSurfaces(ray);
 
-    //could be incorrect matrix order
-    Geometry::Ray transformedRay = ray.transform(glm::inverse(surfaceTransform()) * m_inverseTransform);
+
+    Geometry::Ray transformedRay = ray.transform(m_inverseTransform).transform( glm::inverse(surfaceTransform()) );
+
     Geometry::Plane surfacePlane = Geometry::Plane(glm::vec3(0), glm::vec3(0,0,1));
     float t = surfacePlane.intersect(transformedRay);
     if(closestSubtreeIntersection == NULL || t < closestSubtreeIntersection->t){
-        glm::vec3 pos = transformedRay.solve(t);
-        if(pos.x >= 0 && pos.x <=1 && pos.y >= 0 && pos.y <=1){
-            return new SceneGraphNode::RaySurfaceIntersection(this, glm::vec2(pos), ray, t);
+        glm::vec3 pos = transformedRay.solve(t) * glm::vec3(-1, 1, 1);
+        if(pos.x >= 0 && pos.x <=1 && pos.y >= 0 && pos.y <= 1){
+            return new SceneGraphNode::RaySurfaceIntersection(this, glm::vec2(pos.x, pos.y) * glm::vec2(m_surface->size().width(), m_surface->size().height()), ray, t);
         }else{
             return NULL;
         }

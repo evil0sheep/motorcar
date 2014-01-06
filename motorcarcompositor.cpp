@@ -215,35 +215,31 @@ void MotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX
     m_cursorHotspotY = hotspotY;
 }
 
-//TODO write sceneGraph iterator and traverse scene to find closest surface under point and transform into surface local coordinates
+
 QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *local)
 {
-    SceneGraphNode::RaySurfaceIntersection *intersection = m_sceneGraphRoot->intersectWithSurfaces(m_glData->m_camera->computeRay(point.x(), point.y()));
+    Geometry::Ray ray = m_glData->m_camera->computeRay(point.x(), point.y()).transform(m_glData->m_cameraNode->worldTransform());
+
+    SceneGraphNode::RaySurfaceIntersection *intersection = m_sceneGraphRoot->intersectWithSurfaces(ray);
+
     if(intersection){
-        if (local)
+        if (local){
             *local = QPointF(intersection->surfaceLocalCoordinates.x, intersection->surfaceLocalCoordinates.y);
+        }
 
         return intersection->surfaceNode->surface();
     }else{
+        //qDebug() << "no intersection found between cursor ray and scene graph";
         return NULL;
     }
 
-//    for (int i = m_surfaces.size() - 1; i >= 0; --i) {
-//        QWaylandSurface *surface = m_surfaces.at(i);
-//        QRectF geo(surface->pos(), surface->size());
-//        if (geo.contains(point)) {
-//            if (local)
-//                *local = toSurface(surface, point);
-//            return surface;
-//        }
-//    }
-//    return NULL;
+
 }
 
 
 void MotorcarCompositor::render()
 {
-    qDebug() << "rendering frame: " << m_renderCount++;
+
     m_glData->m_window->makeCurrent();
  //   m_glData->m_backgroundTexture = m_glData->m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_glData->m_backgroundImage);
 

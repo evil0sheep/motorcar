@@ -1,4 +1,5 @@
 #include "geometry.h"
+#include <QtDebug>
 
 Geometry::Ray::Ray(glm::vec3 p, glm::vec3 d)
     : p(p)
@@ -37,8 +38,8 @@ Geometry::Camera::Camera(float near, float far, float fov, QOpenGLWindow *m_wind
 Geometry::Ray Geometry::Camera::computeRay(float pixelX, float pixelY)
 {
     float width = (float) (m_window->size().width()), height = (float) (m_window->size().height());
-    glm::vec2 normalizedPixelPos = glm::vec2(pixelX / width, (pixelY / height) * (height / width));
-    float h = normalizedPixelPos.y /2;
+    glm::vec2 normalizedPixelPos = glm::vec2(pixelX / width - 0.5f, -1.f *(pixelY / height - 0.5f) * (height / width));
+    float h = (height/width) /2;
     float theta = glm::radians(fov / 2);
     float d = h / glm::tan(theta);
 

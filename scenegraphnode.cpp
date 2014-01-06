@@ -109,7 +109,7 @@ SceneGraphNode::RaySurfaceIntersection *SceneGraphNode::intersectWithSurfaces(co
     foreach (SceneGraphNode *child, m_childNodes) {
         if (child != NULL){
             currentIntersection = child->intersectWithSurfaces(transformedRay);
-            if(currentIntersection != NULL && currentIntersection->t < closestIntersection->t){
+            if(closestIntersection == NULL || (currentIntersection != NULL && currentIntersection->t < closestIntersection->t)){
                 delete closestIntersection;
                 closestIntersection = currentIntersection;
             }
