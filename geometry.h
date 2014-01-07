@@ -4,12 +4,16 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "glm/gtc/matrix_access.hpp"
 #include "qopenglwindow.h"
+//#include "opengldata.h"
+#include <stdio.h>
 
 class Geometry
 {
 public:
-    Geometry();
+
+    static void printMatrix(glm::mat4 m);
 
     struct Ray
     {
@@ -17,6 +21,8 @@ public:
         Ray transform(glm::mat4 t) const;
         glm::vec3 p, d;
         glm::vec3 solve(float t) const;
+        void print() const;
+
     };
 
     struct Plane

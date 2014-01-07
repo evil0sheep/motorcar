@@ -37,12 +37,16 @@ public:
     QImage makeBackgroundImage(const QString &fileName);
 
     void calculateVPMatrix();
-    glm::mat4 viewProjectionMatrix();
+
     float ppcm();
 
+    glm::mat4 viewMatrix() const;
+    glm::mat4 projectionMatrix() const;
+    glm::mat4 viewProjectionMatrix() const;
+
 private:
-     float m_ppcm;
-     glm::mat4 m_viewMatrix, m_projectionMatrix, m_viewProjectionMatrix;
+    float m_ppcm;
+    glm::mat4 m_viewMatrix, m_projectionMatrix, m_viewProjectionMatrix;
 
 
 };

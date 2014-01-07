@@ -56,7 +56,7 @@
 MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
     , m_sceneGraphRoot(new SceneGraphNode(NULL))
-    , m_glData(new OpenGLData(window, new SceneGraphNode(m_sceneGraphRoot, glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0,0,1.5f)), 180.f, glm::vec3(0,1,0)))))
+    , m_glData(new OpenGLData(window, new SceneGraphNode(m_sceneGraphRoot, glm::mat4(1))))//glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0,0,1.5f)), 180.f, glm::vec3(0,1,0)))))
     , m_renderScheduler(this)
     , m_draggingWindow(0)
     , m_dragKeyIsPressed(false)
@@ -131,7 +131,13 @@ void MotorcarCompositor::surfaceMapped()
         //Sometimes surfaces dont have shell_surfaces, so don't render them
         if (surface->hasShellSurface()) {
             //m_surfaces.append(surface);
-            new MotorcarSurfaceNode(m_sceneGraphRoot, surface);
+            int n = 1000;
+            glm::mat4 transform = glm::mat4(1)
+                                * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(0, 1, 0))
+                                * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(1, 0, 0))
+                                //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
+                                * glm::translate(glm::mat4(1), glm::vec3(0,0,.5f));
+            new MotorcarSurfaceNode(m_sceneGraphRoot, surface, transform);
             defaultInputDevice()->setKeyboardFocus(surface);
         }
     }
@@ -220,9 +226,11 @@ QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *lo
 {
     Geometry::Ray ray = m_glData->m_camera->computeRay(point.x(), point.y()).transform(m_glData->m_cameraNode->worldTransform());
 
+
     SceneGraphNode::RaySurfaceIntersection *intersection = m_sceneGraphRoot->intersectWithSurfaces(ray);
 
     if(intersection){
+         //qDebug() << "intersection found between cursor ray and scene graph";
         if (local){
             *local = QPointF(intersection->surfaceLocalCoordinates.x, intersection->surfaceLocalCoordinates.y);
         }
@@ -268,22 +276,22 @@ bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
     QWaylandInputDevice *input = defaultInputDevice();
 
     switch (event->type()) {
-    case QEvent::Expose:
-        m_renderScheduler.start(0);
-        if (m_glData->m_window->isExposed()) {
-            // Alt-tabbing away normally results in the alt remaining in
-            // pressed state in the clients xkb state. Prevent this by sending
-            // a release. This is not an issue in a "real" compositor but
-            // is very annoying when running in a regular window on xcb.
-            Qt::KeyboardModifiers mods = QGuiApplication::queryKeyboardModifiers();
-            if (m_modifiers != mods && input->keyboardFocus()) {
-                Qt::KeyboardModifiers stuckMods = m_modifiers ^ mods;
-                if (stuckMods & Qt::AltModifier)
-                    input->sendKeyReleaseEvent(64); // native scancode for left alt
-                m_modifiers = mods;
-            }
-        }
-        break;
+//    case QEvent::Expose:
+//        m_renderScheduler.start(0);
+//        if (m_glData->m_window->isExposed()) {
+//            // Alt-tabbing away normally results in the alt remaining in
+//            // pressed state in the clients xkb state. Prevent this by sending
+//            // a release. This is not an issue in a "real" compositor but
+//            // is very annoying when running in a regular window on xcb.
+//            Qt::KeyboardModifiers mods = QGuiApplication::queryKeyboardModifiers();
+//            if (m_modifiers != mods && input->keyboardFocus()) {
+//                Qt::KeyboardModifiers stuckMods = m_modifiers ^ mods;
+//                if (stuckMods & Qt::AltModifier)
+//                    input->sendKeyReleaseEvent(64); // native scancode for left alt
+//                m_modifiers = mods;
+//            }
+//        }
+//        break;
     case QEvent::MouseButtonPress: {
         QPointF local;
         QMouseEvent *me = static_cast<QMouseEvent *>(event);

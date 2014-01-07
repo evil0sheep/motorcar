@@ -105,7 +105,7 @@ MotorcarSurfaceNode *SceneGraphNode::getSurfaceNode(const QWaylandSurface *surfa
 SceneGraphNode::RaySurfaceIntersection *SceneGraphNode::intersectWithSurfaces(const Geometry::Ray &ray)
 {
     SceneGraphNode::RaySurfaceIntersection *closestIntersection = NULL, *currentIntersection;
-    Geometry::Ray transformedRay = ray.transform(m_inverseTransform);
+    Geometry::Ray transformedRay = ray.transform(inverseTransform());
     foreach (SceneGraphNode *child, m_childNodes) {
         if (child != NULL){
             currentIntersection = child->intersectWithSurfaces(transformedRay);
@@ -118,7 +118,7 @@ SceneGraphNode::RaySurfaceIntersection *SceneGraphNode::intersectWithSurfaces(co
     return closestIntersection;
 }
 
-glm::mat4 SceneGraphNode::worldTransform()
+glm::mat4 SceneGraphNode::worldTransform() const
 {
     if(this->m_parentNode != NULL){
         return this->parentNode()->worldTransform() * this->transform();
@@ -151,6 +151,13 @@ SceneGraphNode::RaySurfaceIntersection::RaySurfaceIntersection(MotorcarSurfaceNo
     , ray(ray)
     , t(t)
 {
+}
+
+
+
+glm::mat4 SceneGraphNode::inverseTransform() const
+{
+    return m_inverseTransform;
 }
 
 

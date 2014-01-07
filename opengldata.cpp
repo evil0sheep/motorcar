@@ -7,7 +7,8 @@ OpenGLData::OpenGLData(QOpenGLWindow *window, SceneGraphNode *camera)
     , m_surfaceShader(new QOpenGLShaderProgram)
     , m_cameraNode(camera)
     , m_camera(new Geometry::Camera(0.01, 100, 45, m_window))
-    , m_ppcm(16)
+    , m_ppcm(64)
+    , m_viewMatrix(glm::mat4(1))
 {
     m_window->makeCurrent();
 
@@ -18,8 +19,16 @@ OpenGLData::OpenGLData(QOpenGLWindow *window, SceneGraphNode *camera)
     QOpenGLFunctions *functions = m_window->context()->functions();
     functions->glGenFramebuffers(1, &m_surface_fbo);
 
+    glClearDepth(1.0f);
+    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_DEPTH_TEST);
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
     glEnable(GL_BLEND);
     glBlendFunc (GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+
 
     m_surfaceShader->addShaderFromSourceFile(QOpenGLShader::Vertex, "motorcarsurface.vert");
     m_surfaceShader->addShaderFromSourceFile(QOpenGLShader::Fragment,"motorcarsurface.frag");
@@ -68,7 +77,7 @@ void OpenGLData::calculateVPMatrix()
     m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
 }
 
-glm::mat4 OpenGLData::viewProjectionMatrix()
+glm::mat4 OpenGLData::viewProjectionMatrix() const
 {
     return m_viewProjectionMatrix;
 }
@@ -77,3 +86,16 @@ float OpenGLData::ppcm()
 {
     return m_ppcm;
 }
+
+glm::mat4 OpenGLData::projectionMatrix() const
+{
+    return m_projectionMatrix;
+}
+
+
+glm::mat4 OpenGLData::viewMatrix() const
+{
+    return m_viewMatrix;
+}
+
+

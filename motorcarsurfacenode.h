@@ -4,13 +4,13 @@
 #include "scenegraphnode.h"
 #include "qwaylandsurface.h"
 #include <QtDebug>
-
+#include "glm/gtc/matrix_inverse.hpp"
 
 
 class MotorcarSurfaceNode : public SceneGraphNode
 {
 public:
-    MotorcarSurfaceNode(QObject *parent, QWaylandSurface *surface);
+    MotorcarSurfaceNode(QObject *parent, QWaylandSurface *surface, glm::mat4 transform = glm::mat4(1));
     virtual ~MotorcarSurfaceNode();
     QWaylandSurface *surface() const;
     void setSurface(QWaylandSurface *surface);
@@ -18,7 +18,9 @@ public:
 
     virtual MotorcarSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = NULL);
     virtual SceneGraphNode::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
+
     glm::mat4 surfaceTransform() const;
+
 
 private:
     QWaylandSurface *m_surface;

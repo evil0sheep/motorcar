@@ -42,8 +42,10 @@ public:
     glm::mat4 transform() const;
     //sets this node's transform relative to its parent
     void setTransform(const glm::mat4 &value);
+    //returns the inverse of this node's transform relative to its parent
+    glm::mat4 inverseTransform() const;
     //returns this node's transform relative to the world
-    glm::mat4 worldTransform();
+    glm::mat4 worldTransform() const;
 
 
     SceneGraphNode *parentNode() const;
@@ -72,6 +74,9 @@ public:
 
     //returns the intersection of the given ray with the closest surface in the scenegraph subtree rooted at this node or NULL if no intersection is found
     virtual SceneGraphNode::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
+
+
+
 
 
 
