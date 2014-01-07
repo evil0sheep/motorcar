@@ -33,28 +33,28 @@
 **
 ****************************************************************************/
 
-#include "motorcarsurfacenode.h"
+#include "qtwaylandsurfacenode.h"
 
-MotorcarSurfaceNode::MotorcarSurfaceNode(QObject *parent, QWaylandSurface *surface, glm::mat4 transform):
+QtwaylandSurfaceNode::QtwaylandSurfaceNode(QObject *parent, QWaylandSurface *surface, glm::mat4 transform):
     SceneGraphNode(parent, transform)
 {
     this->setSurface(surface);
 }
 
-MotorcarSurfaceNode::~MotorcarSurfaceNode(){}
+QtwaylandSurfaceNode::~QtwaylandSurfaceNode(){}
 
-QWaylandSurface *MotorcarSurfaceNode::surface() const
+QWaylandSurface *QtwaylandSurfaceNode::surface() const
 {
     return m_surface;
 }
 
-void MotorcarSurfaceNode::setSurface(QWaylandSurface *surface)
+void QtwaylandSurfaceNode::setSurface(QWaylandSurface *surface)
 {
     m_surface = surface;
 }
 
 
-bool MotorcarSurfaceNode::draw(OpenGLData *glData)
+bool QtwaylandSurfaceNode::draw(OpenGLData *glData)
 {
     if (m_surface->visible()){
             GLuint texture = composeSurface(m_surface, glData);
@@ -134,7 +134,7 @@ bool MotorcarSurfaceNode::draw(OpenGLData *glData)
     }
 }
 
-GLuint MotorcarSurfaceNode::composeSurface(QWaylandSurface *surface, OpenGLData *glData)
+GLuint QtwaylandSurfaceNode::composeSurface(QWaylandSurface *surface, OpenGLData *glData)
 {
     glData->m_textureBlitter->bind();
     GLuint texture = 0;
@@ -159,7 +159,7 @@ GLuint MotorcarSurfaceNode::composeSurface(QWaylandSurface *surface, OpenGLData 
     return texture;
 }
 
-void MotorcarSurfaceNode::paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData) {
+void QtwaylandSurfaceNode::paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData) {
 
     if (surface->subSurfaces().size() == 0)
         return;
@@ -184,7 +184,7 @@ void MotorcarSurfaceNode::paintChildren(QWaylandSurface *surface, QWaylandSurfac
 
 
 
-void MotorcarSurfaceNode::computeSurfaceTransform(float ppcm)
+void QtwaylandSurfaceNode::computeSurfaceTransform(float ppcm)
 {
     if(ppcm > 0){
         float ppm = ppcm * 100.f;
@@ -196,7 +196,7 @@ void MotorcarSurfaceNode::computeSurfaceTransform(float ppcm)
     }
 }
 
-MotorcarSurfaceNode *MotorcarSurfaceNode::getSurfaceNode(const QWaylandSurface *surface)
+QtwaylandSurfaceNode *QtwaylandSurfaceNode::getSurfaceNode(const QWaylandSurface *surface)
 {
     if(surface == NULL || surface == this->m_surface) {
         return this;
@@ -206,7 +206,7 @@ MotorcarSurfaceNode *MotorcarSurfaceNode::getSurfaceNode(const QWaylandSurface *
 
 }
 
-bool MotorcarSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &localRay, QPointF &localIntersection, float &t) const
+bool QtwaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &localRay, QPointF &localIntersection, float &t) const
 {
     Geometry::Plane surfacePlane = Geometry::Plane(glm::vec3(0), glm::vec3(0,0,1));
     if(glm::dot(localRay.d, surfacePlane.n) == 0) return false;
@@ -222,7 +222,7 @@ bool MotorcarSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &l
     return true;
 }
 
-SceneGraphNode::RaySurfaceIntersection *MotorcarSurfaceNode::intersectWithSurfaces(const Geometry::Ray &ray)
+SceneGraphNode::RaySurfaceIntersection *QtwaylandSurfaceNode::intersectWithSurfaces(const Geometry::Ray &ray)
 {
     SceneGraphNode::RaySurfaceIntersection *closestSubtreeIntersection = SceneGraphNode::intersectWithSurfaces(ray);
     Geometry::Ray localRay = ray.transform(glm::inverse(transform()));
@@ -248,7 +248,7 @@ SceneGraphNode::RaySurfaceIntersection *MotorcarSurfaceNode::intersectWithSurfac
 
 }
 
-glm::mat4 MotorcarSurfaceNode::surfaceTransform() const
+glm::mat4 QtwaylandSurfaceNode::surfaceTransform() const
 {
     return m_surfaceTransform;
 }

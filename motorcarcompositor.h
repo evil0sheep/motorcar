@@ -43,7 +43,7 @@
 #include "qwaylandcompositor.h"
 
 
-#include "scenegraph/motorcarsurfacenode.h"
+#include "scenegraph/qtwaylandsurfacenode.h"
 #include "opengldata.h"
 
 

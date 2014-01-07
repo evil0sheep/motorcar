@@ -48,7 +48,7 @@
 
 
 class OpenGLData;
-class MotorcarSurfaceNode;
+class QtwaylandSurfaceNode;
 class Geometry;
 class SceneGraphNode : public QObject
 {
@@ -94,14 +94,14 @@ public:
     bool existsInSubtree(SceneGraphNode *node);
     //searches the sceneGraph for WaylandSurfaceNodes by surface, returns null if a furface node with this surface is not found
     //if surface is null returns the first surface node it encounters, or null if none exist in this subtree
-    virtual MotorcarSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = 0);
+    virtual QtwaylandSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = 0);
 
 
 
     struct RaySurfaceIntersection
     {
-        RaySurfaceIntersection(MotorcarSurfaceNode *surfaceNode, QPointF surfaceLocalCoordinates , const Geometry::Ray &ray , float t );
-        MotorcarSurfaceNode *surfaceNode;
+        RaySurfaceIntersection(QtwaylandSurfaceNode *surfaceNode, QPointF surfaceLocalCoordinates , const Geometry::Ray &ray , float t );
+        QtwaylandSurfaceNode *surfaceNode;
         QPointF surfaceLocalCoordinates;
         Geometry::Ray ray;
         float t;

@@ -94,7 +94,7 @@ void MotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *oldSurface)
 {
     QWaylandSurface *kbdFocus = defaultInputDevice()->keyboardFocus();
     if (kbdFocus == oldSurface || !kbdFocus){
-       MotorcarSurfaceNode *n = m_sceneGraphRoot->getSurfaceNode();
+       QtwaylandSurfaceNode *n = m_sceneGraphRoot->getSurfaceNode();
        // defaultInputDevice()->setKeyboardFocus(m_surfaces.isEmpty() ? 0 : m_surfaces.last());
        defaultInputDevice()->setKeyboardFocus(n ?  n->surface() : NULL);
     }
@@ -136,7 +136,7 @@ void MotorcarCompositor::surfaceMapped()
                                 * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(1, 0, 0))
                                 //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
                                 * glm::translate(glm::mat4(1), glm::vec3(0,0,.5f));
-            new MotorcarSurfaceNode(m_sceneGraphRoot, surface, transform);
+            new QtwaylandSurfaceNode(m_sceneGraphRoot, surface, transform);
             defaultInputDevice()->setKeyboardFocus(surface);
         }
     }
@@ -207,7 +207,7 @@ void MotorcarCompositor::updateCursor()
 
 QPointF MotorcarCompositor::toSurface(QWaylandSurface *surface, const QPointF &point) const
 {
-    MotorcarSurfaceNode *surfaceNode = m_sceneGraphRoot->getSurfaceNode(surface);
+    QtwaylandSurfaceNode *surfaceNode = m_sceneGraphRoot->getSurfaceNode(surface);
 
     if(surfaceNode != NULL){
         Geometry::Ray ray = m_glData->m_camera->computeRay(point.x(), point.y());

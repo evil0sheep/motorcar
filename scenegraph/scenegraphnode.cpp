@@ -125,11 +125,11 @@ bool SceneGraphNode::existsInSubtree(SceneGraphNode *node)
 
 }
 
-MotorcarSurfaceNode *SceneGraphNode::getSurfaceNode(const QWaylandSurface *surface)
+QtwaylandSurfaceNode *SceneGraphNode::getSurfaceNode(const QWaylandSurface *surface)
 {
     foreach (SceneGraphNode *child, m_childNodes) {
         if (child != NULL){
-            MotorcarSurfaceNode *node = child->getSurfaceNode(surface);
+            QtwaylandSurfaceNode *node = child->getSurfaceNode(surface);
             if(node) return node;
         }
     }
@@ -180,7 +180,7 @@ void SceneGraphNode::setTransform(const glm::mat4 &value)
     m_inverseTransform = glm::inverse(m_transform);
 }
 
-SceneGraphNode::RaySurfaceIntersection::RaySurfaceIntersection(MotorcarSurfaceNode *surfaceNode, QPointF surfaceLocalCoordinates, const Geometry::Ray &ray, float t)
+SceneGraphNode::RaySurfaceIntersection::RaySurfaceIntersection(QtwaylandSurfaceNode *surfaceNode, QPointF surfaceLocalCoordinates, const Geometry::Ray &ray, float t)
     : surfaceNode(surfaceNode)
     , surfaceLocalCoordinates(surfaceLocalCoordinates)
     , ray(ray)

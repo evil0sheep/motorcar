@@ -41,13 +41,15 @@
 #include "glm/gtc/matrix_inverse.hpp"
 
 
-class MotorcarSurfaceNode : public SceneGraphNode
+class QtwaylandSurfaceNode : public SceneGraphNode
 {
 public:
-    MotorcarSurfaceNode(QObject *parent, QWaylandSurface *surface, glm::mat4 transform = glm::mat4(1));
-    virtual ~MotorcarSurfaceNode();
+    QtwaylandSurfaceNode(QObject *parent, QWaylandSurface *surface, glm::mat4 transform = glm::mat4(1));
+    virtual ~QtwaylandSurfaceNode();
+
     QWaylandSurface *surface() const;
     void setSurface(QWaylandSurface *surface);
+    //returns the transform which maps normalized surface coordinates to the local node space
     glm::mat4 surfaceTransform() const;
 
 
@@ -60,7 +62,7 @@ public:
 
     //inhereted from SceneGraphNode
     virtual bool draw(OpenGLData *glData);
-    virtual MotorcarSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = NULL);
+    virtual QtwaylandSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = NULL);
     virtual SceneGraphNode::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
 
 

@@ -11,7 +11,9 @@ HEADERS += \
     opengldata.h \
     geometry.h \
     scenegraph/scenegraphnode.h \
-    scenegraph/motorcarsurfacenode.h
+    scenegraph/qtwaylandsurfacenode.h \
+    scenegraph/glcameranode.h \
+    scenegraph/displaynode.h
 
 SOURCES += main.cpp \
     qopenglwindow.cpp \
@@ -20,7 +22,9 @@ SOURCES += main.cpp \
     opengldata.cpp \
     geometry.cpp \
     scenegraph/scenegraphnode.cpp \
-    scenegraph/motorcarsurfacenode.cpp
+    scenegraph/qtwaylandsurfacenode.cpp \
+    scenegraph/glcameranode.cpp \
+    scenegraph/displaynode.cpp
 
 # to make QtCompositor/... style includes working without installing
 INCLUDEPATH += $$PWD/../../include
