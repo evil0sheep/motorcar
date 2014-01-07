@@ -14,7 +14,7 @@ OpenGLData::OpenGLData(QOpenGLWindow *window, SceneGraphNode *camera)
 
     m_textureCache = new QOpenGLTextureCache(m_window->context());
     m_textureBlitter = new TextureBlitter();
-    m_backgroundImage = makeBackgroundImage(QLatin1String(":/background.jpg"));
+    //m_backgroundImage = makeBackgroundImage(QLatin1String(":/background.jpg"));
 
     QOpenGLFunctions *functions = m_window->context()->functions();
     functions->glGenFramebuffers(1, &m_surface_fbo);
@@ -29,6 +29,8 @@ OpenGLData::OpenGLData(QOpenGLWindow *window, SceneGraphNode *camera)
     glEnable(GL_BLEND);
     glBlendFunc (GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
 
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
     m_surfaceShader->addShaderFromSourceFile(QOpenGLShader::Vertex, "motorcarsurface.vert");
     m_surfaceShader->addShaderFromSourceFile(QOpenGLShader::Fragment,"motorcarsurface.frag");

@@ -206,9 +206,28 @@ void MotorcarCompositor::updateCursor()
     }
 }
 
-QPointF MotorcarCompositor::toSurface(QWaylandSurface *surface, const QPointF &pos) const
+QPointF MotorcarCompositor::toSurface(QWaylandSurface *surface, const QPointF &point) const
 {
-    return pos - surface->pos();
+    MotorcarSurfaceNode *surfaceNode = m_sceneGraphRoot->getSurfaceNode(surface);
+
+    if(surfaceNode != NULL){
+        Geometry::Ray ray = m_glData->m_camera->computeRay(point.x(), point.y());
+        ray = ray.transform(m_glData->m_cameraNode->worldTransform());
+        ray = ray.transform(glm::inverse(surfaceNode->worldTransform()));
+        float t;
+        QPointF intersection;
+        bool isIntersected = surfaceNode->computeLocalSurfaceIntersection(ray, intersection, t);
+        if(isIntersected){
+            return intersection;
+        }else{
+            qDebug() << "ERROR: surface plane does not interesect camera ray through cursor";
+            return QPointF();
+        }
+
+    }else{
+        qDebug() << "ERROR: could not find SceneGraphNode for the given Surface";
+        return QPointF();
+    }
 }
 
 void MotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY)
@@ -232,10 +251,11 @@ QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *lo
     if(intersection){
          //qDebug() << "intersection found between cursor ray and scene graph";
         if (local){
-            *local = QPointF(intersection->surfaceLocalCoordinates.x, intersection->surfaceLocalCoordinates.y);
+            *local = intersection->surfaceLocalCoordinates;
         }
-
-        return intersection->surfaceNode->surface();
+        QWaylandSurface *surface = intersection->surfaceNode->surface();
+        delete intersection;
+        return surface;
     }else{
         //qDebug() << "no intersection found between cursor ray and scene graph";
         return NULL;
@@ -276,22 +296,22 @@ bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
     QWaylandInputDevice *input = defaultInputDevice();
 
     switch (event->type()) {
-//    case QEvent::Expose:
-//        m_renderScheduler.start(0);
-//        if (m_glData->m_window->isExposed()) {
-//            // Alt-tabbing away normally results in the alt remaining in
-//            // pressed state in the clients xkb state. Prevent this by sending
-//            // a release. This is not an issue in a "real" compositor but
-//            // is very annoying when running in a regular window on xcb.
-//            Qt::KeyboardModifiers mods = QGuiApplication::queryKeyboardModifiers();
-//            if (m_modifiers != mods && input->keyboardFocus()) {
-//                Qt::KeyboardModifiers stuckMods = m_modifiers ^ mods;
-//                if (stuckMods & Qt::AltModifier)
-//                    input->sendKeyReleaseEvent(64); // native scancode for left alt
-//                m_modifiers = mods;
-//            }
-//        }
-//        break;
+    case QEvent::Expose:
+        m_renderScheduler.start(0);
+        if (m_glData->m_window->isExposed()) {
+            // Alt-tabbing away normally results in the alt remaining in
+            // pressed state in the clients xkb state. Prevent this by sending
+            // a release. This is not an issue in a "real" compositor but
+            // is very annoying when running in a regular window on xcb.
+            Qt::KeyboardModifiers mods = QGuiApplication::queryKeyboardModifiers();
+            if (m_modifiers != mods && input->keyboardFocus()) {
+                Qt::KeyboardModifiers stuckMods = m_modifiers ^ mods;
+                if (stuckMods & Qt::AltModifier)
+                    input->sendKeyReleaseEvent(64); // native scancode for left alt
+                m_modifiers = mods;
+            }
+        }
+        break;
     case QEvent::MouseButtonPress: {
         QPointF local;
         QMouseEvent *me = static_cast<QMouseEvent *>(event);
@@ -336,55 +356,55 @@ bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
         }
         break;
     }
-    case QEvent::Wheel: {
-        QWheelEvent *we = static_cast<QWheelEvent *>(event);
-        input->sendMouseWheelEvent(we->orientation(), we->delta());
-        break;
-    }
-    case QEvent::KeyPress: {
-        QKeyEvent *ke = static_cast<QKeyEvent *>(event);
-        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
-            m_dragKeyIsPressed = true;
-        }else if(ke->key() == Qt::Key_Up){
-            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,0.001f)) * m_glData->m_cameraNode->transform());
-        }else if(ke->key() == Qt::Key_Down){
-            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,-0.001f)) * m_glData->m_cameraNode->transform());
-        }
-        m_modifiers = ke->modifiers();
-        QWaylandSurface *targetSurface = input->keyboardFocus();
-        if (targetSurface)
-            input->sendKeyPressEvent(ke->nativeScanCode());
-        break;
-    }
-    case QEvent::KeyRelease: {
-        QKeyEvent *ke = static_cast<QKeyEvent *>(event);
-        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
-            m_dragKeyIsPressed = false;
-        }
-        m_modifiers = ke->modifiers();
-        QWaylandSurface *targetSurface = input->keyboardFocus();
-        if (targetSurface)
-            input->sendKeyReleaseEvent(ke->nativeScanCode());
-        break;
-    }
-    case QEvent::TouchBegin:
-    case QEvent::TouchUpdate:
-    case QEvent::TouchEnd:
-    {
-        QWaylandSurface *targetSurface = 0;
-        QTouchEvent *te = static_cast<QTouchEvent *>(event);
-        QList<QTouchEvent::TouchPoint> points = te->touchPoints();
-        QPoint pointPos;
-        if (!points.isEmpty()) {
-            pointPos = points.at(0).pos().toPoint();
-            targetSurface = surfaceAt(pointPos);
-        }
-        if (targetSurface && targetSurface != input->mouseFocus())
-            input->setMouseFocus(targetSurface, pointPos, pointPos);
-        if (input->mouseFocus())
-            input->sendFullTouchEvent(te);
-        break;
-    }
+//    case QEvent::Wheel: {
+//        QWheelEvent *we = static_cast<QWheelEvent *>(event);
+//        input->sendMouseWheelEvent(we->orientation(), we->delta());
+//        break;
+//    }
+//    case QEvent::KeyPress: {
+//        QKeyEvent *ke = static_cast<QKeyEvent *>(event);
+//        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
+//            m_dragKeyIsPressed = true;
+//        }else if(ke->key() == Qt::Key_Up){
+//            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,0.001f)) * m_glData->m_cameraNode->transform());
+//        }else if(ke->key() == Qt::Key_Down){
+//            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,-0.001f)) * m_glData->m_cameraNode->transform());
+//        }
+//        m_modifiers = ke->modifiers();
+//        QWaylandSurface *targetSurface = input->keyboardFocus();
+//        if (targetSurface)
+//            input->sendKeyPressEvent(ke->nativeScanCode());
+//        break;
+//    }
+//    case QEvent::KeyRelease: {
+//        QKeyEvent *ke = static_cast<QKeyEvent *>(event);
+//        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
+//            m_dragKeyIsPressed = false;
+//        }
+//        m_modifiers = ke->modifiers();
+//        QWaylandSurface *targetSurface = input->keyboardFocus();
+//        if (targetSurface)
+//            input->sendKeyReleaseEvent(ke->nativeScanCode());
+//        break;
+//    }
+//    case QEvent::TouchBegin:
+//    case QEvent::TouchUpdate:
+//    case QEvent::TouchEnd:
+//    {
+//        QWaylandSurface *targetSurface = 0;
+//        QTouchEvent *te = static_cast<QTouchEvent *>(event);
+//        QList<QTouchEvent::TouchPoint> points = te->touchPoints();
+//        QPoint pointPos;
+//        if (!points.isEmpty()) {
+//            pointPos = points.at(0).pos().toPoint();
+//            targetSurface = surfaceAt(pointPos);
+//        }
+//        if (targetSurface && targetSurface != input->mouseFocus())
+//            input->setMouseFocus(targetSurface, pointPos, pointPos);
+//        if (input->mouseFocus())
+//            input->sendFullTouchEvent(te);
+//        break;
+//    }
     default:
         break;
     }

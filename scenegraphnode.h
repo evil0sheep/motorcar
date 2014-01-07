@@ -65,14 +65,14 @@ public:
 
     struct RaySurfaceIntersection
     {
-        RaySurfaceIntersection(MotorcarSurfaceNode *surfaceNode, glm::vec2 surfaceLocalCoordinates , const Geometry::Ray &ray , float t );
+        RaySurfaceIntersection(MotorcarSurfaceNode *surfaceNode, QPointF surfaceLocalCoordinates , const Geometry::Ray &ray , float t );
         MotorcarSurfaceNode *surfaceNode;
-        glm::vec2 surfaceLocalCoordinates;
+        QPointF surfaceLocalCoordinates;
         Geometry::Ray ray;
         float t;
     };
 
-    //returns the intersection of the given ray with the closest surface in the scenegraph subtree rooted at this node or NULL if no intersection is found
+    //returns the intersection of the given parent space ray with the closest surface in the scenegraph subtree rooted at this node or NULL if no intersection is found
     virtual SceneGraphNode::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
 
 

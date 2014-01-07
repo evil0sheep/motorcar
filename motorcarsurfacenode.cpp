@@ -171,21 +171,36 @@ MotorcarSurfaceNode *MotorcarSurfaceNode::getSurfaceNode(const QWaylandSurface *
 
 }
 
+bool MotorcarSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &localRay, QPointF &localIntersection, float &t) const
+{
+    Geometry::Plane surfacePlane = Geometry::Plane(glm::vec3(0), glm::vec3(0,0,1));
+    if(glm::dot(localRay.d, surfacePlane.n) == 0) return false;
+
+    Geometry::Ray transformedRay = localRay.transform(glm::inverse(surfaceTransform()));
+
+    t = surfacePlane.intersect(transformedRay);
+    glm::vec3 intersection = transformedRay.solve(t);
+
+    glm::vec3 coords= intersection * glm::vec3(m_surface->size().width(), m_surface->size().height(), 0);
+    localIntersection =  QPointF(coords.x, coords.y);
+
+    return true;
+}
+
 SceneGraphNode::RaySurfaceIntersection *MotorcarSurfaceNode::intersectWithSurfaces(const Geometry::Ray &ray)
 {
     SceneGraphNode::RaySurfaceIntersection *closestSubtreeIntersection = SceneGraphNode::intersectWithSurfaces(ray);
+    Geometry::Ray localRay = ray.transform(glm::inverse(transform()));
 
-    Geometry::Ray transformedRay = ray.transform(glm::inverse(transform() * surfaceTransform()));
-    Geometry::Plane surfacePlane = Geometry::Plane(glm::vec3(0), glm::vec3(0,0,1));
-    float t = surfacePlane.intersect(transformedRay);
+    float t;
+    QPointF localIntersection;
+    bool isIntersected = computeLocalSurfaceIntersection(localRay, localIntersection, t);
 
-    if(closestSubtreeIntersection == NULL || t < closestSubtreeIntersection-> t){
-        glm::vec3 pos = transformedRay.solve(t); //* glm::vec3(-1, 1, 1);
-//        glm::vec3 vec = pos;
-//        qDebug() << "pos: <" << vec.x << ", " << vec.y << ", " << vec.z <<  ">";
 
-        if(pos.x >= 0 && pos.x <=1 && pos.y >= 0 && pos.y <= 1){
-            return new SceneGraphNode::RaySurfaceIntersection(this, glm::vec2(pos.x, pos.y) * glm::vec2(m_surface->size().width(), m_surface->size().height()), ray, t);
+    if(isIntersected && (closestSubtreeIntersection == NULL || t < closestSubtreeIntersection-> t)){
+
+        if(localIntersection.x() >= 0 && localIntersection.x() <= m_surface->size().width() && localIntersection.y() >= 0 && localIntersection.y() <= m_surface->size().height()){
+            return new SceneGraphNode::RaySurfaceIntersection(this, localIntersection, ray, t);
         }else{
             return NULL;
         }
@@ -202,4 +217,8 @@ glm::mat4 MotorcarSurfaceNode::surfaceTransform() const
 {
     return m_surfaceTransform;
 }
+
+
+
+
 

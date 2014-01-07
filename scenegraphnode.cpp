@@ -145,7 +145,7 @@ void SceneGraphNode::setTransform(const glm::mat4 &value)
     m_inverseTransform = glm::inverse(m_transform);
 }
 
-SceneGraphNode::RaySurfaceIntersection::RaySurfaceIntersection(MotorcarSurfaceNode *surfaceNode, glm::vec2 surfaceLocalCoordinates, const Geometry::Ray &ray, float t)
+SceneGraphNode::RaySurfaceIntersection::RaySurfaceIntersection(MotorcarSurfaceNode *surfaceNode, QPointF surfaceLocalCoordinates, const Geometry::Ray &ray, float t)
     : surfaceNode(surfaceNode)
     , surfaceLocalCoordinates(surfaceLocalCoordinates)
     , ray(ray)

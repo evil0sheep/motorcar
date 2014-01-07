@@ -14,12 +14,24 @@ public:
     virtual ~MotorcarSurfaceNode();
     QWaylandSurface *surface() const;
     void setSurface(QWaylandSurface *surface);
-    virtual bool draw(OpenGLData *glData);
+    glm::mat4 surfaceTransform() const;
 
+
+
+    //takes a ray in the local Node space and returns whether or not the ray insersects the plane of this surface;
+    // t: the ray's intersection distance to the surface
+    // localIntersection : the ray's intersection with the surface in wayland "surface local coordinates" as a QPoint for use with QTWayland
+    bool computeLocalSurfaceIntersection(const Geometry::Ray &localRay, QPointF &localIntersection, float &t) const;
+
+
+    //inhereted from SceneGraphNode
+    virtual bool draw(OpenGLData *glData);
     virtual MotorcarSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = NULL);
     virtual SceneGraphNode::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
 
-    glm::mat4 surfaceTransform() const;
+
+
+
 
 
 private:

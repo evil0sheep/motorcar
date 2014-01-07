@@ -77,7 +77,7 @@ protected:
 
 
     bool eventFilter(QObject *obj, QEvent *event);
-    QPointF toSurface(QWaylandSurface *surface, const QPointF &pos) const;
+    QPointF toSurface(QWaylandSurface *surface, const QPointF &point) const;
 
     void setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY);
 

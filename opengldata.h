@@ -22,8 +22,6 @@ class OpenGLData
 {
 public:
     QOpenGLWindow *m_window;
-    QImage m_backgroundImage;
-    GLuint m_backgroundTexture;
     TextureBlitter *m_textureBlitter;
     QOpenGLTextureCache *m_textureCache;
     GLuint m_surface_fbo;

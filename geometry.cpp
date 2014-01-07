@@ -55,7 +55,8 @@ Geometry::Ray Geometry::Camera::computeRay(float pixelX, float pixelY)
 
 }
 
-
+//        glm::vec3 vec = pos;
+//        qDebug() << "pos: <" << vec.x << ", " << vec.y << ", " << vec.z <<  ">";
 void Geometry::printMatrix(glm::mat4 m)
 {
     for(int i=0; i<4; i++){
