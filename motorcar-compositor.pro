@@ -2,24 +2,25 @@ QT += gui gui-private core-private compositor
 
 LIBS += -L ../../lib
 #include (../../src/qt-compositor/qt-compositor.pri)
+#include(scenegraph/include.pri)
 
 HEADERS += \
     qopenglwindow.h \
     motorcarcompositor.h \
     textureblitter.h \
-    scenegraphnode.h \
-    motorcarsurfacenode.h \
     opengldata.h \
-    geometry.h
+    geometry.h \
+    scenegraph/scenegraphnode.h \
+    scenegraph/motorcarsurfacenode.h
 
 SOURCES += main.cpp \
     qopenglwindow.cpp \
     motorcarcompositor.cpp \
     textureblitter.cpp \
-    scenegraphnode.cpp \
-    motorcarsurfacenode.cpp \
     opengldata.cpp \
-    geometry.cpp
+    geometry.cpp \
+    scenegraph/scenegraphnode.cpp \
+    scenegraph/motorcarsurfacenode.cpp
 
 # to make QtCompositor/... style includes working without installing
 INCLUDEPATH += $$PWD/../../include

@@ -1,9 +1,3 @@
-#ifndef OPENGLDATA_H
-#define OPENGLDATA_H
-
-#include "scenegraphnode.h"
-#include "textureblitter.h"
-#include "qopenglwindow.h"
 /****************************************************************************
 **This file is part of the MotorCar QtWayland Compositor
 **
@@ -39,6 +33,12 @@
 **
 ****************************************************************************/
 
+#ifndef OPENGLDATA_H
+#define OPENGLDATA_H
+
+#include "scenegraph/scenegraphnode.h"
+#include "textureblitter.h"
+#include "qopenglwindow.h"
 #include "geometry.h"
 
 
