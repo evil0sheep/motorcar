@@ -356,37 +356,37 @@ bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
         }
         break;
     }
-//    case QEvent::Wheel: {
-//        QWheelEvent *we = static_cast<QWheelEvent *>(event);
-//        input->sendMouseWheelEvent(we->orientation(), we->delta());
-//        break;
-//    }
-//    case QEvent::KeyPress: {
-//        QKeyEvent *ke = static_cast<QKeyEvent *>(event);
-//        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
-//            m_dragKeyIsPressed = true;
-//        }else if(ke->key() == Qt::Key_Up){
-//            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,0.001f)) * m_glData->m_cameraNode->transform());
-//        }else if(ke->key() == Qt::Key_Down){
-//            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,-0.001f)) * m_glData->m_cameraNode->transform());
-//        }
-//        m_modifiers = ke->modifiers();
-//        QWaylandSurface *targetSurface = input->keyboardFocus();
-//        if (targetSurface)
-//            input->sendKeyPressEvent(ke->nativeScanCode());
-//        break;
-//    }
-//    case QEvent::KeyRelease: {
-//        QKeyEvent *ke = static_cast<QKeyEvent *>(event);
-//        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
-//            m_dragKeyIsPressed = false;
-//        }
-//        m_modifiers = ke->modifiers();
-//        QWaylandSurface *targetSurface = input->keyboardFocus();
-//        if (targetSurface)
-//            input->sendKeyReleaseEvent(ke->nativeScanCode());
-//        break;
-//    }
+    case QEvent::Wheel: {
+        QWheelEvent *we = static_cast<QWheelEvent *>(event);
+        input->sendMouseWheelEvent(we->orientation(), we->delta());
+        break;
+    }
+    case QEvent::KeyPress: {
+        QKeyEvent *ke = static_cast<QKeyEvent *>(event);
+        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
+            m_dragKeyIsPressed = true;
+        }else if(ke->key() == Qt::Key_Up){
+            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,0.001f)) * m_glData->m_cameraNode->transform());
+        }else if(ke->key() == Qt::Key_Down){
+            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,-0.001f)) * m_glData->m_cameraNode->transform());
+        }
+        m_modifiers = ke->modifiers();
+        QWaylandSurface *targetSurface = input->keyboardFocus();
+        if (targetSurface)
+            input->sendKeyPressEvent(ke->nativeScanCode());
+        break;
+    }
+    case QEvent::KeyRelease: {
+        QKeyEvent *ke = static_cast<QKeyEvent *>(event);
+        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
+            m_dragKeyIsPressed = false;
+        }
+        m_modifiers = ke->modifiers();
+        QWaylandSurface *targetSurface = input->keyboardFocus();
+        if (targetSurface)
+            input->sendKeyReleaseEvent(ke->nativeScanCode());
+        break;
+    }
 //    case QEvent::TouchBegin:
 //    case QEvent::TouchUpdate:
 //    case QEvent::TouchEnd:
