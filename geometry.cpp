@@ -71,24 +71,7 @@ float Geometry::Plane::intersect(Geometry::Ray r)
 }
 
 
-Geometry::Camera::Camera(float near, float far, float fov, QOpenGLWindow *m_window)
-    : near(near)
-    , far(far)
-    , fov(fov)
-    , m_window(m_window)
-{}
 
-Geometry::Ray Geometry::Camera::computeRay(float pixelX, float pixelY)
-{
-    float width = (float) (m_window->size().width()), height = (float) (m_window->size().height());
-    glm::vec2 normalizedPixelPos = glm::vec2(-1.f *(pixelX / width - 0.5f), -1.f *(pixelY / height - 0.5f) * (height / width));
-    float h = (height/width) /2;
-    float theta = glm::radians(fov / 2);
-    float d = h / glm::tan(theta);
-
-    return Ray(glm::vec3(0), glm::normalize(glm::vec3(normalizedPixelPos, d)));
-
-}
 
 //        glm::vec3 vec = pos;
 //        qDebug() << "pos: <" << vec.x << ", " << vec.y << ", " << vec.z <<  ">";

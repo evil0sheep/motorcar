@@ -43,7 +43,8 @@
 #include "qwaylandcompositor.h"
 
 
-#include "scenegraph/qtwaylandsurfacenode.h"
+//#include "scenegraph/qtwaylandsurfacenode.h"
+#include "scenegraph/scenegraph.h"
 #include "opengldata.h"
 
 
@@ -56,6 +57,11 @@ class MotorcarCompositor : public QObject, public QWaylandCompositor
 public:
     MotorcarCompositor(QOpenGLWindow *window);
     ~MotorcarCompositor();
+
+
+
+    DisplayNode *display() const;
+    void setDisplay(DisplayNode *display);
 
 private slots:
     void surfaceDestroyed(QObject *object);
@@ -105,6 +111,8 @@ private:
     int m_cursorHotspotY;
 
     Qt::KeyboardModifiers m_modifiers;
+
+    DisplayNode *m_display;
 
 };
 

@@ -36,6 +36,7 @@
 ****************************************************************************/
 
 #include "scenegraphnode.h"
+#include "displaynode.h"
 #include "qwaylandsurface.h"
 #include <QtDebug>
 #include "glm/gtc/matrix_inverse.hpp"
@@ -61,13 +62,15 @@ public:
 
 
     //inhereted from SceneGraphNode
-    virtual bool draw(OpenGLData *glData);
+    virtual bool draw(DisplayNode *display);
     virtual QtwaylandSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = NULL);
     virtual SceneGraphNode::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
 
 
 
-
+    GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
+    void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData);
+    void computeSurfaceTransform(float ppcm);
 
 
 private:
@@ -75,9 +78,7 @@ private:
     glm::mat4 m_surfaceTransform;
 
 protected:
-    GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
-    void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData);
-    void computeSurfaceTransform(float ppcm);
+
 
 };
 

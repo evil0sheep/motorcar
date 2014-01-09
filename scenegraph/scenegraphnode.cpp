@@ -63,27 +63,27 @@ bool SceneGraphNode::animate(const float deltaTime)
     return true;
 }
 
-bool SceneGraphNode::draw(OpenGLData *glData)
+bool SceneGraphNode::draw(DisplayNode *display)
 {
     return true;
 }
 
 
-void SceneGraphNode::traverseChildren(float deltaTime, OpenGLData *glData){
+void SceneGraphNode::traverseChildren(float deltaTime, DisplayNode *display){
     foreach (SceneGraphNode *child, m_childNodes) {
         if (child != NULL){
-            child->traverse(deltaTime, glData);
+            child->traverse(deltaTime, display);
         }
     }
 
 }
 
-bool SceneGraphNode::traverse(float deltaTime, OpenGLData *glData){
+bool SceneGraphNode::traverse(float deltaTime, DisplayNode *display){
 
-    if(!this->animate(deltaTime) || !this->draw(glData)){
+    if(!this->animate(deltaTime) || !this->draw(display)){
         return false;
     }
-    this->traverseChildren(deltaTime, glData);
+    this->traverseChildren(deltaTime, display);
     return true;
 }
 

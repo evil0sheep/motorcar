@@ -55,7 +55,7 @@
 MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
     , m_sceneGraphRoot(new SceneGraphNode(NULL))
-    , m_glData(new OpenGLData(window, new SceneGraphNode(m_sceneGraphRoot, glm::mat4(1))))//glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0,0,1.5f)), 180.f, glm::vec3(0,1,0)))))
+    , m_glData(new OpenGLData(window))//glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0,0,1.5f)), 180.f, glm::vec3(0,1,0)))))
     , m_renderScheduler(this)
     , m_draggingWindow(0)
     , m_dragKeyIsPressed(false)
@@ -63,6 +63,7 @@ MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     , m_cursorHotspotX(0)
     , m_cursorHotspotY(0)
     , m_modifiers(Qt::NoModifier)
+    , m_display(NULL)
 
 {
 
@@ -78,12 +79,15 @@ MotorcarCompositor::MotorcarCompositor(QOpenGLWindow *window)
     setOutputGeometry(QRect(QPoint(0, 0), window->size()));
     setOutputRefreshRate(qRound(qGuiApp->primaryScreen()->refreshRate() * 1000.0));
     glClearColor(0.f, 0.f, 0.f, 1.0f);
+
+    setDisplay(new DefaultDisplayNode(m_sceneGraphRoot, glm::mat4(1),m_glData));
     //glClearDepth(0.1f);
 }
 
 MotorcarCompositor::~MotorcarCompositor()
 {
     delete m_glData;
+    delete m_display;
 }
 
 
@@ -210,8 +214,7 @@ QPointF MotorcarCompositor::toSurface(QWaylandSurface *surface, const QPointF &p
     QtwaylandSurfaceNode *surfaceNode = m_sceneGraphRoot->getSurfaceNode(surface);
 
     if(surfaceNode != NULL){
-        Geometry::Ray ray = m_glData->m_camera->computeRay(point.x(), point.y());
-        ray = ray.transform(m_glData->m_cameraNode->worldTransform());
+        Geometry::Ray ray = display()->worldrayAtDisplayPosition(point.x(), point.y());
         ray = ray.transform(glm::inverse(surfaceNode->worldTransform()));
         float t;
         QPointF intersection;
@@ -242,9 +245,7 @@ void MotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX
 
 QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *local)
 {
-    Geometry::Ray ray = m_glData->m_camera->computeRay(point.x(), point.y()).transform(m_glData->m_cameraNode->worldTransform());
-
-
+    Geometry::Ray ray = display()->worldrayAtDisplayPosition(point.x(), point.y());
     SceneGraphNode::RaySurfaceIntersection *intersection = m_sceneGraphRoot->intersectWithSurfaces(ray);
 
     if(intersection){
@@ -267,7 +268,7 @@ QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *lo
 void MotorcarCompositor::render()
 {
 
-    m_glData->m_window->makeCurrent();
+
  //   m_glData->m_backgroundTexture = m_glData->m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_glData->m_backgroundImage);
 
 //    m_glData->m_textureBlitter->bind();
@@ -278,9 +279,11 @@ void MotorcarCompositor::render()
 //                                  0, false, true);
 //    m_glData->m_textureBlitter->release();
 
-    m_glData->calculateVPMatrix();
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    m_sceneGraphRoot->traverse(0, m_glData);
+
+
+
+
+    display()->drawSceneGraph(0, m_sceneGraphRoot);
 
     frameFinished();
     // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.
@@ -364,11 +367,11 @@ bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
         QKeyEvent *ke = static_cast<QKeyEvent *>(event);
         if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
             m_dragKeyIsPressed = true;
-        }else if(ke->key() == Qt::Key_Up){
+        }/*else if(ke->key() == Qt::Key_Up){
             m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,0.001f)) * m_glData->m_cameraNode->transform());
         }else if(ke->key() == Qt::Key_Down){
             m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,-0.001f)) * m_glData->m_cameraNode->transform());
-        }
+        }*/
         m_modifiers = ke->modifiers();
         QWaylandSurface *targetSurface = input->keyboardFocus();
         if (targetSurface)
@@ -408,4 +411,16 @@ bool MotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
         break;
     }
     return false;
+}
+
+
+
+DisplayNode *MotorcarCompositor::display() const
+{
+    return m_display;
+}
+
+void MotorcarCompositor::setDisplay(DisplayNode *display)
+{
+    m_display = display;
 }

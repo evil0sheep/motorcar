@@ -67,14 +67,7 @@ public:
         float intersect(Ray r);
     };
 
-    struct Camera
-    {
-        float near, far, fov;
-        QOpenGLWindow *m_window;
-        Camera(float near, float far, float fov, QOpenGLWindow *m_window);
-        Ray computeRay(float pixelX, float pixelY);
 
-    };
 
 };
 

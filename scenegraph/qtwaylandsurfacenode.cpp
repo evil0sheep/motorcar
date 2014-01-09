@@ -54,81 +54,10 @@ void QtwaylandSurfaceNode::setSurface(QWaylandSurface *surface)
 }
 
 
-bool QtwaylandSurfaceNode::draw(OpenGLData *glData)
+bool QtwaylandSurfaceNode::draw(DisplayNode *display)
 {
-    if (m_surface->visible()){
-            GLuint texture = composeSurface(m_surface, glData);
-            //QRect geo(m_surface->pos().toPoint(),m_surface->size());
-            //glData->m_textureBlitter->drawTexture(texture,geo,glData->m_window->size(),0,false,m_surface->isYInverted());
-
-
-            const GLfloat textureCoordinates[] = {
-                0, 0,
-                0, 1,
-                1, 1,
-                1, 0
-            };
-            const GLfloat vertexCoordinates[] ={
-                0, 0, 0,
-                0, 1, 0,
-                1, 1, 0,
-                1, 0, 0
-            };
-
-            glData->m_surfaceShader->bind();
-            glViewport(0,0,glData->m_window->size().width(),glData->m_window->size().height());
-
-            GLint aPositionLocation =  glData->m_surfaceShader->attributeLocation("aPosition");
-            GLint aTexCoordLocation =  glData->m_surfaceShader->attributeLocation("aTexCoord");
-            GLint uMVPMatLocation = glData->m_surfaceShader->uniformLocation("uMVPMatrix");
-//            GLint uModelMatrix = glData->m_surfaceShader->uniformLocation("uModelMatrix");
-//            GLint uViewMatrix = glData->m_surfaceShader->uniformLocation("uViewMatrix");
-//            GLint uProjectionMatrix = glData->m_surfaceShader->uniformLocation("uProjectionMatrix");
-
-            if(aPositionLocation < 0 || aTexCoordLocation < 0 || uMVPMatLocation< 0 ){//|| uModelMatrix < 0 || uViewMatrix < 0 || uProjectionMatrix < 0){
-                qDebug() << "problem with surface shader handles: " << aPositionLocation << ", "<< aTexCoordLocation << ", " << uMVPMatLocation ;// << ", " << uModelMatrix << ", "  << uViewMatrix << ", "  << uProjectionMatrix ;
-            }
-
-            computeSurfaceTransform(glData->ppcm());
-
-
-
-
-            QMatrix4x4 MVPMatrix(glm::value_ptr(glm::transpose( glData->projectionMatrix() * glData->viewMatrix() *  this->worldTransform() * this->surfaceTransform())));
-//            QMatrix4x4 modelMatrix(glm::value_ptr(this->worldTransform()));
-//            QMatrix4x4 viewMatrix(glm::value_ptr(glData->viewMatrix()));
-//            QMatrix4x4 projectionMatrix(glm::value_ptr(glData->projectionMatrix()));
-
-            QOpenGLContext *currentContext = QOpenGLContext::currentContext();
-            currentContext->functions()->glEnableVertexAttribArray(aPositionLocation);
-            currentContext->functions()->glEnableVertexAttribArray(aTexCoordLocation);
-
-            currentContext->functions()->glVertexAttribPointer(aPositionLocation, 3, GL_FLOAT, GL_FALSE, 0, vertexCoordinates);
-            currentContext->functions()->glVertexAttribPointer(aTexCoordLocation, 2, GL_FLOAT, GL_FALSE, 0, textureCoordinates);
-            glData->m_surfaceShader->setUniformValue(uMVPMatLocation, MVPMatrix);
-//            glData->m_surfaceShader->setUniformValue(uModelMatrix, modelMatrix);
-//            glData->m_surfaceShader->setUniformValue(uViewMatrix, viewMatrix);
-//            glData->m_surfaceShader->setUniformValue(uProjectionMatrix, projectionMatrix);
-
-            //Geometry::printMatrix(glData->projectionMatrix() * (glData->viewMatrix() *  this->worldTransform() * this->surfaceTransform()));
-//            Geometry::printMatrix( this->surfaceTransform());
-
-
-            glBindTexture(GL_TEXTURE_2D, texture);
-
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-            glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-            glBindTexture(GL_TEXTURE_2D, 0);
-
-            currentContext->functions()->glDisableVertexAttribArray(aPositionLocation);
-            currentContext->functions()->glDisableVertexAttribArray(aTexCoordLocation);
-
-
-            glData->m_surfaceShader->release();
-        return true;
+    if (m_surface->visible()){   
+        return display->drawSurfaceNode(this);
     }else{
         return false;
     }
@@ -224,6 +153,8 @@ bool QtwaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &
 
 SceneGraphNode::RaySurfaceIntersection *QtwaylandSurfaceNode::intersectWithSurfaces(const Geometry::Ray &ray)
 {
+
+
     SceneGraphNode::RaySurfaceIntersection *closestSubtreeIntersection = SceneGraphNode::intersectWithSurfaces(ray);
     Geometry::Ray localRay = ray.transform(glm::inverse(transform()));
 
@@ -231,6 +162,7 @@ SceneGraphNode::RaySurfaceIntersection *QtwaylandSurfaceNode::intersectWithSurfa
     QPointF localIntersection;
     bool isIntersected = computeLocalSurfaceIntersection(localRay, localIntersection, t);
 
+    //qDebug() << "intersection: " << localIntersection ;
 
     if(isIntersected && (closestSubtreeIntersection == NULL || t < closestSubtreeIntersection-> t)){
 

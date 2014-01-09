@@ -49,6 +49,7 @@
 
 class OpenGLData;
 class QtwaylandSurfaceNode;
+class DisplayNode;
 class Geometry;
 class SceneGraphNode : public QObject
 {
@@ -60,17 +61,16 @@ public:
     virtual ~SceneGraphNode();
 
     //update node transform and other variable with respect to the number of milliseconds elapsed since the last traversal of the scenegraph (deltaTime)
-    //returns whether or not animation was successful
+    //returns whether or not animation was successfulOpenGLData *glData
     virtual bool animate(const float deltaTime);
     //draw the contents of this node if necccessary
     //returns whether or not the draw call was successful
-    virtual bool draw(OpenGLData *glData);
+    virtual bool draw(DisplayNode *display);
     //traverse the children of this node in the scenegraph
     //left virtual in case it is desireable to handle the failure of child node traversals
-    virtual void traverseChildren(float deltaTime, OpenGLData *glData);
-
+    virtual void traverseChildren(float deltaTime, DisplayNode *display);
     //traverses this node in the scenegraph, drawing/animating/updating as neccessary with respect to the number of milliseconds elapsed since the last traversal of the scenegraph (deltaTime)
-    bool traverse(float deltaTime, OpenGLData *glData);
+    bool traverse(float deltaTime, DisplayNode *display);
 
 
     //returns this node's transform relative to its parent
