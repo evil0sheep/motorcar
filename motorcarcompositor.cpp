@@ -214,7 +214,7 @@ QPointF MotorcarCompositor::toSurface(QWaylandSurface *surface, const QPointF &p
     QtwaylandSurfaceNode *surfaceNode = m_sceneGraphRoot->getSurfaceNode(surface);
 
     if(surfaceNode != NULL){
-        Geometry::Ray ray = display()->worldrayAtDisplayPosition(point.x(), point.y());
+        Geometry::Ray ray = display()->worldRayAtDisplayPosition(point.x(), point.y());
         ray = ray.transform(glm::inverse(surfaceNode->worldTransform()));
         float t;
         QPointF intersection;
@@ -245,7 +245,7 @@ void MotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX
 
 QWaylandSurface *MotorcarCompositor::surfaceAt(const QPointF &point, QPointF *local)
 {
-    Geometry::Ray ray = display()->worldrayAtDisplayPosition(point.x(), point.y());
+    Geometry::Ray ray = display()->worldRayAtDisplayPosition(point.x(), point.y());
     SceneGraphNode::RaySurfaceIntersection *intersection = m_sceneGraphRoot->intersectWithSurfaces(ray);
 
     if(intersection){

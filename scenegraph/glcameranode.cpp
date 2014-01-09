@@ -2,24 +2,23 @@
 
 
 
-GLCameraNode::GLCameraNode(QObject *parent, glm::mat4 transform, float near, float far, float fov)
+GLCameraNode::GLCameraNode(QObject *parent, glm::mat4 transform, float near, float far, float fov, QWindow *window)
     :SceneGraphNode(parent, transform)
     , near(near)
     , far(far)
     , fov(fov)
-    , m_viewport(0, 0, 0, 0)
+    , m_viewport(0, 0, 1, 1, window)
 
 {
 }
 
 
-
-
-Geometry::Ray GLCameraNode::worldrayAtBufferPosition(float pixelX, float pixelY)
+Geometry::Ray GLCameraNode::worldRayAtDisplayPosition(float pixelX, float pixelY)
 {
-    float width = (float) (m_viewport.width), height = (float) (m_viewport.height);
-    glm::vec2 normalizedPixelPos = glm::vec2(-1.f *(pixelX / width - 0.5f), -1.f *(pixelY / height - 0.5f) * (height / width));
-    float h = (height/width) /2;
+
+
+    glm::vec2 normalizedPixelPos = -1.f * m_viewport.displayCoordsToViewportCoords(pixelX, pixelY);
+    float h = (m_viewport.height()/m_viewport.width()) /2;
     float theta = glm::radians(fov / 2);
     float d = h / glm::tan(theta);
 
@@ -29,7 +28,7 @@ Geometry::Ray GLCameraNode::worldrayAtBufferPosition(float pixelX, float pixelY)
 
 void GLCameraNode::calculateVPMatrix()
 {
-    m_projectionMatrix = glm::perspective(fov, ((float) m_viewport.width)/ ((float) m_viewport.height), near, far);
+    m_projectionMatrix = glm::perspective(fov, (m_viewport.width())/ (m_viewport.height()), near, far);
 
         glm::mat4 trans = worldTransform();
         glm::vec3 center = glm::vec3(trans * glm::vec4(0, 0, 0, 1));
@@ -71,15 +70,46 @@ void GLCameraNode::setViewport(const GLViewPort &viewport)
 }
 
 
-GLCameraNode::GLViewPort::GLViewPort(int offsetX, int offsetY, int width, int height)
-    : offsetX(offsetX)
-    , offsetY(offsetY)
-    , width(width)
-    , height(height)
+GLCameraNode::GLViewPort::GLViewPort(float offsetX,float offsetY,float width,float height, QWindow *window)
+    : m_offsetX(offsetX)
+    , m_offsetY(offsetY)
+    , m_width(width)
+    , m_height(height)
+    , m_window(window)
 {
 }
 
-void GLCameraNode::GLViewPort::set()
+void GLCameraNode::GLViewPort::set() const
 {
-    glViewport(offsetX,offsetY,width,height);
+    glViewport(offsetX(), offsetY(), width(), height());
 }
+
+glm::vec2 GLCameraNode::GLViewPort::displayCoordsToViewportCoords(float pixelX, float pixelY) const
+{
+    return glm::vec2(((pixelX - offsetX()) / width() - 0.5f), ((pixelY - offsetY()) / height()  - 0.5f) * (height() / width()));
+}
+
+
+float GLCameraNode::GLViewPort::height() const
+{
+    return m_height * m_window->size().height();
+}
+
+float GLCameraNode::GLViewPort::width() const
+{
+    return m_width * m_window->size().width();
+}
+
+float GLCameraNode::GLViewPort::offsetY() const
+{
+    return m_offsetY * m_window->size().height();
+}
+
+float GLCameraNode::GLViewPort::offsetX() const
+{
+    return m_offsetX * m_window->size().width();
+}
+
+
+
+

@@ -10,7 +10,7 @@ public:
     DefaultDisplayNode(QObject *parent, glm::mat4 transform, OpenGLData *glData);
     virtual bool drawSurfaceNode(QtwaylandSurfaceNode *node);
     virtual bool drawSceneGraph(float dt, SceneGraphNode *sceneGraphRoot);
-    virtual Geometry::Ray worldrayAtDisplayPosition(float pixelX, float pixelY);
+    virtual Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);
 
 
     OpenGLData *glInfo() const;
@@ -21,7 +21,7 @@ public:
 private:
     OpenGLData *m_glInfo;
     GLCameraNode *m_cameraNode;
-    GLCameraNode::GLViewPort computeViewport();
+
 };
 
 #endif // DEFAULTDISPLAYNODE_H

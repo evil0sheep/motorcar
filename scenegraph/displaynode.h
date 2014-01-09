@@ -11,7 +11,7 @@ public:
     virtual bool drawSurfaceNode(QtwaylandSurfaceNode *node) = 0;
     virtual bool drawSceneGraph(float dt, SceneGraphNode *sceneGraphRoot);
 
-    virtual Geometry::Ray worldrayAtDisplayPosition(float pixelX, float pixelY) = 0;
+    virtual Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY) = 0;
 
 
 

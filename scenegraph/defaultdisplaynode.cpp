@@ -5,8 +5,8 @@ DefaultDisplayNode::DefaultDisplayNode(QObject *parent, glm::mat4 transform, Ope
     , m_glInfo(glData)
     , m_cameraNode(NULL)
 {
-    m_cameraNode = new GLCameraNode(this, glm::mat4(1), .01, 100, 45);
-    m_cameraNode->setViewport(this->computeViewport());
+    m_cameraNode = new GLCameraNode(this, glm::mat4(1), .01, 100, 45, glData->m_window);
+
 }
 
 bool DefaultDisplayNode::drawSurfaceNode(QtwaylandSurfaceNode *node)
@@ -87,14 +87,13 @@ bool DefaultDisplayNode::drawSceneGraph(float dt, SceneGraphNode *sceneGraphRoot
 {
     glInfo()->m_window->makeCurrent();
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    m_cameraNode->setViewport(this->computeViewport());
     m_cameraNode->calculateVPMatrix();
     return DisplayNode::drawSceneGraph(dt, sceneGraphRoot);
 }
 
-Geometry::Ray DefaultDisplayNode::worldrayAtDisplayPosition(float pixelX, float pixelY)
+Geometry::Ray DefaultDisplayNode::worldRayAtDisplayPosition(float pixelX, float pixelY)
 {
-    return m_cameraNode->worldrayAtBufferPosition(pixelX, pixelY);
+    return m_cameraNode->worldRayAtDisplayPosition(pixelX, pixelY);
 }
 
 
@@ -108,7 +107,4 @@ void DefaultDisplayNode::setGlInfo(OpenGLData *glInfo)
     m_glInfo = glInfo;
 }
 
-GLCameraNode::GLViewPort DefaultDisplayNode::computeViewport()
-{
-    return GLCameraNode::GLViewPort(0, 0, glInfo()->m_window->size().width(),  glInfo()->m_window->size().height());
-}
+
