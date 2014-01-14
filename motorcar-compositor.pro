@@ -5,31 +5,30 @@ LIBS += -L ../../lib
 #include(scenegraph/include.pri)
 
 HEADERS += \
-    qopenglwindow.h \
-    motorcarcompositor.h \
-    textureblitter.h \
-    opengldata.h \
-    geometry.h \
-    scenegraph/scenegraphnode.h \
-    scenegraph/qtwaylandsurfacenode.h \
-    scenegraph/glcameranode.h \
-    scenegraph/displaynode.h \
-    scenegraph/scenegraph.h \
-    scenegraph/defaultdisplaynode.h \
-    scenegraph/monocularhmdnode.h
+    src/textureblitter.h \
+    src/qopenglwindow.h \
+    src/opengldata.h \
+    src/motorcarcompositor.h \
+    src/geometry.h \
+    src/scenegraph/scenegraphnode.h \
+    src/scenegraph/scenegraph.h \
+    src/scenegraph/qtwaylandsurfacenode.h \
+    src/scenegraph/glcameranode.h \
+    src/scenegraph/displaynode.h \
+    src/scenegraph/defaultdisplaynode.h
 
-SOURCES += main.cpp \
-    qopenglwindow.cpp \
-    motorcarcompositor.cpp \
-    textureblitter.cpp \
-    opengldata.cpp \
-    geometry.cpp \
-    scenegraph/scenegraphnode.cpp \
-    scenegraph/qtwaylandsurfacenode.cpp \
-    scenegraph/glcameranode.cpp \
-    scenegraph/displaynode.cpp \
-    scenegraph/defaultdisplaynode.cpp \
-    scenegraph/monocularhmdnode.cpp
+SOURCES += \
+    src/textureblitter.cpp \
+    src/qopenglwindow.cpp \
+    src/opengldata.cpp \
+    src/motorcarcompositor.cpp \
+    src/main.cpp \
+    src/geometry.cpp \
+    src/scenegraph/scenegraphnode.cpp \
+    src/scenegraph/qtwaylandsurfacenode.cpp \
+    src/scenegraph/glcameranode.cpp \
+    src/scenegraph/displaynode.cpp \
+    src/scenegraph/defaultdisplaynode.cpp
 
 # to make QtCompositor/... style includes working without installing
 INCLUDEPATH += $$PWD/../../include
@@ -47,5 +46,8 @@ sources.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
 INSTALLS += target sources
 
 OTHER_FILES += \
-    motorcarsurface.vert \
-    motorcarsurface.frag
+    src/motorcarsurface.vert \
+    src/motorcarsurface.frag
+
+
+

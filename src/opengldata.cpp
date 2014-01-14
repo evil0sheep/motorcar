@@ -63,8 +63,8 @@ OpenGLData::OpenGLData(QOpenGLWindow *window)
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-    m_surfaceShader->addShaderFromSourceFile(QOpenGLShader::Vertex, "motorcarsurface.vert");
-    m_surfaceShader->addShaderFromSourceFile(QOpenGLShader::Fragment,"motorcarsurface.frag");
+    m_surfaceShader->addShaderFromSourceFile(QOpenGLShader::Vertex, "src/motorcarsurface.vert");
+    m_surfaceShader->addShaderFromSourceFile(QOpenGLShader::Fragment,"src/motorcarsurface.frag");
     m_surfaceShader->link();
 }
 

@@ -1,6 +1,6 @@
 #ifndef GLCAMERANODE_H
 #define GLCAMERANODE_H
-#include "geometry.h"
+#include "../geometry.h"
 #include "scenegraphnode.h"
 
 

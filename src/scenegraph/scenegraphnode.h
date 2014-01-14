@@ -39,8 +39,8 @@
 #include <QObject>
 #include <QtDebug>
 #include "qwaylandsurface.h"
-#include "opengldata.h"
-#include "geometry.h"
+#include "../opengldata.h"
+#include "../geometry.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
