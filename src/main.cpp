@@ -38,8 +38,8 @@
 **
 ****************************************************************************/
 
-#include "qopenglwindow.h"
-#include "motorcarcompositor.h"
+#include "qt/qopenglwindow.h"
+#include "qt/qtwaylandmotorcarcompositor.h"
 
 #include <QGuiApplication>
 #include <QStringList>

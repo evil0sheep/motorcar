@@ -1,34 +1,55 @@
 QT += gui gui-private core-private compositor
 
+
+DESTDIR = bin
+OBJECTS_DIR = bin/.obj
+MOC_DIR = bin/.moc
+RCC_DIR = bin/.rcc
+UI_DIR = bin/.ui
+
+
+
 LIBS += -L ../../lib
 #include (../../src/qt-compositor/qt-compositor.pri)
 #include(scenegraph/include.pri)
 
 HEADERS += \
-    src/textureblitter.h \
-    src/qopenglwindow.h \
-    src/opengldata.h \
-    src/motorcarcompositor.h \
-    src/geometry.h \
-    src/scenegraph/scenegraphnode.h \
-    src/scenegraph/scenegraph.h \
-    src/scenegraph/qtwaylandsurfacenode.h \
-    src/scenegraph/glcameranode.h \
-    src/scenegraph/displaynode.h \
-    src/scenegraph/defaultdisplaynode.h
+    qt/src/textureblitter.h \
+    qt/src/qtwaylandsurfacenode.h \
+    qt/src/qtwaylandmotorcarcompositor.h \
+    qt/src/qopenglwindow.h \
+    qt/src/opengldata.h \
+    qt/src/defaultdisplaynode.h \
+    motorcar/src/geometry.h \
+    motorcar/src/scenegraph/scenegraphnode_old.h \
+    motorcar/src/scenegraph/scenegraphnode.h \
+    motorcar/src/scenegraph/scenegraph.h \
+    motorcar/src/scenegraph/output/glcameranode.h \
+    motorcar/src/scenegraph/output/displaynode.h
+
+
+
+
+
 
 SOURCES += \
-    src/textureblitter.cpp \
-    src/qopenglwindow.cpp \
-    src/opengldata.cpp \
-    src/motorcarcompositor.cpp \
     src/main.cpp \
-    src/geometry.cpp \
-    src/scenegraph/scenegraphnode.cpp \
-    src/scenegraph/qtwaylandsurfacenode.cpp \
-    src/scenegraph/glcameranode.cpp \
-    src/scenegraph/displaynode.cpp \
-    src/scenegraph/defaultdisplaynode.cpp
+    qt/src/textureblitter.cpp \
+    qt/src/qtwaylandsurfacenode.cpp \
+    qt/src/qtwaylandmotorcarcompositor.cpp \
+    qt/src/qopenglwindow.cpp \
+    qt/src/opengldata.cpp \
+    qt/src/defaultdisplaynode.cpp \
+    motorcar/src/geometry.cpp \
+    motorcar/src/scenegraph/scenegraphnode_old.cpp \
+    motorcar/src/scenegraph/scenegraphnode.cpp \
+    motorcar/src/scenegraph/output/glcameranode.cpp \
+    motorcar/src/scenegraph/output/displaynode.cpp
+
+
+
+
+
 
 # to make QtCompositor/... style includes working without installing
 INCLUDEPATH += $$PWD/../../include
@@ -47,7 +68,11 @@ INSTALLS += target sources
 
 OTHER_FILES += \
     src/motorcarsurface.vert \
-    src/motorcarsurface.frag
+    src/motorcarsurface.frag \
+    src/motorcar/shaders/motorcarsurface.vert \
+    src/motorcar/shaders/motorcarsurface.frag \
+    motorcar/src/shaders/motorcarsurface.vert \
+    motorcar/src/shaders/motorcarsurface.frag
 
 
 
