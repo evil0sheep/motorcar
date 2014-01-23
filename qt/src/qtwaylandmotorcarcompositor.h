@@ -44,7 +44,7 @@
 
 
 //#include "scenegraph/qtwaylandsurfacenode.h"
-#include "scenegraph/scenegraph.h"
+#include "../../motorcar/src/motorcar.h"
 #include "opengldata.h"
 
 

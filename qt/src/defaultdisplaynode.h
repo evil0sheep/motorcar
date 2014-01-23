@@ -1,13 +1,14 @@
 #ifndef DEFAULTDISPLAYNODE_H
 #define DEFAULTDISPLAYNODE_H
 
-#include "displaynode.h"
-#include "glcameranode.h"
+#include "../../motorcar/src/motorcar.h"
 
-class DefaultDisplayNode : public DisplayNode
+using namespace motorcar;
+namespace qtmotorcar {
+class DefaultDisplayNode : public motorcar::Display
 {
 public:
-    DefaultDisplayNode(QObject *parent, glm::mat4 transform, OpenGLData *glData);
+    DefaultDisplayNode(SceneGraphNode &parent, glm::mat4 transform, OpenGLData *glData);
     virtual bool drawSurfaceNode(QtwaylandSurfaceNode *node);
     virtual bool drawSceneGraph(float dt, SceneGraphNode *sceneGraphRoot);
     virtual Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);
@@ -23,5 +24,7 @@ private:
     GLCameraNode *m_cameraNode;
 
 };
+}
+
 
 #endif // DEFAULTDISPLAYNODE_H

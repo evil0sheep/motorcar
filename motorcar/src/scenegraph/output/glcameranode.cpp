@@ -1,19 +1,19 @@
 #include "glcameranode.h"
 
+using namespace motorcar;
 
-
-GLCameraNode::GLCameraNode(QObject *parent, glm::mat4 transform, float near, float far, float fov, QWindow *window)
+GLCamera::GLCamera(SceneGraphNode *parent, glm::mat4 transform, float near, float far, float fov, Display *display)
     :SceneGraphNode(parent, transform)
     , near(near)
     , far(far)
     , fov(fov)
-    , m_viewport(0, 0, 1, 1, window)
+    , m_viewport(0, 0, 1, 1, display)
 
 {
 }
 
 
-Geometry::Ray GLCameraNode::worldRayAtDisplayPosition(float pixelX, float pixelY)
+Geometry::Ray GLCamera::worldRayAtDisplayPosition(float pixelX, float pixelY)
 {
 
 
@@ -26,7 +26,7 @@ Geometry::Ray GLCameraNode::worldRayAtDisplayPosition(float pixelX, float pixelY
 
 }
 
-void GLCameraNode::calculateVPMatrix()
+void GLCamera::calculateVPMatrix()
 {
     m_projectionMatrix = glm::perspective(fov, (m_viewport.width())/ (m_viewport.height()), near, far);
 
@@ -42,72 +42,72 @@ void GLCameraNode::calculateVPMatrix()
     m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
 }
 
-glm::mat4 GLCameraNode::viewProjectionMatrix() const
+glm::mat4 GLCamera::viewProjectionMatrix() const
 {
     return m_viewProjectionMatrix;
 }
 
 
-glm::mat4 GLCameraNode::projectionMatrix() const
+glm::mat4 GLCamera::projectionMatrix() const
 {
     return m_projectionMatrix;
 }
 
 
-glm::mat4 GLCameraNode::viewMatrix() const
+glm::mat4 GLCamera::viewMatrix() const
 {
     return m_viewMatrix;
 }
 
-GLCameraNode::GLViewPort GLCameraNode::viewport() const
+GLCamera::GLViewPort GLCamera::viewport() const
 {
     return m_viewport;
 }
 
-void GLCameraNode::setViewport(const GLViewPort &viewport)
+void GLCamera::setViewport(const GLViewPort &viewport)
 {
     m_viewport = viewport;
 }
 
 
-GLCameraNode::GLViewPort::GLViewPort(float offsetX,float offsetY,float width,float height, QWindow *window)
+GLCamera::GLViewPort::GLViewPort(float offsetX, float offsetY, float width, float height, Display *display)
     : m_offsetX(offsetX)
     , m_offsetY(offsetY)
     , m_width(width)
     , m_height(height)
-    , m_window(window)
+    , m_display(display)
 {
 }
 
-void GLCameraNode::GLViewPort::set() const
+void GLCamera::GLViewPort::set() const
 {
     glViewport(offsetX(), offsetY(), width(), height());
 }
 
-glm::vec2 GLCameraNode::GLViewPort::displayCoordsToViewportCoords(float pixelX, float pixelY) const
+glm::vec2 GLCamera::GLViewPort::displayCoordsToViewportCoords(float pixelX, float pixelY) const
 {
     return glm::vec2(((pixelX - offsetX()) / width() - 0.5f), ((pixelY - offsetY()) / height()  - 0.5f) * (height() / width()));
 }
 
 
-float GLCameraNode::GLViewPort::height() const
+float GLCamera::GLViewPort::height() const
 {
-    return m_height * m_window->size().height();
+    return m_height * m_display->size().y;
 }
 
-float GLCameraNode::GLViewPort::width() const
+float GLCamera::GLViewPort::width() const
 {
-    return m_width * m_window->size().width();
+    return m_width * m_display->size().x;
 }
 
-float GLCameraNode::GLViewPort::offsetY() const
+float GLCamera::GLViewPort::offsetY() const
 {
-    return m_offsetY * m_window->size().height();
+    return m_offsetY * m_display->size().y;
 }
 
-float GLCameraNode::GLViewPort::offsetX() const
+float GLCamera::GLViewPort::offsetX() const
 {
-    return m_offsetX * m_window->size().width();
+    return m_offsetX * m_display->size().x;
 }
 
 

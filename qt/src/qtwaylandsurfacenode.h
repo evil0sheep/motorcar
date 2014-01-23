@@ -35,14 +35,15 @@
 **
 ****************************************************************************/
 
-#include "scenegraphnode.h"
-#include "displaynode.h"
+
 #include "qwaylandsurface.h"
 #include <QtDebug>
 #include "glm/gtc/matrix_inverse.hpp"
 
+#include "../../motorcar/src/motorcar.h"
+using namespace motorcar;
 
-class QtwaylandSurfaceNode : public SceneGraphNode
+class QtwaylandSurfaceNode : public WaylandSurfaceNode
 {
 public:
     QtwaylandSurfaceNode(QObject *parent, QWaylandSurface *surface, glm::mat4 transform = glm::mat4(1));

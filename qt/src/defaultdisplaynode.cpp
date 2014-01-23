@@ -1,6 +1,9 @@
 #include "defaultdisplaynode.h"
 
-DefaultDisplayNode::DefaultDisplayNode(QObject *parent, glm::mat4 transform, OpenGLData *glData)
+using namespace motorcar;
+using namespace qtmotorcar;
+
+DefaultDisplayNode::DefaultDisplayNode(SceneGraphNode &parent, glm::mat4 transform, OpenGLData *glData)
     :DisplayNode(parent, transform)
     , m_glInfo(glData)
     , m_cameraNode(NULL)

@@ -90,11 +90,7 @@ public:
     void addChildNode(SceneGraphNode *child);
     //removes the given node from the list of children
     void removeChildNode(SceneGraphNode *node);
-    //returns whether or not the given SceneGraphNode exists in the SceneGraph subtree rooted at this node
-    bool existsInSubtree(SceneGraphNode *node);
-    //searches the sceneGraph for WaylandSurfaceNodes by surface, returns null if a furface node with this surface is not found
-    //if surface is null returns the first surface node it encounters, or null if none exist in this subtree
-    virtual QtwaylandSurfaceNode *getSurfaceNode(const QWaylandSurface *surface = 0);
+
 
 
 

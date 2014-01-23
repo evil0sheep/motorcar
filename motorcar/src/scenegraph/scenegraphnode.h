@@ -1,33 +1,82 @@
-#ifndef ABSTRACTNODE_H
-#define ABSTRACTNODE_H
+#ifndef SCENEGRAPHNODE_H
+#define SCENEGRAPHNODE_H
 #include <glm/glm.hpp>
+#include <type_traits>
+#include <vector>
+#include "../geometry.h"
+#include "output/wayland/waylandsurfacenode.h"
 
-class AbstractNode
+#include "foo.h"
+
+
+namespace motorcar {
+
+
+class SceneGraphNode : public Foo
 {
 public:
-    AbstractNode();
+    SceneGraphNode(SceneGraphNode &parent, glm::mat4 transform = glm::mat4());
     //calls destructor on all children and removes this node from its parent's list of children
-    virtual ~AbstractNode();
+    virtual ~SceneGraphNode();
 
     //handles any additional action this node wishes to take as it is traversed over (e.g. drawing, updating etc)
+    //default behavior does nothing unless overriddedn
     virtual void traverseNode(long deltaMillis);
-    //traverses this node in the scenegraph, drawing/animating/updating as neccessary with respect to the number of milliseconds elapsed since the last traversal of the scenegraph (deltaMillis)
+    //traverses this node and then traverses all of its children
     void traverseSceneGraph(long deltaMillis);
+
+    //gets this node's parent in the scenegraph
+    SceneGraphNode *parentNode() const;
+
 
     //returns this node's transform relative to its parent
     glm::mat4 transform() const;
-    //sets this node's transform relative to its parent
-    void setTransform(const glm::mat4 &value);
     //returns the inverse of this node's transform relative to its parent
-    //(inverse transform is cached whenever transform is set
+    //(inverse transform is cached whenever transform is set)
     glm::mat4 inverseTransform() const;
+    //sets this node's transform relative to its parent
+    void setTransform(const glm::mat4 &transform);
+
     //returns this node's transform relative to the world
     glm::mat4 worldTransform() const;
+    //returns inverse transform relative to the world (computed on demand)
+    //TODO: TEST THIS METHOD
+    glm::mat4 inverseWorldTransform() const;
+    //sets this node's transform relative to the world
+    void setWorldTransform(const glm::mat4 &transform);
+
+
+
+
+    //returns the intersection of the given parent space ray with the closest surface in the scenegraph subtree rooted at this node or NULL if no intersection is found
+    virtual WaylandSurfaceNode::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
+
+
+
 
 private :
     //traverse the children of this node in the scenegraph
-    void traverseChildren(float deltaTime);
+    void traverseChildren(long deltaMillis);
+
+    glm::mat4 m_transform, m_inverseTransform;
+    SceneGraphNode *m_parentNode;
+    std::vector<SceneGraphNode *> m_childNodes;
+
+    //adds the given node to the list of children
+    //if child is NULL this call will be ignored
+    void addChildNode(SceneGraphNode *child);
+    //removes the given node from the list of children if it exists therein
+    void removeChildNode(SceneGraphNode *node);
+
+protected:
+    //protected constructor used by Scene class to construct parentless, un-transformed root node
+    SceneGraphNode();
+    //removes this node from its existing parent's list of children and sets the given node to be this nodes parent and then adds this node to the given node's list of children
+    void setParentNode(SceneGraphNode &parent);
 
 };
 
-#endif // ABSTRACTNODE_H
+}
+
+
+#endif // SCENEGRAPHNODE_H

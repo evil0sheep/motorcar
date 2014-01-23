@@ -20,12 +20,24 @@ HEADERS += \
     qt/src/qopenglwindow.h \
     qt/src/opengldata.h \
     qt/src/defaultdisplaynode.h \
+    qt/src/qtwaylandscene.h \
     motorcar/src/geometry.h \
     motorcar/src/scenegraph/scenegraphnode_old.h \
     motorcar/src/scenegraph/scenegraphnode.h \
     motorcar/src/scenegraph/scenegraph.h \
     motorcar/src/scenegraph/output/glcameranode.h \
-    motorcar/src/scenegraph/output/displaynode.h
+    motorcar/src/scenegraph/physicalnode.h \
+    motorcar/src/scenegraph/virtualnode.h \
+    motorcar/src/scenegraph/ioelement.h \
+    motorcar/src/scenegraph/scene.h \
+    motorcar/src/scenegraph/output/outputelement.h \
+    motorcar/src/scenegraph/output/display.h \
+    motorcar/src/scenegraph/output/drawable.h \
+    motorcar/src/scenegraph/output/waylandsurfacenode.h \
+    motorcar/src/scenegraph/output/wayland/waylandsurfacenode.h \
+    motorcar/src/scenegraph/output/output.h \
+    motorcar/src/scenegraph/foo.h \
+    motorcar/src/motorcar.h
 
 
 
@@ -40,11 +52,21 @@ SOURCES += \
     qt/src/qopenglwindow.cpp \
     qt/src/opengldata.cpp \
     qt/src/defaultdisplaynode.cpp \
+    qt/src/qtwaylandscene.cpp \
     motorcar/src/geometry.cpp \
     motorcar/src/scenegraph/scenegraphnode_old.cpp \
     motorcar/src/scenegraph/scenegraphnode.cpp \
     motorcar/src/scenegraph/output/glcameranode.cpp \
-    motorcar/src/scenegraph/output/displaynode.cpp
+    motorcar/src/scenegraph/physicalnode.cpp \
+    motorcar/src/scenegraph/virtualnode.cpp \
+    motorcar/src/scenegraph/ioelement.cpp \
+    motorcar/src/scenegraph/scene.cpp \
+    motorcar/src/scenegraph/output/outputelement.cpp \
+    motorcar/src/scenegraph/output/display.cpp \
+    motorcar/src/scenegraph/output/drawable.cpp \
+    motorcar/src/scenegraph/output/waylandsurfacenode.cpp \
+    motorcar/src/scenegraph/output/wayland/waylandsurfacenode.cpp
+
 
 
 

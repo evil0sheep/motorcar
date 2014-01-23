@@ -40,7 +40,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "glm/gtc/matrix_access.hpp"
-#include "qopenglwindow.h"
 //#include "opengldata.h"
 #include <stdio.h>
 

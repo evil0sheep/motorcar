@@ -33,7 +33,7 @@
 **
 ****************************************************************************/
 
-#include "scenegraphnode.h"
+#include "scenegraphnode_old.h"
 
 SceneGraphNode::SceneGraphNode(QObject *parent, glm::mat4 transform) :
     QObject(parent)

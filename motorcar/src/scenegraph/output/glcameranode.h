@@ -1,13 +1,18 @@
 #ifndef GLCAMERANODE_H
 #define GLCAMERANODE_H
-#include "../geometry.h"
-#include "scenegraphnode.h"
+#include "../../geometry.h"
+#include "../virtualnode.h"
+#include "outputelement.h"
+#include "display.h""
 
 
-class GLCameraNode : public SceneGraphNode
+
+namespace motorcar {
+
+class GLCamera : public OutputElement, public VirtualNode
 {
 public:
-    GLCameraNode(QObject *parent, glm::mat4 transform, float near, float far, float fov, QWindow *window);
+    GLCamera(SceneGraphNode *parent, glm::mat4 transform, float near, float far, float fov, Display *display);
     Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);
 
     void calculateVPMatrix();
@@ -19,8 +24,8 @@ public:
     //all numerical arguments range from 0 to 1 and are multiplied by the size of the window in all getters and before being passed to OpenGL calls
     class GLViewPort{
     public:
-        QWindow *m_window;
-        GLViewPort(float offsetX, float offsetY, float width, float height, QWindow *window);
+        Display *m_display;
+        GLViewPort(float offsetX, float offsetY, float width, float height, Display *display);
 
         float offsetX() const;
         float offsetY() const;
@@ -45,6 +50,8 @@ private:
     glm::mat4 m_viewMatrix, m_projectionMatrix, m_viewProjectionMatrix;
 
 };
+}
+
 
 
 #endif // GLCAMERANODE_H

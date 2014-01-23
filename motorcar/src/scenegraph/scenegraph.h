@@ -2,9 +2,10 @@
 #define SCENEGRAPH_H
 
 #include "scenegraphnode.h"
-#include "qtwaylandsurfacenode.h"
-#include "glcameranode.h"
-#include "displaynode.h"
-#include "defaultdisplaynode.h"
+#include "physicalnode.h"
+#include "virtualnode.h"
+#include "ioelement.h"
+#include "scene.h"
+#include "output/output.h"
 
 #endif // SCENEGRAPH_H
