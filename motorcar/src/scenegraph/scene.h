@@ -1,16 +1,20 @@
 #ifndef SCENE_H
 #define SCENE_H
-#include "scenegraphnode.h"
 
+#include "scenegraphnode.h"
+#include "output/display.h"
 namespace motorcar {
 class Scene : public SceneGraphNode
 {
 public:
     Scene();
     virtual ~Scene();
-    //returns whether or not the given SceneGraphNode exists in the SceneGraph subtree rooted at this node
-    bool containsNode(SceneGraphNode *node);
 
+    //notifies this scene that a node has been added to the scene
+    virtual void notifyNodeAdded(SceneGraphNode *node);
+
+private:
+    std::vector<Display> m_displays;
 };
 }
 

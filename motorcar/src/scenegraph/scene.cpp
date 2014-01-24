@@ -8,9 +8,7 @@ Scene::Scene()
 
 }
 
-bool Scene::contains(SceneGraphNode *node)
+
+void Scene::notifyNodeAdded(SceneGraphNode *node)
 {
 }
-
-
-

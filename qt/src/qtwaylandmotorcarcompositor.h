@@ -42,26 +42,34 @@
 
 #include "qwaylandcompositor.h"
 
-
-//#include "scenegraph/qtwaylandsurfacenode.h"
 #include "../../motorcar/src/motorcar.h"
+#include "qtwaylandmotorcarscene.h"
+#include "qtwaylandmotorcarsurface.h"
 #include "opengldata.h"
 
 
 #include <QObject>
 #include <QTimer>
-
-class MotorcarCompositor : public QObject, public QWaylandCompositor
+namespace qtmotorcar{
+class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor
 {
     Q_OBJECT
 public:
-    MotorcarCompositor(QOpenGLWindow *window);
-    ~MotorcarCompositor();
+    QtWaylandMotorcarCompositor(QOpenGLWindow *window);
+    ~QtWaylandMotorcarCompositor();
 
 
 
-    DisplayNode *display() const;
-    void setDisplay(DisplayNode *display);
+    motorcar::Display *display() const;
+    void setDisplay(motorcar::Display *display);
+
+    OpenGLData *glData() const;
+    void setGlData(OpenGLData *glData);
+
+
+
+    QtWaylandMotorcarScene *scene() const;
+    void setScene(QtWaylandMotorcarScene *scene);
 
 private slots:
     void surfaceDestroyed(QObject *object);
@@ -95,7 +103,7 @@ private slots:
 
 private:
 
-    SceneGraphNode *m_sceneGraphRoot;
+    QtWaylandMotorcarScene *m_scene;
     //QList<QWaylandSurface *> m_surfaces;
     OpenGLData *m_glData;
     QTimer m_renderScheduler;
@@ -112,8 +120,10 @@ private:
 
     Qt::KeyboardModifiers m_modifiers;
 
-    DisplayNode *m_display;
+    motorcar::Display *m_display;
 
 };
+}
+
 
 #endif // QWINDOWCOMPOSITOR_H

@@ -7,7 +7,7 @@ MOC_DIR = bin/.moc
 RCC_DIR = bin/.rcc
 UI_DIR = bin/.ui
 
-
+QMAKE_CXXFLAGS += -std=c++11
 
 LIBS += -L ../../lib
 #include (../../src/qt-compositor/qt-compositor.pri)
@@ -15,14 +15,11 @@ LIBS += -L ../../lib
 
 HEADERS += \
     qt/src/textureblitter.h \
-    qt/src/qtwaylandsurfacenode.h \
     qt/src/qtwaylandmotorcarcompositor.h \
     qt/src/qopenglwindow.h \
     qt/src/opengldata.h \
     qt/src/defaultdisplaynode.h \
-    qt/src/qtwaylandscene.h \
     motorcar/src/geometry.h \
-    motorcar/src/scenegraph/scenegraphnode_old.h \
     motorcar/src/scenegraph/scenegraphnode.h \
     motorcar/src/scenegraph/scenegraph.h \
     motorcar/src/scenegraph/output/glcameranode.h \
@@ -37,7 +34,11 @@ HEADERS += \
     motorcar/src/scenegraph/output/wayland/waylandsurfacenode.h \
     motorcar/src/scenegraph/output/output.h \
     motorcar/src/scenegraph/foo.h \
-    motorcar/src/motorcar.h
+    motorcar/src/motorcar.h \
+    motorcar/src/scenegraph/output/wayland/waylandsurface.h \
+    qt/src/qtwaylandmotorcarsurface.h \
+    qt/src/qtwaylandmotorcarscene.h \
+    motorcar/src/scenegraph/output/wayland/waylanddrawable.h
 
 
 
@@ -47,14 +48,11 @@ HEADERS += \
 SOURCES += \
     src/main.cpp \
     qt/src/textureblitter.cpp \
-    qt/src/qtwaylandsurfacenode.cpp \
     qt/src/qtwaylandmotorcarcompositor.cpp \
     qt/src/qopenglwindow.cpp \
     qt/src/opengldata.cpp \
     qt/src/defaultdisplaynode.cpp \
-    qt/src/qtwaylandscene.cpp \
     motorcar/src/geometry.cpp \
-    motorcar/src/scenegraph/scenegraphnode_old.cpp \
     motorcar/src/scenegraph/scenegraphnode.cpp \
     motorcar/src/scenegraph/output/glcameranode.cpp \
     motorcar/src/scenegraph/physicalnode.cpp \
@@ -65,7 +63,11 @@ SOURCES += \
     motorcar/src/scenegraph/output/display.cpp \
     motorcar/src/scenegraph/output/drawable.cpp \
     motorcar/src/scenegraph/output/waylandsurfacenode.cpp \
-    motorcar/src/scenegraph/output/wayland/waylandsurfacenode.cpp
+    motorcar/src/scenegraph/output/wayland/waylandsurfacenode.cpp \
+    motorcar/src/scenegraph/output/wayland/waylandsurface.cpp \
+    qt/src/qtwaylandmotorcarsurface.cpp \
+    qt/src/qtwaylandmotorcarscene.cpp \
+    motorcar/src/scenegraph/output/wayland/waylanddrawable.cpp
 
 
 

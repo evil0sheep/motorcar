@@ -41,9 +41,9 @@
 #include "glm/gtc/matrix_inverse.hpp"
 
 #include "../../motorcar/src/motorcar.h"
-using namespace motorcar;
 
-class QtwaylandSurfaceNode : public WaylandSurfaceNode
+
+class QtwaylandSurfaceNode
 {
 public:
     QtwaylandSurfaceNode(QObject *parent, QWaylandSurface *surface, glm::mat4 transform = glm::mat4(1));

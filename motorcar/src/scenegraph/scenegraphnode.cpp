@@ -10,10 +10,20 @@ SceneGraphNode::SceneGraphNode(SceneGraphNode &parent, glm::mat4 transform)
 }
 
 
-SceneGraphNode::SceneGraphNode(SceneGraphNode *parent)
-{
-}
 
+
+bool SceneGraphNode::existsInSubtree(SceneGraphNode *node)
+{
+    if(node == this) return true;
+    foreach (SceneGraphNode *child, m_childNodes) {
+        if (child != NULL && child->existsInSubtree(node)){
+             return true;
+
+        }
+    }
+    return false;
+
+}
 
 
 SceneGraphNode::~SceneGraphNode(){
@@ -45,6 +55,11 @@ void SceneGraphNode::setParentNode(SceneGraphNode &parent)
     }
     parent.addChildNode(this);
     this->m_parentNode = std::addressof(parent);
+
+    Scene *scene = this->scene();
+    if(!scene->subtreeContains(this)){
+        scene->notifyNodeAdded(this);
+    }
 
 }
 
@@ -82,6 +97,18 @@ void SceneGraphNode::traverseChildren(long deltaMillis)
 SceneGraphNode *SceneGraphNode::parentNode() const
 {
     return this->m_parentNode;
+}
+
+Scene *SceneGraphNode::scene() const
+{
+    if(m_parentNode != NULL){
+        //if we are not at the root of the scenegraph yet we keep going up
+        return m_parentNode->scene();
+    }else{
+        //we cast ourselves to a Scene and return (this returns NULL if the root is not a Scene
+        //which is consistent with the function's defined semantics)
+        return dynamic_cast<Scene *>(this);
+    }
 }
 
 

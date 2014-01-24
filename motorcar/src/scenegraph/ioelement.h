@@ -8,7 +8,7 @@ class IOElement : public Foo
 {
 public:
     IOElement();
-    virtual ~IOElement;
+    virtual ~IOElement();
 
     //returns whether this is an input node or an outputNode
     //overidden in InputNode and OutputNode

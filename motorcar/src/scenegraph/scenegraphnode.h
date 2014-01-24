@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <vector>
 #include "../geometry.h"
+#include "scene.h"
 #include "output/wayland/waylandsurfacenode.h"
 
 #include "foo.h"
@@ -27,6 +28,11 @@ public:
 
     //gets this node's parent in the scenegraph
     SceneGraphNode *parentNode() const;
+    //gets the scene which forms the root of the scenegraph this node is embedded in
+    //returns NULL if this node is not rooted in a scene
+    Scene *scene() const;
+    //returns whether or not the given Node exists in the subtree rooted at this node
+    bool existsInSubtree(SceneGraphNode *node);
 
 
     //returns this node's transform relative to its parent

@@ -14,10 +14,10 @@ public:
     virtual ~Display();
 
     //renders the given drawable from all viewpoints
-    renderDrawable(Drawable *node);
+    void renderDrawable(Drawable *node);
 
     //renders the given surface from the given viewpoint in an implementation specific manner
-    virtual renderSurfaceNode(WaylandSurfaceNode *surface, GLCamera *viewpoint) = 0;
+    virtual void renderSurfaceNode(WaylandSurfaceNode *surface, GLCamera *viewpoint) = 0;
 
     //for legacy mouse support
     //projects mouse position into worldpace based on implementation specific details
