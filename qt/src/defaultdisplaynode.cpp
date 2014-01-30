@@ -9,7 +9,6 @@ DefaultDisplayNode::DefaultDisplayNode(Scene *scene, OpenGLData *glInfo)
 
 {
 
-    this->addViewpoint(new GLCamera(*scene, glm::mat4(1), .01, 100, 45, this));
 
 }
 
@@ -93,6 +92,7 @@ void DefaultDisplayNode::prepare()
     Display::prepare();
     glInfo()->m_window->makeCurrent();
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    qDebug() << "buffer cleared";
 
 }
 

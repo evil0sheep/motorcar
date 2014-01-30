@@ -84,6 +84,8 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
 
 
     setDisplay(new DefaultDisplayNode(m_scene, m_glData));
+    display()->addViewpoint(new motorcar::GLCamera(*m_scene, glm::mat4(1), .01, 100, 45, this->display()));
+    m_scene->addDisplay(m_display);
     //glClearDepth(0.1f);
 }
 

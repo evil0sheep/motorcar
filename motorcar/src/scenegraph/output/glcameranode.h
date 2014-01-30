@@ -13,7 +13,7 @@ class Display;
 class GLCamera : public OutputElement, public VirtualNode
 {
 public:
-    GLCamera(SceneGraphNode parent, glm::mat4 transform, float near, float far, float fov, Display *display);
+    GLCamera(SceneGraphNode &parent, glm::mat4 transform, float near, float far, float fov, Display *display);
     Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);
 
     void calculateVPMatrix();

@@ -63,6 +63,7 @@ void SceneGraphNode::setParentNode(SceneGraphNode &parent)
     if (this->parentNode() != NULL ){
         this->parentNode()->removeChildNode(this);
     }
+
     parent.addChildNode(this);
     this->m_parentNode = std::addressof(parent);
 
