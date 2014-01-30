@@ -7,7 +7,7 @@ class PhysicalNode : public SceneGraphNode
 {
 public:
     PhysicalNode(PhysicalNode &parent, const glm::mat4 &transform = glm::mat4());
-    virtual ~PhysicalNode();
+    virtual ~PhysicalNode(){}
 
 
 };

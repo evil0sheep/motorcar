@@ -8,26 +8,31 @@
 #include <QtDebug>
 #include <glm/glm.hpp>
 
-class QtWaylandMotorcarSurface : public motorcar::WaylandSurface
-{
-public:
-    QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor);
-    ~QtWaylandMotorcarSurface();
+namespace qtmotorcar{
+    class QtWaylandMotorcarCompositor;
+    class QtWaylandMotorcarSurface : public motorcar::WaylandSurface
+    {
+    public:
+        QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor);
+        ~QtWaylandMotorcarSurface(){}
 
-    GLuint getTexture();
-    glm::ivec2 getSize();
+        GLuint texture() override;
+        glm::ivec2 size() override;
 
-private:
-    GLuint m_textureID;
-    QWaylandSurface *m_surface;
-    QtWaylandMotorcarCompositor *m_compositor;
+         QWaylandSurface *m_surface;
+    private:
+        GLuint m_textureID;
 
-    GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
-    void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData);
-    void computeSurfaceTransform(float ppcm);
+        QtWaylandMotorcarCompositor *m_compositor;
+
+        GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
+        void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData);
+        void computeSurfaceTransform(float ppcm);
 
 
 
-};
+    };
+}
+
 
 #endif // QTWAYLANDMOTORCARSURFACE_H

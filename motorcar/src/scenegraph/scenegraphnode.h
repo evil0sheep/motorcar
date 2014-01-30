@@ -3,14 +3,17 @@
 #include <glm/glm.hpp>
 #include <type_traits>
 #include <vector>
+#include <algorithm>
 #include "../geometry.h"
-#include "scene.h"
-#include "output/wayland/waylandsurfacenode.h"
+
+//#include "output/wayland/waylandsurfacenode.h"
 
 #include "foo.h"
 
 
 namespace motorcar {
+
+class Scene;
 
 
 class SceneGraphNode : public Foo
@@ -22,17 +25,17 @@ public:
 
     //handles any additional action this node wishes to take as it is traversed over (e.g. drawing, updating etc)
     //default behavior does nothing unless overriddedn
-    virtual void traverseNode(long deltaMillis);
+    virtual void traverseNode(Scene *scene, long deltaMillis);
     //traverses this node and then traverses all of its children
-    void traverseSceneGraph(long deltaMillis);
+    void traverseSceneGraph(Scene *scene, long deltaMillis);
 
     //gets this node's parent in the scenegraph
     SceneGraphNode *parentNode() const;
     //gets the scene which forms the root of the scenegraph this node is embedded in
     //returns NULL if this node is not rooted in a scene
-    Scene *scene() const;
+    Scene *scene();
     //returns whether or not the given Node exists in the subtree rooted at this node
-    bool existsInSubtree(SceneGraphNode *node);
+    bool subtreeContains(SceneGraphNode *node);
 
 
     //returns this node's transform relative to its parent
@@ -55,14 +58,14 @@ public:
 
 
     //returns the intersection of the given parent space ray with the closest surface in the scenegraph subtree rooted at this node or NULL if no intersection is found
-    virtual WaylandSurfaceNode::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
+    virtual Geometry::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray);
 
 
 
 
 private :
     //traverse the children of this node in the scenegraph
-    void traverseChildren(long deltaMillis);
+    void traverseChildren(Scene *scene, long deltaMillis);
 
     glm::mat4 m_transform, m_inverseTransform;
     SceneGraphNode *m_parentNode;

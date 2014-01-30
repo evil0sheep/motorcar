@@ -9,10 +9,10 @@ class Drawable : public OutputElement, public VirtualNode
 {
 public:
     Drawable(SceneGraphNode &parent, const glm::mat4 &transform = glm::mat4());
-    virtual ~Drawable();
+    virtual ~Drawable(){}
 
     //calls VirtualNode::traverseNode() and then draw()
-    virtual void traverseNode(long deltaMillis);
+    virtual void traverseNode(Scene *scene, long deltaMillis) override;
 
 
 
@@ -24,7 +24,7 @@ public:
 private:
     //draws this node to every display owned by users with read permissions on this node
     //this allows the drawable to control which displays it's drawn to
-    void draw();
+    void draw(Scene *scene);
 };
 }
 

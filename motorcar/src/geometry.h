@@ -43,6 +43,8 @@
 //#include "opengldata.h"
 #include <stdio.h>
 
+namespace motorcar{
+class WaylandSurfaceNode;
 class Geometry
 {
 public:
@@ -66,8 +68,18 @@ public:
         float intersect(Ray r);
     };
 
+    struct RaySurfaceIntersection
+    {
+        RaySurfaceIntersection(WaylandSurfaceNode *surfaceNode, glm::vec2 surfaceLocalCoordinates , const Geometry::Ray &ray , float t );
+        WaylandSurfaceNode *surfaceNode;
+        glm::vec2 surfaceLocalCoordinates;
+        Geometry::Ray ray;
+        float t;
+    };
 
 
 };
+
+}
 
 #endif // GEOMETRY_H

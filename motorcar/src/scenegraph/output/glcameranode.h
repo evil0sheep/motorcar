@@ -3,16 +3,17 @@
 #include "../../geometry.h"
 #include "../virtualnode.h"
 #include "outputelement.h"
-#include "display.h"
+#include <GL/gl.h>
+//#include "display.h"
 
 
 
 namespace motorcar {
-
+class Display;
 class GLCamera : public OutputElement, public VirtualNode
 {
 public:
-    GLCamera(SceneGraphNode *parent, glm::mat4 transform, float near, float far, float fov, Display *display);
+    GLCamera(SceneGraphNode parent, glm::mat4 transform, float near, float far, float fov, Display *display);
     Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);
 
     void calculateVPMatrix();
@@ -24,7 +25,7 @@ public:
     //all numerical arguments range from 0 to 1 and are multiplied by the size of the window in all getters and before being passed to OpenGL calls
     class GLViewPort{
     public:
-        Display *m_display;
+
         GLViewPort(float offsetX, float offsetY, float width, float height, Display *display);
 
         float offsetX() const;
@@ -37,16 +38,23 @@ public:
         //
         glm::vec2 displayCoordsToViewportCoords(float pixelX, float pixelY) const;
 
+
+        Display *display() const;
+        void setDisplay(Display *display);
+
     private:
         float m_offsetX, m_offsetY, m_width, m_height;
+        Display *m_display;
     };
 
-    GLViewPort viewport() const;
-    void setViewport(const GLViewPort &viewport);
+
+
+    GLViewPort *viewport() const;
+    void setViewport(GLViewPort *viewport);
 
 private:
     float near, far, fov;
-    GLViewPort m_viewport;
+    GLViewPort *m_viewport;
     glm::mat4 m_viewMatrix, m_projectionMatrix, m_viewProjectionMatrix;
 
 };

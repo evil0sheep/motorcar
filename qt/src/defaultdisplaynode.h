@@ -2,17 +2,26 @@
 #define DEFAULTDISPLAYNODE_H
 
 #include "../../motorcar/src/motorcar.h"
+#include "qtwaylandmotorcarsurface.h"
+#include <glm/gtc/type_ptr.hpp>
 
-using namespace motorcar;
+
+
+
 namespace qtmotorcar {
 class DefaultDisplayNode : public motorcar::Display
 {
 public:
-    DefaultDisplayNode(SceneGraphNode &parent, glm::mat4 transform, OpenGLData *glData);
-    virtual bool drawSurfaceNode(QtwaylandSurfaceNode *node);
-    virtual bool drawSceneGraph(float dt, SceneGraphNode *sceneGraphRoot);
-    virtual Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);
+    DefaultDisplayNode(motorcar::Scene *scene, OpenGLData *glInfo);
 
+
+
+
+    //inherited from Display
+    void prepare() override;
+    void renderSurfaceNode(motorcar::WaylandSurfaceNode *surfaceNode, motorcar::GLCamera *camera) override;
+    motorcar::Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY) override;
+    glm::ivec2 size() override;
 
     OpenGLData *glInfo() const;
     void setGlInfo(OpenGLData *glInfo);
@@ -21,7 +30,7 @@ public:
 
 private:
     OpenGLData *m_glInfo;
-    GLCameraNode *m_cameraNode;
+
 
 };
 }

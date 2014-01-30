@@ -1,9 +1,11 @@
 #include "scenegraphnode.h"
+#include "scene.h"
 
 using namespace motorcar;
 
 
 SceneGraphNode::SceneGraphNode(SceneGraphNode &parent, glm::mat4 transform)
+    :m_parentNode(NULL)
 {
     this->setParentNode(parent);
     this->setTransform(transform);
@@ -12,11 +14,11 @@ SceneGraphNode::SceneGraphNode(SceneGraphNode &parent, glm::mat4 transform)
 
 
 
-bool SceneGraphNode::existsInSubtree(SceneGraphNode *node)
+bool SceneGraphNode::subtreeContains(SceneGraphNode *node)
 {
     if(node == this) return true;
-    foreach (SceneGraphNode *child, m_childNodes) {
-        if (child != NULL && child->existsInSubtree(node)){
+    for (SceneGraphNode *child : m_childNodes) {
+        if (child != NULL && child->subtreeContains(node)){
              return true;
 
         }
@@ -30,27 +32,35 @@ SceneGraphNode::~SceneGraphNode(){
     if (this->parentNode() != NULL)
         this->parentNode()->removeChildNode(this);
 
-    foreach (SceneGraphNode *child, m_childNodes) {
+    for (SceneGraphNode *child : m_childNodes) {
         delete child;
     }
 }
 
-void SceneGraphNode::traverseNode(long deltaMillis)
+void SceneGraphNode::traverseNode(Scene *scene, long deltaMillis)
 {
 }
 
-void SceneGraphNode::traverseSceneGraph(long deltaMillis)
+void SceneGraphNode::traverseSceneGraph(Scene *scene, long deltaMillis)
 {
-    traverseNode(deltaMillis);
-    traverseChildren(deltaMillis);
+    traverseNode(scene, deltaMillis);
+    traverseChildren(scene, deltaMillis);
 }
 
+void SceneGraphNode::traverseChildren(Scene *scene, long deltaMillis)
+{
+    for (SceneGraphNode *child : m_childNodes) {
+        if (child != NULL){
+            child->traverseSceneGraph(scene, deltaMillis);
+        }
+    }
+}
 
 
 
 void SceneGraphNode::setParentNode(SceneGraphNode &parent)
 {
-    if (this->parentNode() != NULL){
+    if (this->parentNode() != NULL ){
         this->parentNode()->removeChildNode(this);
     }
     parent.addChildNode(this);
@@ -66,29 +76,24 @@ void SceneGraphNode::setParentNode(SceneGraphNode &parent)
 void SceneGraphNode::addChildNode(SceneGraphNode *child)
 {
     if(child != NULL){
-        this->m_childNodes.append(child);
+        this->m_childNodes.push_back(child);
     }
 
 }
 
 void SceneGraphNode::removeChildNode(SceneGraphNode *node)
 {
-    if(!m_childNodes.isEmpty()){
-        m_childNodes.removeOne(node);
+
+    std::vector<SceneGraphNode *>::iterator position = std::find(m_childNodes.begin(), m_childNodes.end(), node);
+    if (position != m_childNodes.end()){
+         m_childNodes.erase(position);
     }
+
 }
 
-
-
-
-
-void SceneGraphNode::traverseChildren(long deltaMillis)
+SceneGraphNode::SceneGraphNode()
 {
-    for (SceneGraphNode *child : m_childNodes) {
-        if (child != NULL){
-            child->traverse(deltaMillis);
-        }
-    }
+    m_parentNode = NULL;
 }
 
 
@@ -99,7 +104,7 @@ SceneGraphNode *SceneGraphNode::parentNode() const
     return this->m_parentNode;
 }
 
-Scene *SceneGraphNode::scene() const
+Scene *SceneGraphNode::scene()
 {
     if(m_parentNode != NULL){
         //if we are not at the root of the scenegraph yet we keep going up
@@ -149,9 +154,9 @@ void SceneGraphNode::setWorldTransform(const glm::mat4 &transform)
 }
 
 
-WaylandSurfaceNode::RaySurfaceIntersection *SceneGraphNode::intersectWithSurfaces(const Geometry::Ray &ray)
+Geometry::RaySurfaceIntersection *SceneGraphNode::intersectWithSurfaces(const Geometry::Ray &ray)
 {
-    WaylandSurfaceNode::RaySurfaceIntersection *closestIntersection = NULL, *currentIntersection;
+    Geometry::RaySurfaceIntersection *closestIntersection = NULL, *currentIntersection;
     Geometry::Ray transformedRay = ray.transform(inverseTransform());
     for (SceneGraphNode *child : m_childNodes) {
         if (child != NULL){

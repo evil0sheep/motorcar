@@ -36,6 +36,7 @@
 #include "geometry.h"
 #include <QtDebug>
 
+using namespace motorcar;
 
 Geometry::Ray::Ray(glm::vec3 p, glm::vec3 d)
     : p(p)
@@ -83,5 +84,15 @@ void Geometry::printMatrix(glm::mat4 m)
         }
         printf("\n");
 }
+
+
+Geometry::RaySurfaceIntersection::RaySurfaceIntersection(WaylandSurfaceNode *surfaceNode, glm::vec2 surfaceLocalCoordinates, const Geometry::Ray &ray, float t)
+    : surfaceNode(surfaceNode)
+    , surfaceLocalCoordinates(surfaceLocalCoordinates)
+    , ray(ray)
+    , t(t)
+{
+}
+
 
 

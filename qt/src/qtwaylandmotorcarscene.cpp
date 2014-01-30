@@ -13,12 +13,16 @@ void QtWaylandMotorcarScene::notifyNodeAdded(motorcar::SceneGraphNode *node)
     motorcar::Scene::notifyNodeAdded(node);
     motorcar::WaylandSurfaceNode *surfaceNode = dynamic_cast<motorcar::WaylandSurfaceNode *>(node);
     if(surfaceNode != NULL){
-        m_surfaceMap.insert(std::pair<motorcar::WaylandSurface *, motorcar::WaylandSurfaceNode *>(surfaceNode->surface(), surfaceNode));
+        QtWaylandMotorcarSurface *motorcarSurface = dynamic_cast<QtWaylandMotorcarSurface *>(surfaceNode->surface());
+        if(motorcarSurface != NULL){
+            m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(motorcarSurface->m_surface, surfaceNode));
+        }
+
     }
 
 }
 
-motorcar::WaylandSurfaceNode *QtWaylandMotorcarScene::getSurfaceNode(const motorcar::WaylandSurface *surface)
+motorcar::WaylandSurfaceNode *QtWaylandMotorcarScene::getSurfaceNode(QWaylandSurface *surface)
 {
     //if passed NULL return first Surface
     if(surface == NULL){

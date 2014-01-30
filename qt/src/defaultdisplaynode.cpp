@@ -3,18 +3,20 @@
 using namespace motorcar;
 using namespace qtmotorcar;
 
-DefaultDisplayNode::DefaultDisplayNode(SceneGraphNode &parent, glm::mat4 transform, OpenGLData *glData)
-    :DisplayNode(parent, transform)
-    , m_glInfo(glData)
-    , m_cameraNode(NULL)
+DefaultDisplayNode::DefaultDisplayNode(Scene *scene, OpenGLData *glInfo)
+    :Display()
+    ,m_glInfo(glInfo)
+
 {
-    m_cameraNode = new GLCameraNode(this, glm::mat4(1), .01, 100, 45, glData->m_window);
+
+    this->addViewpoint(new GLCamera(*scene, glm::mat4(1), .01, 100, 45, this));
 
 }
 
-bool DefaultDisplayNode::drawSurfaceNode(QtwaylandSurfaceNode *node)
+void DefaultDisplayNode::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera)
 {
-    GLuint texture = node->composeSurface(node->surface(), glInfo());
+
+    GLuint texture = surfaceNode->surface()->texture();
     //QRect geo(m_surface->pos().toPoint(),m_surface->size());
     //glData->m_textureBlitter->drawTexture(texture,geo,glData->m_window->size(),0,false,m_surface->isYInverted());
 
@@ -35,7 +37,7 @@ bool DefaultDisplayNode::drawSurfaceNode(QtwaylandSurfaceNode *node)
     glInfo()->m_surfaceShader->bind();
     //glViewport(0,0,glInfo()->m_window->size().width(),glInfo()->m_window->size().height());
 
-    m_cameraNode->viewport().set();
+    camera->viewport()->set();
 
     GLint aPositionLocation =  glInfo()->m_surfaceShader->attributeLocation("aPosition");
     GLint aTexCoordLocation =  glInfo()->m_surfaceShader->attributeLocation("aTexCoord");
@@ -48,8 +50,8 @@ bool DefaultDisplayNode::drawSurfaceNode(QtwaylandSurfaceNode *node)
         qDebug() << "problem with surface shader handles: " << aPositionLocation << ", "<< aTexCoordLocation << ", " << uMVPMatLocation ;// << ", " << uModelMatrix << ", "  << uViewMatrix << ", "  << uProjectionMatrix ;
     }
 
-    node->computeSurfaceTransform(glInfo()->ppcm());
-    QMatrix4x4 MVPMatrix(glm::value_ptr(glm::transpose( m_cameraNode->projectionMatrix() * m_cameraNode->viewMatrix() *  node->worldTransform() * node->surfaceTransform())));
+    surfaceNode->computeSurfaceTransform(glInfo()->ppcm());
+    QMatrix4x4 MVPMatrix(glm::value_ptr(glm::transpose( camera->projectionMatrix() * camera->viewMatrix() *  surfaceNode->worldTransform() * surfaceNode->surfaceTransform())));
 //            QMatrix4x4 modelMatrix(glm::value_ptr(this->worldTransform()));
 //            QMatrix4x4 viewMatrix(glm::value_ptr(glData->viewMatrix()));
 //            QMatrix4x4 projectionMatrix(glm::value_ptr(glData->project.ionMatrix()));
@@ -83,20 +85,27 @@ bool DefaultDisplayNode::drawSurfaceNode(QtwaylandSurfaceNode *node)
 
 
     glInfo()->m_surfaceShader->release();
-    return true;
+
 }
 
-bool DefaultDisplayNode::drawSceneGraph(float dt, SceneGraphNode *sceneGraphRoot)
+void DefaultDisplayNode::prepare()
 {
+    Display::prepare();
     glInfo()->m_window->makeCurrent();
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    m_cameraNode->calculateVPMatrix();
-    return DisplayNode::drawSceneGraph(dt, sceneGraphRoot);
+
 }
+
+
 
 Geometry::Ray DefaultDisplayNode::worldRayAtDisplayPosition(float pixelX, float pixelY)
 {
-    return m_cameraNode->worldRayAtDisplayPosition(pixelX, pixelY);
+    return viewpoints().front()->worldRayAtDisplayPosition(pixelX, pixelY);
+}
+
+glm::ivec2 DefaultDisplayNode::size()
+{
+    return glm::ivec2(m_glInfo->m_window->size().width(), m_glInfo->m_window->size().height());
 }
 
 
@@ -105,9 +114,6 @@ OpenGLData *DefaultDisplayNode::glInfo() const
     return m_glInfo;
 }
 
-void DefaultDisplayNode::setGlInfo(OpenGLData *glInfo)
-{
-    m_glInfo = glInfo;
-}
+
 
 

@@ -12,7 +12,8 @@ void VirtualNode::animate(long deltaMillis)
 {
 }
 
-void VirtualNode::traverseNode(long deltaMillis)
+void VirtualNode::traverseNode(Scene *scene, long deltaMillis)
 {
+    SceneGraphNode::traverseNode(scene, deltaMillis);
     this->animate(deltaMillis);
 }

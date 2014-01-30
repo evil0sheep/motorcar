@@ -82,7 +82,8 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
     setOutputRefreshRate(qRound(qGuiApp->primaryScreen()->refreshRate() * 1000.0));
     glClearColor(0.f, 0.f, 0.f, 1.0f);
 
-    setDisplay(new DefaultDisplayNode(m_scene, glm::mat4(1),m_glData));
+
+    setDisplay(new DefaultDisplayNode(m_scene, m_glData));
     //glClearDepth(0.1f);
 }
 
@@ -103,12 +104,12 @@ void QtWaylandMotorcarCompositor::setDisplay(motorcar::Display *display)
     m_display = display;
 }
 
-OpenGLData *QtWaylandQtWaylandMotorcarCompositor::glData() const
+OpenGLData *QtWaylandMotorcarCompositor::glData() const
 {
     return m_glData;
 }
 
-void QtWaylandQtWaylandMotorcarCompositor::setGlData(OpenGLData *glData)
+void QtWaylandMotorcarCompositor::setGlData(OpenGLData *glData)
 {
     m_glData = glData;
 }
@@ -131,9 +132,14 @@ void QtWaylandMotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *ol
 {
     QWaylandSurface *kbdFocus = defaultInputDevice()->keyboardFocus();
     if (kbdFocus == oldSurface || !kbdFocus){
-        QtwaylandSurfaceNode *n = m_scene->getSurfaceNode();
+        motorcar::WaylandSurfaceNode *n = m_scene->getSurfaceNode();
         // defaultInputDevice()->setKeyboardFocus(m_surfaces.isEmpty() ? 0 : m_surfaces.last());
-        defaultInputDevice()->setKeyboardFocus(n ?  n->surface() : NULL);
+        if(n){
+            defaultInputDevice()->setKeyboardFocus(static_cast<QtWaylandMotorcarSurface *>(n->surface())->m_surface);
+        }else{
+            defaultInputDevice()->setKeyboardFocus(NULL);
+        }
+
     }
 }
 
@@ -173,7 +179,7 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
                     * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(1, 0, 0))
                     //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
                     * glm::translate(glm::mat4(1), glm::vec3(0,0,.5f));
-            new QtwaylandSurfaceNode(m_scene, surface, transform);
+            new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), *m_scene, transform);
             defaultInputDevice()->setKeyboardFocus(surface);
         }
     }
@@ -244,16 +250,16 @@ void QtWaylandMotorcarCompositor::updateCursor()
 
 QPointF QtWaylandMotorcarCompositor::toSurface(QWaylandSurface *surface, const QPointF &point) const
 {
-    QtwaylandSurfaceNode *surfaceNode = m_scene->getSurfaceNode(surface);
+    motorcar::WaylandSurfaceNode *surfaceNode = m_scene->getSurfaceNode(surface);
 
     if(surfaceNode != NULL){
-        Geometry::Ray ray = display()->worldRayAtDisplayPosition(point.x(), point.y());
+        motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(point.x(), point.y());
         ray = ray.transform(glm::inverse(surfaceNode->worldTransform()));
         float t;
-        QPointF intersection;
+        glm::vec2 intersection;
         bool isIntersected = surfaceNode->computeLocalSurfaceIntersection(ray, intersection, t);
         if(isIntersected){
-            return intersection;
+            return QPointF(intersection.x, intersection.y);
         }else{
             qDebug() << "ERROR: surface plane does not interesect camera ray through cursor";
             return QPointF();
@@ -278,17 +284,19 @@ void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int
 
 QWaylandSurface *QtWaylandMotorcarCompositor::surfaceAt(const QPointF &point, QPointF *local)
 {
-    Geometry::Ray ray = display()->worldRayAtDisplayPosition(point.x(), point.y());
-    SceneGraphNode::RaySurfaceIntersection *intersection = m_scene->intersectWithSurfaces(ray);
+    motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(point.x(), point.y());
+    motorcar::Geometry::RaySurfaceIntersection *intersection = m_scene->intersectWithSurfaces(ray);
 
     if(intersection){
         //qDebug() << "intersection found between cursor ray and scene graph";
         if (local){
-            *local = intersection->surfaceLocalCoordinates;
+            *local = QPointF(intersection->surfaceLocalCoordinates.x, intersection->surfaceLocalCoordinates.y);
         }
-        QWaylandSurface *surface = intersection->surfaceNode->surface();
+        motorcar::WaylandSurface *surface = intersection->surfaceNode->surface();
         delete intersection;
-        return surface;
+
+        return static_cast<QtWaylandMotorcarSurface *>(surface)->m_surface;
+
     }else{
         //qDebug() << "no intersection found between cursor ray and scene graph";
         return NULL;
@@ -314,9 +322,7 @@ void QtWaylandMotorcarCompositor::render()
 
 
 
-
-
-    display()->drawSceneGraph(0, m_scene);
+    scene()->draw(0);
 
     frameFinished();
     // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.

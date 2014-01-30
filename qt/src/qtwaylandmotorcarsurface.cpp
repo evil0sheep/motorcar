@@ -1,4 +1,5 @@
 #include "qtwaylandmotorcarsurface.h"
+using namespace qtmotorcar;
 
 QtWaylandMotorcarSurface::QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor)
     : m_surface(surface)
@@ -7,13 +8,13 @@ QtWaylandMotorcarSurface::QtWaylandMotorcarSurface(QWaylandSurface *surface, QtW
 
 }
 
-GLuint QtWaylandMotorcarSurface::getTexture()
+GLuint QtWaylandMotorcarSurface::texture()
 {
     m_textureID = composeSurface(m_surface, m_compositor->glData());
     return m_textureID;
 }
 
-glm::ivec2 QtWaylandMotorcarSurface::getSize()
+glm::ivec2 QtWaylandMotorcarSurface::size()
 {
     return glm::ivec2(m_surface->size().width(), m_surface->size().height());
 }

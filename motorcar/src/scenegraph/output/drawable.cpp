@@ -1,4 +1,5 @@
 #include "drawable.h"
+#include "../scene.h"
 using namespace motorcar;
 
 Drawable::Drawable(SceneGraphNode &parent, const glm::mat4 &transform)
@@ -9,14 +10,17 @@ Drawable::Drawable(SceneGraphNode &parent, const glm::mat4 &transform)
 
 
 
-void Drawable::traverseNode(long deltaMillis)
+void Drawable::traverseNode(Scene *scene, long deltaMillis)
 {
-    VirtualNode::traverseNode(deltaMillis);
-    this->draw();
+    VirtualNode::traverseNode(scene, deltaMillis);
+    this->draw(scene);
 }
 
-void Drawable::draw()
+void Drawable::draw(Scene *scene)
 {
+    for(Display *display : scene->displays()){
+        display->renderDrawable(this);
+    }
 }
 
 

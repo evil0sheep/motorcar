@@ -3,20 +3,12 @@
 #include "waylanddrawable.h"
 #include "waylandsurface.h"
 
+
 namespace motorcar {
 class WaylandSurfaceNode : public WaylandDrawable
 {
 public:
 
-
-    struct RaySurfaceIntersection
-    {
-        RaySurfaceIntersection(WaylandSurfaceNode *surfaceNode, glm::vec2 surfaceLocalCoordinates , const Geometry::Ray &ray , float t );
-        WaylandSurfaceNode *surfaceNode;
-        glm::vec2 surfaceLocalCoordinates;
-        Geometry::Ray ray;
-        float t;
-    };
 
     WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode &parent, const glm::mat4 &transform = glm::mat4(1));
 
@@ -35,7 +27,7 @@ public:
 
 
     //inhereted from SceneGraphNode
-    virtual RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray) override;
+    virtual Geometry::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray) override;
 
     //inhereted from Drawable
     void drawViewpoint(GLCamera *viewpoint) override;

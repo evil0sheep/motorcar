@@ -45,12 +45,14 @@
 #include "../../motorcar/src/motorcar.h"
 #include "qtwaylandmotorcarscene.h"
 #include "qtwaylandmotorcarsurface.h"
+#include "defaultdisplaynode.h"
 #include "opengldata.h"
 
 
 #include <QObject>
 #include <QTimer>
 namespace qtmotorcar{
+class QtWaylandMotorcarScene;
 class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor
 {
     Q_OBJECT
