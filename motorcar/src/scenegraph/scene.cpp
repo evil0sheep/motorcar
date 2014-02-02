@@ -1,5 +1,4 @@
 #include "scene.h"
-#include "qdebug.h"
 
 using namespace motorcar;
 
@@ -25,7 +24,7 @@ std::vector<Display *> Scene::displays() const
 
 void Scene::draw(long deltaMillis)
 {
-    qDebug() << "drawing scene";
+
     for(Display *display : displays()){
         display->prepare();
     }

@@ -117,14 +117,30 @@ void QtWaylandMotorcarCompositor::setGlData(OpenGLData *glData)
 }
 
 
-QtWaylandMotorcarScene *QtWaylandMotorcarCompositor::scene() const
+motorcar::Scene *QtWaylandMotorcarCompositor::scene() const
 {
     return m_scene;
 }
 
-void QtWaylandMotorcarCompositor::setScene(QtWaylandMotorcarScene *scene)
+void QtWaylandMotorcarCompositor::setScene(motorcar::Scene *scene)
 {
     m_scene = scene;
+}
+
+motorcar::WaylandSurfaceNode *QtWaylandMotorcarCompositor::getSurfaceNode(QWaylandSurface *surface) const
+{
+    //if passed NULL return first Surface
+    if(surface == NULL){
+        if(!m_surfaceMap.empty()){
+            return m_surfaceMap.begin()->second;
+        }else{
+            return NULL;
+        }
+    }
+    if(m_surfaceMap.count(surface)){
+        return m_surfaceMap.find(surface)->second;
+    }
+    return NULL;
 }
 
 
@@ -134,7 +150,7 @@ void QtWaylandMotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *ol
 {
     QWaylandSurface *kbdFocus = defaultInputDevice()->keyboardFocus();
     if (kbdFocus == oldSurface || !kbdFocus){
-        motorcar::WaylandSurfaceNode *n = m_scene->getSurfaceNode();
+        motorcar::WaylandSurfaceNode *n = this->getSurfaceNode();
         // defaultInputDevice()->setKeyboardFocus(m_surfaces.isEmpty() ? 0 : m_surfaces.last());
         if(n){
             defaultInputDevice()->setKeyboardFocus(static_cast<QtWaylandMotorcarSurface *>(n->surface())->m_surface);
@@ -145,13 +161,18 @@ void QtWaylandMotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *ol
     }
 }
 
+
+
 void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
 {
 
     QWaylandSurface *surface = static_cast<QWaylandSurface *>(object);
     //m_surfaces.removeOne(surface);
     if(surface != NULL){ //because calling getSurfaceNode with NULL will cause the first surface node to be returned
-        delete m_scene->getSurfaceNode(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
+        motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
+        int num_erased = m_surfaceMap.erase (surface);
+        delete surfaceNode;
+
     }
     ensureKeyboardFocusSurface(surface);
     m_renderScheduler.start(0);
@@ -162,7 +183,7 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
     QPoint pos;
     //if (!m_surfaces.contains(surface)) {
-    if (!m_scene->getSurfaceNode(surface)) {
+    if (!this->getSurfaceNode(surface)) {
         //        uint px = 0;
         //        uint py = 0;
         //        if (!QCoreApplication::arguments().contains(QLatin1String("-stickytopleft"))) {
@@ -181,8 +202,10 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
                     * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(1, 0, 0))
                     //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
                     * glm::translate(glm::mat4(1), glm::vec3(0,0,.5f));
-            new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), *m_scene, transform);
+            motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), *m_scene, transform);
             defaultInputDevice()->setKeyboardFocus(surface);
+
+            m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
         }
     }
 
@@ -252,7 +275,7 @@ void QtWaylandMotorcarCompositor::updateCursor()
 
 QPointF QtWaylandMotorcarCompositor::toSurface(QWaylandSurface *surface, const QPointF &point) const
 {
-    motorcar::WaylandSurfaceNode *surfaceNode = m_scene->getSurfaceNode(surface);
+    motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
 
     if(surfaceNode != NULL){
         motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(point.x(), point.y());

@@ -70,8 +70,10 @@ public:
 
 
 
-    QtWaylandMotorcarScene *scene() const;
-    void setScene(QtWaylandMotorcarScene *scene);
+    motorcar::Scene *scene() const;
+    void setScene(motorcar::Scene *scene);
+
+    motorcar::WaylandSurfaceNode *getSurfaceNode(QWaylandSurface *surface = NULL) const;
 
 private slots:
     void surfaceDestroyed(QObject *object);
@@ -105,7 +107,7 @@ private slots:
 
 private:
 
-    QtWaylandMotorcarScene *m_scene;
+    motorcar::Scene *m_scene;
     //QList<QWaylandSurface *> m_surfaces;
     OpenGLData *m_glData;
     QTimer m_renderScheduler;
@@ -123,6 +125,7 @@ private:
     Qt::KeyboardModifiers m_modifiers;
 
     motorcar::Display *m_display;
+    std::map<QWaylandSurface *, motorcar::WaylandSurfaceNode *> m_surfaceMap;
 
 };
 }

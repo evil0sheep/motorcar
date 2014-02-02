@@ -29,6 +29,7 @@ bool SceneGraphNode::subtreeContains(SceneGraphNode *node)
 
 
 SceneGraphNode::~SceneGraphNode(){
+
     if (this->parentNode() != NULL)
         this->parentNode()->removeChildNode(this);
 
@@ -64,13 +65,17 @@ void SceneGraphNode::setParentNode(SceneGraphNode &parent)
         this->parentNode()->removeChildNode(this);
     }
 
-    parent.addChildNode(this);
     this->m_parentNode = std::addressof(parent);
 
     Scene *scene = this->scene();
     if(!scene->subtreeContains(this)){
         scene->notifyNodeAdded(this);
     }
+
+    parent.addChildNode(this);
+
+
+
 
 }
 

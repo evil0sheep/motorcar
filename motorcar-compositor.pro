@@ -36,7 +36,6 @@ HEADERS += \
     motorcar/src/motorcar.h \
     motorcar/src/scenegraph/output/wayland/waylandsurface.h \
     qt/src/qtwaylandmotorcarsurface.h \
-    qt/src/qtwaylandmotorcarscene.h \
     motorcar/src/scenegraph/output/wayland/waylanddrawable.h
 
 
@@ -64,7 +63,6 @@ SOURCES += \
     motorcar/src/scenegraph/output/wayland/waylandsurfacenode.cpp \
     motorcar/src/scenegraph/output/wayland/waylandsurface.cpp \
     qt/src/qtwaylandmotorcarsurface.cpp \
-    qt/src/qtwaylandmotorcarscene.cpp \
     motorcar/src/scenegraph/output/wayland/waylanddrawable.cpp
 
 
