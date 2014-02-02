@@ -56,7 +56,7 @@ using namespace qtmotorcar;
 
 QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
     : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
-    , m_scene(new QtWaylandMotorcarScene())
+    , m_scene(new motorcar::Scene())
     , m_glData(new OpenGLData(window))//glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0,0,1.5f)), 180.f, glm::vec3(0,1,0)))))
     , m_renderScheduler(this)
     , m_draggingWindow(0)
@@ -83,7 +83,8 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
     glClearColor(0.f, 0.f, 0.f, 1.0f);
 
 
-    setDisplay(new DefaultDisplayNode(m_scene, m_glData));
+    QtWaylandMotorcarOpenGLContext *window_context = new QtWaylandMotorcarOpenGLContext(window);
+    setDisplay(new DefaultDisplayNode(window_context));
     display()->addViewpoint(new motorcar::GLCamera(*m_scene, glm::mat4(1), .01, 100, 45, this->display()));
     m_scene->addDisplay(m_display);
     //glClearDepth(0.1f);

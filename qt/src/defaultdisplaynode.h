@@ -4,15 +4,14 @@
 #include "../../motorcar/src/motorcar.h"
 #include "qtwaylandmotorcarsurface.h"
 #include <glm/gtc/type_ptr.hpp>
-
-
+#include <GL/gl.h>
 
 
 namespace qtmotorcar {
 class DefaultDisplayNode : public motorcar::Display
 {
 public:
-    DefaultDisplayNode(motorcar::Scene *scene, OpenGLData *glInfo);
+    DefaultDisplayNode(motorcar::OpenGLContext *glContext);
 
 
 
@@ -23,13 +22,30 @@ public:
     motorcar::Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY) override;
     glm::ivec2 size() override;
 
-    OpenGLData *glInfo() const;
-    void setGlInfo(OpenGLData *glInfo);
 
 
+
+
+
+
+    motorcar::OpenGLContext *glContext() const;
+    void setGlContext(motorcar::OpenGLContext *glContext);
 
 private:
-    OpenGLData *m_glInfo;
+
+    motorcar::OpenGLContext *m_glContext;
+
+    //shaders
+    std::ifstream m_vertexShaderStream, m_fragmentShaderStream;
+    motorcar::OpenGLShader *m_shaderProgram;
+
+    //attribute buffers
+    GLuint m_textureCoordinates, m_vertexCoordinates;
+
+    //shader variable handles
+    GLint h_aPosition, h_aTexCoord, h_uMVPMatrix;
+
+
 
 
 };

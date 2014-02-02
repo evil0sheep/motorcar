@@ -3,23 +3,16 @@
 using namespace motorcar;
 using namespace qtmotorcar;
 
-DefaultDisplayNode::DefaultDisplayNode(Scene *scene, OpenGLData *glInfo)
+
+
+DefaultDisplayNode::DefaultDisplayNode(OpenGLContext *glContext)
     :Display()
-    ,m_glInfo(glInfo)
+    ,m_glContext(glContext)
+    ,m_vertexShaderStream("../motorcar/src/shaders/motorcarsurface.vert")
+    ,m_fragmentShaderStream("../motorcar/src/shaders/motorcarsurface.frag")
+    ,m_shaderProgram(new motorcar::OpenGLShader(m_vertexShaderStream, m_fragmentShaderStream))
 
 {
-
-
-}
-
-void DefaultDisplayNode::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera)
-{
-
-    GLuint texture = surfaceNode->surface()->texture();
-    //QRect geo(m_surface->pos().toPoint(),m_surface->size());
-    //glData->m_textureBlitter->drawTexture(texture,geo,glData->m_window->size(),0,false,m_surface->isYInverted());
-
-
     const GLfloat textureCoordinates[] = {
         0, 0,
         0, 1,
@@ -33,41 +26,49 @@ void DefaultDisplayNode::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCa
         1, 0, 0
     };
 
-    glInfo()->m_surfaceShader->bind();
-    //glViewport(0,0,glInfo()->m_window->size().width(),glInfo()->m_window->size().height());
+    glGenBuffers(1, &m_textureCoordinates);
+    glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordinates);
+    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
 
-    camera->viewport()->set();
+    glGenBuffers(1, &m_vertexCoordinates);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates);
+    glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertexCoordinates, GL_STATIC_DRAW);
 
-    GLint aPositionLocation =  glInfo()->m_surfaceShader->attributeLocation("aPosition");
-    GLint aTexCoordLocation =  glInfo()->m_surfaceShader->attributeLocation("aTexCoord");
-    GLint uMVPMatLocation = glInfo()->m_surfaceShader->uniformLocation("uMVPMatrix");
-//            GLint uModelMatrix = glData->m_surfaceShader->uniformLocation("uModelMatrix");
-//            GLint uViewMatrix = glData->m_surfaceShader->uniformLocation("uViewMatrix");
-//            GLint uProjectionMatrix = glData->m_surfaceShader->uniformLocation("uProjectionMatrix");
+    h_aPosition =  glGetAttribLocation(m_shaderProgram->handle(), "aPosition");
+    h_aTexCoord =  glGetAttribLocation(m_shaderProgram->handle(), "aTexCoord");
+    h_uMVPMatrix  = glGetUniformLocation(m_shaderProgram->handle(), "uMVPMatrix");
 
-    if(aPositionLocation < 0 || aTexCoordLocation < 0 || uMVPMatLocation< 0 ){//|| uModelMatrix < 0 || uViewMatrix < 0 || uProjectionMatrix < 0){
-        qDebug() << "problem with surface shader handles: " << aPositionLocation << ", "<< aTexCoordLocation << ", " << uMVPMatLocation ;// << ", " << uModelMatrix << ", "  << uViewMatrix << ", "  << uProjectionMatrix ;
+    if(h_aPosition < 0 || h_aTexCoord < 0 || h_uMVPMatrix < 0 ){
+        qDebug() << "problem with surface shader handles: " << h_aPosition << ", "<< h_aTexCoord << ", " << h_uMVPMatrix ;
     }
 
-    surfaceNode->computeSurfaceTransform(glInfo()->ppcm());
-    QMatrix4x4 MVPMatrix(glm::value_ptr(glm::transpose( camera->projectionMatrix() * camera->viewMatrix() *  surfaceNode->worldTransform() * surfaceNode->surfaceTransform())));
-//            QMatrix4x4 modelMatrix(glm::value_ptr(this->worldTransform()));
-//            QMatrix4x4 viewMatrix(glm::value_ptr(glData->viewMatrix()));
-//            QMatrix4x4 projectionMatrix(glm::value_ptr(glData->project.ionMatrix()));
 
-    QOpenGLContext *currentContext = QOpenGLContext::currentContext();
-    currentContext->functions()->glEnableVertexAttribArray(aPositionLocation);
-    currentContext->functions()->glEnableVertexAttribArray(aTexCoordLocation);
+}
 
-    currentContext->functions()->glVertexAttribPointer(aPositionLocation, 3, GL_FLOAT, GL_FALSE, 0, vertexCoordinates);
-    currentContext->functions()->glVertexAttribPointer(aTexCoordLocation, 2, GL_FLOAT, GL_FALSE, 0, textureCoordinates);
-    glInfo()->m_surfaceShader->setUniformValue(uMVPMatLocation, MVPMatrix);
-//            glData->m_surfaceShader->setUniformValue(uModelMatrix, modelMatrix);
-//            glData->m_surfaceShader->setUniformValue(uViewMatrix, viewMatrix);
-//            glData->m_surfaceShader->setUniformValue(uProjectionMatrix, projectionMatrix);
+void DefaultDisplayNode::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera)
+{
 
-    //Geometry::printMatrix(glData->projectionMatrix() * (glData->viewMatrix() *  this->worldTransform() * this->surfaceTransform()));
-//            Geometry::printMatrix( this->surfaceTransform());
+
+    GLuint texture = surfaceNode->surface()->texture();
+    camera->viewport()->set();
+
+    glUseProgram(m_shaderProgram->handle());
+
+    glEnableVertexAttribArray(h_aPosition);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates);
+    glVertexAttribPointer(h_aPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glEnableVertexAttribArray(h_aTexCoord);
+    glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordinates);
+    glVertexAttribPointer(h_aTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+
+
+    glUniformMatrix4fv(h_uMVPMatrix, 1, GL_FALSE, glm::value_ptr(camera->projectionMatrix() * camera->viewMatrix() *  surfaceNode->worldTransform() * surfaceNode->surfaceTransform()));
+
+
+
+
 
 
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -79,18 +80,21 @@ void DefaultDisplayNode::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCa
 
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    currentContext->functions()->glDisableVertexAttribArray(aPositionLocation);
-    currentContext->functions()->glDisableVertexAttribArray(aTexCoordLocation);
 
 
-    glInfo()->m_surfaceShader->release();
+    glDisableVertexAttribArray(h_aPosition);
+    glDisableVertexAttribArray(h_aTexCoord);
+
+    glUseProgram(0);
 
 }
+
+
 
 void DefaultDisplayNode::prepare()
 {
     Display::prepare();
-    glInfo()->m_window->makeCurrent();
+    glContext()->makeCurrent();
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 }
@@ -104,15 +108,25 @@ Geometry::Ray DefaultDisplayNode::worldRayAtDisplayPosition(float pixelX, float 
 
 glm::ivec2 DefaultDisplayNode::size()
 {
-    return glm::ivec2(m_glInfo->m_window->size().width(), m_glInfo->m_window->size().height());
+    return glContext()->defaultFramebufferSize(); //glm::ivec2(m_glInfo->m_window->size().width(), m_glInfo->m_window->size().height());
 }
 
 
-OpenGLData *DefaultDisplayNode::glInfo() const
+
+
+
+
+
+
+
+
+
+motorcar::OpenGLContext *DefaultDisplayNode::glContext() const
 {
-    return m_glInfo;
+    return m_glContext;
 }
 
-
-
-
+void DefaultDisplayNode::setGlContext(motorcar::OpenGLContext *glContext)
+{
+    m_glContext = glContext;
+}

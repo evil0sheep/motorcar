@@ -38,9 +38,9 @@
 **
 ****************************************************************************/
 
+
 #include "../qt/src/qopenglwindow.h"
 #include "../qt/src/qtwaylandmotorcarcompositor.h"
-
 #include <QGuiApplication>
 #include <QStringList>
 #include <QScreen>

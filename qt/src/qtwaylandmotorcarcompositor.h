@@ -43,8 +43,9 @@
 #include "qwaylandcompositor.h"
 
 #include "../../motorcar/src/motorcar.h"
-#include "qtwaylandmotorcarscene.h"
+
 #include "qtwaylandmotorcarsurface.h"
+#include "qtwaylandmotorcaropenglcontext.h"
 #include "defaultdisplaynode.h"
 #include "opengldata.h"
 

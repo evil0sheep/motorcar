@@ -13,6 +13,9 @@ public:
 
     virtual GLuint texture() = 0;
     virtual glm::ivec2 size() = 0;
+
+private:
+
 };
 }
 

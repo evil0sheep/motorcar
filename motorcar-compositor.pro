@@ -7,7 +7,7 @@ MOC_DIR = bin/.moc
 RCC_DIR = bin/.rcc
 UI_DIR = bin/.ui
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES
 
 LIBS += -L ../../lib
 #include (../../src/qt-compositor/qt-compositor.pri)
@@ -36,7 +36,11 @@ HEADERS += \
     motorcar/src/motorcar.h \
     motorcar/src/scenegraph/output/wayland/waylandsurface.h \
     qt/src/qtwaylandmotorcarsurface.h \
-    motorcar/src/scenegraph/output/wayland/waylanddrawable.h
+    motorcar/src/scenegraph/output/wayland/waylanddrawable.h \
+    motorcar/src/gl/openglshader.h \
+    motorcar/src/gl/GLSLHelper.h \
+    motorcar/src/gl/openglcontext.h \
+    qt/src/qtwaylandmotorcaropenglcontext.h
 
 
 
@@ -63,7 +67,11 @@ SOURCES += \
     motorcar/src/scenegraph/output/wayland/waylandsurfacenode.cpp \
     motorcar/src/scenegraph/output/wayland/waylandsurface.cpp \
     qt/src/qtwaylandmotorcarsurface.cpp \
-    motorcar/src/scenegraph/output/wayland/waylanddrawable.cpp
+    motorcar/src/scenegraph/output/wayland/waylanddrawable.cpp \
+    motorcar/src/gl/openglshader.cpp \
+    motorcar/src/gl/GLSLHelper.cpp \
+    motorcar/src/gl/openglcontext.cpp \
+    qt/src/qtwaylandmotorcaropenglcontext.cpp
 
 
 

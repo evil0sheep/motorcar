@@ -6,6 +6,7 @@ WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode &
     :WaylandDrawable(parent, transform)
 {
     this->setSurface(surface);
+    computeSurfaceTransform(64);
 }
 
 WaylandSurface *WaylandSurfaceNode::surface() const
