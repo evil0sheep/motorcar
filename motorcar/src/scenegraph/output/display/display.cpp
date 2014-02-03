@@ -8,6 +8,7 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
     ,m_vertexShaderStream("../motorcar/src/shaders/motorcarsurface.vert")
     ,m_fragmentShaderStream("../motorcar/src/shaders/motorcarsurface.frag")
     ,m_shaderProgram(new motorcar::OpenGLShader(m_vertexShaderStream, m_fragmentShaderStream))
+    ,m_size(displayDimensions)
 
 {
     const GLfloat textureCoordinates[] = {

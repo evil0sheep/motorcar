@@ -11,6 +11,8 @@ GLCamera::GLCamera(SceneGraphNode &parent, glm::mat4 transform, float near, floa
     , m_viewport(new GLViewPort(0, 0, 1, 1, display))
 
 {
+    calculateVPMatrix();
+    std::cout << "Camera FOV: " << fov() <<std::endl;
 }
 
 
@@ -56,8 +58,10 @@ float GLCamera::fov()
     glm::mat4 displayWorldTransform = m_viewport->display()->worldTransform();
     glm::vec4 origin(0, 0, 0, 1);
     glm::vec3 cameraToDisplayVector = glm::vec3((displayWorldTransform * origin) -  (worldTransform() * origin));
-    glm::vec3 displayNormal = glm::vec3(displayWorldTransform * glm::vec4(0, 0, 1, 0));
+    glm::vec3 displayNormal = glm::normalize(glm::vec3(displayWorldTransform * glm::vec4(0, 0, 1, 0)));
     float eyeToScreenDistance = glm::abs(glm::dot(cameraToDisplayVector, displayNormal));
+
+
     return glm::degrees(2 * atan(m_viewport->display()->size().y / (2 * eyeToScreenDistance)));
 }
 

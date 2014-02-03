@@ -40,7 +40,6 @@ HEADERS += \
     motorcar/src/gl/openglcontext.h \
     qt/src/qtwaylandmotorcaropenglcontext.h \
     motorcar/src/scenegraph/output/display/display.h \
-    motorcar/src/scenegraph/output/display/defaultdisplaynode.h \
     motorcar/src/scenegraph/output/display/distortedrendertotexturedisplay.h
 
 
@@ -72,7 +71,6 @@ SOURCES += \
     motorcar/src/gl/openglcontext.cpp \
     qt/src/qtwaylandmotorcaropenglcontext.cpp \
     motorcar/src/scenegraph/output/display/display.cpp \
-    motorcar/src/scenegraph/output/display/defaultdisplaynode.cpp \
     motorcar/src/scenegraph/output/display/distortedrendertotexturedisplay.cpp
 
 
