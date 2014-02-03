@@ -4,8 +4,8 @@ using namespace motorcar;
 
 
 
-DefaultDisplayNode::DefaultDisplayNode(OpenGLContext *glContext)
-    :Display()
+DefaultDisplayNode::DefaultDisplayNode(OpenGLContext *glContext, PhysicalNode &parent, const glm::mat4 &transform)
+    :Display(glContext, parent, transform)
     ,m_glContext(glContext)
     ,m_vertexShaderStream("../motorcar/src/shaders/motorcarsurface.vert")
     ,m_fragmentShaderStream("../motorcar/src/shaders/motorcarsurface.frag")
@@ -105,7 +105,7 @@ Geometry::Ray DefaultDisplayNode::worldRayAtDisplayPosition(float pixelX, float 
     return viewpoints().front()->worldRayAtDisplayPosition(pixelX, pixelY);
 }
 
-glm::ivec2 DefaultDisplayNode::size()
+glm::ivec2 DefaultDisplayNode::resolution()
 {
     return glContext()->defaultFramebufferSize(); //glm::ivec2(m_glInfo->m_window->size().width(), m_glInfo->m_window->size().height());
 }

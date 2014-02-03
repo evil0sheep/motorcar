@@ -1,13 +1,13 @@
 #include "glcameranode.h"
-#include "display.h"
+#include "display/display.h"
 
 using namespace motorcar;
 
-GLCamera::GLCamera(SceneGraphNode &parent, glm::mat4 transform, float near, float far, float fov, Display *display)
+GLCamera::GLCamera(SceneGraphNode &parent, glm::mat4 transform, float near, float far, Display *display, glm::vec3 centerOfProjection)
     :VirtualNode(parent, transform)
     , near(near)
     , far(far)
-    , fov(fov)
+    , m_COPTransform(glm::translate(glm::mat4(1), centerOfProjection))
     , m_viewport(new GLViewPort(0, 0, 1, 1, display))
 
 {
@@ -20,7 +20,7 @@ Geometry::Ray GLCamera::worldRayAtDisplayPosition(float pixelX, float pixelY)
 
     glm::vec2 normalizedPixelPos = -1.f * m_viewport->displayCoordsToViewportCoords(pixelX, pixelY);
     float h = (m_viewport->height()/m_viewport->width()) /2;
-    float theta = glm::radians(fov / 2);
+    float theta = glm::radians(fov() / 2);
     float d = h / glm::tan(theta);
 
     return Geometry::Ray(glm::vec3(0), glm::normalize(glm::vec3(normalizedPixelPos, d))).transform(this->worldTransform());
@@ -29,7 +29,8 @@ Geometry::Ray GLCamera::worldRayAtDisplayPosition(float pixelX, float pixelY)
 
 void GLCamera::calculateVPMatrix()
 {
-    m_projectionMatrix = glm::perspective(fov, (m_viewport->width())/ (m_viewport->height()), near, far);
+
+    m_projectionMatrix = m_COPTransform * glm::perspective(fov(), (m_viewport->width())/ (m_viewport->height()), near, far);
 
     glm::mat4 trans = worldTransform();
     glm::vec3 center = glm::vec3(trans * glm::vec4(0, 0, 0, 1));
@@ -46,6 +47,18 @@ void GLCamera::calculateVPMatrix()
 glm::mat4 GLCamera::viewProjectionMatrix() const
 {
     return m_viewProjectionMatrix;
+}
+
+float GLCamera::fov()
+{
+
+    //take camera distance to display and project it onto display normal
+    glm::mat4 displayWorldTransform = m_viewport->display()->worldTransform();
+    glm::vec4 origin(0, 0, 0, 1);
+    glm::vec3 cameraToDisplayVector = glm::vec3((displayWorldTransform * origin) -  (worldTransform() * origin));
+    glm::vec3 displayNormal = glm::vec3(displayWorldTransform * glm::vec4(0, 0, 1, 0));
+    float eyeToScreenDistance = glm::abs(glm::dot(cameraToDisplayVector, displayNormal));
+    return glm::degrees(2 * atan(m_viewport->display()->size().y / (2 * eyeToScreenDistance)));
 }
 
 
@@ -95,22 +108,22 @@ glm::vec2 GLCamera::GLViewPort::displayCoordsToViewportCoords(float pixelX, floa
 
 float GLCamera::GLViewPort::height() const
 {
-    return m_height * m_display->size().y;
+    return m_height * m_display->resolution().y;
 }
 
 float GLCamera::GLViewPort::width() const
 {
-    return m_width * m_display->size().x;
+    return m_width * m_display->resolution().x;
 }
 
 float GLCamera::GLViewPort::offsetY() const
 {
-    return m_offsetY * m_display->size().y;
+    return m_offsetY * m_display->resolution().y;
 }
 
 float GLCamera::GLViewPort::offsetX() const
 {
-    return m_offsetX * m_display->size().x;
+    return m_offsetX * m_display->resolution().x;
 }
 
 

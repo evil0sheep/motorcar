@@ -13,13 +13,18 @@ class Display;
 class GLCamera : public OutputElement, public VirtualNode
 {
 public:
-    GLCamera(SceneGraphNode &parent, glm::mat4 transform, float near, float far, float fov, Display *display);
+    //centerOfProjection: center of projection in camera space, applied as a translation to the projection matrix
+    GLCamera(SceneGraphNode &parent, glm::mat4 transform, float near, float far, Display *display, glm::vec3 centerOfProjection = glm::vec3(0));
     Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);
 
     void calculateVPMatrix();
     glm::mat4 viewMatrix() const;
     glm::mat4 projectionMatrix() const;
     glm::mat4 viewProjectionMatrix() const;
+
+    //returns camera vertical field of view in degrees
+    float fov();
+
 
     //normalized viewport within a given window,
     //all numerical arguments range from 0 to 1 and are multiplied by the size of the window in all getters and before being passed to OpenGL calls
@@ -35,6 +40,7 @@ public:
 
         //calls glViewport with parameters
         void set() const;
+
         //
         glm::vec2 displayCoordsToViewportCoords(float pixelX, float pixelY) const;
 
@@ -53,7 +59,8 @@ public:
     void setViewport(GLViewPort *viewport);
 
 private:
-    float near, far, fov;
+    float near, far;
+    glm::mat4 m_COPTransform;
     GLViewPort *m_viewport;
     glm::mat4 m_viewMatrix, m_projectionMatrix, m_viewProjectionMatrix;
 

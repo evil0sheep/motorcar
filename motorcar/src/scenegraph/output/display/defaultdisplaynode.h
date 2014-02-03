@@ -14,7 +14,7 @@ namespace motorcar {
 class DefaultDisplayNode : public motorcar::Display
 {
 public:
-    DefaultDisplayNode(OpenGLContext *glContext);
+    DefaultDisplayNode(OpenGLContext *glContext, PhysicalNode &parent, const glm::mat4 &transform);
 
 
 
@@ -23,7 +23,7 @@ public:
     void prepare() override;
     void renderSurfaceNode(motorcar::WaylandSurfaceNode *surfaceNode, motorcar::GLCamera *camera) override;
     motorcar::Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY) override;
-    glm::ivec2 size() override;
+    glm::ivec2 resolution() override;
 
 
 

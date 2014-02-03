@@ -3,7 +3,7 @@
 using namespace motorcar;
 
 Scene::Scene()
-    :SceneGraphNode()
+    :PhysicalNode()
 {
 }
 

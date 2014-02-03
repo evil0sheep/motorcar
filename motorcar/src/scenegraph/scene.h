@@ -1,12 +1,12 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "scenegraphnode.h"
+#include "physicalnode.h"
 #include "output/display/display.h"
 
 namespace motorcar {
 class Display;
-class Scene : public SceneGraphNode
+class Scene : public PhysicalNode
 {
 public:
     Scene();
