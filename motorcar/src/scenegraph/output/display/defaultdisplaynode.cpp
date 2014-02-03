@@ -1,7 +1,6 @@
 #include "defaultdisplaynode.h"
 
 using namespace motorcar;
-using namespace qtmotorcar;
 
 
 
@@ -39,7 +38,7 @@ DefaultDisplayNode::DefaultDisplayNode(OpenGLContext *glContext)
     h_uMVPMatrix  = glGetUniformLocation(m_shaderProgram->handle(), "uMVPMatrix");
 
     if(h_aPosition < 0 || h_aTexCoord < 0 || h_uMVPMatrix < 0 ){
-        qDebug() << "problem with surface shader handles: " << h_aPosition << ", "<< h_aTexCoord << ", " << h_uMVPMatrix ;
+       std::cout << "problem with surface shader handles: " << h_aPosition << ", "<< h_aTexCoord << ", " << h_uMVPMatrix << std::endl;
     }
 
 

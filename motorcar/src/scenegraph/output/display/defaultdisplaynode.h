@@ -1,17 +1,20 @@
 #ifndef DEFAULTDISPLAYNODE_H
 #define DEFAULTDISPLAYNODE_H
 
-#include "../../motorcar/src/motorcar.h"
-#include "qtwaylandmotorcarsurface.h"
+#include "display.h"
+#include "../wayland/waylandsurfacenode.h"
+#include "../../../gl/openglcontext.h"
+#include "../../../gl/openglshader.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <GL/gl.h>
 
 
-namespace qtmotorcar {
+
+namespace motorcar {
 class DefaultDisplayNode : public motorcar::Display
 {
 public:
-    DefaultDisplayNode(motorcar::OpenGLContext *glContext);
+    DefaultDisplayNode(OpenGLContext *glContext);
 
 
 
@@ -28,7 +31,7 @@ public:
 
 
 
-    motorcar::OpenGLContext *glContext() const;
+    OpenGLContext *glContext() const;
     void setGlContext(motorcar::OpenGLContext *glContext);
 
 private:

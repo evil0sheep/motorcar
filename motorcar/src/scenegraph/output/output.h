@@ -5,7 +5,9 @@
 #include "outputelement.h"
 #include "glcameranode.h"
 #include "drawable.h"
-#include "display.h"
+
+#include "display/display.h"
+#include "display/defaultdisplaynode.h"
 
 #include "wayland/waylandsurface.h"
 #include "wayland/waylanddrawable.h"

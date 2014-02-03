@@ -46,7 +46,6 @@
 
 #include "qtwaylandmotorcarsurface.h"
 #include "qtwaylandmotorcaropenglcontext.h"
-#include "defaultdisplaynode.h"
 #include "opengldata.h"
 
 

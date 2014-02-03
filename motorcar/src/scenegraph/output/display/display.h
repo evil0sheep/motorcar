@@ -1,8 +1,8 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
-#include "outputelement.h"
-#include "glcameranode.h"
-#include "drawable.h"
+#include "../outputelement.h"
+#include "../glcameranode.h"
+#include "../drawable.h"
 #include <glm/glm.hpp>
 #include <vector>
 

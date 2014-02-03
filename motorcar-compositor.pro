@@ -18,7 +18,6 @@ HEADERS += \
     qt/src/qtwaylandmotorcarcompositor.h \
     qt/src/qopenglwindow.h \
     qt/src/opengldata.h \
-    qt/src/defaultdisplaynode.h \
     motorcar/src/geometry.h \
     motorcar/src/scenegraph/scenegraphnode.h \
     motorcar/src/scenegraph/scenegraph.h \
@@ -28,7 +27,6 @@ HEADERS += \
     motorcar/src/scenegraph/ioelement.h \
     motorcar/src/scenegraph/scene.h \
     motorcar/src/scenegraph/output/outputelement.h \
-    motorcar/src/scenegraph/output/display.h \
     motorcar/src/scenegraph/output/drawable.h \
     motorcar/src/scenegraph/output/wayland/waylandsurfacenode.h \
     motorcar/src/scenegraph/output/output.h \
@@ -40,7 +38,9 @@ HEADERS += \
     motorcar/src/gl/openglshader.h \
     motorcar/src/gl/GLSLHelper.h \
     motorcar/src/gl/openglcontext.h \
-    qt/src/qtwaylandmotorcaropenglcontext.h
+    qt/src/qtwaylandmotorcaropenglcontext.h \
+    motorcar/src/scenegraph/output/display/display.h \
+    motorcar/src/scenegraph/output/display/defaultdisplaynode.h
 
 
 
@@ -53,7 +53,6 @@ SOURCES += \
     qt/src/qtwaylandmotorcarcompositor.cpp \
     qt/src/qopenglwindow.cpp \
     qt/src/opengldata.cpp \
-    qt/src/defaultdisplaynode.cpp \
     motorcar/src/geometry.cpp \
     motorcar/src/scenegraph/scenegraphnode.cpp \
     motorcar/src/scenegraph/output/glcameranode.cpp \
@@ -62,7 +61,6 @@ SOURCES += \
     motorcar/src/scenegraph/ioelement.cpp \
     motorcar/src/scenegraph/scene.cpp \
     motorcar/src/scenegraph/output/outputelement.cpp \
-    motorcar/src/scenegraph/output/display.cpp \
     motorcar/src/scenegraph/output/drawable.cpp \
     motorcar/src/scenegraph/output/wayland/waylandsurfacenode.cpp \
     motorcar/src/scenegraph/output/wayland/waylandsurface.cpp \
@@ -71,7 +69,9 @@ SOURCES += \
     motorcar/src/gl/openglshader.cpp \
     motorcar/src/gl/GLSLHelper.cpp \
     motorcar/src/gl/openglcontext.cpp \
-    qt/src/qtwaylandmotorcaropenglcontext.cpp
+    qt/src/qtwaylandmotorcaropenglcontext.cpp \
+    motorcar/src/scenegraph/output/display/display.cpp \
+    motorcar/src/scenegraph/output/display/defaultdisplaynode.cpp
 
 
 

@@ -84,7 +84,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
 
 
     QtWaylandMotorcarOpenGLContext *window_context = new QtWaylandMotorcarOpenGLContext(window);
-    setDisplay(new DefaultDisplayNode(window_context));
+    setDisplay(new motorcar::DefaultDisplayNode(window_context));
     display()->addViewpoint(new motorcar::GLCamera(*m_scene, glm::mat4(1), .01, 100, 45, this->display()));
     m_scene->addDisplay(m_display);
     //glClearDepth(0.1f);
@@ -171,7 +171,7 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
     //m_surfaces.removeOne(surface);
     if(surface != NULL){ //because calling getSurfaceNode with NULL will cause the first surface node to be returned
         motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
-        int num_erased = m_surfaceMap.erase (surface);
+        m_surfaceMap.erase (surface);
         delete surfaceNode;
 
     }

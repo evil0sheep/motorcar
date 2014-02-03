@@ -2,7 +2,7 @@
 #define SCENE_H
 
 #include "scenegraphnode.h"
-#include "output/display.h"
+#include "output/display/display.h"
 
 namespace motorcar {
 class Display;
