@@ -20,7 +20,9 @@ public:
     Display(OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode &parent, const glm::mat4 &transform = glm::mat4());
     virtual ~Display();
 
-    virtual void prepare();
+    //set up  and tear down for drawing, make all calls that need to be made only once per frame
+    virtual void prepareForDraw();
+    virtual void finishDraw() {}
 
     //renders the given drawable from all viewpoints
     void renderDrawable(Drawable *node);
@@ -51,17 +53,19 @@ public:
     OpenGLContext *glContext() const;
     void setGlContext(OpenGLContext *glContext);
 
+protected:
+    //attribute buffers
+    GLuint m_textureCoordinates, m_vertexCoordinates;
+
+
 private:
     std::vector<GLCamera *> m_viewpoints;
     glm::vec2 m_size;
     OpenGLContext *m_glContext;
 
     //shaders
-    std::ifstream m_vertexShaderStream, m_fragmentShaderStream;
-    motorcar::OpenGLShader *m_shaderProgram;
+    motorcar::OpenGLShader *m_surfaceShader;
 
-    //attribute buffers
-    GLuint m_textureCoordinates, m_vertexCoordinates;
 
     //shader variable handles
     GLint h_aPosition, h_aTexCoord, h_uMVPMatrix;

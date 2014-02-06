@@ -58,7 +58,6 @@ public:
     TextureBlitter *m_textureBlitter;
     QOpenGLTextureCache *m_textureCache;
     GLuint m_surface_fbo;
-    QOpenGLShaderProgram *m_surfaceShader;
     OpenGLData(QOpenGLWindow *window);
     ~OpenGLData();
 

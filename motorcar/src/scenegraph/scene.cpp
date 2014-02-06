@@ -26,9 +26,12 @@ void Scene::draw(long deltaMillis)
 {
 
     for(Display *display : displays()){
-        display->prepare();
+        display->prepareForDraw();
     }
     this->traverseSceneGraph(this, deltaMillis);
+    for(Display *display : displays()){
+        display->finishDraw();
+    }
 }
 
 

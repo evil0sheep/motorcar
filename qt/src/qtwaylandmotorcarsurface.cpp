@@ -10,13 +10,18 @@ QtWaylandMotorcarSurface::QtWaylandMotorcarSurface(QWaylandSurface *surface, QtW
 
 GLuint QtWaylandMotorcarSurface::texture()
 {
-    m_textureID = composeSurface(m_surface, m_compositor->glData());
+
     return m_textureID;
 }
 
 glm::ivec2 QtWaylandMotorcarSurface::size()
 {
     return glm::ivec2(m_surface->size().width(), m_surface->size().height());
+}
+
+void QtWaylandMotorcarSurface::prepare()
+{
+    m_textureID = composeSurface(m_surface, m_compositor->glData());
 }
 
 GLuint QtWaylandMotorcarSurface::composeSurface(QWaylandSurface *surface, OpenGLData *glData)

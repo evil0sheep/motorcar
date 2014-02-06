@@ -38,7 +38,6 @@
 OpenGLData::OpenGLData(QOpenGLWindow *window)
     : m_window(window)
     , m_textureBlitter(0)
-    , m_surfaceShader(new QOpenGLShaderProgram)
     , m_ppcm(64)
 {
     m_window->makeCurrent();
@@ -54,18 +53,18 @@ OpenGLData::OpenGLData(QOpenGLWindow *window)
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
 
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+//    glEnable(GL_CULL_FACE);
+//    glCullFace(GL_BACK);
+    glDisable(GL_CULL_FACE);
+  //  glDisable(GL_BLEND);
 
     glEnable(GL_BLEND);
     glBlendFunc (GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
 
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-    m_surfaceShader->addShaderFromSourceFile(QOpenGLShader::Vertex, "../motorcar/src/shaders/motorcarsurface.vert");
-    m_surfaceShader->addShaderFromSourceFile(QOpenGLShader::Fragment,"../motorcar/src/shaders/motorcarsurface.frag");
-    m_surfaceShader->link();
+
 }
 
 OpenGLData::~OpenGLData()

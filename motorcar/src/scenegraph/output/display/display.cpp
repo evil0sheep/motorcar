@@ -5,9 +5,7 @@ using namespace motorcar;
 Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode &parent, const glm::mat4 &transform)
     :PhysicalNode(parent, transform)
     ,m_glContext(glContext)
-    ,m_vertexShaderStream("../motorcar/src/shaders/motorcarsurface.vert")
-    ,m_fragmentShaderStream("../motorcar/src/shaders/motorcarsurface.frag")
-    ,m_shaderProgram(new motorcar::OpenGLShader(m_vertexShaderStream, m_fragmentShaderStream))
+    ,m_surfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/motorcarsurface.vert"), std::string("../motorcar/src/shaders/motorcarsurface.frag")))
     ,m_size(displayDimensions)
 
 {
@@ -32,9 +30,9 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates);
     glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertexCoordinates, GL_STATIC_DRAW);
 
-    h_aPosition =  glGetAttribLocation(m_shaderProgram->handle(), "aPosition");
-    h_aTexCoord =  glGetAttribLocation(m_shaderProgram->handle(), "aTexCoord");
-    h_uMVPMatrix  = glGetUniformLocation(m_shaderProgram->handle(), "uMVPMatrix");
+    h_aPosition =  glGetAttribLocation(m_surfaceShader->handle(), "aPosition");
+    h_aTexCoord =  glGetAttribLocation(m_surfaceShader->handle(), "aTexCoord");
+    h_uMVPMatrix  = glGetUniformLocation(m_surfaceShader->handle(), "uMVPMatrix");
 
     if(h_aPosition < 0 || h_aTexCoord < 0 || h_uMVPMatrix < 0 ){
        std::cout << "problem with surface shader handles: " << h_aPosition << ", "<< h_aTexCoord << ", " << h_uMVPMatrix << std::endl;
@@ -44,20 +42,23 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
 Display::~Display()
 
 {
+    delete m_surfaceShader;
 }
 
-void Display::prepare()
+void Display::prepareForDraw()
 {
     for(GLCamera *viewpoint : viewpoints()){
         viewpoint->calculateVPMatrix();
     }
     glContext()->makeCurrent();
+    glClearColor(.7f, .85f, 1.f, 1.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Display::renderDrawable(Drawable *drawable)
 {
     for(GLCamera *viewpoint : m_viewpoints){
+        viewpoint->viewport()->set();
         drawable->drawViewpoint(viewpoint);
     }
 }
@@ -82,9 +83,8 @@ glm::vec2 Display::size() const
 void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera)
 {
     GLuint texture = surfaceNode->surface()->texture();
-    camera->viewport()->set();
 
-    glUseProgram(m_shaderProgram->handle());
+    glUseProgram(m_surfaceShader->handle());
 
     glEnableVertexAttribArray(h_aPosition);
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates);
@@ -98,8 +98,8 @@ void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camer
 
     glBindTexture(GL_TEXTURE_2D, texture);
 
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 

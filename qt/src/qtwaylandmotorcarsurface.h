@@ -16,8 +16,10 @@ namespace qtmotorcar{
         QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor);
         ~QtWaylandMotorcarSurface(){}
 
+        //inherited from WaylandSurface
         GLuint texture() override;
         glm::ivec2 size() override;
+        void prepare() override;
 
          QWaylandSurface *m_surface;
     private:

@@ -13,8 +13,8 @@ namespace motorcar{
 class OpenGLShader
 {
 public:
-    OpenGLShader(std::string &vertexShader, std::string &fragmentShader);
-    OpenGLShader(std::ifstream &vertexShaderStream, std::ifstream &fragmentShaderStream);
+    //OpenGLShader(std::string &vertexShader, std::string &fragmentShader);
+    OpenGLShader(std::string vertexShaderFileName, std::string fragmentShaderFileName);
 
     GLuint handle() const;
 

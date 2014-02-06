@@ -6,5 +6,5 @@ varying vec2 vTexCoord;
 void main(void)
 {
     vTexCoord = aTexCoord;
-    gl_Position = aPosition;
+    gl_Position = vec4(aPosition, 1);
 }

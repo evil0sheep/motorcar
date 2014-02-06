@@ -80,7 +80,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
 
     setOutputGeometry(QRect(QPoint(0, 0), window->size()));
     setOutputRefreshRate(qRound(qGuiApp->primaryScreen()->refreshRate() * 1000.0));
-    glClearColor(.7f, .85f, 1.f, 1.0f);
+
 
 
 
@@ -217,10 +217,10 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
             //m_surfaces.append(surface);
             int n = 1000;
             glm::mat4 transform = glm::mat4(1)
-                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(0, 1, 0))
-                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(1, 0, 0))
+//                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(0, 1, 0))
+//                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(1, 0, 0))
                     //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
-                    * glm::translate(glm::mat4(1), glm::vec3(0,0,.3f));
+                    * glm::translate(glm::mat4(1), glm::vec3(0,0,.1f));
             motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), *m_scene, transform);
             defaultInputDevice()->setKeyboardFocus(surface);
 

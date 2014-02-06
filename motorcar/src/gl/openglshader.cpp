@@ -3,13 +3,14 @@
 
 using namespace motorcar;
 
-OpenGLShader::OpenGLShader(std::string &vertexShader, std::string &fragmentShader)
-{
-    compileShaderFromStrings(vertexShader, fragmentShader);
-}
+//OpenGLShader::OpenGLShader(std::string &vertexShader, std::string &fragmentShader)
+//{
+//    compileShaderFromStrings(vertexShader, fragmentShader);
+//}
 
-OpenGLShader::OpenGLShader(std::ifstream &vertexShaderStream, std::ifstream &fragmentShaderStream)
+OpenGLShader::OpenGLShader(std::string vertexShaderFileName, std::string fragmentShaderFileName)
 {
+    std::ifstream vertexShaderStream(vertexShaderFileName), fragmentShaderStream(fragmentShaderFileName) ;
     std::string vertexShader, fragmentShader;
 
     //intitialize
@@ -28,6 +29,9 @@ OpenGLShader::OpenGLShader(std::ifstream &vertexShaderStream, std::ifstream &fra
                      std::istreambuf_iterator<char>());
 
     //std::cout << vertexShader << std::endl << fragmentShader << std::endl;
+
+    vertexShaderStream.close();
+    fragmentShaderStream.close();
 
     m_handle = compileShaderFromStrings(vertexShader, fragmentShader);
 
