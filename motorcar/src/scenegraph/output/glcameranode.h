@@ -48,6 +48,8 @@ public:
         //takes a buffer of at least 8 floats and fills it with the UV space texture coordinates for the four corners of the viewport
         void uvCoords(float *buf);
 
+        //returns a vector of the four floats which this was constructed on
+        glm::vec4 viewportParams() const;
 
         Display *display() const;
         void setDisplay(Display *display);
@@ -63,6 +65,7 @@ public:
     void setViewport(GLViewPort *viewport);
 
     glm::vec4 centerOfFocus() const;
+
 
 private:
     float near, far;

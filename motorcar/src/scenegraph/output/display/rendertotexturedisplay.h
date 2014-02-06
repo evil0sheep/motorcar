@@ -26,7 +26,8 @@ private:
     motorcar::OpenGLShader *m_distortionShader;
 
     //shader variable handles
-    GLint h_aPosition_distortion, h_aTexCoord_distortion;
+    GLint h_aPosition_distortion, h_aTexCoord_distortion, h_uDistortionK, h_uLenseCenter, h_uViewportParams;
+
 
 };
 }

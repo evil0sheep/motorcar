@@ -173,3 +173,8 @@ glm::vec4 GLCamera::centerOfFocus() const
     return m_centerOfFocus;
 }
 
+glm::vec4 GLCamera::GLViewPort::viewportParams() const
+{
+    return glm::vec4(m_offsetX, m_offsetY, m_width, m_height);
+}
+

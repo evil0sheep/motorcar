@@ -58,7 +58,6 @@ void Display::prepareForDraw()
 void Display::renderDrawable(Drawable *drawable)
 {
     for(GLCamera *viewpoint : m_viewpoints){
-        viewpoint->viewport()->set();
         drawable->drawViewpoint(viewpoint);
     }
 }
@@ -82,6 +81,8 @@ glm::vec2 Display::size() const
 
 void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera)
 {
+    camera->viewport()->set();
+
     GLuint texture = surfaceNode->surface()->texture();
 
     glUseProgram(m_surfaceShader->handle());

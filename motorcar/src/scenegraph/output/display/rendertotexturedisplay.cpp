@@ -11,9 +11,19 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
 
     h_aPosition_distortion =  glGetAttribLocation(m_distortionShader->handle(), "aPosition");
     h_aTexCoord_distortion =  glGetAttribLocation(m_distortionShader->handle(), "aTexCoord");
+    h_uDistortionK         =  glGetUniformLocation(m_distortionShader->handle(), "uDistortionK");
+    h_uLenseCenter         =  glGetUniformLocation(m_distortionShader->handle(), "uLenseCenter");
+    h_uViewportParams     =  glGetUniformLocation(m_distortionShader->handle(), "uViewportParams");
 
-    if(h_aPosition_distortion < 0 || h_aTexCoord_distortion < 0){
-       std::cout << "problem with surface shader handles: " << h_aPosition_distortion << ", "<< h_aTexCoord_distortion << std::endl;
+
+    if(h_aPosition_distortion < 0 || h_aTexCoord_distortion < 0 || h_uDistortionK < 0 || h_uLenseCenter < 0|| h_uViewportParams < 0){
+       std::cout << "problem with distortion shader handles: "
+                 << h_aPosition_distortion
+                 << ", "<< h_aTexCoord_distortion
+                 << ", "<< h_uDistortionK
+                 << ", "<< h_uLenseCenter
+                 << ", "<< h_uViewportParams
+                 << std::endl;
     }
 
 
@@ -71,7 +81,7 @@ void RenderToTextureDisplay::prepareForDraw()
     Display::prepareForDraw();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glClearColor(1.f, 0.f, 0.f, 1.0f);
+    glClearColor(0.f, 0.f, 0.f, 1.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -92,6 +102,12 @@ void RenderToTextureDisplay::finishDraw()
     for(GLCamera *cam : viewpoints()){
         cam->viewport()->uvCoords(texCoords);
         cam->viewport()->set();
+
+
+        glUniform4fv(h_uLenseCenter, 1, glm::value_ptr(glm::vec2(cam->centerOfFocus())));
+        glUniform4fv(h_uViewportParams, 1, glm::value_ptr(cam->viewport()->viewportParams()));
+        glUniform4fv(h_uDistortionK, 1, glm::value_ptr(m_distortionK));
+
 
         glEnableVertexAttribArray(h_aTexCoord_distortion);
         glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordinates_distortion);
