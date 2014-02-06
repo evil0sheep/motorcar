@@ -30,13 +30,16 @@ public:
 
     //for legacy mouse support
     //projects mouse position into worldpace based on implementation specific details
-    virtual Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);
+    virtual Geometry::Ray worldRayAtDisplayPosition(glm::vec2 pixel);
+
+    glm::vec3 worldPositionAtDisplayPosition(glm::vec2 pixel);
 
     //returns resolution of this display in pixels
     virtual glm::ivec2 resolution();
 
     //returns the size of this display in meters
-    glm::vec2 size() const;
+    virtual glm::vec2 size() const;
+
 
     void addViewpoint(GLCamera *v);
 

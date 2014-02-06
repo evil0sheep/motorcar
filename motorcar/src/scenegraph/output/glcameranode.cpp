@@ -3,22 +3,27 @@
 
 using namespace motorcar;
 
-GLCamera::GLCamera(SceneGraphNode &parent, glm::mat4 transform, float near, float far, Display *display, glm::vec3 centerOfProjection)
+GLCamera::GLCamera(float near, float far, Display *display, SceneGraphNode &parent, glm::mat4 transform, glm::vec4 viewPortParams, glm::vec3 centerOfProjection)
     :VirtualNode(parent, transform)
     , near(near)
     , far(far)
-    , m_COPTransform(glm::translate(glm::mat4(1), centerOfProjection))
-    , m_viewport(new GLViewPort(0, 0, 1, 1, display))
+    , m_centerOfFocus(centerOfProjection, 1)
+    , m_COFTransform(glm::translate(glm::mat4(1), centerOfProjection))
+    , m_viewport(new GLViewPort(viewPortParams.x, viewPortParams.y, viewPortParams.z, viewPortParams.w, display))
 
 {
     calculateVPMatrix();
     std::cout << "Camera FOV: " << fov() <<std::endl;
 }
 
+GLCamera::~GLCamera()
+{
+    delete m_viewport;
+}
+
 
 Geometry::Ray GLCamera::worldRayAtDisplayPosition(float pixelX, float pixelY)
 {
-
 
     glm::vec2 normalizedPixelPos = -1.f * m_viewport->displayCoordsToViewportCoords(pixelX, pixelY);
     float h = (m_viewport->height()/m_viewport->width()) /2;
@@ -32,7 +37,7 @@ Geometry::Ray GLCamera::worldRayAtDisplayPosition(float pixelX, float pixelY)
 void GLCamera::calculateVPMatrix()
 {
 
-    m_projectionMatrix = m_COPTransform * glm::perspective(fov(), (m_viewport->width())/ (m_viewport->height()), near, far);
+    m_projectionMatrix = m_COFTransform * glm::perspective(fov(), (m_viewport->width())/ (m_viewport->height()), near, far);
 
     glm::mat4 trans = worldTransform();
     glm::vec3 center = glm::vec3(trans * glm::vec4(0, 0, 0, 1));
@@ -145,3 +150,9 @@ void GLCamera::GLViewPort::setDisplay(Display *display)
 {
     m_display = display;
 }
+
+glm::vec4 GLCamera::centerOfFocus() const
+{
+    return m_centerOfFocus;
+}
+

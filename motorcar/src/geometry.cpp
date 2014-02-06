@@ -34,7 +34,7 @@
 ****************************************************************************/
 
 #include "geometry.h"
-#include <QtDebug>
+
 
 using namespace motorcar;
 
@@ -55,7 +55,7 @@ glm::vec3 Geometry::Ray::solve(float t) const
 
 void Geometry::Ray::print() const
 {
-    qDebug() << "p : <" << p.x << ", " << p.y << ", " << p.z <<  "> d : <" << d.x << ", " << d.y << ", " << d.z <<  ">";
+    std::cout << "p : <" << p.x << ", " << p.y << ", " << p.z <<  "> d : <" << d.x << ", " << d.y << ", " << d.z <<  ">" << std::endl;
 }
 
 
@@ -82,7 +82,12 @@ void Geometry::printMatrix(glm::mat4 m)
             glm::vec4 row= glm::row(m, i);
             printf("%2.2f %2.2f %2.2f %2.2f\n", row.x, row.y, row.z, row.w);
         }
-        printf("\n");
+    printf("\n");
+}
+
+void Geometry::printVector(glm::vec3 v)
+{
+    std::cout << "<" << v.x << ", " << v.y << ", " << v.z << ">" << std::endl;
 }
 
 

@@ -40,7 +40,9 @@ HEADERS += \
     motorcar/src/gl/openglcontext.h \
     qt/src/qtwaylandmotorcaropenglcontext.h \
     motorcar/src/scenegraph/output/display/display.h \
-    motorcar/src/scenegraph/output/display/distortedrendertotexturedisplay.h
+    motorcar/src/device/oculushmdcontroller.h \
+    motorcar/src/scenegraph/output/display/rendertotexturedisplay.h \
+    motorcar/src/device/device.h
 
 
 
@@ -71,7 +73,8 @@ SOURCES += \
     motorcar/src/gl/openglcontext.cpp \
     qt/src/qtwaylandmotorcaropenglcontext.cpp \
     motorcar/src/scenegraph/output/display/display.cpp \
-    motorcar/src/scenegraph/output/display/distortedrendertotexturedisplay.cpp
+    motorcar/src/device/oculushmdcontroller.cpp \
+    motorcar/src/scenegraph/output/display/rendertotexturedisplay.cpp
 
 
 
@@ -100,7 +103,10 @@ OTHER_FILES += \
     src/motorcar/shaders/motorcarsurface.vert \
     src/motorcar/shaders/motorcarsurface.frag \
     motorcar/src/shaders/motorcarsurface.vert \
-    motorcar/src/shaders/motorcarsurface.frag
+    motorcar/src/shaders/motorcarsurface.frag \
+    motorcar/src/device/foo \
+    motorcar/src/shaders/motorcarbarreldistortion.frag \
+    motorcar/src/shaders/motorcarbarreldistortion.vert
 
 
 

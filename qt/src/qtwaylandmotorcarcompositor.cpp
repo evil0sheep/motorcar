@@ -80,13 +80,31 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
 
     setOutputGeometry(QRect(QPoint(0, 0), window->size()));
     setOutputRefreshRate(qRound(qGuiApp->primaryScreen()->refreshRate() * 1000.0));
-    glClearColor(0.f, 0.f, 0.f, 1.0f);
+    glClearColor(.7f, .85f, 1.f, 1.0f);
 
 
+
+
+
+    float camToDisplayDistance = 0.1;
     QtWaylandMotorcarOpenGLContext *window_context = new QtWaylandMotorcarOpenGLContext(window);
-    setDisplay(new motorcar::Display(window_context, glm::vec2(0.325, 0.1), *m_scene, glm::mat4(1)));
-    display()->addViewpoint(new motorcar::GLCamera(*m_scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, -0.2)), .01, 100, this->display()));
+//    setDisplay(new motorcar::Display(window_context, glm::vec2(0.325, 0.1), *m_scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance))));
+//    display()->addViewpoint(new motorcar::GLCamera( .01, 100, display(), *display(), glm::translate(glm::mat4(1), glm::vec3(0, 0, -camToDisplayDistance))));
+
+    motorcar::OculusHMDController *controller = new motorcar::OculusHMDController();
+
+    setDisplay(controller->getDisplay(window_context, *scene()));
+
     m_scene->addDisplay(m_display);
+
+
+    motorcar::Display testDisplay(window_context, glm::vec2(1), *m_scene, glm::mat4(1));
+    for(int i = 0; i < 2 ; i++){
+        for(int j = 0; j < 2; j++){
+            motorcar::Geometry::printVector(testDisplay.worldPositionAtDisplayPosition(glm::vec2(i * window->size().width(), j * window->size().height())));
+        }
+    }
+
     //glClearDepth(0.1f);
 }
 
@@ -202,7 +220,7 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
                     * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(0, 1, 0))
                     * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(1, 0, 0))
                     //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
-                    * glm::translate(glm::mat4(1), glm::vec3(0,0,.5f));
+                    * glm::translate(glm::mat4(1), glm::vec3(0,0,.3f));
             motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), *m_scene, transform);
             defaultInputDevice()->setKeyboardFocus(surface);
 
@@ -279,7 +297,7 @@ QPointF QtWaylandMotorcarCompositor::toSurface(QWaylandSurface *surface, const Q
     motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
 
     if(surfaceNode != NULL){
-        motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(point.x(), point.y());
+        motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(glm::vec2(point.x(), point.y()));
         ray = ray.transform(glm::inverse(surfaceNode->worldTransform()));
         float t;
         glm::vec2 intersection;
@@ -310,7 +328,7 @@ void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int
 
 QWaylandSurface *QtWaylandMotorcarCompositor::surfaceAt(const QPointF &point, QPointF *local)
 {
-    motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(point.x(), point.y());
+    motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(glm::vec2(point.x(), point.y()));
     motorcar::Geometry::RaySurfaceIntersection *intersection = m_scene->intersectWithSurfaces(ray);
 
     if(intersection){

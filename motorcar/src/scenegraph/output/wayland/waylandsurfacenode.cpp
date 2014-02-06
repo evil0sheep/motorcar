@@ -6,7 +6,7 @@ WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode &
     :WaylandDrawable(parent, transform)
 {
     this->setSurface(surface);
-    computeSurfaceTransform(64);
+
 }
 
 WaylandSurface *WaylandSurfaceNode::surface() const
@@ -43,8 +43,10 @@ bool WaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &lo
     Geometry::Ray transformedRay = localRay.transform(glm::inverse(surfaceTransform()));
 
     t = surfacePlane.intersect(transformedRay);
+    std::cout << "t = " << t << std::endl;
     glm::vec3 intersection = transformedRay.solve(t);
 
+    Geometry::printVector(glm::vec3(intersection));
     glm::vec3 coords= intersection * glm::vec3(m_surface->size().x, m_surface->size().y, 0);
     localIntersection =  glm::vec2(coords);
 
@@ -63,6 +65,7 @@ Geometry::RaySurfaceIntersection *WaylandSurfaceNode::intersectWithSurfaces(cons
 
     if(isIntersected && (closestSubtreeIntersection == NULL || t < closestSubtreeIntersection-> t)){
 
+
         if(localIntersection.x >= 0 && localIntersection.x <= m_surface->size().x && localIntersection.y >= 0 && localIntersection.y <= m_surface->size().y){
             return new Geometry::RaySurfaceIntersection(this, localIntersection, ray, t);
         }else{
@@ -76,5 +79,6 @@ Geometry::RaySurfaceIntersection *WaylandSurfaceNode::intersectWithSurfaces(cons
 
 void WaylandSurfaceNode::drawViewpoint(GLCamera *viewpoint)
 {
+    computeSurfaceTransform(64);
     viewpoint->viewport()->display()->renderSurfaceNode(this, viewpoint);
 }

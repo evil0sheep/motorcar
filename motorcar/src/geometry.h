@@ -42,6 +42,7 @@
 #include "glm/gtc/matrix_access.hpp"
 //#include "opengldata.h"
 #include <stdio.h>
+#include <iostream>
 
 namespace motorcar{
 class WaylandSurfaceNode;
@@ -50,6 +51,7 @@ class Geometry
 public:
 
     static void printMatrix(glm::mat4 m);
+    static void printVector(glm::vec3 v);
 
     struct Ray
     {

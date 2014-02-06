@@ -114,11 +114,28 @@ void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camer
 
 
 
-
-
-Geometry::Ray Display::worldRayAtDisplayPosition(float pixelX, float pixelY)
+Geometry::Ray Display::worldRayAtDisplayPosition(glm::vec2 pixel)
 {
-    return viewpoints().front()->worldRayAtDisplayPosition(pixelX, pixelY);
+    GLCamera *cam = viewpoints().front();
+//    glm::vec3 cameraCenterOfFocus(cam->worldTransform() * cam->centerOfFocus());
+//    glm::vec3 pixelPos = worldPositionAtDisplayPosition(pixel);
+//    Geometry::printVector(pixelPos);
+//    std::cout << std::endl;
+
+//    Geometry::Ray ray(cameraCenterOfFocus, glm::normalize(pixelPos - cameraCenterOfFocus));
+//    //ray.print();
+//    return ray;
+    return cam->worldRayAtDisplayPosition(pixel.x, pixel.y);
+}
+
+glm::vec3 Display::worldPositionAtDisplayPosition(glm::vec2 pixel)
+{
+    Geometry::printVector(glm::vec3(pixel, 0));
+    Geometry::printVector(glm::vec3(resolution(), 0));
+    Geometry::printVector(glm::vec3(size(), 0));
+
+
+    return glm::vec3(worldTransform() * glm::vec4(((pixel / glm::vec2(resolution())) - glm::vec2(0.5)) * size(), 0 , 1));
 }
 
 glm::ivec2 Display::resolution()
