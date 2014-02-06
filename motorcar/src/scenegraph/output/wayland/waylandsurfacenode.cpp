@@ -46,7 +46,7 @@ bool WaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &lo
     std::cout << "t = " << t << std::endl;
     glm::vec3 intersection = transformedRay.solve(t);
 
-    Geometry::printVector(glm::vec3(intersection));
+    //Geometry::printVector(glm::vec3(intersection));
     glm::vec3 coords= intersection * glm::vec3(m_surface->size().x, m_surface->size().y, 0);
     localIntersection =  glm::vec2(coords);
 

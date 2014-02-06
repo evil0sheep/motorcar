@@ -98,13 +98,13 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
     m_scene->addDisplay(m_display);
 
 
-    motorcar::Display testDisplay(window_context, glm::vec2(1), *m_scene, glm::mat4(1));
-    for(int i = 0; i < 2 ; i++){
-        for(int j = 0; j < 2; j++){
-            motorcar::Geometry::printVector(testDisplay.worldPositionAtDisplayPosition(glm::vec2(i * window->size().width(), j * window->size().height())));
-        }
-    }
-    m_renderScheduler.start(0);
+//    motorcar::Display testDisplay(window_context, glm::vec2(1), *m_scene, glm::mat4(1));
+//    for(int i = 0; i < 2 ; i++){
+//        for(int j = 0; j < 2; j++){
+//            motorcar::Geometry::printVector(testDisplay.worldPositionAtDisplayPosition(glm::vec2(i * window->size().width(), j * window->size().height())));
+//        }
+//    }
+   //m_renderScheduler.start(0);
     //glClearDepth(0.1f);
 }
 

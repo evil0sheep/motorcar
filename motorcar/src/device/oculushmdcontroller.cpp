@@ -27,6 +27,8 @@ Display *OculusHMDController::getDisplay(OpenGLContext *glContext, PhysicalNode 
         float h_meters = HScreenSize / 4 - LensSeparationDistance / 2;
         float h = (4 * h_meters) / HScreenSize ;
 
+        std::cout << "H: " << h <<std::endl;
+
         m_display = new RenderToTextureDisplay(scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0, 0, EyeToScreenDistance)));
 
         GLCamera *lCam = new GLCamera(near, far, m_display, *m_display,

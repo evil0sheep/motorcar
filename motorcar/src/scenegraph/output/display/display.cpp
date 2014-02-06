@@ -131,9 +131,9 @@ Geometry::Ray Display::worldRayAtDisplayPosition(glm::vec2 pixel)
 
 glm::vec3 Display::worldPositionAtDisplayPosition(glm::vec2 pixel)
 {
-    Geometry::printVector(glm::vec3(pixel, 0));
-    Geometry::printVector(glm::vec3(resolution(), 0));
-    Geometry::printVector(glm::vec3(size(), 0));
+//    Geometry::printVector(glm::vec3(pixel, 0));
+//    Geometry::printVector(glm::vec3(resolution(), 0));
+//    Geometry::printVector(glm::vec3(size(), 0));
 
 
     return glm::vec3(worldTransform() * glm::vec4(((pixel / glm::vec2(resolution())) - glm::vec2(0.5)) * size(), 0 , 1));

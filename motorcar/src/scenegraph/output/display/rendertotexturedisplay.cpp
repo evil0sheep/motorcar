@@ -15,6 +15,7 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     h_uLenseCenter         =  glGetUniformLocation(m_distortionShader->handle(), "uLenseCenter");
     h_uViewportParams     =  glGetUniformLocation(m_distortionShader->handle(), "uViewportParams");
 
+    printOpenGLError();
 
     if(h_aPosition_distortion < 0 || h_aTexCoord_distortion < 0 || h_uDistortionK < 0 || h_uLenseCenter < 0|| h_uViewportParams < 0){
        std::cout << "problem with distortion shader handles: "
@@ -103,7 +104,7 @@ void RenderToTextureDisplay::finishDraw()
         cam->viewport()->uvCoords(texCoords);
         cam->viewport()->set();
 
-
+        std::cout << "H2: " << cam->centerOfFocus().x << std::endl;
         glUniform4fv(h_uLenseCenter, 1, glm::value_ptr(glm::vec2(cam->centerOfFocus())));
         glUniform4fv(h_uViewportParams, 1, glm::value_ptr(cam->viewport()->viewportParams()));
         glUniform4fv(h_uDistortionK, 1, glm::value_ptr(m_distortionK));
