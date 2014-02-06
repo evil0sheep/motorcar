@@ -42,8 +42,11 @@ public:
         //calls glViewport with parameters
         void set() const;
 
-        //
+
         glm::vec2 displayCoordsToViewportCoords(float pixelX, float pixelY) const;
+
+        //takes a buffer of at least 8 floats and fills it with the UV space texture coordinates for the four corners of the viewport
+        void uvCoords(float *buf);
 
 
         Display *display() const;

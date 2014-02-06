@@ -104,7 +104,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
             motorcar::Geometry::printVector(testDisplay.worldPositionAtDisplayPosition(glm::vec2(i * window->size().width(), j * window->size().height())));
         }
     }
-
+    m_renderScheduler.start(0);
     //glClearDepth(0.1f);
 }
 

@@ -17,14 +17,14 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     }
 
 
-
-
     const GLfloat vertexCoordinates[] ={
        -1.0f, -1.0f, 0.0f,
-        1.0f, -1.0f, 0.0f,
+       -1.0f,  1.0f, 0.0f,
         1.0f,  1.0f, 0.0f,
-       -1.0f,  1.0f, 0.0f
+        1.0f, -1.0f, 0.0f
     };
+
+    glGenBuffers(1, &m_textureCoordinates_distortion);
 
     glGenBuffers(1, &m_vertexCoordinates_distortion);
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates_distortion);
@@ -83,16 +83,24 @@ void RenderToTextureDisplay::finishDraw()
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates_distortion);
     glVertexAttribPointer(h_aPosition_distortion, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glEnableVertexAttribArray(h_aTexCoord_distortion);
-    glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordinates);
-    glVertexAttribPointer(h_aTexCoord_distortion, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-
     glBindTexture(GL_TEXTURE_2D, m_frameBufferTexture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    GLfloat texCoords [8];
+
+    for(GLCamera *cam : viewpoints()){
+        cam->viewport()->uvCoords(texCoords);
+        cam->viewport()->set();
+
+        glEnableVertexAttribArray(h_aTexCoord_distortion);
+        glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordinates_distortion);
+        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), texCoords, GL_STATIC_DRAW);
+        glVertexAttribPointer(h_aTexCoord_distortion, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    }
 
     glBindTexture(GL_TEXTURE_2D, 0);
 

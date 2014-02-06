@@ -114,6 +114,23 @@ glm::vec2 GLCamera::GLViewPort::displayCoordsToViewportCoords(float pixelX, floa
     return glm::vec2(((pixelX - offsetX()) / width() - 0.5f), ((pixelY - offsetY()) / height()  - 0.5f) * (height() / width()));
 }
 
+void GLCamera::GLViewPort::uvCoords(float *buf)
+{
+    buf[0] = m_offsetX;
+    buf[1] = m_offsetY;
+
+    buf[2] = m_offsetX;
+    buf[3] = m_offsetY + m_height;
+
+    buf[4] = m_offsetX + m_width;
+    buf[5] = m_offsetY + m_height;
+
+    buf[6] = m_offsetX + m_width;
+    buf[7] = m_offsetY;
+
+
+}
+
 
 float GLCamera::GLViewPort::height() const
 {

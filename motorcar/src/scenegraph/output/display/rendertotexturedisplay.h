@@ -21,7 +21,7 @@ public:
 private:
     float m_scale;
     glm::vec4 m_distortionK;
-    GLuint m_frameBuffer, m_frameBufferTexture, m_depthBuffer, m_vertexCoordinates_distortion;
+    GLuint m_frameBuffer, m_frameBufferTexture, m_depthBuffer, m_textureCoordinates_distortion, m_vertexCoordinates_distortion;
     //shaders
     motorcar::OpenGLShader *m_distortionShader;
 
