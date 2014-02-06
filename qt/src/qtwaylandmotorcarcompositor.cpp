@@ -217,8 +217,8 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
             //m_surfaces.append(surface);
             int n = 1000;
             glm::mat4 transform = glm::mat4(1)
-//                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(0, 1, 0))
-//                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 25, glm::vec3(1, 0, 0))
+                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 55, glm::vec3(0, 1, 0))
+                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 45, glm::vec3(1, 0, 0))
                     //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
                     * glm::translate(glm::mat4(1), glm::vec3(0,0,.1f));
             motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), *m_scene, transform);

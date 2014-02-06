@@ -20,14 +20,13 @@ Display *OculusHMDController::getDisplay(OpenGLContext *glContext, PhysicalNode 
               InterpupillaryDistance = .0647;
         int HResolution = 1280 , VResolution  = 800 ;
         glm::vec4 DistortionK = glm::vec4(1, .22, .24, 0);
-        float scaleFactor = 1;
+        float scaleFactor = 1.25;
 
         float near = .01, far = 100;
 
         float h_meters = HScreenSize / 4 - LensSeparationDistance / 2;
         float h = (4 * h_meters) / HScreenSize ;
 
-        std::cout << "H: " << h <<std::endl;
 
         m_display = new RenderToTextureDisplay(scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0, 0, EyeToScreenDistance)));
 

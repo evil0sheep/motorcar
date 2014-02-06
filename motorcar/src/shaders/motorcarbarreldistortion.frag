@@ -1,8 +1,13 @@
 uniform sampler2D uTexSampler;
+
+//barrel distortion coefficients
 uniform vec4 uDistortionK;
+//offset and size of view in uv space
 uniform vec4 uViewportParams;
 //lense center in NDC Space
 uniform vec2 uLenseCenter;
+uniform float uScaleFactor;
+
 varying vec2 vTexCoord;
 
 //Fragment position in Uniform Device Coordinates [-1, 1]^2
@@ -22,7 +27,7 @@ void main(void)
     vec2 rVecDistorted = rVecIn * (k[0] + k[1] * rSq + k[2] * rSq * rSq + k[3] * rSq * rSq * rSq);
 
     //Fragment position in Uniform Device Coordinates with barrel distortion applied
-    vec2 newUDCPos = rVecDistorted + uLenseCenter;
+    vec2 newUDCPos = rVecDistorted / uScaleFactor + uLenseCenter;
 
 
 

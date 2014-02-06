@@ -9,21 +9,23 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     ,m_distortionShader(new motorcar::OpenGLShader("../motorcar/src/shaders/motorcarbarreldistortion.vert", "../motorcar/src/shaders/motorcarbarreldistortion.frag"))
 {
 
-    h_aPosition_distortion =  glGetAttribLocation(m_distortionShader->handle(), "aPosition");
-    h_aTexCoord_distortion =  glGetAttribLocation(m_distortionShader->handle(), "aTexCoord");
-    h_uDistortionK         =  glGetUniformLocation(m_distortionShader->handle(), "uDistortionK");
-    h_uLenseCenter         =  glGetUniformLocation(m_distortionShader->handle(), "uLenseCenter");
-    h_uViewportParams     =  glGetUniformLocation(m_distortionShader->handle(), "uViewportParams");
+    h_aPosition =  glGetAttribLocation(m_distortionShader->handle(), "aPosition");
+    h_aTexCoord =  glGetAttribLocation(m_distortionShader->handle(), "aTexCoord");
+    h_uDistortionK =  glGetUniformLocation(m_distortionShader->handle(), "uDistortionK");
+    h_uLenseCenter =  glGetUniformLocation(m_distortionShader->handle(), "uLenseCenter");
+    h_uViewportParams =  glGetUniformLocation(m_distortionShader->handle(), "uViewportParams");
+    h_uScaleFactor = glGetUniformLocation(m_distortionShader->handle(), "uScaleFactor");
 
-    printOpenGLError();
+    //printOpenGLError();
 
-    if(h_aPosition_distortion < 0 || h_aTexCoord_distortion < 0 || h_uDistortionK < 0 || h_uLenseCenter < 0|| h_uViewportParams < 0){
+    if(h_aPosition < 0 || h_aTexCoord < 0 || h_uDistortionK < 0 || h_uLenseCenter < 0|| h_uViewportParams < 0 || h_uScaleFactor < 0){
        std::cout << "problem with distortion shader handles: "
-                 << h_aPosition_distortion
-                 << ", "<< h_aTexCoord_distortion
+                 << h_aPosition
+                 << ", "<< h_aTexCoord
                  << ", "<< h_uDistortionK
                  << ", "<< h_uLenseCenter
                  << ", "<< h_uViewportParams
+                 << ", "<< h_uScaleFactor
                  << std::endl;
     }
 
@@ -35,10 +37,10 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
         1.0f, -1.0f, 0.0f
     };
 
-    glGenBuffers(1, &m_textureCoordinates_distortion);
+    glGenBuffers(1, &m_textureCoordinates);
 
-    glGenBuffers(1, &m_vertexCoordinates_distortion);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates_distortion);
+    glGenBuffers(1, &m_vertexCoordinates);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates);
     glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertexCoordinates, GL_STATIC_DRAW);
 
 
@@ -90,9 +92,9 @@ void RenderToTextureDisplay::finishDraw()
 {
     glUseProgram(m_distortionShader->handle());
 
-    glEnableVertexAttribArray(h_aPosition_distortion);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates_distortion);
-    glVertexAttribPointer(h_aPosition_distortion, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(h_aPosition);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates);
+    glVertexAttribPointer(h_aPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindTexture(GL_TEXTURE_2D, m_frameBufferTexture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -100,29 +102,34 @@ void RenderToTextureDisplay::finishDraw()
 
     GLfloat texCoords [8];
 
+    float temp_scale = m_scale;
+    m_scale = 1;
+
     for(GLCamera *cam : viewpoints()){
         cam->viewport()->uvCoords(texCoords);
         cam->viewport()->set();
 
-        std::cout << "H2: " << cam->centerOfFocus().x << std::endl;
-        glUniform4fv(h_uLenseCenter, 1, glm::value_ptr(glm::vec2(cam->centerOfFocus())));
+
+        glUniform2fv(h_uLenseCenter, 1, glm::value_ptr(glm::vec2(cam->centerOfFocus())));
         glUniform4fv(h_uViewportParams, 1, glm::value_ptr(cam->viewport()->viewportParams()));
         glUniform4fv(h_uDistortionK, 1, glm::value_ptr(m_distortionK));
+        glUniform1f(h_uScaleFactor, temp_scale);
 
 
-        glEnableVertexAttribArray(h_aTexCoord_distortion);
-        glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordinates_distortion);
+        glEnableVertexAttribArray(h_aTexCoord);
+        glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordinates);
         glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), texCoords, GL_STATIC_DRAW);
-        glVertexAttribPointer(h_aTexCoord_distortion, 2, GL_FLOAT, GL_FALSE, 0, 0);
+        glVertexAttribPointer(h_aTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
     }
+    m_scale = temp_scale;
 
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    glDisableVertexAttribArray(h_aPosition_distortion);
-    glDisableVertexAttribArray(h_aTexCoord_distortion);
+    glDisableVertexAttribArray(h_aPosition);
+    glDisableVertexAttribArray(h_aTexCoord);
 
     glUseProgram(0);
 }

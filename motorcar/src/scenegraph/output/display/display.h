@@ -53,9 +53,8 @@ public:
     OpenGLContext *glContext() const;
     void setGlContext(OpenGLContext *glContext);
 
-protected:
-    //attribute buffers
-    GLuint m_textureCoordinates, m_vertexCoordinates;
+
+
 
 
 private:
@@ -66,6 +65,8 @@ private:
     //shaders
     motorcar::OpenGLShader *m_surfaceShader;
 
+    //attribute buffers
+    GLuint m_textureCoordinates, m_vertexCoordinates;
 
     //shader variable handles
     GLint h_aPosition, h_aTexCoord, h_uMVPMatrix;

@@ -21,12 +21,12 @@ public:
 private:
     float m_scale;
     glm::vec4 m_distortionK;
-    GLuint m_frameBuffer, m_frameBufferTexture, m_depthBuffer, m_textureCoordinates_distortion, m_vertexCoordinates_distortion;
+    GLuint m_frameBuffer, m_frameBufferTexture, m_depthBuffer, m_textureCoordinates, m_vertexCoordinates;
     //shaders
     motorcar::OpenGLShader *m_distortionShader;
 
     //shader variable handles
-    GLint h_aPosition_distortion, h_aTexCoord_distortion, h_uDistortionK, h_uLenseCenter, h_uViewportParams;
+    GLint h_aPosition, h_aTexCoord, h_uDistortionK, h_uLenseCenter, h_uViewportParams, h_uScaleFactor;
 
 
 };

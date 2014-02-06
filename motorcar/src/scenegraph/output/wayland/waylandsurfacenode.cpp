@@ -43,7 +43,7 @@ bool WaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &lo
     Geometry::Ray transformedRay = localRay.transform(glm::inverse(surfaceTransform()));
 
     t = surfacePlane.intersect(transformedRay);
-    std::cout << "t = " << t << std::endl;
+    //std::cout << "t = " << t << std::endl;
     glm::vec3 intersection = transformedRay.solve(t);
 
     //Geometry::printVector(glm::vec3(intersection));
