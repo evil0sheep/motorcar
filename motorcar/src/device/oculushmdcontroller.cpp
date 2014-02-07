@@ -5,22 +5,20 @@ using namespace OVR;
 //using namespace OVR::Platform;
 //using namespace OVR::Render;
 
-OculusHMDController::OculusHMDController()
-    :m_display(NULL)
-    ,m_isInitialized(false)
+OculusHMD::OculusHMD(OVRSystem *system, float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode &parent, const glm::mat4 &transform)
+    :RenderToTextureDisplay(scale, distortionK, glContext, displayDimensions, parent, transform)
+    , m_system(system)
 {
- m_isInitialized = initializeDevice();
-
 }
 
-OculusHMDController::~OculusHMDController()
+OculusHMD::~OculusHMD()
 {
-    if(pManager) pManager->Release();
+    delete m_system;
     OVR::System::Destroy();
 }
 
 
-Display *OculusHMDController::getDisplay(OpenGLContext *glContext, PhysicalNode &parent)
+OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNode &parent)
 {
 
     if(m_display == NULL){
@@ -31,7 +29,7 @@ Display *OculusHMDController::getDisplay(OpenGLContext *glContext, PhysicalNode 
 
 
 
-        if(!this->isInitialized()){
+        if(!m_isInitialized){
             //default Values
             HResolution = 1280;
             VResolution  = 800 ;
@@ -74,8 +72,11 @@ Display *OculusHMDController::getDisplay(OpenGLContext *glContext, PhysicalNode 
         float h_meters = HScreenSize / 4 - LensSeparationDistance / 2;
         float h = (4 * h_meters) / HScreenSize ;
 
+        //RenderToTextureDisplay display(scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0, 0, EyeToScreenDistance)));
 
-        m_display = new RenderToTextureDisplay(scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0, 0, EyeToScreenDistance)));
+        m_display = new OculusHMD(this, scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0, 0, EyeToScreenDistance)));
+
+
 
         GLCamera *lCam = new GLCamera(near, far, m_display, *m_display,
                                        glm::translate(glm::mat4(), glm::vec3(InterpupillaryDistance/2, VScreenSize/2 - VScreenCenter, -EyeToScreenDistance)),
@@ -95,9 +96,18 @@ Display *OculusHMDController::getDisplay(OpenGLContext *glContext, PhysicalNode 
 
 }
 
+OculusHMD::OVRSystem::~OVRSystem()
+{
+    if(pManager) pManager->Release();
+    if(pSensor) pSensor->Release();
+    if(pHMD) pHMD->Release();
+    if(pUserProfile) pUserProfile->Release();
+
+}
 
 
-bool OculusHMDController::initializeDevice()
+
+bool OculusHMD::OVRSystem::initializeDevice()
 {
     std::cout << "Attempting to intitialize devices" << std::endl;
 
@@ -152,7 +162,7 @@ bool OculusHMDController::initializeDevice()
        return true;
 }
 
-void OculusHMDController::OnMessage(const Message &msg)
+void OculusHMD::OVRSystem::OnMessage(const Message &msg)
 {
     if (msg.Type == Message_DeviceAdded || msg.Type == Message_DeviceRemoved)
        {
@@ -184,23 +194,22 @@ void OculusHMDController::OnMessage(const Message &msg)
 
 }
 
-bool OculusHMDController::SupportsMessageType(MessageType mt) const
+bool OculusHMD::OVRSystem::SupportsMessageType(MessageType mt) const
 {
     return true;
 }
 
-OculusHMDController *OculusHMDController::create()
+OculusHMD *OculusHMD::create(OpenGLContext *glContext, PhysicalNode &parent)
 {
     System::Init();
-    return new OculusHMDController();
+    OVRSystem *system = new OVRSystem();
+    return system->getDisplay(glContext, parent);
 }
 
 
 
-bool OculusHMDController::isInitialized() const
-{
-    return m_isInitialized;
-}
+
+
 
 
 

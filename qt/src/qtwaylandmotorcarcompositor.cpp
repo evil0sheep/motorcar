@@ -90,11 +90,11 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
     QtWaylandMotorcarOpenGLContext *window_context = new QtWaylandMotorcarOpenGLContext(window);
 
 
-    motorcar::OculusHMDController *controller = motorcar::OculusHMDController::create();
+    motorcar::OculusHMD *hmd = motorcar::OculusHMD::create(window_context, *scene());
 
-    if(controller->isInitialized()){
+    if(hmd){
         std::cout << "Using Oculus Display" << std::endl;
-        setDisplay(controller->getDisplay(window_context, *scene()));
+        setDisplay(hmd);
     }else{
         std::cout << "Using Default Display" << std::endl;
         float camToDisplayDistance = 0.1;
