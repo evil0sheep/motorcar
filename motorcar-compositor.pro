@@ -1,5 +1,12 @@
 QT += gui gui-private core-private compositor
 
+LIBOVRPATH=../thirdPartySource/Oculus/OculusSDK/LibOVR
+INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src"
+
+RELEASETYPE=Release
+SYSARCH=x86_64
+
+LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr -ludev -lpthread -lGL -lX11 -lXinerama
 
 DESTDIR = bin
 OBJECTS_DIR = bin/.obj
@@ -84,6 +91,7 @@ SOURCES += \
 
 # to make QtCompositor/... style includes working without installing
 INCLUDEPATH += $$PWD/../../include
+
 
 #  if you want to compile QtCompositor as part of the application
 #  instead of linking to it, remove the QT += compositor and uncomment

@@ -79,7 +79,7 @@ Geometry::RaySurfaceIntersection *WaylandSurfaceNode::intersectWithSurfaces(cons
 
 void WaylandSurfaceNode::drawViewpoint(GLCamera *viewpoint)
 {
-    computeSurfaceTransform(64);
+    computeSurfaceTransform(12);
     surface()->prepare();
     viewpoint->viewport()->display()->renderSurfaceNode(this, viewpoint);
 }
