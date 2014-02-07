@@ -1,5 +1,5 @@
-#ifndef OCULUSHMDCONTROLLER_H
-#define OCULUSHMDCONTROLLER_H
+#ifndef OCULUSHMD_H
+#define OCULUSHMD_H
 
 #include "../scenegraph/output/display/rendertotexturedisplay.h"
 #include "OVR.h"
@@ -12,13 +12,16 @@ private:
     class OVRSystem;
 
 public:
-
-
     static OculusHMD *create(OpenGLContext *glContext, PhysicalNode &parent);
+    ~OculusHMD();
 
+
+
+    void prepareForDraw() override;
+
+    //This constructor should not be called externally, use create() instead;
     OculusHMD(OVRSystem * system,
               float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode &parent, const glm::mat4 &transform);
-    ~OculusHMD();
 
 private:
 
@@ -30,7 +33,7 @@ private:
         OVRSystem() : m_display(NULL) {m_isInitialized = initializeDevice();}
         OculusHMD *getDisplay(OpenGLContext *glContext, PhysicalNode &parent);
          ~OVRSystem();
-    private:
+
         OculusHMD *m_display;
 
         bool m_isInitialized;
@@ -61,4 +64,4 @@ private:
 }
 
 
-#endif // OCULUSHMDCONTROLLER_H
+#endif // OCULUSHMD_H

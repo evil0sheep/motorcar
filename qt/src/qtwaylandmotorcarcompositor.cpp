@@ -379,6 +379,7 @@ void QtWaylandMotorcarCompositor::render()
     frameFinished();
     // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.
     m_glData->m_window->swapBuffers();
+    m_renderScheduler.start(0);
 }
 
 bool QtWaylandMotorcarCompositor::eventFilter(QObject *obj, QEvent *event)

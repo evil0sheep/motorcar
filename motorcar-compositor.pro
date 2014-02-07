@@ -47,9 +47,9 @@ HEADERS += \
     motorcar/src/gl/openglcontext.h \
     qt/src/qtwaylandmotorcaropenglcontext.h \
     motorcar/src/scenegraph/output/display/display.h \
-    motorcar/src/device/oculushmdcontroller.h \
     motorcar/src/scenegraph/output/display/rendertotexturedisplay.h \
-    motorcar/src/device/device.h
+    motorcar/src/device/device.h \
+    motorcar/src/device/oculushmd.h
 
 
 
@@ -80,8 +80,8 @@ SOURCES += \
     motorcar/src/gl/openglcontext.cpp \
     qt/src/qtwaylandmotorcaropenglcontext.cpp \
     motorcar/src/scenegraph/output/display/display.cpp \
-    motorcar/src/device/oculushmdcontroller.cpp \
-    motorcar/src/scenegraph/output/display/rendertotexturedisplay.cpp
+    motorcar/src/scenegraph/output/display/rendertotexturedisplay.cpp \
+    motorcar/src/device/oculushmd.cpp
 
 
 

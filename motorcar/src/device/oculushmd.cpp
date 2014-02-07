@@ -1,4 +1,4 @@
-#include "oculushmdcontroller.h"
+#include "oculushmd.h"
 
 using namespace motorcar;
 using namespace OVR;
@@ -15,6 +15,23 @@ OculusHMD::~OculusHMD()
 {
     delete m_system;
     OVR::System::Destroy();
+}
+
+
+
+void OculusHMD::prepareForDraw()
+{
+    OVR::Quatf ovrQuat = m_system->SFusion.GetOrientation();
+
+    OVR::Vector3f axis;
+    float angle;
+    ovrQuat.GetAxisAngle(&axis, &angle);
+
+    //glm::quat glmQuat = glm::rotate(glm::quat(), glm::vec3(axis.x, axis.y, axis.z), angle);
+
+    setTransform(glm::rotate(glm::mat4(), glm::degrees(-angle), glm::vec3(axis.x, -axis.y, axis.z)));
+
+    RenderToTextureDisplay::prepareForDraw();
 }
 
 
@@ -98,10 +115,18 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNo
 
 OculusHMD::OVRSystem::~OVRSystem()
 {
-    if(pManager) pManager->Release();
-    if(pSensor) pSensor->Release();
+    if(pManager){
+        pManager.Clear();
+        pManager->Release();
+    }
+    if(pSensor){
+        pSensor.Clear();
+        pSensor->Release();
+    }
     if(pHMD) pHMD->Release();
     if(pUserProfile) pUserProfile->Release();
+
+
 
 }
 
