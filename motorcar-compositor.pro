@@ -1,12 +1,15 @@
 QT += gui gui-private core-private compositor
 
 LIBOVRPATH=../thirdPartySource/Oculus/OculusSDK/LibOVR
-INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src"
+SIXENSEPATH=../thirdPartySource/sixenseSDK_linux_OSX
+INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include"
 
 RELEASETYPE=Release
 SYSARCH=x86_64
 
-LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr -ludev -lpthread -lGL -lX11 -lXinerama
+LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr \
+        -L$$SIXENSEPATH/lib/linux_x64/release -lsixense_x64 -lsixense_utils_x64\
+        -ludev -lpthread -lGL -lX11 -lXinerama
 
 DESTDIR = bin
 OBJECTS_DIR = bin/.obj
@@ -49,7 +52,12 @@ HEADERS += \
     motorcar/src/scenegraph/output/display/display.h \
     motorcar/src/scenegraph/output/display/rendertotexturedisplay.h \
     motorcar/src/device/device.h \
-    motorcar/src/device/oculushmd.h
+    motorcar/src/device/oculushmd.h \
+    motorcar/src/scenegraph/input/inputelement.h \
+    motorcar/src/device/sixensemotionsensingsystem.h \
+    motorcar/src/scenegraph/input/spatialpointingdevice.h \
+    motorcar/src/device/sixensecontrollernode.h \
+    motorcar/src/device/sixensebasenode.h
 
 
 
@@ -81,7 +89,12 @@ SOURCES += \
     qt/src/qtwaylandmotorcaropenglcontext.cpp \
     motorcar/src/scenegraph/output/display/display.cpp \
     motorcar/src/scenegraph/output/display/rendertotexturedisplay.cpp \
-    motorcar/src/device/oculushmd.cpp
+    motorcar/src/device/oculushmd.cpp \
+    motorcar/src/scenegraph/input/inputelement.cpp \
+    motorcar/src/device/sixensemotionsensingsystem.cpp \
+    motorcar/src/scenegraph/input/spatialpointingdevice.cpp \
+    motorcar/src/device/sixensecontrollernode.cpp \
+    motorcar/src/device/sixensebasenode.cpp
 
 
 
@@ -114,7 +127,8 @@ OTHER_FILES += \
     motorcar/src/shaders/motorcarsurface.frag \
     motorcar/src/device/foo \
     motorcar/src/shaders/motorcarbarreldistortion.frag \
-    motorcar/src/shaders/motorcarbarreldistortion.vert
+    motorcar/src/shaders/motorcarbarreldistortion.vert \
+    motorcar/src/scenegraph/input/foo
 
 
 

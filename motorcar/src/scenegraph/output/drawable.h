@@ -8,7 +8,7 @@ namespace motorcar {
 class Drawable : public OutputElement, public VirtualNode
 {
 public:
-    Drawable(SceneGraphNode &parent, const glm::mat4 &transform = glm::mat4());
+    Drawable(SceneGraphNode *parent, const glm::mat4 &transform = glm::mat4());
     virtual ~Drawable(){}
 
     //calls VirtualNode::traverseNode() and then draw()

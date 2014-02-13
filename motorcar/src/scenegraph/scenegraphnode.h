@@ -19,7 +19,7 @@ class Scene;
 class SceneGraphNode : public Foo
 {
 public:
-    SceneGraphNode(SceneGraphNode &parent, glm::mat4 transform = glm::mat4());
+    SceneGraphNode(SceneGraphNode *parent, glm::mat4 transform = glm::mat4());
     //calls destructor on all children and removes this node from its parent's list of children
     virtual ~SceneGraphNode();
 
@@ -81,7 +81,7 @@ protected:
     //protected constructor used by Scene class to construct parentless, un-transformed root node
     SceneGraphNode();
     //removes this node from its existing parent's list of children and sets the given node to be this nodes parent and then adds this node to the given node's list of children
-    void setParentNode(SceneGraphNode &parent);
+    void setParentNode(SceneGraphNode *parent);
 
 };
 

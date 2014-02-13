@@ -7,7 +7,7 @@ namespace motorcar{
 class RenderToTextureDisplay : public Display
 {
 public:
-    RenderToTextureDisplay(float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode &parent, const glm::mat4 &transform = glm::mat4());
+    RenderToTextureDisplay(float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
     virtual ~RenderToTextureDisplay();
 
     //inherited from Display

@@ -54,9 +54,9 @@
 
 using namespace qtmotorcar;
 
-QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
+QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, motorcar::Scene * scene)
     : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
-    , m_scene(new motorcar::Scene())
+    , m_scene(scene)
     , m_glData(new OpenGLData(window))//glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0,0,1.5f)), 180.f, glm::vec3(0,1,0)))))
     , m_renderScheduler(this)
     , m_draggingWindow(0)
@@ -87,23 +87,10 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window)
 
 
 
-    QtWaylandMotorcarOpenGLContext *window_context = new QtWaylandMotorcarOpenGLContext(window);
 
 
-    motorcar::OculusHMD *hmd = motorcar::OculusHMD::create(window_context, *scene());
-
-    if(hmd){
-        std::cout << "Using Oculus Display" << std::endl;
-        setDisplay(hmd);
-    }else{
-        std::cout << "Using Default Display" << std::endl;
-        float camToDisplayDistance = 0.1;
-        setDisplay(new motorcar::Display(window_context, glm::vec2(0.325, 0.1), *m_scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance))));
-        display()->addViewpoint(new motorcar::GLCamera( .01, 100, display(), *display(), glm::translate(glm::mat4(1), glm::vec3(0, 0, -camToDisplayDistance))));
-    }
 
 
-    m_scene->addDisplay(m_display);
 
 
 //    motorcar::Display testDisplay(window_context, glm::vec2(1), *m_scene, glm::mat4(1));
@@ -225,11 +212,11 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
             //m_surfaces.append(surface);
             int n = 1000;
             glm::mat4 transform = glm::mat4(1)
-//                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 55, glm::vec3(0, 1, 0))
-//                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 45, glm::vec3(1, 0, 0))
+                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 55, glm::vec3(0, 1, 0))
+                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 45, glm::vec3(1, 0, 0))
                     //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
                     * glm::translate(glm::mat4(1), glm::vec3(0,0,0.5f));
-            motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), *m_scene, transform);
+            motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), m_scene, transform);
             defaultInputDevice()->setKeyboardFocus(surface);
 
             m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));

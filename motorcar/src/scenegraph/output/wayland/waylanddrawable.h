@@ -6,7 +6,7 @@ namespace motorcar {
     class WaylandDrawable : public Drawable
     {
     public:
-        WaylandDrawable(SceneGraphNode &parent, const glm::mat4 &transform = glm::mat4(1));
+        WaylandDrawable(SceneGraphNode *parent, const glm::mat4 &transform = glm::mat4(1));
         virtual ~WaylandDrawable() {}
     };
 }

@@ -17,7 +17,7 @@ class WaylandSurface;
 class Display : public OutputElement, public PhysicalNode
 {
 public:
-    Display(OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode &parent, const glm::mat4 &transform = glm::mat4());
+    Display(OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
     virtual ~Display();
 
     //set up  and tear down for drawing, make all calls that need to be made only once per frame

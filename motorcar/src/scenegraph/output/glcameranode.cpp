@@ -3,7 +3,7 @@
 
 using namespace motorcar;
 
-GLCamera::GLCamera(float near, float far, Display *display, SceneGraphNode &parent, glm::mat4 transform, glm::vec4 viewPortParams, glm::vec3 centerOfProjection)
+GLCamera::GLCamera(float near, float far, Display *display, SceneGraphNode *parent, glm::mat4 transform, glm::vec4 viewPortParams, glm::vec3 centerOfProjection)
     :VirtualNode(parent, transform)
     , near(near)
     , far(far)

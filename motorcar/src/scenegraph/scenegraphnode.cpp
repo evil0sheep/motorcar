@@ -4,9 +4,13 @@
 using namespace motorcar;
 
 
-SceneGraphNode::SceneGraphNode(SceneGraphNode &parent, glm::mat4 transform)
+SceneGraphNode::SceneGraphNode(SceneGraphNode *parent, glm::mat4 transform)
     :m_parentNode(NULL)
 {
+
+    if(parent == NULL){
+        std::cout << "ERROR: Creating SceneGraphNode with NULL parent, behavior is undefined" << std::endl;
+    }
     this->setParentNode(parent);
     this->setTransform(transform);
 }
@@ -59,20 +63,25 @@ void SceneGraphNode::traverseChildren(Scene *scene, long deltaMillis)
 
 
 
-void SceneGraphNode::setParentNode(SceneGraphNode &parent)
+void SceneGraphNode::setParentNode(SceneGraphNode *parent)
 {
     if (this->parentNode() != NULL ){
         this->parentNode()->removeChildNode(this);
     }
 
-    this->m_parentNode = std::addressof(parent);
+
+
+    this->m_parentNode = parent; //std::addressof(parent);
 
     Scene *scene = this->scene();
     if(!scene->subtreeContains(this)){
         scene->notifyNodeAdded(this);
     }
 
-    parent.addChildNode(this);
+    if(parent != NULL){
+        parent->addChildNode(this);
+
+    }
 
 
 
@@ -101,6 +110,7 @@ SceneGraphNode::SceneGraphNode()
 {
     m_parentNode = NULL;
 }
+
 
 
 

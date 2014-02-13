@@ -2,7 +2,7 @@
 #include "../scene.h"
 using namespace motorcar;
 
-Drawable::Drawable(SceneGraphNode &parent, const glm::mat4 &transform)
+Drawable::Drawable(SceneGraphNode *parent, const glm::mat4 &transform)
     : VirtualNode(parent, transform)
 {
 }

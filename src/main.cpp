@@ -41,6 +41,7 @@
 
 #include "../qt/src/qopenglwindow.h"
 #include "../qt/src/qtwaylandmotorcarcompositor.h"
+#include "motorcar/src/motorcar.h"
 #include <QGuiApplication>
 #include <QStringList>
 #include <QScreen>
@@ -51,6 +52,10 @@ int main(int argc, char *argv[])
     // Enable the following to have touch events generated from mouse events.
     // Very handy for testing touch event delivery without a real touch device.
     // QGuiApplication::setAttribute(Qt::AA_SynthesizeTouchForUnhandledMouseEvents, true);
+
+
+    motorcar::Scene *scene = new motorcar::Scene();
+
 
     QGuiApplication app(argc, argv);
     QScreen *screen = QGuiApplication::primaryScreen();
@@ -66,9 +71,38 @@ int main(int argc, char *argv[])
                      screenGeometry.width() / 2, screenGeometry.height() / 2);
 
     QOpenGLWindow window(format, geom);
-    qtmotorcar::QtWaylandMotorcarCompositor compositor(&window);
+    qtmotorcar::QtWaylandMotorcarCompositor compositor(&window, scene);
 
     window.show();
 
-    return app.exec();
+    qtmotorcar::QtWaylandMotorcarOpenGLContext *window_context = new qtmotorcar::QtWaylandMotorcarOpenGLContext(&window);
+
+
+
+    motorcar::OculusHMD *hmd = motorcar::OculusHMD::create(window_context, scene);
+
+    if(hmd){
+        std::cout << "Using Oculus Display" << std::endl;
+        compositor.setDisplay(hmd);
+    }else{
+        std::cout << "Using Default Display" << std::endl;
+        float camToDisplayDistance = 0.1;
+        motorcar::Display *display = new motorcar::Display(window_context, glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance)));
+        display->addViewpoint(new motorcar::GLCamera( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0, -camToDisplayDistance))));
+        compositor.setDisplay(display);
+    }
+
+
+    scene->addDisplay(compositor.display());
+
+
+
+    motorcar::SixenseMotionSensingSystem *sixense = new motorcar::SixenseMotionSensingSystem(scene);
+
+    int result = app.exec();
+
+    delete sixense;
+    delete scene;
+
+    return result;
 }

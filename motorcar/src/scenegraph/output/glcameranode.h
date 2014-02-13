@@ -14,7 +14,7 @@ class GLCamera : public OutputElement, public VirtualNode
 {
 public:
     //centerOfProjection: center of projection in camera space, applied as a translation to the projection matrix
-    GLCamera( float near, float far, Display *display, SceneGraphNode &parent,
+    GLCamera(float near, float far, Display *display, SceneGraphNode *parent,
               glm::mat4 transform = glm::mat4(), glm::vec4 viewPortParams = glm::vec4(0,0,1,1), glm::vec3 centerOfProjection = glm::vec3(0));
     ~GLCamera();
 

@@ -10,7 +10,7 @@ class WaylandSurfaceNode : public WaylandDrawable
 public:
 
 
-    WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode &parent, const glm::mat4 &transform = glm::mat4(1));
+    WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform = glm::mat4(1));
 
     WaylandSurface *surface() const;
     void setSurface(WaylandSurface *surface);

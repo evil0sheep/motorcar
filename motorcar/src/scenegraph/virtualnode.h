@@ -6,7 +6,7 @@ namespace motorcar {
 class VirtualNode : public SceneGraphNode
 {
 public:
-    VirtualNode(SceneGraphNode &parent, const glm::mat4 &transform = glm::mat4());
+    VirtualNode(SceneGraphNode *parent, const glm::mat4 &transform = glm::mat4());
     virtual ~VirtualNode() {}
 
     //applies time dependent tansforms to this node, overrride in subclasses to apply animations to virtual nodes

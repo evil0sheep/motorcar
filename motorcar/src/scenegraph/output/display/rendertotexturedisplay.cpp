@@ -2,7 +2,7 @@
 
 using namespace motorcar;
 
-RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode &parent, const glm::mat4 &transform)
+RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform)
     :Display(glContext, displayDimensions, parent, transform)
     ,m_scale(scale)
     ,m_distortionK(distortionK)

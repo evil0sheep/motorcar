@@ -5,7 +5,7 @@ using namespace OVR;
 //using namespace OVR::Platform;
 //using namespace OVR::Render;
 
-OculusHMD::OculusHMD(OVRSystem *system, float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode &parent, const glm::mat4 &transform)
+OculusHMD::OculusHMD(OVRSystem *system, float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform)
     :RenderToTextureDisplay(scale, distortionK, glContext, displayDimensions, parent, transform)
     , m_system(system)
 {
@@ -35,7 +35,7 @@ void OculusHMD::prepareForDraw()
 }
 
 
-OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNode &parent)
+OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNode *parent)
 {
 
     if(m_display == NULL){
@@ -81,7 +81,7 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNo
             scaleFactor = SConfig.GetDistortionScale();
 
         }
-
+        std::cout << "Scale Factor" << scaleFactor << std::endl;
 
 
         float near = .01, far = 100;
@@ -95,11 +95,11 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNo
 
 
 
-        GLCamera *lCam = new GLCamera(near, far, m_display, *m_display,
+        GLCamera *lCam = new GLCamera(near, far, m_display, m_display,
                                        glm::translate(glm::mat4(), glm::vec3(InterpupillaryDistance/2, VScreenSize/2 - VScreenCenter, -EyeToScreenDistance)),
                                        glm::vec4(0,0,.5,1), glm::vec3(h, 0, 0));
 
-        GLCamera *rCam = new GLCamera(near, far, m_display, *m_display,
+        GLCamera *rCam = new GLCamera(near, far, m_display, m_display,
                                        glm::translate(glm::mat4(), glm::vec3(-InterpupillaryDistance/2, VScreenSize/2 - VScreenCenter, -EyeToScreenDistance)),
                                        glm::vec4(.5,0,.5,1), glm::vec3(-h, 0, 0));
 
@@ -224,7 +224,7 @@ bool OculusHMD::OVRSystem::SupportsMessageType(MessageType mt) const
     return true;
 }
 
-OculusHMD *OculusHMD::create(OpenGLContext *glContext, PhysicalNode &parent)
+OculusHMD *OculusHMD::create(OpenGLContext *glContext, PhysicalNode *parent)
 {
     System::Init();
     OVRSystem *system = new OVRSystem();

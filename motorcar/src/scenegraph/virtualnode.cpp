@@ -2,7 +2,7 @@
 using namespace motorcar;
 
 
-VirtualNode::VirtualNode(SceneGraphNode &parent, const glm::mat4 &transform)
+VirtualNode::VirtualNode(SceneGraphNode *parent, const glm::mat4 &transform)
     : SceneGraphNode(parent, transform)
 {
 }

@@ -57,7 +57,7 @@ class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor
 {
     Q_OBJECT
 public:
-    QtWaylandMotorcarCompositor(QOpenGLWindow *window);
+    QtWaylandMotorcarCompositor(QOpenGLWindow *window, motorcar::Scene *scene);
     ~QtWaylandMotorcarCompositor();
 
 

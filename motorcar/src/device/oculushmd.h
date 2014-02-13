@@ -12,7 +12,10 @@ private:
     class OVRSystem;
 
 public:
-    static OculusHMD *create(OpenGLContext *glContext, PhysicalNode &parent);
+
+    //Attempts to create an OculusHMD through the API, if something in the API Fails
+    //(for example if no HMD's are present) this method returns a NULL pointer
+    static OculusHMD *create(OpenGLContext *glContext, PhysicalNode *parent);
     ~OculusHMD();
 
 
@@ -21,7 +24,7 @@ public:
 
     //This constructor should not be called externally, use create() instead;
     OculusHMD(OVRSystem * system,
-              float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode &parent, const glm::mat4 &transform);
+              float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform);
 
 private:
 
@@ -31,7 +34,7 @@ private:
     class OVRSystem : OVR::MessageHandler{
     public:
         OVRSystem() : m_display(NULL) {m_isInitialized = initializeDevice();}
-        OculusHMD *getDisplay(OpenGLContext *glContext, PhysicalNode &parent);
+        OculusHMD *getDisplay(OpenGLContext *glContext, PhysicalNode *parent);
          ~OVRSystem();
 
         OculusHMD *m_display;
