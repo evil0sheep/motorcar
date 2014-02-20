@@ -16,7 +16,7 @@ public:
     //calls animate on the current node
     virtual void traverseNode(Scene *scene, long deltaMillis) override;
 
-
+    void setParentNode(SceneGraphNode *parent);
 
 
 };

@@ -14,8 +14,6 @@ public:
     int controllerIndex() const;
     void setControllerIndex(int controllerIndex);
 
-    void printStatus();
-
     bool enabled() const;
     void setEnabled(bool enabled);
 

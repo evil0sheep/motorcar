@@ -8,9 +8,7 @@ SceneGraphNode::SceneGraphNode(SceneGraphNode *parent, glm::mat4 transform)
     :m_parentNode(NULL)
 {
 
-    if(parent == NULL){
-        std::cout << "ERROR: Creating SceneGraphNode with NULL parent, behavior is undefined" << std::endl;
-    }
+
     this->setParentNode(parent);
     this->setTransform(transform);
 }
@@ -65,13 +63,17 @@ void SceneGraphNode::traverseChildren(Scene *scene, long deltaMillis)
 
 void SceneGraphNode::setParentNode(SceneGraphNode *parent)
 {
+    if(parent == NULL){
+        std::cout << "ERROR: Setting SceneGraphNode parent to NULL, behavior is undefined" << std::endl;
+    }
+
     if (this->parentNode() != NULL ){
         this->parentNode()->removeChildNode(this);
     }
 
 
 
-    this->m_parentNode = parent; //std::addressof(parent);
+    this->m_parentNode = parent;
 
     Scene *scene = this->scene();
     if(!scene->subtreeContains(this)){
@@ -165,7 +167,7 @@ void SceneGraphNode::setTransform(const glm::mat4 &transform)
 
 void SceneGraphNode::setWorldTransform(const glm::mat4 &transform)
 {
-    setWorldTransform(parentNode()->inverseWorldTransform() * transform);
+    setTransform(parentNode()->inverseWorldTransform() * transform);
 
 }
 
@@ -188,5 +190,12 @@ Geometry::RaySurfaceIntersection *SceneGraphNode::intersectWithSurfaces(const Ge
 
 
 
+
+
+
+std::vector<SceneGraphNode *> SceneGraphNode::childNodes() const
+{
+    return m_childNodes;
+}
 
 

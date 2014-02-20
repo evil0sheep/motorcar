@@ -16,6 +16,8 @@ public:
     bool connected() const;
     void setConnected(bool connected);
 
+    std::vector<SixenseControllerNode *> controllers() const;
+
 private:
     std::vector<SixenseControllerNode *> m_controllers;
     int m_baseIndex;

@@ -47,6 +47,9 @@ Display::~Display()
 
 void Display::prepareForDraw()
 {
+//    std::cout << "active display transform"  <<std::endl;
+//    Geometry::printMatrix(worldTransform());
+
     for(GLCamera *viewpoint : viewpoints()){
         viewpoint->calculateVPMatrix();
     }

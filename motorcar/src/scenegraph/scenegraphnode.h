@@ -63,6 +63,9 @@ public:
 
 
 
+    std::vector<SceneGraphNode *> childNodes() const;
+
+
 private :
     //traverse the children of this node in the scenegraph
     void traverseChildren(Scene *scene, long deltaMillis);

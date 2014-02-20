@@ -17,3 +17,8 @@ void VirtualNode::traverseNode(Scene *scene, long deltaMillis)
     SceneGraphNode::traverseNode(scene, deltaMillis);
     this->animate(deltaMillis);
 }
+
+void VirtualNode::setParentNode(SceneGraphNode *parent)
+{
+    SceneGraphNode::setParentNode(parent);
+}

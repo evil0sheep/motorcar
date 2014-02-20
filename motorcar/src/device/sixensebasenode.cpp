@@ -42,6 +42,8 @@ SixenseBaseNode::SixenseBaseNode(int baseIndex, PhysicalNode *parent, const glm:
 
 void SixenseBaseNode::traverseNode(Scene *scene, long deltaMillis)
 {
+    PhysicalNode::traverseNode(scene, deltaMillis);
+
     sixenseAllControllerData acd;
 
     if(sixenseIsBaseConnected(m_baseIndex)){
@@ -64,15 +66,15 @@ void SixenseBaseNode::traverseNode(Scene *scene, long deltaMillis)
                 controller->updateState(data);
 
                 glm::mat3 rotation = glm::make_mat3((float *)data.rot_mat);
-                glm::vec3 position = glm::make_vec3(data.pos);
+                glm::vec3 position = (glm::make_vec3(data.pos) / 1000.f) * glm::vec3(1, 1, 1);
 
                 glm::mat4 controllerTransform(glm::vec4(rotation[0], 1),
                                               glm::vec4(rotation[1], 1),
                                               glm::vec4(rotation[2], 1),
                                               glm::vec4(position, 1));
 
-//               std::cout << "controller " << controller->controllerIndex() <<std::endl;
-//               Geometry::printMatrix(controllerTransform);
+
+                controller->setWorldTransform(this->inverseWorldTransform() * controllerTransform);
 
 
 
@@ -99,3 +101,10 @@ void SixenseBaseNode::setConnected(bool connected)
 {
     m_connected = connected;
 }
+
+std::vector<SixenseControllerNode *> SixenseBaseNode::controllers() const
+{
+    return m_controllers;
+}
+
+

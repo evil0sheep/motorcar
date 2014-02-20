@@ -32,6 +32,9 @@ SixenseMotionSensingSystem::SixenseMotionSensingSystem(Scene *scene)
         if(m_baseStations.empty()){
             m_isInitialized = false;
             std::cout << "Could not intitialize SixenseMotionSensingSystem: No Sixense devices detected" << std::endl;
+        }else{
+            m_isInitialized = true;
+            std::cout << "Successfully intitialize SixenseMotionSensingSystem" << std::endl;
         }
 
 
@@ -83,3 +86,10 @@ bool SixenseMotionSensingSystem::isInitialized() const
 {
     return m_isInitialized;
 }
+
+std::vector<SixenseBaseNode *> SixenseMotionSensingSystem::baseStations() const
+{
+    return m_baseStations;
+}
+
+

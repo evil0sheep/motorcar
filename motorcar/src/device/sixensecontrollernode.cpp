@@ -24,12 +24,9 @@ void SixenseControllerNode::setControllerIndex(int controllerIndex)
 
 void SixenseControllerNode::traverseNode(Scene *scene, long deltaMillis)
 {
-    printStatus();
-}
-
-void SixenseControllerNode::printStatus()
-{
-    //std::cout << "SixenseControllerNode " << m_controllerIndex << std::endl;
+    SpatialPointingDevice::traverseNode(scene, deltaMillis);
+//    std::cout << "controller " << controllerIndex() << " has " << childNodes().size()<< " children" <<std::endl;
+//    Geometry::printMatrix(worldTransform());
 }
 
 

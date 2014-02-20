@@ -7,6 +7,11 @@ PhysicalNode::PhysicalNode(PhysicalNode *parent, const glm::mat4 &transform)
 {
 }
 
+void PhysicalNode::setParentNode(PhysicalNode *parent)
+{
+    SceneGraphNode::setParentNode(parent);
+}
+
 PhysicalNode::PhysicalNode()
     :SceneGraphNode()
 {

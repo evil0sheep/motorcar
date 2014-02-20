@@ -87,8 +87,8 @@ int main(int argc, char *argv[])
     }else{
         std::cout << "Using Default Display" << std::endl;
         float camToDisplayDistance = 0.1;
-        motorcar::Display *display = new motorcar::Display(window_context, glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance)));
-        display->addViewpoint(new motorcar::GLCamera( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0, -camToDisplayDistance))));
+        motorcar::Display *display = new motorcar::Display(window_context, glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, -camToDisplayDistance)));
+        display->addViewpoint(new motorcar::GLCamera( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance))));
         compositor.setDisplay(display);
     }
 
@@ -98,6 +98,11 @@ int main(int argc, char *argv[])
 
 
     motorcar::SixenseMotionSensingSystem *sixense = new motorcar::SixenseMotionSensingSystem(scene);
+    std::cout << sixense->isInitialized() << ", "  << !sixense->baseStations().empty() << ", "  << (sixense->baseStations().front()->controllers().size() > 1) << ", " << std::endl;
+    if(sixense->isInitialized() && !sixense->baseStations().empty() && sixense->baseStations().front()->controllers().size() > 1 ){
+        std::cout << "parenting display to controller "<<std::endl;
+        compositor.display()->setParentNode(sixense->baseStations().front()->controllers().back());
+    }
 
     int result = app.exec();
 

@@ -25,7 +25,7 @@ GLCamera::~GLCamera()
 Geometry::Ray GLCamera::worldRayAtDisplayPosition(float pixelX, float pixelY)
 {
 
-    glm::vec2 normalizedPixelPos = -1.f * m_viewport->displayCoordsToViewportCoords(pixelX, pixelY);
+    glm::vec2 normalizedPixelPos = glm::vec2(-1, 1) * m_viewport->displayCoordsToViewportCoords(pixelX, pixelY);
     float h = (m_viewport->height()/m_viewport->width()) /2;
     float theta = glm::radians(fov() / 2);
     float d = h / glm::tan(theta);
@@ -36,12 +36,14 @@ Geometry::Ray GLCamera::worldRayAtDisplayPosition(float pixelX, float pixelY)
 
 void GLCamera::calculateVPMatrix()
 {
+//        std::cout << "camera transform"  <<std::endl;
+//        Geometry::printMatrix(worldTransform());
 
     m_projectionMatrix = m_COFTransform * glm::perspective(fov(), (m_viewport->width())/ (m_viewport->height()), near, far);
 
     glm::mat4 trans = worldTransform();
     glm::vec3 center = glm::vec3(trans * glm::vec4(0, 0, 0, 1));
-    glm::vec3 target = glm::vec3(trans * glm::vec4(0, 0, 1, 1));
+    glm::vec3 target = glm::vec3(trans * glm::vec4(0, 0, -1, 1));
     glm::vec3 up = glm::normalize(glm::vec3(trans * glm::vec4(0, 1, 0, 0)));
     //        glm::vec3 vec = target;
     //        qDebug() << vec.x << ", " << vec.y << ", " << vec.z;
