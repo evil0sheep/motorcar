@@ -16,82 +16,29 @@ SixenseMotionSensingSystem::SixenseMotionSensingSystem(Scene *scene)
         sixenseUtils::getTheControllerManager()->registerSetupCallback(*(SixenseMotionSensingSystem::controllerManagerSetupCallback));
 
 
-//        int maxBases = sixenseGetMaxBases();
-//        for(int i =0; i < maxBases; i++){
-//            if(sixenseSetActiveBase(i) && sixenseIsBaseConnected(i)){
-//                m_baseStations.push_back(new SixenseBaseNode(i));
-//            }
-//        }
 
-//        std::cout << "max base stations: " << maxBases << " num_bases: " << m_baseStations.size() << std::endl;
-//        sixenseSetActiveBase(0);
-
-//        if(!m_baseStations.empty()){
-//            int maxControllers = sixenseGetMaxControllers();
-//            for(int i =0; i < maxControllers; i++){
-//                if(sixenseIsControllerEnabled(i)){
-//                    m_controllers.push_back(new SixenseControllerNode(i, scene));
-//                }
-//            }
-//            if(!m_controllers.empty()){
-//                m_isInitialized = true;
-//                std::cout << "SixenseMotionSensingSystem successfully initialized" << std::endl;
-//            }else{
-//                m_isInitialized = false;
-//                std::cout << "Could not intitialize SixenseMotionSensingSystem: No Sixense Motion Controllers connected" << std::endl;
-//            }
-//        }else{
-//            m_isInitialized = false;
-//            std::cout << "Could not intitialize SixenseMotionSensingSystem: No Sixense Base Stations connected" << std::endl;
-//        }
-
-
-        int base, cont;
-        sixenseAllControllerData acd;
-        FILE *log_file = stdout;
-
-        std::cout << "test" << std::endl;
+        std::cout << "Sixense SDK Initialized, attempting to enumerate attached devices" << std::endl;
         sleep(1);
 
-            for( base=0; base < sixenseGetMaxBases(); base++ ) {
-                sixenseSetActiveBase(base);
+        for(int base=0; base < sixenseGetMaxBases(); base++ ) {
+            if(sixenseIsBaseConnected(base)){
 
-                sixenseGetAllNewestData( &acd );
+                std::cout << "Sixense base " << base << "is active, intitializing" << std::endl;
 
-                int numControllers = 0;
+                m_baseStations.push_back(new SixenseBaseNode(base, scene));
 
-                for( cont=0; cont<sixenseGetMaxControllers(); cont++ ) {
-
-                    if( sixenseIsControllerEnabled( cont ) ) {
-
-                        fprintf( log_file, "base: %d controller: %d ", base, cont );
-
-                        fprintf( log_file, "pos: %f %f %f ", acd.controllers[cont].pos[0], acd.controllers[cont].pos[1], acd.controllers[cont].pos[2] );
-                        fprintf( log_file, "rot_mat: %f %f %f  %f %f %f  %f %f %f",
-                            acd.controllers[cont].rot_mat[0][0], acd.controllers[cont].rot_mat[0][1], acd.controllers[cont].rot_mat[0][2],
-                            acd.controllers[cont].rot_mat[1][0], acd.controllers[cont].rot_mat[1][1], acd.controllers[cont].rot_mat[1][2],
-                            acd.controllers[cont].rot_mat[2][0], acd.controllers[cont].rot_mat[2][1], acd.controllers[cont].rot_mat[2][2] );
-
-                        fprintf( log_file, "\n" );
-                        fflush(log_file);
-
-                        numControllers ++;
-                        m_controllers.push_back(new SixenseControllerNode(cont, scene));
-
-
-                    }
-
-                }
-                if(numControllers > 0){
-                    m_baseStations.push_back(new SixenseBaseNode(base));
-                }
             }
+        }
+        if(m_baseStations.empty()){
+            m_isInitialized = false;
+            std::cout << "Could not intitialize SixenseMotionSensingSystem: No Sixense devices detected" << std::endl;
+        }
 
 
 
     }else{
         m_isInitialized = false;
-        std::cout << "Could not intitialize SixenseMotionSensingSystem: Failed to initialize Sixsense SDK" << std::endl;
+        std::cout << "Failed to initialize Sixsense SDK" << std::endl;
 
     }
 

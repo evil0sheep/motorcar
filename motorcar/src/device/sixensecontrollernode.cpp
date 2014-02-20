@@ -4,6 +4,11 @@ using namespace motorcar;
 SixenseControllerNode::SixenseControllerNode(int controllerIndex, PhysicalNode *parent, const glm::mat4 &transform )
     :SpatialPointingDevice(parent, transform)
     ,m_controllerIndex(controllerIndex)
+    ,m_enabled(true)
+{
+}
+
+void SixenseControllerNode::updateState(sixenseControllerData data)
 {
 }
 
@@ -24,5 +29,17 @@ void SixenseControllerNode::traverseNode(Scene *scene, long deltaMillis)
 
 void SixenseControllerNode::printStatus()
 {
-    std::cout << "SixenseControllerNode " << m_controllerIndex << std::endl;
+    //std::cout << "SixenseControllerNode " << m_controllerIndex << std::endl;
+}
+
+
+
+bool SixenseControllerNode::enabled() const
+{
+    return m_enabled;
+}
+
+void SixenseControllerNode::setEnabled(bool enabled)
+{
+    m_enabled = enabled;
 }
