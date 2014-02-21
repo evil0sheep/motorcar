@@ -3,6 +3,7 @@
 #include "../outputelement.h"
 #include "../glcameranode.h"
 #include "../drawable.h"
+#include "../wireframenode.h"
 #include "../../physicalnode.h"
 #include "../../../gl/openglshader.h"
 #include "../../../gl/openglcontext.h"
@@ -29,6 +30,8 @@ public:
 
     //renders the given surface from the given viewpoint in an implementation specific manner
     virtual void renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera);
+
+    virtual void renderWireframeNode(WireframeNode *node, GLCamera *camera);
 
     //for legacy mouse support
     //projects mouse position into worldpace based on implementation specific details
@@ -64,12 +67,15 @@ private:
 
     //shaders
     motorcar::OpenGLShader *m_surfaceShader;
+    motorcar::OpenGLShader *m_lineShader;
 
     //attribute buffers
-    GLuint m_textureCoordinates, m_vertexCoordinates;
+    GLuint m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
+    GLuint m_lineVertexCoordinates;
 
     //shader variable handles
-    GLint h_aPosition, h_aTexCoord, h_uMVPMatrix;
+    GLint h_aPosition_surface, h_aTexCoord_surface, h_uMVPMatrix_surface;
+    GLint h_aPosition_line, h_uMVPMatrix_line, h_uColor_line;
 
 };
 }

@@ -98,10 +98,9 @@ int main(int argc, char *argv[])
 
 
     motorcar::SixenseMotionSensingSystem *sixense = new motorcar::SixenseMotionSensingSystem(scene);
-    std::cout << sixense->isInitialized() << ", "  << !sixense->baseStations().empty() << ", "  << (sixense->baseStations().front()->controllers().size() > 1) << ", " << std::endl;
     if(sixense->isInitialized() && !sixense->baseStations().empty() && sixense->baseStations().front()->controllers().size() > 1 ){
         std::cout << "parenting display to controller "<<std::endl;
-        compositor.display()->setParentNode(sixense->baseStations().front()->controllers().back());
+        //compositor.display()->setParentNode(sixense->baseStations().front()->controllers().back());
     }
 
     int result = app.exec();

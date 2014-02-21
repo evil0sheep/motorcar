@@ -29,7 +29,7 @@ void OculusHMD::prepareForDraw()
 
     //glm::quat glmQuat = glm::rotate(glm::quat(), glm::vec3(axis.x, axis.y, axis.z), angle);
 
-    setTransform(glm::rotate(glm::mat4(), glm::degrees(-angle), glm::vec3(axis.x, -axis.y, axis.z)));
+    setTransform(glm::rotate(glm::mat4(), glm::degrees(angle), glm::vec3(axis.x, axis.y, axis.z)));
 
     RenderToTextureDisplay::prepareForDraw();
 }

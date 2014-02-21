@@ -6,6 +6,7 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
     :PhysicalNode(parent, transform)
     ,m_glContext(glContext)
     ,m_surfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/motorcarsurface.vert"), std::string("../motorcar/src/shaders/motorcarsurface.frag")))
+    ,m_lineShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/motorcarline.vert"), std::string("../motorcar/src/shaders/motorcarline.frag")))
     ,m_size(displayDimensions)
 
 {
@@ -22,21 +23,33 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
         1, 0, 0
     };
 
-    glGenBuffers(1, &m_textureCoordinates);
-    glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordinates);
+    glGenBuffers(1, &m_surfaceTextureCoordinates);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
     glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
 
-    glGenBuffers(1, &m_vertexCoordinates);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates);
+    glGenBuffers(1, &m_surfaceVertexCoordinates);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
     glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertexCoordinates, GL_STATIC_DRAW);
 
-    h_aPosition =  glGetAttribLocation(m_surfaceShader->handle(), "aPosition");
-    h_aTexCoord =  glGetAttribLocation(m_surfaceShader->handle(), "aTexCoord");
-    h_uMVPMatrix  = glGetUniformLocation(m_surfaceShader->handle(), "uMVPMatrix");
+    glGenBuffers(1, &m_lineVertexCoordinates);
 
-    if(h_aPosition < 0 || h_aTexCoord < 0 || h_uMVPMatrix < 0 ){
-       std::cout << "problem with surface shader handles: " << h_aPosition << ", "<< h_aTexCoord << ", " << h_uMVPMatrix << std::endl;
+    h_aPosition_surface =  glGetAttribLocation(m_surfaceShader->handle(), "aPosition");
+    h_aTexCoord_surface =  glGetAttribLocation(m_surfaceShader->handle(), "aTexCoord");
+    h_uMVPMatrix_surface  = glGetUniformLocation(m_surfaceShader->handle(), "uMVPMatrix");
+
+    if(h_aPosition_surface < 0 || h_aTexCoord_surface < 0 || h_uMVPMatrix_surface < 0 ){
+       std::cout << "problem with surface shader handles: " << h_aPosition_surface << ", "<< h_aTexCoord_surface << ", " << h_uMVPMatrix_surface << std::endl;
     }
+
+    h_aPosition_line =  glGetAttribLocation(m_lineShader->handle(), "aPosition");
+    h_uColor_line =  glGetUniformLocation(m_lineShader->handle(), "uColor");
+    h_uMVPMatrix_line  = glGetUniformLocation(m_lineShader->handle(), "uMVPMatrix");
+
+    if(h_aPosition_line < 0 || h_uColor_line < 0 || h_uMVPMatrix_line < 0 ){
+       std::cout << "problem with line shader handles: " << h_aPosition_line << ", "<< h_uColor_line << ", " << h_uMVPMatrix_line << std::endl;
+    }
+
+
 }
 
 Display::~Display()
@@ -90,15 +103,15 @@ void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camer
 
     glUseProgram(m_surfaceShader->handle());
 
-    glEnableVertexAttribArray(h_aPosition);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordinates);
-    glVertexAttribPointer(h_aPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(h_aPosition_surface);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
+    glVertexAttribPointer(h_aPosition_surface, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glEnableVertexAttribArray(h_aTexCoord);
-    glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordinates);
-    glVertexAttribPointer(h_aTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(h_aTexCoord_surface);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
+    glVertexAttribPointer(h_aTexCoord_surface, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glUniformMatrix4fv(h_uMVPMatrix, 1, GL_FALSE, glm::value_ptr(camera->projectionMatrix() * camera->viewMatrix() *  surfaceNode->worldTransform() * surfaceNode->surfaceTransform()));
+    glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(camera->projectionMatrix() * camera->viewMatrix() *  surfaceNode->worldTransform() * surfaceNode->surfaceTransform()));
 
     glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -109,8 +122,32 @@ void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camer
 
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    glDisableVertexAttribArray(h_aPosition);
-    glDisableVertexAttribArray(h_aTexCoord);
+    glDisableVertexAttribArray(h_aPosition_surface);
+    glDisableVertexAttribArray(h_aTexCoord_surface);
+
+    glUseProgram(0);
+
+}
+
+void Display::renderWireframeNode(WireframeNode *node, GLCamera *camera)
+{
+    camera->viewport()->set();
+
+    glUseProgram(m_lineShader->handle());
+
+    glEnableVertexAttribArray(h_aPosition_line);
+    glBindBuffer(GL_ARRAY_BUFFER, m_lineVertexCoordinates);
+    glVertexAttribPointer(h_aPosition_line, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBufferData(GL_ARRAY_BUFFER,  node->numSegments() * 2 * 3 * sizeof(float), node->segments(), GL_DYNAMIC_DRAW);
+
+    glUniform3fv(h_uColor_line, 1, glm::value_ptr(node->lineColor()));
+    glUniformMatrix4fv(h_uMVPMatrix_line, 1, GL_FALSE, glm::value_ptr(camera->projectionMatrix() * camera->viewMatrix() *  node->worldTransform()));
+
+
+    glDrawArrays(GL_LINES, 0, 2 * node->numSegments());
+
+    glDisableVertexAttribArray(h_aPosition_line);
 
     glUseProgram(0);
 

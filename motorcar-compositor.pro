@@ -57,7 +57,8 @@ HEADERS += \
     motorcar/src/device/sixensemotionsensingsystem.h \
     motorcar/src/scenegraph/input/spatialpointingdevice.h \
     motorcar/src/device/sixensecontrollernode.h \
-    motorcar/src/device/sixensebasenode.h
+    motorcar/src/device/sixensebasenode.h \
+    motorcar/src/scenegraph/output/wireframenode.h
 
 
 
@@ -94,7 +95,8 @@ SOURCES += \
     motorcar/src/device/sixensemotionsensingsystem.cpp \
     motorcar/src/scenegraph/input/spatialpointingdevice.cpp \
     motorcar/src/device/sixensecontrollernode.cpp \
-    motorcar/src/device/sixensebasenode.cpp
+    motorcar/src/device/sixensebasenode.cpp \
+    motorcar/src/scenegraph/output/wireframenode.cpp
 
 
 
@@ -128,7 +130,8 @@ OTHER_FILES += \
     motorcar/src/device/foo \
     motorcar/src/shaders/motorcarbarreldistortion.frag \
     motorcar/src/shaders/motorcarbarreldistortion.vert \
-    motorcar/src/scenegraph/input/foo
+    motorcar/src/shaders/motorcarline.vert \
+    motorcar/src/shaders/motorcarline.frag
 
 
 
