@@ -15,7 +15,8 @@ void SixenseControllerNode::updateState(sixenseControllerData data)
     if(data.buttons & SIXENSE_BUTTON_1){
         //std::cout << "test" <<std::endl;
 
-        Geometry::Ray ray = Geometry::Ray(glm::vec3(0), glm::vec3(0,0,-1)).transform(worldTransform());
+        glm::mat4 T = worldTransform();
+        Geometry::Ray ray = Geometry::Ray(glm::vec3(T * glm::vec4(0,0,0,1)), glm::vec3(T * glm::vec4(0,0,-1, 1)));
 
         ray.draw(scene(), glm::vec3(0,1,0));
 

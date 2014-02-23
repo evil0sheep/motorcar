@@ -48,7 +48,7 @@ Geometry::Ray::Ray(glm::vec3 p, glm::vec3 d)
 
 Geometry::Ray Geometry::Ray::transform(glm::mat4 t) const
 {
-    return Ray(glm::vec3(t * glm::vec4(p, 1)), glm::vec3(t * glm::vec4(d, 1)));
+    return Ray(glm::vec3(t * glm::vec4(p, 1)), glm::vec3(t * glm::vec4(d, 0)));
 }
 
 glm::vec3 Geometry::Ray::solve(float t) const
