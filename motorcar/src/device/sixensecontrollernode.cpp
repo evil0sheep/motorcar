@@ -1,6 +1,8 @@
 #include "sixensecontrollernode.h"
 using namespace motorcar;
 
+#include "../scenegraph/scene.h"
+
 SixenseControllerNode::SixenseControllerNode(int controllerIndex, PhysicalNode *parent, const glm::mat4 &transform )
     :SpatialPointingDevice(parent, transform)
     ,m_controllerIndex(controllerIndex)
@@ -10,6 +12,21 @@ SixenseControllerNode::SixenseControllerNode(int controllerIndex, PhysicalNode *
 
 void SixenseControllerNode::updateState(sixenseControllerData data)
 {
+    if(data.buttons & SIXENSE_BUTTON_1){
+        //std::cout << "test" <<std::endl;
+
+        Geometry::Ray ray = Geometry::Ray(glm::vec3(0), glm::vec3(0,0,-1)).transform(worldTransform());
+
+        ray.draw(scene(), glm::vec3(0,1,0));
+
+//        Geometry::printVector(ray.d);
+        Geometry::RaySurfaceIntersection *intersection = scene()->intersectWithSurfaces(ray);
+
+//        if(intersection){
+//            Geometry::printVector(glm::vec3(intersection->surfaceLocalCoordinates, 0));
+//        }
+
+    }
 }
 
 int SixenseControllerNode::controllerIndex() const

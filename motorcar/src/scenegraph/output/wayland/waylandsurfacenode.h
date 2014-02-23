@@ -23,7 +23,7 @@ public:
     //takes a ray in the local Node space and returns whether or not the ray insersects the plane of this surface;
     // t: the ray's intersection distance to the surface
     // localIntersection : the ray's intersection with the surface in wayland "surface local coordinates" as a QPoint for use with QTWayland
-    bool computeLocalSurfaceIntersection(const Geometry::Ray &localRay, glm::vec2 &localIntersection, float &t) const;
+    bool computeLocalSurfaceIntersection(const Geometry::Ray &localRay, glm::vec2 &localIntersection,  float &t);
 
 
     //inhereted from SceneGraphNode

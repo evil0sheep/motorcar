@@ -16,6 +16,9 @@ public:
 
     //inhereted from SceneGraphNode
     void traverseNode(Scene *scene, long deltaMillis) override;
+
+protected:
+    Geometry::RaySurfaceIntersection *m_latestIntersection;
 };
 }
 

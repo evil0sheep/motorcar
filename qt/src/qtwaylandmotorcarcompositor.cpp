@@ -83,16 +83,6 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
 
 
 
-
-
-
-
-
-
-
-
-
-
 //    motorcar::Display testDisplay(window_context, glm::vec2(1), *m_scene, glm::mat4(1));
 //    for(int i = 0; i < 2 ; i++){
 //        for(int j = 0; j < 2; j++){
@@ -211,11 +201,11 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
         if (surface->hasShellSurface()) {
             //m_surfaces.append(surface);
             int n = 1000;
-            glm::mat4 transform = glm::mat4(1)
+            glm::mat4 transform = glm::mat4(1);
 //                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 15, glm::vec3(0, 1, 0))
 //                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 15, glm::vec3(1, 0, 0))
                     //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
-                    * glm::translate(glm::mat4(1), glm::vec3(0,0,-0.5f));
+                    //* glm::translate(glm::mat4(1), glm::vec3(0,.30,-.25f));
             motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), m_scene, transform);
             defaultInputDevice()->setKeyboardFocus(surface);
 

@@ -73,7 +73,8 @@ int main(int argc, char *argv[])
     QOpenGLWindow window(format, geom);
     qtmotorcar::QtWaylandMotorcarCompositor compositor(&window, scene);
 
-    window.show();
+    //window.show();
+    window.showFullScreen();
 
     qtmotorcar::QtWaylandMotorcarOpenGLContext *window_context = new qtmotorcar::QtWaylandMotorcarOpenGLContext(&window);
 
@@ -98,9 +99,17 @@ int main(int argc, char *argv[])
 
 
     motorcar::SixenseMotionSensingSystem *sixense = new motorcar::SixenseMotionSensingSystem(scene);
-    if(sixense->isInitialized() && !sixense->baseStations().empty() && sixense->baseStations().front()->controllers().size() > 1 ){
+    if(hmd && sixense->isInitialized() && !sixense->baseStations().empty() && !sixense->baseStations().front()->controllers().empty() ){
+
         std::cout << "parenting display to controller "<<std::endl;
-        //compositor.display()->setParentNode(sixense->baseStations().front()->controllers().back());
+        compositor.display()->setParentNode(sixense->baseStations().front()->controllers().front());
+
+
+//        glm::mat4 translation = glm::translate(glm::mat4(), glm::vec3(0,0,-.0));
+
+//        glm::mat4 rotation = glm::rotate(glm::mat4(), -45.f, glm::vec3(1,0,0));
+
+//        compositor.display()->setTransform(rotation * translation );
     }
 
     int result = app.exec();

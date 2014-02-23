@@ -35,18 +35,24 @@ void WaylandSurfaceNode::computeSurfaceTransform(float ppcm)
     }
 }
 
-bool WaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &localRay, glm::vec2 &localIntersection, float &t) const
+bool WaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &localRay, glm::vec2 &localIntersection, float &t)
 {
     Geometry::Plane surfacePlane = Geometry::Plane(glm::vec3(0), glm::vec3(0,0,1));
     if(glm::dot(localRay.d, surfacePlane.n) == 0) return false;
 
     Geometry::Ray transformedRay = localRay.transform(glm::inverse(surfaceTransform()));
 
+    //transformedRay.print();
+
     t = surfacePlane.intersect(transformedRay);
     //std::cout << "t = " << t << std::endl;
     glm::vec3 intersection = transformedRay.solve(t);
 
     Geometry::printVector(glm::vec3(intersection));
+
+    //transformedRay.print();
+    transformedRay.draw(scene(), glm::vec3(0,0,1), worldTransform() * surfaceTransform());
+
     glm::vec3 coords= intersection * glm::vec3(m_surface->size().x, m_surface->size().y, 0);
     localIntersection =  glm::vec2(coords);
 
@@ -80,7 +86,7 @@ Geometry::RaySurfaceIntersection *WaylandSurfaceNode::intersectWithSurfaces(cons
 void WaylandSurfaceNode::drawViewpoint(GLCamera *viewpoint)
 {
     //std::cout << "drawing surface" <<std::endl;
-    computeSurfaceTransform(32);
+    computeSurfaceTransform(8);
     surface()->prepare();
     viewpoint->viewport()->display()->renderSurfaceNode(this, viewpoint);
 }

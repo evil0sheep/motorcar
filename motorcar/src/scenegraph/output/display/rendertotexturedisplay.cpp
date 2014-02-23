@@ -9,8 +9,8 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     ,m_distortionShader(new motorcar::OpenGLShader("../motorcar/src/shaders/motorcarbarreldistortion.vert", "../motorcar/src/shaders/motorcarbarreldistortion.frag"))
 {
 
-    h_aPosition_surface =  glGetAttribLocation(m_distortionShader->handle(), "aPosition");
-    h_aTexCoord_surface =  glGetAttribLocation(m_distortionShader->handle(), "aTexCoord");
+    h_aPosition_distortion =  glGetAttribLocation(m_distortionShader->handle(), "aPosition");
+    h_aTexCoord_distortion =  safe_glGetAttribLocation(m_distortionShader->handle(), "aTexCoord");
     h_uDistortionK =  glGetUniformLocation(m_distortionShader->handle(), "uDistortionK");
     h_uLenseCenter =  glGetUniformLocation(m_distortionShader->handle(), "uLenseCenter");
     h_uViewportParams =  glGetUniformLocation(m_distortionShader->handle(), "uViewportParams");
@@ -18,10 +18,10 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
 
     //printOpenGLError();
 
-    if(h_aPosition_surface < 0 || h_aTexCoord_surface < 0 || h_uDistortionK < 0 || h_uLenseCenter < 0|| h_uViewportParams < 0 || h_uScaleFactor < 0){
+    if(h_aPosition_distortion < 0 || h_aTexCoord_distortion < 0 || h_uDistortionK < 0 || h_uLenseCenter < 0|| h_uViewportParams < 0 || h_uScaleFactor < 0){
        std::cout << "problem with distortion shader handles: "
-                 << h_aPosition_surface
-                 << ", "<< h_aTexCoord_surface
+                 << h_aPosition_distortion
+                 << ", "<< h_aTexCoord_distortion
                  << ", "<< h_uDistortionK
                  << ", "<< h_uLenseCenter
                  << ", "<< h_uViewportParams
@@ -90,11 +90,14 @@ void RenderToTextureDisplay::prepareForDraw()
 
 void RenderToTextureDisplay::finishDraw()
 {
+
     glUseProgram(m_distortionShader->handle());
 
-    glEnableVertexAttribArray(h_aPosition_surface);
+    //std::cout << "distortion shader handle " << m_distortionShader->handle() << std::endl;
+
+    glEnableVertexAttribArray(h_aPosition_distortion);
     glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
-    glVertexAttribPointer(h_aPosition_surface, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(h_aPosition_distortion, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindTexture(GL_TEXTURE_2D, m_frameBufferTexture);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -106,6 +109,7 @@ void RenderToTextureDisplay::finishDraw()
     m_scale = 1;
 
     for(GLCamera *cam : viewpoints()){
+
         cam->viewport()->uvCoords(texCoords);
         cam->viewport()->set();
 
@@ -116,10 +120,10 @@ void RenderToTextureDisplay::finishDraw()
         glUniform1f(h_uScaleFactor, temp_scale);
 
 
-        glEnableVertexAttribArray(h_aTexCoord_surface);
+        glEnableVertexAttribArray(h_aTexCoord_distortion);
         glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
         glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), texCoords, GL_STATIC_DRAW);
-        glVertexAttribPointer(h_aTexCoord_surface, 2, GL_FLOAT, GL_FALSE, 0, 0);
+        glVertexAttribPointer(h_aTexCoord_distortion, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
@@ -128,16 +132,24 @@ void RenderToTextureDisplay::finishDraw()
 
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    glDisableVertexAttribArray(h_aPosition_surface);
-    glDisableVertexAttribArray(h_aTexCoord_surface);
+    glDisableVertexAttribArray(h_aPosition_distortion);
+    glDisableVertexAttribArray(h_aTexCoord_distortion);
 
     glUseProgram(0);
 }
 
 void RenderToTextureDisplay::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera)
 {
+
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_frameBuffer);
     Display::renderSurfaceNode(surfaceNode, camera);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+}
+
+void RenderToTextureDisplay::renderWireframeNode(WireframeNode *node, GLCamera *camera)
+{
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_frameBuffer);
+    Display::renderWireframeNode(node, camera);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 }
 

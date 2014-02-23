@@ -8,7 +8,7 @@ uniform vec4 uViewportParams;
 uniform vec2 uLenseCenter;
 uniform float uScaleFactor;
 
-varying vec2 vTexCoord;
+//varying vec2 vTexCoord;
 
 //Fragment position in Uniform Device Coordinates [-1, 1]^2
 varying vec2 vUDCPos;
@@ -31,7 +31,7 @@ void main(void)
 
 
 
-
+    //gl_FragColor = vec4(0,0,0,1);
     //gl_FragColor = vec4(abs(newUDCPos),0,1);
     if(clamp(newUDCPos, vec2(-1), vec2(1)) != newUDCPos){
 

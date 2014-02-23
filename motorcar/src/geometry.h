@@ -43,9 +43,11 @@
 //#include "opengldata.h"
 #include <stdio.h>
 #include <iostream>
+//#include "scenegraph/scene.h""
 
 namespace motorcar{
 class WaylandSurfaceNode;
+class Scene;
 class Geometry
 {
 public:
@@ -60,6 +62,7 @@ public:
         glm::vec3 p, d;
         glm::vec3 solve(float t) const;
         void print() const;
+        void draw(Scene *scene, glm::vec3 color, glm::mat4 transform = glm::mat4());
 
     };
 

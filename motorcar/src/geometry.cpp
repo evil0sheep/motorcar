@@ -34,6 +34,9 @@
 ****************************************************************************/
 
 #include "geometry.h"
+#include "scenegraph/scene.h"
+#include "scenegraph/output/wireframenode.h"
+#include <glm/gtc/matrix_inverse.hpp>
 
 
 using namespace motorcar;
@@ -45,7 +48,7 @@ Geometry::Ray::Ray(glm::vec3 p, glm::vec3 d)
 
 Geometry::Ray Geometry::Ray::transform(glm::mat4 t) const
 {
-    return Ray(glm::vec3(t * glm::vec4(p, 1)), glm::vec3(t * glm::vec4(d, 0)));
+    return Ray(glm::vec3(t * glm::vec4(p, 1)), glm::vec3(t * glm::vec4(d, 1)));
 }
 
 glm::vec3 Geometry::Ray::solve(float t) const
@@ -56,6 +59,32 @@ glm::vec3 Geometry::Ray::solve(float t) const
 void Geometry::Ray::print() const
 {
     std::cout << "p : <" << p.x << ", " << p.y << ", " << p.z <<  "> d : <" << d.x << ", " << d.y << ", " << d.z <<  ">" << std::endl;
+}
+
+void Geometry::Ray::draw(Scene *scene, glm::vec3 color, glm::mat4 transform)
+{
+    glm::mat4 translation = glm::translate(glm::mat4(), p);
+    float vertices[]= {
+        -0.05, 0, 0,
+        0.05, 0, 0,
+        0, -0.05, 0,
+        0, 0.05, 0,
+        0, 0, -0.05,
+        0, 0, 0.05,
+        0, 0, 0,
+        d.x, d.y, d.z
+
+    };
+    WireframeNode *node = new WireframeNode(vertices, 4, color, scene, transform*translation);
+
+    for(Display *display : scene->displays()){
+        for(GLCamera *cam : display->viewpoints()){
+            display->renderWireframeNode(node, cam);
+        }
+
+    }
+
+    delete node;
 }
 
 
