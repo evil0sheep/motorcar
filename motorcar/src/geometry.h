@@ -47,7 +47,7 @@
 
 namespace motorcar{
 class WaylandSurfaceNode;
-class Scene;
+class SceneGraphNode;
 class Geometry
 {
 public:
@@ -62,7 +62,7 @@ public:
         glm::vec3 p, d;
         glm::vec3 solve(float t) const;
         void print() const;
-        void draw(Scene *scene, glm::vec3 color, glm::mat4 transform = glm::mat4());
+        void draw(motorcar::SceneGraphNode *parent, glm::vec3 color, glm::mat4 transform = glm::mat4(1));
 
     };
 

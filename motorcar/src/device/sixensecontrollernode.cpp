@@ -16,12 +16,13 @@ void SixenseControllerNode::updateState(sixenseControllerData data)
         //std::cout << "test" <<std::endl;
 
         glm::mat4 T = worldTransform();
-        Geometry::Ray ray = Geometry::Ray(glm::vec3(T * glm::vec4(0,0,0,1)), glm::vec3(T * glm::vec4(0,0,-1, 1)));
+        Geometry::Ray ray = Geometry::Ray(glm::vec3(0,0,0), glm::vec3(0,0,-1));
+        Geometry::Ray tranformedRay = ray.transform(worldTransform());
 
-        ray.draw(scene(), glm::vec3(0,1,0));
+          ray.draw(this, glm::vec3(0,1,0));
 
 //        Geometry::printVector(ray.d);
-        Geometry::RaySurfaceIntersection *intersection = scene()->intersectWithSurfaces(ray);
+        Geometry::RaySurfaceIntersection *intersection = scene()->intersectWithSurfaces(tranformedRay);
 
 //        if(intersection){
 //            Geometry::printVector(glm::vec3(intersection->surfaceLocalCoordinates, 0));

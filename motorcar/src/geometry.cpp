@@ -61,7 +61,7 @@ void Geometry::Ray::print() const
     std::cout << "p : <" << p.x << ", " << p.y << ", " << p.z <<  "> d : <" << d.x << ", " << d.y << ", " << d.z <<  ">" << std::endl;
 }
 
-void Geometry::Ray::draw(Scene *scene, glm::vec3 color, glm::mat4 transform)
+void Geometry::Ray::draw(SceneGraphNode *parent, glm::vec3 color, glm::mat4 transform)
 {
     glm::mat4 translation = glm::translate(glm::mat4(), p);
     float vertices[]= {
@@ -75,9 +75,9 @@ void Geometry::Ray::draw(Scene *scene, glm::vec3 color, glm::mat4 transform)
         d.x, d.y, d.z
 
     };
-    WireframeNode *node = new WireframeNode(vertices, 4, color, scene, transform*translation);
+    WireframeNode *node = new WireframeNode(vertices, 4, color, parent, transform*translation);
 
-    for(Display *display : scene->displays()){
+    for(Display *display : node->scene()->displays()){
         for(GLCamera *cam : display->viewpoints()){
             display->renderWireframeNode(node, cam);
         }

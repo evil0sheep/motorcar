@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 
 //        glm::mat4 rotation = glm::rotate(glm::mat4(), -45.f, glm::vec3(1,0,0));
 
-//        compositor.display()->setTransform(rotation * translation );
+//        compositor->display()->setTransform(rotation * translation );
     }
 
 
