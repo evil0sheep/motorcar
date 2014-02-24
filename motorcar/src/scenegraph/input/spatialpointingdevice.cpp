@@ -23,11 +23,12 @@ void SpatialPointingDevice::traverseNode(Scene *scene, long deltaMillis)
 {
     PhysicalNode::traverseNode(scene, deltaMillis);
 
-//    Geometry::Ray ray = Geometry::Ray(glm::vec3(0), glm::vec3(0,0,-1)).transform(worldTransform());
+    glm::mat4 T = worldTransform();
+    Geometry::Ray ray = Geometry::Ray(glm::vec3(T * glm::vec4(0,0,0,1)), glm::vec3(T * glm::vec4(0,0,-1, 1)));
 
-//    Geometry::RaySurfaceIntersection *intersection = scene->intersectWithSurfaces(ray);
+    Geometry::RaySurfaceIntersection *intersection = scene->intersectWithSurfaces(ray);
 
-//    if(intersection!=NULL){
-//        this->m_latestIntersection = intersection;
-//    }
+    if(intersection!=NULL){
+        this->m_latestIntersection = intersection;
+    }
 }

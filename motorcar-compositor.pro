@@ -58,7 +58,8 @@ HEADERS += \
     motorcar/src/scenegraph/input/spatialpointingdevice.h \
     motorcar/src/device/sixensecontrollernode.h \
     motorcar/src/device/sixensebasenode.h \
-    motorcar/src/scenegraph/output/wireframenode.h
+    motorcar/src/scenegraph/output/wireframenode.h \
+    motorcar/src/compositor.h
 
 
 
@@ -96,7 +97,8 @@ SOURCES += \
     motorcar/src/scenegraph/input/spatialpointingdevice.cpp \
     motorcar/src/device/sixensecontrollernode.cpp \
     motorcar/src/device/sixensebasenode.cpp \
-    motorcar/src/scenegraph/output/wireframenode.cpp
+    motorcar/src/scenegraph/output/wireframenode.cpp \
+    motorcar/src/compositor.cpp
 
 
 

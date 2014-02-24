@@ -54,7 +54,7 @@
 
 using namespace qtmotorcar;
 
-QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, motorcar::Scene * scene)
+QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, QGuiApplication *app, motorcar::Scene * scene)
     : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
     , m_scene(scene)
     , m_glData(new OpenGLData(window))//glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0,0,1.5f)), 180.f, glm::vec3(0,1,0)))))
@@ -65,13 +65,13 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     , m_cursorHotspotX(0)
     , m_cursorHotspotY(0)
     , m_modifiers(Qt::NoModifier)
-    , m_display(NULL)
+    , m_app(app)
 
 {
+    setDisplay(NULL);
 
     m_renderScheduler.setSingleShot(true);
     connect(&m_renderScheduler,SIGNAL(timeout()),this,SLOT(render()));
-
 
 
     window->installEventFilter(this);
@@ -96,19 +96,46 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
 QtWaylandMotorcarCompositor::~QtWaylandMotorcarCompositor()
 {
     delete m_glData;
-    delete m_display;
 }
 
-
-motorcar::Display *QtWaylandMotorcarCompositor::display() const
+motorcar::Compositor *QtWaylandMotorcarCompositor::create(int argc, char** argv, motorcar::Scene *scene)
 {
-    return m_display;
+    // Enable the following to have touch events generated from mouse events.
+    // Very handy for testing touch event delivery without a real touch device.
+    // QGuiApplication::setAttribute(Qt::AA_SynthesizeTouchForUnhandledMouseEvents, true);
+
+    QGuiApplication *app = new QGuiApplication(argc, argv);
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect screenGeometry = screen->availableGeometry();
+
+    QSurfaceFormat format;
+    format.setDepthBufferSize(16);
+    format.setStencilBufferSize(8);
+
+    QRect geom = screenGeometry;
+    if (QCoreApplication::arguments().contains(QLatin1String("-nofullscreen")))
+        geom = QRect(screenGeometry.width() / 4, screenGeometry.height() / 4,
+                     screenGeometry.width() / 2, screenGeometry.height() / 2);
+
+    QOpenGLWindow *window = new QOpenGLWindow(format, geom);
+    return  new QtWaylandMotorcarCompositor(window, app, scene);
 }
 
-void QtWaylandMotorcarCompositor::setDisplay(motorcar::Display *display)
+int QtWaylandMotorcarCompositor::start()
 {
-    m_display = display;
+    this->glData()->m_window->showFullScreen();
+    int result = m_app->exec();
+    delete m_app;
+    return result;
 }
+
+motorcar::OpenGLContext *QtWaylandMotorcarCompositor::getContext()
+{
+    return new QtWaylandMotorcarOpenGLContext(this->glData()->m_window);
+}
+
+
+
 
 OpenGLData *QtWaylandMotorcarCompositor::glData() const
 {

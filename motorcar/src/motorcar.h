@@ -3,6 +3,7 @@
 
 
 #include "geometry.h"
+#include "compositor.h"
 #include "scenegraph/scenegraph.h"
 #include "device/device.h"
 #include "gl/openglshader.h"

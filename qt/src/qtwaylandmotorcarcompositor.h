@@ -48,22 +48,27 @@
 #include "qtwaylandmotorcaropenglcontext.h"
 #include "opengldata.h"
 
+#include <QGuiApplication>
+
 
 #include <QObject>
 #include <QTimer>
 namespace qtmotorcar{
 class QtWaylandMotorcarScene;
-class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor
+class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor, public motorcar::Compositor
 {
     Q_OBJECT
 public:
-    QtWaylandMotorcarCompositor(QOpenGLWindow *window, motorcar::Scene *scene);
+    QtWaylandMotorcarCompositor(QOpenGLWindow *window, QGuiApplication *app, motorcar::Scene *scene);
     ~QtWaylandMotorcarCompositor();
 
 
+    static motorcar::Compositor *create(int argc, char **argv, motorcar::Scene *scene);
 
-    motorcar::Display *display() const;
-    void setDisplay(motorcar::Display *display);
+    virtual int start() override;
+
+    virtual motorcar::OpenGLContext *getContext() override;
+
 
     OpenGLData *glData() const;
     void setGlData(OpenGLData *glData);
@@ -106,6 +111,7 @@ private slots:
     void updateCursor();
 
 private:
+    QGuiApplication *m_app;
 
     motorcar::Scene *m_scene;
     //QList<QWaylandSurface *> m_surfaces;
@@ -124,7 +130,6 @@ private:
 
     Qt::KeyboardModifiers m_modifiers;
 
-    motorcar::Display *m_display;
     std::map<QWaylandSurface *, motorcar::WaylandSurfaceNode *> m_surfaceMap;
 
 };
