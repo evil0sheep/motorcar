@@ -1,4 +1,4 @@
-QT += gui gui-private core-private compositor
+QT += gui widgets gui-private core-private compositor
 
 LIBOVRPATH=../thirdPartySource/Oculus/OculusSDK/LibOVR
 SIXENSEPATH=../thirdPartySource/sixenseSDK_linux_OSX

@@ -105,7 +105,16 @@ motorcar::Compositor *QtWaylandMotorcarCompositor::create(int argc, char** argv,
     // QGuiApplication::setAttribute(Qt::AA_SynthesizeTouchForUnhandledMouseEvents, true);
 
     QGuiApplication *app = new QGuiApplication(argc, argv);
-    QScreen *screen = QGuiApplication::primaryScreen();
+    QScreen *screen;
+
+    if(QGuiApplication::screens().size() ==1){
+        screen = QGuiApplication::primaryScreen();
+    }else{
+        screen =  QGuiApplication::screens().at(1);
+
+    }
+
+
     QRect screenGeometry = screen->availableGeometry();
 
     QSurfaceFormat format;
@@ -231,7 +240,7 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
             glm::mat4 transform = glm::mat4(1)
 //                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 15, glm::vec3(0, 1, 0))
 //                    * glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 15, glm::vec3(1, 0, 0))
-                    //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
+            //        * glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
                     * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-.25f));
             motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), m_scene, transform);
             defaultInputDevice()->setKeyboardFocus(surface);

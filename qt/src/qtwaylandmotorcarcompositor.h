@@ -49,6 +49,7 @@
 #include "opengldata.h"
 
 #include <QGuiApplication>
+#include <QDesktopWidget>
 
 
 #include <QObject>

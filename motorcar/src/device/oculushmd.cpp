@@ -61,7 +61,7 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNo
             InterpupillaryDistance = .0647;
             DistortionK = glm::vec4(1, .22, .24, 0);
             scaleFactor = 1.25;
-            //return NULL;
+            return NULL;
         }else{
              std::cout << "using HMD Parameters from API" << std::endl;
 
@@ -84,7 +84,7 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNo
             scaleFactor = SConfig.GetDistortionScale();
 
         }
-        std::cout << "Scale Factor" << scaleFactor << std::endl;
+        std::cout << "IPD " << InterpupillaryDistance << std::endl;
 
 
         float near = .01, far = 100;

@@ -4,7 +4,7 @@
 #include <sixense.h>
 
 namespace motorcar {
-class SixenseControllerNode : public SpatialPointingDevice
+class SixenseControllerNode : public PhysicalNode
 {
 public:
     SixenseControllerNode(int controllerIndex, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
@@ -20,9 +20,16 @@ public:
     //inhereted from SceneGraphNode
     void traverseNode(Scene *scene, long deltaMillis) override;
 
+
+
+    SpatialPointingDevice *pointingDevice() const;
+    void setPointingDevice(SpatialPointingDevice *pointingDevice);
+
 private:
+    SpatialPointingDevice *m_pointingDevice;
     int m_controllerIndex;
     bool m_enabled;
+    bool m_bumperDown;
 };
 }
 
