@@ -51,12 +51,12 @@ bool WaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &lo
     //Geometry::printVector(glm::vec3(intersection));
 
     //transformedRay.print();
-    transformedRay.draw(this, glm::vec3(0,0,1),  surfaceTransform());
+    //transformedRay.draw(this, glm::vec3(0,0,1),  surfaceTransform());
 
     glm::vec3 coords= intersection * glm::vec3(m_surface->size().x, m_surface->size().y, 0);
     localIntersection =  glm::vec2(coords);
 
-    return true;
+    return t >= 0;
 }
 
 Geometry::RaySurfaceIntersection *WaylandSurfaceNode::intersectWithSurfaces(const Geometry::Ray &ray)

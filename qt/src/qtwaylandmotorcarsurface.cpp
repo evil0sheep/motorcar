@@ -29,6 +29,7 @@ void QtWaylandMotorcarSurface::sendMouseEvent(motorcar::WaylandSurface::MouseEve
     //std::cout << "recieved mouse event in qt wayland surface" << std::endl;
     QWaylandInputDevice *input = m_compositor->defaultInputDevice();
 
+    m_latestMouseEventPos = localPostion;
 
     QPointF localPos(localPostion.x, localPostion.y);
 

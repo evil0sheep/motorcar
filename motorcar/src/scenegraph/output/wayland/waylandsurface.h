@@ -39,7 +39,11 @@ public:
     //virtual void sendMouseWheelEvent(Qt::Orientation orientation, int delta);
     
 
-private:
+    glm::vec2 latestMouseEventPos() const;
+
+
+protected:
+    glm::vec2 m_latestMouseEventPos;
 
 };
 }

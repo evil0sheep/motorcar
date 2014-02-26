@@ -44,7 +44,7 @@ void SpatialPointingDevice::traverseNode(Scene *scene, long deltaMillis)
     }
 
     if(m_grabbedSurfaceNode != NULL){
-        m_grabbedSurfaceNode->setTransform(this->worldTransform() * m_grabbedSurfaceNode->parentNode()->inverseWorldTransform() * m_grabbedSurfaceNodeTransform);
+        m_grabbedSurfaceNode->setTransform( m_grabbedSurfaceNode->parentNode()->inverseWorldTransform() * this->worldTransform() * m_grabbedSurfaceNodeTransform);
     }
 }
 
@@ -67,7 +67,7 @@ void SpatialPointingDevice::releaseGrabbedSurface()
     //std::cout << "attempting to release grabbed surface" <<std::endl;
     if(m_grabbedSurfaceNode != NULL){
         //m_grabbedSurface->setParentNode(m_grabbedSurfaceParent);
-        m_grabbedSurfaceNode->setTransform(this->worldTransform() * m_grabbedSurfaceNode->parentNode()->inverseWorldTransform() * m_grabbedSurfaceNodeTransform);
+        m_grabbedSurfaceNode->setTransform(m_grabbedSurfaceNode->parentNode()->inverseWorldTransform() * this->worldTransform() * m_grabbedSurfaceNodeTransform);
         m_grabbedSurfaceNode = NULL;
     }
 }
