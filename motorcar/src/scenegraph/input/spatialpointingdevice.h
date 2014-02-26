@@ -6,6 +6,7 @@
 #include "inputelement.h"
 #include "../physicalnode.h"
 #include "../output/wireframenode.h"
+#include "../output/wayland/waylandsurfacenode.h"
 
 namespace motorcar {
 class SpatialPointingDevice : public InputElement, public PhysicalNode
@@ -34,15 +35,18 @@ public:
     void releaseGrabbedSurface();
 
 
-    Geometry::RaySurfaceIntersection *latestIntersection() const;
 
+private:
 
-protected:
+    void mouseEvent(WaylandSurface::MouseEvent eventType, WaylandSurface::MouseButton button);
+
     Geometry::RaySurfaceIntersection *m_latestIntersection;
     bool m_leftMouseDown, m_rightMouseDown, m_middleMouseDown;
 
-    WaylandSurfaceNode *m_grabbedSurface;
-    SceneGraphNode *m_grabbedSurfaceParent;
+    WaylandSurfaceNode *m_grabbedSurfaceNode;
+    glm::mat4 m_grabbedSurfaceNodeTransform;
+
+
 
 };
 }

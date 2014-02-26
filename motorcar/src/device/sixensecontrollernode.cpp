@@ -27,6 +27,10 @@ void SixenseControllerNode::updateState(sixenseControllerData data)
                 m_pointingDevice->releaseGrabbedSurface();
             }
         }
+
+        m_pointingDevice->setLeftMouseDown((data.buttons & SIXENSE_BUTTON_1) != 0);
+        m_pointingDevice->setRightMouseDown((data.buttons & SIXENSE_BUTTON_2) != 0);
+        m_pointingDevice->setMiddleMouseDown((data.buttons & SIXENSE_BUTTON_JOYSTICK) != 0);
     }
 
 }

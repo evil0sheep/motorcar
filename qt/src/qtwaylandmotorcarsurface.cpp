@@ -24,6 +24,60 @@ void QtWaylandMotorcarSurface::prepare()
     m_textureID = composeSurface(m_surface, m_compositor->glData());
 }
 
+void QtWaylandMotorcarSurface::sendMouseEvent(motorcar::WaylandSurface::MouseEvent eventType, motorcar::WaylandSurface::MouseButton buttonId, glm::vec2 localPostion)
+{
+    //std::cout << "recieved mouse event in qt wayland surface" << std::endl;
+    QWaylandInputDevice *input = m_compositor->defaultInputDevice();
+
+
+    QPointF localPos(localPostion.x, localPostion.y);
+
+    if(input->mouseFocus() != m_surface){
+        input->setMouseFocus(m_surface, localPos);
+    }
+
+    Qt::MouseButton button;
+    switch(buttonId){
+    case motorcar::WaylandSurface::MouseButton::LEFT:
+        std::cout << "left mouse button" << std::endl;
+        button = Qt::LeftButton;
+        break;
+    case motorcar::WaylandSurface::MouseButton::RIGHT:
+        std::cout << "right mouse button" << std::endl;
+        button = Qt::RightButton;
+        break;
+    case motorcar::WaylandSurface::MouseButton::MIDDLE:
+        std::cout << "middle mouse button" << std::endl;
+        button = Qt::MiddleButton;
+        break;
+    default:
+        //std::cout << "no mouse button" << std::endl;
+        button = Qt::NoButton;
+        break;
+    }
+
+    switch(eventType){
+    case motorcar::WaylandSurface::MouseEvent::BUTTON_PRESS:
+        std::cout << "button press event" << std::endl;
+        if (m_surface && input->keyboardFocus() != m_surface) {
+            input->setKeyboardFocus(m_surface);
+        }
+        input->sendMousePressEvent(button, localPos);
+        break;
+    case motorcar::WaylandSurface::MouseEvent::BUTTON_RELEASE:
+        std::cout << "button release event" << std::endl;
+        input->sendMouseReleaseEvent(button, localPos);
+        break;
+    case motorcar::WaylandSurface::MouseEvent::MOVE:
+        //std::cout << "mouse move event" << std::endl;
+        input->sendMouseMoveEvent(m_surface, localPos);
+        break;
+    default:
+        break;
+    }
+}
+
+
 GLuint QtWaylandMotorcarSurface::composeSurface(QWaylandSurface *surface, OpenGLData *glData)
 {
     glData->m_textureBlitter->bind();
@@ -71,6 +125,7 @@ void QtWaylandMotorcarSurface::paintChildren(QWaylandSurface *surface, QWaylandS
         paintChildren(subSurface,window, glData);
     }
 }
+
 
 
 

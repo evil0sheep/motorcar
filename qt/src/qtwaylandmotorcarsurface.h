@@ -5,6 +5,8 @@
 #include "opengldata.h"
 #include "qwaylandsurface.h"
 #include "qtwaylandmotorcarcompositor.h"
+
+#include <qwaylandinput.h>
 #include <QtDebug>
 #include <glm/glm.hpp>
 
@@ -20,6 +22,7 @@ namespace qtmotorcar{
         GLuint texture() override;
         glm::ivec2 size() override;
         void prepare() override;
+        void sendMouseEvent(MouseEvent eventType, MouseButton buttonId, glm::vec2 localPostion) override;
 
          QWaylandSurface *m_surface;
     private:

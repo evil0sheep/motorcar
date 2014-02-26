@@ -18,6 +18,26 @@ public:
     //do any per-frame setup required for drawing
     //note: this is the only safe place to change framebuffers
     virtual void prepare() = 0;
+    
+
+    enum MouseEvent{
+        BUTTON_PRESS,
+        BUTTON_RELEASE,
+        MOVE
+    };
+
+    enum MouseButton{
+        LEFT,
+        RIGHT,
+        MIDDLE,
+        NONE
+
+    };
+
+    virtual void sendMouseEvent(MouseEvent eventType, MouseButton button, glm::vec2 localPostion) = 0;
+
+    //virtual void sendMouseWheelEvent(Qt::Orientation orientation, int delta);
+    
 
 private:
 
