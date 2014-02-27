@@ -120,6 +120,7 @@ private:
     OpenGLData *m_glData;
     QTimer m_renderScheduler;
 
+
     //Dragging windows around
     QWaylandSurface *m_draggingWindow;
     bool m_dragKeyIsPressed;
@@ -132,9 +133,11 @@ private:
     int m_cursorHotspotX;
     int m_cursorHotspotY;
 
+
     Qt::KeyboardModifiers m_modifiers;
 
     std::map<QWaylandSurface *, motorcar::WaylandSurfaceNode *> m_surfaceMap;
+    int m_numSurfacesMapped;
 
 };
 }

@@ -79,14 +79,12 @@ Geometry::RaySurfaceIntersection *WaylandSurfaceNode::intersectWithSurfaces(cons
     bool isIntersected = computeLocalSurfaceIntersection(localRay, localIntersection, t);
 
 
-    if(isIntersected && (closestSubtreeIntersection == NULL || t < closestSubtreeIntersection-> t)){
+    if(isIntersected && (closestSubtreeIntersection == NULL || t < closestSubtreeIntersection-> t)
+            && localIntersection.x >= 0 && localIntersection.x <= m_surface->size().x
+            && localIntersection.y >= 0 && localIntersection.y <= m_surface->size().y){
 
-
-        if(localIntersection.x >= 0 && localIntersection.x <= m_surface->size().x && localIntersection.y >= 0 && localIntersection.y <= m_surface->size().y){
             return new Geometry::RaySurfaceIntersection(this, localIntersection, ray, t);
-        }else{
-            return NULL;
-        }
+
 
     }else{
         return closestSubtreeIntersection;

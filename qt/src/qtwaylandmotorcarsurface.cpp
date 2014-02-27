@@ -36,7 +36,7 @@ void QtWaylandMotorcarSurface::sendMouseEvent(motorcar::WaylandSurface::MouseEve
     QPointF localPos(localPostion.x, localPostion.y);
 
     if( input->mouseFocus() != m_surface){
-        std::cout << "setting mouse focus from: " << input->mouseFocus() << " to: " << m_surface << std::endl;
+        //std::cout << "setting mouse focus from: " << input->mouseFocus() << " to: " << m_surface << std::endl;
         input->setMouseFocus(m_surface, localPos);
 
 

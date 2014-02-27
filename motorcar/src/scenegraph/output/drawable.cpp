@@ -23,8 +23,6 @@ void Drawable::draw(Scene *scene)
         for(Display *display : scene->displays()){
             display->renderDrawable(this);
         }
-    }else{
-        std::cout << "not drawing drawable because invalid" << std::endl;
     }
 
 }

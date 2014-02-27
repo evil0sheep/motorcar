@@ -69,6 +69,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     , m_cursorHotspotY(0)
     , m_modifiers(Qt::NoModifier)
     , m_app(app)
+    , m_numSurfacesMapped(0)
 
 {
     setDisplay(NULL);
@@ -235,13 +236,14 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
                 }
             }
             m_surfaceMap.erase (surface);
-            //todo: NULL pointers of child surface nodes in surface map before deleting
-            std::cout << "attempting to delete surfaceNode pointer " << surfaceNode <<std::endl;
 
-            delete surfaceNode;
-//            surfaceNode->setValid(false);
-//            defaultInputDevice()->setMouseFocus(NULL, QPointF(0,0));
-//            defaultInputDevice()->setKeyboardFocus(NULL);
+            std::cout << "attempting to delete surfaceNode pointer " << surfaceNode <<std::endl;
+            motorcar::Scene *tempScene = new motorcar::Scene();
+            //delete surfaceNode;
+            surfaceNode->setParentNode(tempScene);
+            //surfaceNode->setValid(false);
+            defaultInputDevice()->setMouseFocus(NULL, QPointF(0,0));
+            defaultInputDevice()->setKeyboardFocus(NULL);
 
 
         }
@@ -267,16 +269,22 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
             int type = static_cast<int>(surface->windowType());
             float popupZOffset = 0.05;
 
+
             if(type == QWaylandSurface::WindowType::Toplevel){
                 int n = 1000;
+                int thetaTiles = 3;
+                int phiTiles = 2;
+
                 parentNode = this->scene();
                 transform = glm::mat4(1)
-                            //* glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 15, glm::vec3(0, 1, 0))
-                            //* glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 15, glm::vec3(1, 0, 0))
-                            * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
-                            //* glm::translate(glm::mat4(1), glm::vec3(0,0.0,-.25f))
+                                * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
+                                * glm::translate(glm::mat4(1), glm::vec3(0,0.0,1.25f))
+                                * glm::rotate(glm::mat4(1), (-1 +  m_numSurfacesMapped % 3) * 30.f, glm::vec3(0, -1, 0))
+                            * glm::rotate(glm::mat4(1), (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
+                            * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
                             * glm::mat4(1);
                 surfaceType = motorcar::WaylandSurface::SurfaceType::TOPLEVEL;
+                m_numSurfacesMapped ++;
             }else if(type == QWaylandSurface::WindowType::Popup){
 
                 motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(this->defaultInputDevice()->mouseFocus());
