@@ -198,4 +198,15 @@ std::vector<SceneGraphNode *> SceneGraphNode::childNodes() const
     return m_childNodes;
 }
 
+std::vector<SceneGraphNode *> SceneGraphNode::nodesInSubtree() const
+{
+    std::vector<SceneGraphNode *> results;
+    results.insert(results.end(), m_childNodes.begin(), m_childNodes.end());
+    for(SceneGraphNode *child : m_childNodes){
+        std::vector<SceneGraphNode *> childNodes = child->nodesInSubtree();
+        results.insert(results.end(), childNodes.begin(), childNodes.end());
+    }
+    return results;
+}
+
 

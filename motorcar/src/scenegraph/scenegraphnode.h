@@ -62,8 +62,11 @@ public:
 
 
 
-
+    //returns the immediate children of this node
     std::vector<SceneGraphNode *> childNodes() const;
+
+    //returns a list of all nodes in this the scenegraph subtree rooted at this node
+    std::vector<SceneGraphNode *> nodesInSubtree() const;
 
 
 private :

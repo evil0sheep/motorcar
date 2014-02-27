@@ -210,9 +210,28 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
     //m_surfaces.removeOne(surface);
     if(surface != NULL){ //because calling getSurfaceNode with NULL will cause the first surface node to be returned
         motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
-        m_surfaceMap.erase (surface);
-        //todo: NULL pointers of child surface nodes in surface map before deleting
-        delete surfaceNode;
+
+
+        if(surfaceNode != NULL){
+            std::vector<motorcar::SceneGraphNode *> subtreeNodes = surfaceNode->nodesInSubtree();
+            for(motorcar::SceneGraphNode *node : subtreeNodes){
+                motorcar::WaylandSurfaceNode *subtreeSurfaceNode = dynamic_cast<motorcar::WaylandSurfaceNode *>(node);
+                if(subtreeSurfaceNode != NULL){
+                    QtWaylandMotorcarSurface *subtreeSurface = dynamic_cast<QtWaylandMotorcarSurface *>(subtreeSurfaceNode->surface());
+                    if(subtreeSurface != NULL){
+                        std::map<QWaylandSurface *, motorcar::WaylandSurfaceNode *>::iterator it = m_surfaceMap.find(subtreeSurface->m_surface);
+                        if (it != m_surfaceMap.end()){
+                            it->second = NULL;
+                        }
+                    }
+
+                }
+            }
+            m_surfaceMap.erase (surface);
+            //todo: NULL pointers of child surface nodes in surface map before deleting
+            delete surfaceNode;
+
+        }
 
     }
     ensureKeyboardFocusSurface(surface);
@@ -240,8 +259,8 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
                 transform = glm::mat4(1)
                             //* glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 15, glm::vec3(0, 1, 0))
                             //* glm::rotate(glm::mat4(1), (((2.f * (qrand() % n))/(n)) - 1) * 15, glm::vec3(1, 0, 0))
-                            //* glm::rotate(glm::mat4(1), 180.f, glm::vec3(1, 0, 0))
-                            * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-.25f))
+                            * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
+                            //* glm::translate(glm::mat4(1), glm::vec3(0,0.0,-.25f))
                             * glm::mat4(1);
             }else if(type == QWaylandSurface::WindowType::Popup){
 
