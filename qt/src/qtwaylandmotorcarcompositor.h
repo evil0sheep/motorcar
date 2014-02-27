@@ -44,7 +44,7 @@
 
 #include "../../motorcar/src/motorcar.h"
 
-#include "qtwaylandmotorcarsurface.h"
+
 #include "qtwaylandmotorcaropenglcontext.h"
 #include "opengldata.h"
 
@@ -56,6 +56,7 @@
 #include <QTimer>
 namespace qtmotorcar{
 class QtWaylandMotorcarScene;
+class QtWaylandMotorcarSurface;
 class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor, public motorcar::Compositor
 {
     Q_OBJECT
@@ -126,6 +127,8 @@ private:
 
     //Cursor
     QWaylandSurface *m_cursorSurface;
+    motorcar::WaylandSurfaceNode *m_cursorSurfaceNode;
+    QtWaylandMotorcarSurface *m_cursorMotorcarSurface;
     int m_cursorHotspotX;
     int m_cursorHotspotY;
 

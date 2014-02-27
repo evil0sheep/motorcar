@@ -39,8 +39,26 @@ void SpatialPointingDevice::traverseNode(Scene *scene, long deltaMillis)
 
     this->m_latestIntersection = intersection;
 
-    if(m_latestIntersection != NULL){
+    if(intersection != NULL){
         mouseEvent(WaylandSurface::MouseEvent::MOVE, WaylandSurface::MouseButton::NONE);
+
+        WaylandSurfaceNode *cursor = scene->cursorNode();
+        if(cursor){
+           WaylandSurfaceNode *surfaceNode = intersection->surfaceNode;
+           glm::vec3 position = glm::vec3(surfaceNode->surfaceTransform() *
+                                          glm::vec4((intersection->surfaceLocalCoordinates +
+                                                     (glm::vec2(cursor->surface()->size())/2.0f) - glm::vec2(scene->cursorHotspot())) /
+                                                    glm::vec2(surfaceNode->surface()->size()),0,1));
+
+           cursor->setParentNode(surfaceNode);
+           cursor->setTransform(glm::translate(glm::mat4(), position));
+           cursor->setValid(true);
+        }
+    }else{
+        WaylandSurfaceNode *cursor = scene->cursorNode();
+        if(cursor){
+            cursor->setValid(false);
+        }
     }
 
     if(m_grabbedSurfaceNode != NULL){

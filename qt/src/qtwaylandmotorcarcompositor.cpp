@@ -38,6 +38,7 @@
 ****************************************************************************/
 
 #include "qtwaylandmotorcarcompositor.h"
+#include "qtwaylandmotorcarsurface.h"
 
 
 
@@ -61,7 +62,9 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     , m_renderScheduler(this)
     , m_draggingWindow(0)
     , m_dragKeyIsPressed(false)
-    , m_cursorSurface(0)
+    , m_cursorSurface(NULL)
+    , m_cursorSurfaceNode(NULL)
+    , m_cursorMotorcarSurface(NULL)
     , m_cursorHotspotX(0)
     , m_cursorHotspotY(0)
     , m_modifiers(Qt::NoModifier)
@@ -80,6 +83,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
 
     setOutputGeometry(QRect(QPoint(0, 0), window->size()));
     setOutputRefreshRate(qRound(qGuiApp->primaryScreen()->refreshRate() * 1000.0));
+
 
 
 
@@ -193,7 +197,7 @@ void QtWaylandMotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *ol
         motorcar::WaylandSurfaceNode *n = this->getSurfaceNode();
         // defaultInputDevice()->setKeyboardFocus(m_surfaces.isEmpty() ? 0 : m_surfaces.last());
         if(n){
-            defaultInputDevice()->setKeyboardFocus(static_cast<QtWaylandMotorcarSurface *>(n->surface())->m_surface);
+            defaultInputDevice()->setKeyboardFocus(static_cast<QtWaylandMotorcarSurface *>(n->surface())->surface());
         }else{
             defaultInputDevice()->setKeyboardFocus(NULL);
         }
@@ -213,14 +217,17 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
 
 
         if(surfaceNode != NULL){
+            scene()->cursorNode()->setValid(false);
+
             std::vector<motorcar::SceneGraphNode *> subtreeNodes = surfaceNode->nodesInSubtree();
             for(motorcar::SceneGraphNode *node : subtreeNodes){
                 motorcar::WaylandSurfaceNode *subtreeSurfaceNode = dynamic_cast<motorcar::WaylandSurfaceNode *>(node);
                 if(subtreeSurfaceNode != NULL){
                     QtWaylandMotorcarSurface *subtreeSurface = dynamic_cast<QtWaylandMotorcarSurface *>(subtreeSurfaceNode->surface());
                     if(subtreeSurface != NULL){
-                        std::map<QWaylandSurface *, motorcar::WaylandSurfaceNode *>::iterator it = m_surfaceMap.find(subtreeSurface->m_surface);
+                        std::map<QWaylandSurface *, motorcar::WaylandSurfaceNode *>::iterator it = m_surfaceMap.find(subtreeSurface->surface());
                         if (it != m_surfaceMap.end()){
+                            std::cout << "nulling surfaceNode pointer: " << it->second  << " in surface map" <<std::endl;
                             it->second = NULL;
                         }
                     }
@@ -229,7 +236,13 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
             }
             m_surfaceMap.erase (surface);
             //todo: NULL pointers of child surface nodes in surface map before deleting
+            std::cout << "attempting to delete surfaceNode pointer " << surfaceNode <<std::endl;
+
             delete surfaceNode;
+//            surfaceNode->setValid(false);
+//            defaultInputDevice()->setMouseFocus(NULL, QPointF(0,0));
+//            defaultInputDevice()->setKeyboardFocus(NULL);
+
 
         }
 
@@ -249,6 +262,7 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
 
             glm::mat4 transform;
             motorcar::SceneGraphNode *parentNode;
+            motorcar::WaylandSurface::SurfaceType surfaceType;
 
             int type = static_cast<int>(surface->windowType());
             float popupZOffset = 0.05;
@@ -262,6 +276,7 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
                             * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
                             //* glm::translate(glm::mat4(1), glm::vec3(0,0.0,-.25f))
                             * glm::mat4(1);
+                surfaceType = motorcar::WaylandSurface::SurfaceType::TOPLEVEL;
             }else if(type == QWaylandSurface::WindowType::Popup){
 
                 motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(this->defaultInputDevice()->mouseFocus());
@@ -273,13 +288,19 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
                 std::cout << "creating popup window with parent " << surfaceNode << " at position:" << std::endl;
                 motorcar::Geometry::printVector(position);
                 transform = glm::translate(glm::mat4(), position);
+                surfaceType = motorcar::WaylandSurface::SurfaceType::POPUP;
+            }else if(type == QWaylandSurface::WindowType::Transient){
+                transform = glm::translate(glm::mat4(), glm::vec3(0,0,popupZOffset));
+                parentNode = this->getSurfaceNode(this->defaultInputDevice()->mouseFocus());
+                surfaceType = motorcar::WaylandSurface::SurfaceType::TRANSIENT;
             }else{
                 transform = glm::translate(glm::mat4(), glm::vec3(0,0,popupZOffset));
                 parentNode = this->getSurfaceNode(this->defaultInputDevice()->mouseFocus());
+                surfaceType = motorcar::WaylandSurface::SurfaceType::NA;
             }
 
 
-            motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this), parentNode, transform);
+            motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this, surfaceType), parentNode, transform);
             defaultInputDevice()->setKeyboardFocus(surface);
 
             m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
@@ -350,19 +371,7 @@ void QtWaylandMotorcarCompositor::sendExpose()
     surface->sendOnScreenVisibilityChange(true);
 }
 
-void QtWaylandMotorcarCompositor::updateCursor()
-{
-    if (!m_cursorSurface)
-        return;
-    QCursor cursor(QPixmap::fromImage(m_cursorSurface->image()), m_cursorHotspotX, m_cursorHotspotY);
-    static bool cursorIsSet = false;
-    if (cursorIsSet) {
-        QGuiApplication::changeOverrideCursor(cursor);
-    } else {
-        QGuiApplication::setOverrideCursor(cursor);
-        cursorIsSet = true;
-    }
-}
+
 
 QPointF QtWaylandMotorcarCompositor::toSurface(QWaylandSurface *surface, const QPointF &point) const
 {
@@ -387,10 +396,36 @@ QPointF QtWaylandMotorcarCompositor::toSurface(QWaylandSurface *surface, const Q
     }
 }
 
+void QtWaylandMotorcarCompositor::updateCursor()
+{
+    if (!m_cursorSurface)
+        return;
+    QCursor cursor(QPixmap::fromImage(m_cursorSurface->image()), m_cursorHotspotX, m_cursorHotspotY);
+    static bool cursorIsSet = false;
+    if (cursorIsSet) {
+        QGuiApplication::changeOverrideCursor(cursor);
+    } else {
+        QGuiApplication::setOverrideCursor(cursor);
+        cursorIsSet = true;
+    }
+}
+
 void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY)
 {
-    if ((m_cursorSurface != surface) && surface)
+
+    if(m_cursorSurfaceNode == NULL){
+        m_cursorMotorcarSurface =new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::CURSOR);
+        m_cursorSurfaceNode =  new motorcar::WaylandSurfaceNode(m_cursorMotorcarSurface, m_scene, glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0)));
+        m_scene->setCursorNode(m_cursorSurfaceNode);
+    }
+
+    m_cursorMotorcarSurface->setSurface(surface);
+    m_scene->setCursorHotspot(glm::ivec2(hotspotX, hotspotY));
+
+
+    if ((m_cursorSurface != surface) && surface){
         connect(surface, SIGNAL(damaged(QRect)), this, SLOT(updateCursor()));
+    }
 
     m_cursorSurface = surface;
     m_cursorHotspotX = hotspotX;
@@ -411,7 +446,7 @@ QWaylandSurface *QtWaylandMotorcarCompositor::surfaceAt(const QPointF &point, QP
         motorcar::WaylandSurface *surface = intersection->surfaceNode->surface();
         delete intersection;
 
-        return static_cast<QtWaylandMotorcarSurface *>(surface)->m_surface;
+        return static_cast<QtWaylandMotorcarSurface *>(surface)->surface();
 
     }else{
         //qDebug() << "no intersection found between cursor ray and scene graph";

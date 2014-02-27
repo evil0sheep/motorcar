@@ -8,7 +8,15 @@ namespace motorcar{
 class WaylandSurface : public OutputElement
 {
 public:
-    WaylandSurface();
+    enum SurfaceType{
+        TOPLEVEL,
+        TRANSIENT,
+        POPUP,
+        CURSOR,
+        NA
+    };
+
+    WaylandSurface(SurfaceType type);
     virtual ~WaylandSurface(){}
 
     //get the texture handle for this surface
@@ -18,7 +26,8 @@ public:
     //do any per-frame setup required for drawing
     //note: this is the only safe place to change framebuffers
     virtual void prepare() = 0;
-    
+    //returns whether or not the surface is ready to draw
+    virtual bool valid() = 0;
 
     enum MouseEvent{
         BUTTON_PRESS,
@@ -34,7 +43,10 @@ public:
 
     };
 
+
+
     virtual void sendMouseEvent(MouseEvent eventType, MouseButton button, glm::vec2 localPostion) = 0;
+
 
     //virtual void sendMouseWheelEvent(Qt::Orientation orientation, int delta);
     
@@ -42,8 +54,12 @@ public:
     glm::vec2 latestMouseEventPos() const;
 
 
+    SurfaceType type() const;
+    void setType(const SurfaceType &type);
+
 protected:
     glm::vec2 m_latestMouseEventPos;
+    SurfaceType m_type;
 
 };
 }

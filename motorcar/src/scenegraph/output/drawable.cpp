@@ -4,6 +4,7 @@ using namespace motorcar;
 
 Drawable::Drawable(SceneGraphNode *parent, const glm::mat4 &transform)
     : VirtualNode(parent, transform)
+    , m_valid(true)
 {
 }
 
@@ -18,10 +19,27 @@ void Drawable::traverseNode(Scene *scene, long deltaMillis)
 
 void Drawable::draw(Scene *scene)
 {
-    for(Display *display : scene->displays()){
-        display->renderDrawable(this);
+    if(valid()){
+        for(Display *display : scene->displays()){
+            display->renderDrawable(this);
+        }
+    }else{
+        std::cout << "not drawing drawable because invalid" << std::endl;
     }
+
 }
 
+
+
+
+bool Drawable::valid() const
+{
+    return m_valid;
+}
+
+void Drawable::setValid(bool valid)
+{
+    m_valid = valid;
+}
 
 

@@ -1,8 +1,9 @@
 #include "qtwaylandmotorcarsurface.h"
 using namespace qtmotorcar;
 
-QtWaylandMotorcarSurface::QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor)
-    : m_surface(surface)
+QtWaylandMotorcarSurface::QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor, SurfaceType type)
+    :motorcar::WaylandSurface(type)
+    , m_surface(surface)
     , m_compositor(compositor)
 {
 
@@ -26,6 +27,7 @@ void QtWaylandMotorcarSurface::prepare()
 
 void QtWaylandMotorcarSurface::sendMouseEvent(motorcar::WaylandSurface::MouseEvent eventType, motorcar::WaylandSurface::MouseButton buttonId, glm::vec2 localPostion)
 {
+
     //std::cout << "recieved mouse event in qt wayland surface" << std::endl;
     QWaylandInputDevice *input = m_compositor->defaultInputDevice();
 
@@ -33,22 +35,25 @@ void QtWaylandMotorcarSurface::sendMouseEvent(motorcar::WaylandSurface::MouseEve
 
     QPointF localPos(localPostion.x, localPostion.y);
 
-    if(input->mouseFocus() != m_surface){
+    if( input->mouseFocus() != m_surface){
+        std::cout << "setting mouse focus from: " << input->mouseFocus() << " to: " << m_surface << std::endl;
         input->setMouseFocus(m_surface, localPos);
+
+
     }
 
     Qt::MouseButton button;
     switch(buttonId){
     case motorcar::WaylandSurface::MouseButton::LEFT:
-        std::cout << "left mouse button" << std::endl;
+        //std::cout << "left mouse button" << std::endl;
         button = Qt::LeftButton;
         break;
     case motorcar::WaylandSurface::MouseButton::RIGHT:
-        std::cout << "right mouse button" << std::endl;
+        //std::cout << "right mouse button" << std::endl;
         button = Qt::RightButton;
         break;
     case motorcar::WaylandSurface::MouseButton::MIDDLE:
-        std::cout << "middle mouse button" << std::endl;
+        //std::cout << "middle mouse button" << std::endl;
         button = Qt::MiddleButton;
         break;
     default:
@@ -59,14 +64,14 @@ void QtWaylandMotorcarSurface::sendMouseEvent(motorcar::WaylandSurface::MouseEve
 
     switch(eventType){
     case motorcar::WaylandSurface::MouseEvent::BUTTON_PRESS:
-        std::cout << "button press event" << std::endl;
+        //std::cout << "button press event" << std::endl;
         if (m_surface && input->keyboardFocus() != m_surface) {
             input->setKeyboardFocus(m_surface);
         }
         input->sendMousePressEvent(button, localPos);
         break;
     case motorcar::WaylandSurface::MouseEvent::BUTTON_RELEASE:
-        std::cout << "button release event" << std::endl;
+        //std::cout << "button release event" << std::endl;
         input->sendMouseReleaseEvent(button, localPos);
         break;
     case motorcar::WaylandSurface::MouseEvent::MOVE:
@@ -76,6 +81,11 @@ void QtWaylandMotorcarSurface::sendMouseEvent(motorcar::WaylandSurface::MouseEve
     default:
         break;
     }
+}
+
+bool QtWaylandMotorcarSurface::valid()
+{
+    return m_surface != NULL;
 }
 
 
@@ -130,3 +140,13 @@ void QtWaylandMotorcarSurface::paintChildren(QWaylandSurface *surface, QWaylandS
 
 
 
+
+QWaylandSurface *QtWaylandMotorcarSurface::surface() const
+{
+    return m_surface;
+}
+
+void QtWaylandMotorcarSurface::setSurface(QWaylandSurface *surface)
+{
+    m_surface = surface;
+}

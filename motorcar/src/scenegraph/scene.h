@@ -20,8 +20,16 @@ public:
 
     void draw(long deltaMillis);
 
+    WaylandSurfaceNode *cursorNode() const;
+    void setCursorNode(WaylandSurfaceNode *cursorNode);
+
+    glm::ivec2 cursorHotspot() const;
+    void setCursorHotspot(const glm::ivec2 &cursorHotspot);
+
 private:
     std::vector<Display *> m_displays;
+    WaylandSurfaceNode * m_cursorNode;
+    glm::ivec2 m_cursorHotspot;
 
 };
 }

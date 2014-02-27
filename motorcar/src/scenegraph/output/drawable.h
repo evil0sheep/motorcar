@@ -21,10 +21,17 @@ public:
     //this exists to allow the drawable to control what content is sent to which viewpoints
     virtual void drawViewpoint(GLCamera *viewpoint) = 0;
 
+    //defines whether the drawable is valid for drawing
+    bool valid() const;
+    void setValid(bool valid);
+
 private:
     //draws this node to every display owned by users with read permissions on this node
     //this allows the drawable to control which displays it's drawn to
     void draw(Scene *scene);
+
+    bool m_valid;
+
 };
 }
 

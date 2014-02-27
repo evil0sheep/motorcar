@@ -15,7 +15,7 @@ namespace qtmotorcar{
     class QtWaylandMotorcarSurface : public motorcar::WaylandSurface
     {
     public:
-        QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor);
+        QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor, motorcar::WaylandSurface::SurfaceType type);
         ~QtWaylandMotorcarSurface(){}
 
         //inherited from WaylandSurface
@@ -23,9 +23,15 @@ namespace qtmotorcar{
         glm::ivec2 size() override;
         void prepare() override;
         void sendMouseEvent(MouseEvent eventType, MouseButton buttonId, glm::vec2 localPostion) override;
+        bool valid() override;
 
-         QWaylandSurface *m_surface;
+
+        QWaylandSurface *surface() const;
+        void setSurface(QWaylandSurface *surface);
+
     private:
+        QWaylandSurface *m_surface;
+
         GLuint m_textureID;
 
         QtWaylandMotorcarCompositor *m_compositor;

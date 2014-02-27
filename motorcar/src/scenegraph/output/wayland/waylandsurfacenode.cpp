@@ -9,6 +9,11 @@ WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *
 
 }
 
+WaylandSurfaceNode::~WaylandSurfaceNode()
+{
+    std::cout << "deleting surfaceNode: " << this <<std::endl;
+}
+
 WaylandSurface *WaylandSurfaceNode::surface() const
 {
     return m_surface;
@@ -62,6 +67,11 @@ bool WaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &lo
 Geometry::RaySurfaceIntersection *WaylandSurfaceNode::intersectWithSurfaces(const Geometry::Ray &ray)
 {
     Geometry::RaySurfaceIntersection *closestSubtreeIntersection = SceneGraphNode::intersectWithSurfaces(ray);
+
+    if(((int) m_surface->type()) == WaylandSurface::SurfaceType::CURSOR){
+        return closestSubtreeIntersection;
+    }
+
     Geometry::Ray localRay = ray.transform(inverseTransform());
 
     float t;
@@ -86,7 +96,10 @@ Geometry::RaySurfaceIntersection *WaylandSurfaceNode::intersectWithSurfaces(cons
 void WaylandSurfaceNode::drawViewpoint(GLCamera *viewpoint)
 {
     //std::cout << "drawing surface" <<std::endl;
-    computeSurfaceTransform(8);
-    surface()->prepare();
-    viewpoint->viewport()->display()->renderSurfaceNode(this, viewpoint);
+    if(m_surface->valid()){
+        computeSurfaceTransform(8);
+        surface()->prepare();
+        viewpoint->viewport()->display()->renderSurfaceNode(this, viewpoint);
+    }
+
 }
