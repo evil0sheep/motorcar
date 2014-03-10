@@ -1,3 +1,5 @@
+precision highp float;
+
 uniform mat4 uMVPMatrix;
 
 attribute vec3 aPosition;

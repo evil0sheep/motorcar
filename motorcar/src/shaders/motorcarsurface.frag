@@ -1,3 +1,5 @@
+precision highp float;
+
 uniform sampler2D uTexSampler;
 varying vec2 vTexCoord;
 

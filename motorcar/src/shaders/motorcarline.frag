@@ -1,3 +1,4 @@
+precision highp float;
 uniform vec3 uColor;
 
 void main(void)

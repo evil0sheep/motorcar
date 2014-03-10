@@ -1,3 +1,4 @@
+precision highp float;
 uniform sampler2D uTexSampler;
 
 //barrel distortion coefficients

@@ -48,7 +48,7 @@ void SpatialPointingDevice::traverseNode(Scene *scene, long deltaMillis)
            glm::vec3 position = glm::vec3(surfaceNode->surfaceTransform() *
                                           glm::vec4((intersection->surfaceLocalCoordinates +
                                                      (glm::vec2(cursor->surface()->size())/2.0f) - glm::vec2(scene->cursorHotspot())) /
-                                                    glm::vec2(surfaceNode->surface()->size()),0,1));
+                                                    glm::vec2(surfaceNode->surface()->size()),0.001,1));
 
            cursor->setParentNode(surfaceNode);
            cursor->setTransform(glm::translate(glm::mat4(), position));
