@@ -55,10 +55,10 @@
 
 using namespace qtmotorcar;
 
-QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, QGuiApplication *app, motorcar::Scene * scene)
-    : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
+QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(std::vector<QtWaylandMotorcarOpenGLContext *> contexts, QGuiApplication *app, motorcar::Scene * scene)
+    : QWaylandCompositor(contexts[0]->window(), 0, DefaultExtensions | SubSurfaceExtension)
     , m_scene(scene)
-    , m_glData(new OpenGLData(window))//glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0,0,1.5f)), 180.f, glm::vec3(0,1,0)))))
+    , m_glData(new OpenGLData(contexts[0]->window()))//glm::rotate(glm::translate(glm::mat4(1), glm::vec3(0,0,1.5f)), 180.f, glm::vec3(0,1,0)))))
     , m_renderScheduler(this)
     , m_draggingWindow(0)
     , m_dragKeyIsPressed(false)
@@ -70,8 +70,10 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     , m_modifiers(Qt::NoModifier)
     , m_app(app)
     , m_numSurfacesMapped(0)
+    ,m_availableContexts(contexts)
 
 {
+    QWindow *window = this->window();
     setDisplay(NULL);
 
     m_renderScheduler.setSingleShot(true);
@@ -103,41 +105,52 @@ QtWaylandMotorcarCompositor::~QtWaylandMotorcarCompositor()
     delete m_glData;
 }
 
-motorcar::Compositor *QtWaylandMotorcarCompositor::create(int argc, char** argv, motorcar::Scene *scene)
+QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char** argv, motorcar::Scene *scene)
 {
     // Enable the following to have touch events generated from mouse events.
     // Very handy for testing touch event delivery without a real touch device.
     // QGuiApplication::setAttribute(Qt::AA_SynthesizeTouchForUnhandledMouseEvents, true);
 
     QGuiApplication *app = new QGuiApplication(argc, argv);
-    QScreen *screen;
+//    QScreen *screen;
 
-    if(QGuiApplication::screens().size() ==1){
-        screen = QGuiApplication::primaryScreen();
-    }else{
-        screen =  QGuiApplication::screens().at(1);
+//    if(QGuiApplication::screens().size() ==1){
+//        screen = QGuiApplication::primaryScreen();
+//    }else{
+//        screen =  QGuiApplication::screens().at(1);
 
-    }
+//    }
 
+    std::cout << "numscreens: " << QGuiApplication::screens().size() << std::endl;
 
-    QRect screenGeometry = screen->availableGeometry();
 
     QSurfaceFormat format;
     format.setDepthBufferSize(16);
     format.setStencilBufferSize(8);
 
-    QRect geom = screenGeometry;
-    if (QCoreApplication::arguments().contains(QLatin1String("-nofullscreen")))
-        geom = QRect(screenGeometry.width() / 4, screenGeometry.height() / 4,
-                     screenGeometry.width() / 2, screenGeometry.height() / 2);
 
-    QOpenGLWindow *window = new QOpenGLWindow(format, geom);
-    return  new QtWaylandMotorcarCompositor(window, app, scene);
+    std::vector<QtWaylandMotorcarOpenGLContext *> contexts;
+
+    for(int i = 0; i< QGuiApplication::screens().size() ; i++){
+        QScreen *screen = QGuiApplication::screens().at(i);
+        QRect screenGeometry = screen->availableGeometry();
+        QOpenGLWindow *window = new QOpenGLWindow(format, screenGeometry);
+        contexts.push_back(new QtWaylandMotorcarOpenGLContext(window));
+
+    }
+
+
+
+
+    return  new QtWaylandMotorcarCompositor(contexts, app, scene);
 }
 
 int QtWaylandMotorcarCompositor::start()
 {
-    this->glData()->m_window->showFullScreen();
+    //this->glData()->m_window->showFullScreen();
+    for(QtWaylandMotorcarOpenGLContext *context : m_availableContexts){
+        context->window()->showFullScreen();
+    }
     int result = m_app->exec();
     delete m_app;
     return result;
@@ -148,6 +161,16 @@ motorcar::OpenGLContext *QtWaylandMotorcarCompositor::getContext()
     return new QtWaylandMotorcarOpenGLContext(this->glData()->m_window);
 }
 
+
+std::vector<motorcar::OpenGLContext *> QtWaylandMotorcarCompositor::availableContexts() const
+{
+    return std::vector<motorcar::OpenGLContext *>(m_availableContexts.begin(), m_availableContexts.end());
+}
+
+void QtWaylandMotorcarCompositor::setAvailableContexts(const std::vector<QtWaylandMotorcarOpenGLContext *> &availableContexts)
+{
+    m_availableContexts = availableContexts;
+}
 
 
 
@@ -417,6 +440,8 @@ void QtWaylandMotorcarCompositor::updateCursor()
         cursorIsSet = true;
     }
 }
+
+
 
 void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY)
 {

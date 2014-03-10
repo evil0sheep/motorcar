@@ -1,4 +1,6 @@
-QT += gui widgets gui-private core-private compositor
+QT += gui widgets compositor gui-private core-private
+
+CONFIG += qt debug
 
 LIBOVRPATH=../thirdPartySource/Oculus/OculusSDK/LibOVR
 SIXENSEPATH=../thirdPartySource/sixenseSDK_linux_OSX
@@ -6,6 +8,7 @@ INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include"
 
 RELEASETYPE=Release
 SYSARCH=x86_64
+
 
 LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr \
         -L$$SIXENSEPATH/lib/linux_x64/release -lsixense_x64 -lsixense_utils_x64\

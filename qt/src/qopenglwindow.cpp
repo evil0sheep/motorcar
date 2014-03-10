@@ -40,6 +40,7 @@
 
 #include "qopenglwindow.h"
 #include <QTouchEvent>
+#include <iostream>
 
 QOpenGLWindow::QOpenGLWindow(const QSurfaceFormat &format, const QRect &geometry)
     : m_format(format)
@@ -51,6 +52,8 @@ QOpenGLWindow::QOpenGLWindow(const QSurfaceFormat &format, const QRect &geometry
     m_context = new QOpenGLContext;
     m_context->setFormat(format);
     m_context->create();
+
+    std::cout << (int) (this->surfaceType()) << std::endl;
 }
 
 void QOpenGLWindow::touchEvent(QTouchEvent *event)

@@ -38,6 +38,8 @@
 **
 ****************************************************************************/
 
+
+
 #include "motorcar/src/motorcar.h"
 #include "../qt/src/qtwaylandmotorcarcompositor.h"
 
@@ -53,45 +55,73 @@ int main(int argc, char *argv[])
 
 
 
-    motorcar::Compositor *compositor = qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene) ;
+   qtmotorcar::QtWaylandMotorcarCompositor *compositor = qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene) ;
 
 
+    std::vector< motorcar::OpenGLContext *> contexts = compositor->availableContexts();
 
 
+    bool observationWindow = false;
+    if(contexts.size() == 1 || observationWindow){
+        std::cout << "creating Default Display" << std::endl;
+        float camToDisplayDistance = 0.1;
+        motorcar::Display *display = new motorcar::Display(contexts[0], glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, -camToDisplayDistance)));
+        display->addViewpoint(new motorcar::GLCamera( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance))));
+        compositor->setDisplay(display);
+        scene->addDisplay(display);
+    }
 
-    motorcar::OpenGLContext *context = compositor->getContext();
+    motorcar::OpenGLContext *context = contexts.back();
 
 
     motorcar::OculusHMD *hmd = motorcar::OculusHMD::create(context, scene);
 
-    if(hmd){
-        std::cout << "Using Oculus Display" << std::endl;
-        compositor->setDisplay(hmd);
-    }else{
-        std::cout << "Using Default Display" << std::endl;
-        float camToDisplayDistance = 0.1;
-        motorcar::Display *display = new motorcar::Display(context, glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, -camToDisplayDistance)));
-        display->addViewpoint(new motorcar::GLCamera( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance))));
-        compositor->setDisplay(display);
+    if(hmd != NULL){
+        std::cout << "creating Oculus Display" << std::endl;
+        scene->addDisplay(hmd);
+        if((contexts.size() == 1 && observationWindow) || !observationWindow){
+            compositor->setDisplay(hmd);
+        }
     }
 
 
-    scene->addDisplay(compositor->display());
+
+
+
+
+//    if(hmd){
+//        std::cout << "Using Oculus Display" << std::endl;
+//        compositor->setDisplay(hmd);
+//    }else{
+//        std::cout << "Using Default Display" << std::endl;
+//        float camToDisplayDistance = 0.1;
+//        motorcar::Display *display = new motorcar::Display(context, glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, -camToDisplayDistance)));
+//        display->addViewpoint(new motorcar::GLCamera( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance))));
+//        compositor->setDisplay(display);
+//    }
+
+
+
 
 
 
     motorcar::SixenseMotionSensingSystem *sixense = new motorcar::SixenseMotionSensingSystem(scene);
     if(sixense->isInitialized() && !sixense->baseStations().empty() && !sixense->baseStations().front()->controllers().empty() ){
 
-        std::cout << "parenting display to controller "<<std::endl;
-        compositor->display()->setParentNode(sixense->baseStations().front()->controllers().front());
+        std::cout << "parenting displays to controller "<<std::endl;
 
 
         glm::mat4 translation = glm::translate(glm::mat4(), glm::vec3(0,0,-.00));
 
         glm::mat4 rotation = glm::rotate(glm::mat4(), -45.f, glm::vec3(1,0,0));
 
-        compositor->display()->setTransform(rotation * translation );
+
+        for(motorcar::Display * display : scene->displays()){
+            display->setParentNode(sixense->baseStations().front()->controllers().front());
+
+            display->setTransform(rotation * translation );
+        }
+
     }
 
 

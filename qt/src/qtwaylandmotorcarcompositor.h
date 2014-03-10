@@ -61,16 +61,17 @@ class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor, p
 {
     Q_OBJECT
 public:
-    QtWaylandMotorcarCompositor(QOpenGLWindow *window, QGuiApplication *app, motorcar::Scene *scene);
+    QtWaylandMotorcarCompositor(std::vector<QtWaylandMotorcarOpenGLContext *> contexts, QGuiApplication *app, motorcar::Scene *scene);
     ~QtWaylandMotorcarCompositor();
 
 
-    static motorcar::Compositor *create(int argc, char **argv, motorcar::Scene *scene);
+    static QtWaylandMotorcarCompositor *create(int argc, char **argv, motorcar::Scene *scene);
 
     virtual int start() override;
 
     virtual motorcar::OpenGLContext *getContext() override;
-
+    std::vector< motorcar::OpenGLContext *> availableContexts() const;
+    void setAvailableContexts(const std::vector<QtWaylandMotorcarOpenGLContext *> &availableContexts);
 
     OpenGLData *glData() const;
     void setGlData(OpenGLData *glData);
@@ -81,6 +82,8 @@ public:
     void setScene(motorcar::Scene *scene);
 
     motorcar::WaylandSurfaceNode *getSurfaceNode(QWaylandSurface *surface = NULL) const;
+
+
 
 private slots:
     void surfaceDestroyed(QObject *object);
@@ -120,6 +123,8 @@ private:
     OpenGLData *m_glData;
     QTimer m_renderScheduler;
 
+
+    std::vector<QtWaylandMotorcarOpenGLContext *> m_availableContexts;
 
     //Dragging windows around
     QWaylandSurface *m_draggingWindow;

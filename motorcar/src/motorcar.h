@@ -3,9 +3,10 @@
 
 
 #include "geometry.h"
+#include "device/device.h"
 #include "compositor.h"
 #include "scenegraph/scenegraph.h"
-#include "device/device.h"
+
 #include "gl/openglshader.h"
 #include "gl/openglcontext.h"
 

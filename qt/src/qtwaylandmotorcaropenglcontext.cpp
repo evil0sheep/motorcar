@@ -1,18 +1,28 @@
 #include "qtwaylandmotorcaropenglcontext.h"
 
+using namespace qtmotorcar;
 
-
-qtmotorcar::QtWaylandMotorcarOpenGLContext::QtWaylandMotorcarOpenGLContext(QOpenGLWindow *window)
+QtWaylandMotorcarOpenGLContext::QtWaylandMotorcarOpenGLContext(QOpenGLWindow *window)
     :m_window(window)
 {
 }
 
-glm::ivec2 qtmotorcar::QtWaylandMotorcarOpenGLContext::defaultFramebufferSize()
+glm::ivec2 QtWaylandMotorcarOpenGLContext::defaultFramebufferSize()
 {
    return glm::ivec2(m_window->size().width(), m_window->size().height());
 }
 
-void qtmotorcar::QtWaylandMotorcarOpenGLContext::makeCurrent()
+void QtWaylandMotorcarOpenGLContext::makeCurrent()
 {
     m_window->makeCurrent();
 }
+QOpenGLWindow *QtWaylandMotorcarOpenGLContext::window() const
+{
+    return m_window;
+}
+
+void QtWaylandMotorcarOpenGLContext::setWindow(QOpenGLWindow *window)
+{
+    m_window = window;
+}
+

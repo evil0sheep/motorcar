@@ -36,6 +36,7 @@
 #ifndef OPENGLDATA_H
 #define OPENGLDATA_H
 
+
 #include "textureblitter.h"
 #include "qopenglwindow.h"
 
