@@ -49,7 +49,7 @@ OpenGLData::OpenGLData(QOpenGLWindow *window)
     QOpenGLFunctions *functions = m_window->context()->functions();
     functions->glGenFramebuffers(1, &m_surface_fbo);
 
-    glClearDepth(1.0f);
+   // glClearDepth(1.0f);
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
 

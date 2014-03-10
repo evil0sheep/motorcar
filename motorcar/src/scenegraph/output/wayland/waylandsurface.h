@@ -2,7 +2,8 @@
 #define WAYLANDSURFACE_H
 #include "../outputelement.h"
 #include "glm/glm.hpp"
-#include <GL/gl.h>
+#include <GLES2/gl2.h>
+//#include <GL/gl.h>
 
 namespace motorcar{
 class WaylandSurface : public OutputElement

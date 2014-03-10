@@ -141,16 +141,16 @@ void RenderToTextureDisplay::finishDraw()
 void RenderToTextureDisplay::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera)
 {
 
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_frameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
     Display::renderSurfaceNode(surfaceNode, camera);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void RenderToTextureDisplay::renderWireframeNode(WireframeNode *node, GLCamera *camera)
 {
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_frameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
     Display::renderWireframeNode(node, camera);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 glm::ivec2 RenderToTextureDisplay::resolution()

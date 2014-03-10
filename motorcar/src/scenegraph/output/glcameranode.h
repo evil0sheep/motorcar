@@ -3,7 +3,7 @@
 #include "../../geometry.h"
 #include "../virtualnode.h"
 #include "outputelement.h"
-#include <GL/gl.h>
+//#include <GL/gl.h>
 //#include "display.h"
 
 

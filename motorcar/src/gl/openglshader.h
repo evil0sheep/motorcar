@@ -1,6 +1,8 @@
 #ifndef OPENGLSHADER_H
 #define OPENGLSHADER_H
-#include <GL/gl.h>
+
+#include <GLES2/gl2.h>
+//#include <GL/gl.h>
 #include <string>
 #include <fstream>
 #include <streambuf>

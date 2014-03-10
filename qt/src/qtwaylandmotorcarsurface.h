@@ -21,7 +21,7 @@ namespace qtmotorcar{
         //inherited from WaylandSurface
         GLuint texture() override;
         glm::ivec2 size() override;
-        void prepare() override;
+        void prepare() override;      
         void sendMouseEvent(MouseEvent eventType, MouseButton buttonId, glm::vec2 localPostion) override;
         bool valid() override;
 
@@ -31,13 +31,13 @@ namespace qtmotorcar{
 
     private:
         QWaylandSurface *m_surface;
-
+        bool m_ownsTexture;
         GLuint m_textureID;
 
         QtWaylandMotorcarCompositor *m_compositor;
 
-        GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
-        void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, OpenGLData *glData);
+        GLuint composeSurface(QWaylandSurface *surface, bool *textureOwned, OpenGLData *glData);
+        void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, const QSize &windowSize, OpenGLData *glData);
         void computeSurfaceTransform(float ppcm);
 
 
