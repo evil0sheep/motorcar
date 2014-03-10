@@ -1,0 +1,133 @@
+\hypertarget{classmotorcar_1_1Scene}{\section{motorcar\-:\-:Scene Class Reference}
+\label{classmotorcar_1_1Scene}\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}}
+}
+
+
+{\ttfamily \#include $<$scene.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Scene\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classmotorcar_1_1Scene__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:Scene\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classmotorcar_1_1Scene__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1Scene_ad10176d75a9cc0da56626f682d083507}{Scene} ()
+\item 
+virtual \hyperlink{classmotorcar_1_1Scene_a07ad90930bf4792b88c8ce8b6800df4d}{$\sim$\-Scene} ()
+\item 
+virtual void \hyperlink{classmotorcar_1_1Scene_a11f9f856df5db6db78760cae5dc02079}{notify\-Node\-Added} (\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$node)
+\item 
+void \hyperlink{classmotorcar_1_1Scene_a3482161400b2f552307cc70812b128a9}{add\-Display} (\hyperlink{classmotorcar_1_1Display}{Display} $\ast$display)
+\item 
+std\-::vector$<$ \hyperlink{classmotorcar_1_1Display}{Display} $\ast$ $>$ \hyperlink{classmotorcar_1_1Scene_a1c09a0e3e55f1dd870d5c3001890afa9}{displays} () const 
+\item 
+void \hyperlink{classmotorcar_1_1Scene_ae8c9484b131cf87e8b1ebca4500343ae}{draw} (long delta\-Millis)
+\item 
+\hyperlink{classmotorcar_1_1WaylandSurfaceNode}{Wayland\-Surface\-Node} $\ast$ \hyperlink{classmotorcar_1_1Scene_a124b886baea9b583feb477202c9038a2}{cursor\-Node} () const 
+\item 
+void \hyperlink{classmotorcar_1_1Scene_a76a501d972979ba633dd0e38b022ab9b}{set\-Cursor\-Node} (\hyperlink{classmotorcar_1_1WaylandSurfaceNode}{Wayland\-Surface\-Node} $\ast$\hyperlink{classmotorcar_1_1Scene_a124b886baea9b583feb477202c9038a2}{cursor\-Node})
+\item 
+glm\-::ivec2 \hyperlink{classmotorcar_1_1Scene_abdb097ab9a2927b447b2eee485d19d6e}{cursor\-Hotspot} () const 
+\item 
+void \hyperlink{classmotorcar_1_1Scene_aba832b6a205b06b9d266ee3302ff86f4}{set\-Cursor\-Hotspot} (const glm\-::ivec2 \&\hyperlink{classmotorcar_1_1Scene_abdb097ab9a2927b447b2eee485d19d6e}{cursor\-Hotspot})
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1Scene_ad10176d75a9cc0da56626f682d083507}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!Scene@{Scene}}
+\index{Scene@{Scene}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{Scene}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-::\-Scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_ad10176d75a9cc0da56626f682d083507}
+\hypertarget{classmotorcar_1_1Scene_a07ad90930bf4792b88c8ce8b6800df4d}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!$\sim$\-Scene@{$\sim$\-Scene}}
+\index{$\sim$\-Scene@{$\sim$\-Scene}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{$\sim$\-Scene}]{\setlength{\rightskip}{0pt plus 5cm}virtual motorcar\-::\-Scene\-::$\sim$\-Scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1Scene_a07ad90930bf4792b88c8ce8b6800df4d}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1Scene_a3482161400b2f552307cc70812b128a9}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!add\-Display@{add\-Display}}
+\index{add\-Display@{add\-Display}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{add\-Display}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::add\-Display (
+\begin{DoxyParamCaption}
+\item[{{\bf Display} $\ast$}]{display}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_a3482161400b2f552307cc70812b128a9}
+\hypertarget{classmotorcar_1_1Scene_abdb097ab9a2927b447b2eee485d19d6e}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!cursor\-Hotspot@{cursor\-Hotspot}}
+\index{cursor\-Hotspot@{cursor\-Hotspot}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{cursor\-Hotspot}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::ivec2 Scene\-::cursor\-Hotspot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Scene_abdb097ab9a2927b447b2eee485d19d6e}
+\hypertarget{classmotorcar_1_1Scene_a124b886baea9b583feb477202c9038a2}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!cursor\-Node@{cursor\-Node}}
+\index{cursor\-Node@{cursor\-Node}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{cursor\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Wayland\-Surface\-Node} $\ast$ Scene\-::cursor\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Scene_a124b886baea9b583feb477202c9038a2}
+\hypertarget{classmotorcar_1_1Scene_a1c09a0e3e55f1dd870d5c3001890afa9}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!displays@{displays}}
+\index{displays@{displays}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{displays}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Display} $\ast$ $>$ Scene\-::displays (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Scene_a1c09a0e3e55f1dd870d5c3001890afa9}
+\hypertarget{classmotorcar_1_1Scene_ae8c9484b131cf87e8b1ebca4500343ae}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!draw@{draw}}
+\index{draw@{draw}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::draw (
+\begin{DoxyParamCaption}
+\item[{long}]{delta\-Millis}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_ae8c9484b131cf87e8b1ebca4500343ae}
+\hypertarget{classmotorcar_1_1Scene_a11f9f856df5db6db78760cae5dc02079}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!notify\-Node\-Added@{notify\-Node\-Added}}
+\index{notify\-Node\-Added@{notify\-Node\-Added}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{notify\-Node\-Added}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::notify\-Node\-Added (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{node}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1Scene_a11f9f856df5db6db78760cae5dc02079}
+\hypertarget{classmotorcar_1_1Scene_aba832b6a205b06b9d266ee3302ff86f4}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!set\-Cursor\-Hotspot@{set\-Cursor\-Hotspot}}
+\index{set\-Cursor\-Hotspot@{set\-Cursor\-Hotspot}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{set\-Cursor\-Hotspot}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::set\-Cursor\-Hotspot (
+\begin{DoxyParamCaption}
+\item[{const glm\-::ivec2 \&}]{cursor\-Hotspot}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_aba832b6a205b06b9d266ee3302ff86f4}
+\hypertarget{classmotorcar_1_1Scene_a76a501d972979ba633dd0e38b022ab9b}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!set\-Cursor\-Node@{set\-Cursor\-Node}}
+\index{set\-Cursor\-Node@{set\-Cursor\-Node}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{set\-Cursor\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::set\-Cursor\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Wayland\-Surface\-Node} $\ast$}]{cursor\-Node}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_a76a501d972979ba633dd0e38b022ab9b}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/\hyperlink{scene_8h}{scene.\-h}\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/\hyperlink{scene_8cpp}{scene.\-cpp}\end{DoxyCompactItemize}

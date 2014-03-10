@@ -1,0 +1,148 @@
+\hypertarget{classmotorcar_1_1SpatialPointingDevice}{\section{motorcar\-:\-:Spatial\-Pointing\-Device Class Reference}
+\label{classmotorcar_1_1SpatialPointingDevice}\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}}
+}
+
+
+{\ttfamily \#include $<$spatialpointingdevice.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Spatial\-Pointing\-Device\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classmotorcar_1_1SpatialPointingDevice__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:Spatial\-Pointing\-Device\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classmotorcar_1_1SpatialPointingDevice__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1SpatialPointingDevice_a5e6ae01142cf0324623fd8481ad949ea}{Spatial\-Pointing\-Device} (\hyperlink{classmotorcar_1_1PhysicalNode}{Physical\-Node} $\ast$parent, const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4())
+\item 
+virtual \hyperlink{classmotorcar_1_1SpatialPointingDevice_a2232e5d48af72563948b3dcf87467ba4}{$\sim$\-Spatial\-Pointing\-Device} ()
+\item 
+void \hyperlink{classmotorcar_1_1SpatialPointingDevice_a53e251f5a0d7a9b0b8e7dc84d2e9d078}{traverse\-Node} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}, long delta\-Millis) override
+\item 
+bool \hyperlink{classmotorcar_1_1SpatialPointingDevice_a00473664d02c3adc6636515d328115d8}{left\-Mouse\-Down} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SpatialPointingDevice_a8d5fb9adf62c0c808c9c08369206d47a}{set\-Left\-Mouse\-Down} (bool \hyperlink{classmotorcar_1_1SpatialPointingDevice_a00473664d02c3adc6636515d328115d8}{left\-Mouse\-Down})
+\item 
+bool \hyperlink{classmotorcar_1_1SpatialPointingDevice_ae419894256240b9815dd88675be03f00}{right\-Mouse\-Down} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SpatialPointingDevice_a260a837c910d3e640df05b63b44c052e}{set\-Right\-Mouse\-Down} (bool \hyperlink{classmotorcar_1_1SpatialPointingDevice_ae419894256240b9815dd88675be03f00}{right\-Mouse\-Down})
+\item 
+bool \hyperlink{classmotorcar_1_1SpatialPointingDevice_aa41dd8386cb72b3813f54af4175f8bd3}{middle\-Mouse\-Down} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SpatialPointingDevice_ac582041efeac1940a72ddc33e352101e}{set\-Middle\-Mouse\-Down} (bool \hyperlink{classmotorcar_1_1SpatialPointingDevice_aa41dd8386cb72b3813f54af4175f8bd3}{middle\-Mouse\-Down})
+\item 
+void \hyperlink{classmotorcar_1_1SpatialPointingDevice_ab34f8c2ab699085b5f1d78aecd961614}{grab\-Surface\-Under\-Cursor} ()
+\item 
+void \hyperlink{classmotorcar_1_1SpatialPointingDevice_a53cd4de170f2f69d95c9d3ee38876060}{release\-Grabbed\-Surface} ()
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_a5e6ae01142cf0324623fd8481ad949ea}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!Spatial\-Pointing\-Device@{Spatial\-Pointing\-Device}}
+\index{Spatial\-Pointing\-Device@{Spatial\-Pointing\-Device}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{Spatial\-Pointing\-Device}]{\setlength{\rightskip}{0pt plus 5cm}Spatial\-Pointing\-Device\-::\-Spatial\-Pointing\-Device (
+\begin{DoxyParamCaption}
+\item[{{\bf Physical\-Node} $\ast$}]{parent, }
+\item[{const glm\-::mat4 \&}]{transform = {\ttfamily glm\-:\-:mat4()}}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SpatialPointingDevice_a5e6ae01142cf0324623fd8481ad949ea}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_a2232e5d48af72563948b3dcf87467ba4}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!$\sim$\-Spatial\-Pointing\-Device@{$\sim$\-Spatial\-Pointing\-Device}}
+\index{$\sim$\-Spatial\-Pointing\-Device@{$\sim$\-Spatial\-Pointing\-Device}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{$\sim$\-Spatial\-Pointing\-Device}]{\setlength{\rightskip}{0pt plus 5cm}virtual motorcar\-::\-Spatial\-Pointing\-Device\-::$\sim$\-Spatial\-Pointing\-Device (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1SpatialPointingDevice_a2232e5d48af72563948b3dcf87467ba4}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_ab34f8c2ab699085b5f1d78aecd961614}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!grab\-Surface\-Under\-Cursor@{grab\-Surface\-Under\-Cursor}}
+\index{grab\-Surface\-Under\-Cursor@{grab\-Surface\-Under\-Cursor}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{grab\-Surface\-Under\-Cursor}]{\setlength{\rightskip}{0pt plus 5cm}void Spatial\-Pointing\-Device\-::grab\-Surface\-Under\-Cursor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SpatialPointingDevice_ab34f8c2ab699085b5f1d78aecd961614}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_a00473664d02c3adc6636515d328115d8}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!left\-Mouse\-Down@{left\-Mouse\-Down}}
+\index{left\-Mouse\-Down@{left\-Mouse\-Down}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{left\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}bool Spatial\-Pointing\-Device\-::left\-Mouse\-Down (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SpatialPointingDevice_a00473664d02c3adc6636515d328115d8}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_aa41dd8386cb72b3813f54af4175f8bd3}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!middle\-Mouse\-Down@{middle\-Mouse\-Down}}
+\index{middle\-Mouse\-Down@{middle\-Mouse\-Down}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{middle\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}bool Spatial\-Pointing\-Device\-::middle\-Mouse\-Down (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SpatialPointingDevice_aa41dd8386cb72b3813f54af4175f8bd3}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_a53cd4de170f2f69d95c9d3ee38876060}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!release\-Grabbed\-Surface@{release\-Grabbed\-Surface}}
+\index{release\-Grabbed\-Surface@{release\-Grabbed\-Surface}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{release\-Grabbed\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}void Spatial\-Pointing\-Device\-::release\-Grabbed\-Surface (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SpatialPointingDevice_a53cd4de170f2f69d95c9d3ee38876060}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_ae419894256240b9815dd88675be03f00}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!right\-Mouse\-Down@{right\-Mouse\-Down}}
+\index{right\-Mouse\-Down@{right\-Mouse\-Down}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{right\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}bool Spatial\-Pointing\-Device\-::right\-Mouse\-Down (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SpatialPointingDevice_ae419894256240b9815dd88675be03f00}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_a8d5fb9adf62c0c808c9c08369206d47a}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!set\-Left\-Mouse\-Down@{set\-Left\-Mouse\-Down}}
+\index{set\-Left\-Mouse\-Down@{set\-Left\-Mouse\-Down}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{set\-Left\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}void Spatial\-Pointing\-Device\-::set\-Left\-Mouse\-Down (
+\begin{DoxyParamCaption}
+\item[{bool}]{left\-Mouse\-Down}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SpatialPointingDevice_a8d5fb9adf62c0c808c9c08369206d47a}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_ac582041efeac1940a72ddc33e352101e}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!set\-Middle\-Mouse\-Down@{set\-Middle\-Mouse\-Down}}
+\index{set\-Middle\-Mouse\-Down@{set\-Middle\-Mouse\-Down}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{set\-Middle\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}void Spatial\-Pointing\-Device\-::set\-Middle\-Mouse\-Down (
+\begin{DoxyParamCaption}
+\item[{bool}]{middle\-Mouse\-Down}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SpatialPointingDevice_ac582041efeac1940a72ddc33e352101e}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_a260a837c910d3e640df05b63b44c052e}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!set\-Right\-Mouse\-Down@{set\-Right\-Mouse\-Down}}
+\index{set\-Right\-Mouse\-Down@{set\-Right\-Mouse\-Down}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{set\-Right\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}void Spatial\-Pointing\-Device\-::set\-Right\-Mouse\-Down (
+\begin{DoxyParamCaption}
+\item[{bool}]{right\-Mouse\-Down}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SpatialPointingDevice_a260a837c910d3e640df05b63b44c052e}
+\hypertarget{classmotorcar_1_1SpatialPointingDevice_a53e251f5a0d7a9b0b8e7dc84d2e9d078}{\index{motorcar\-::\-Spatial\-Pointing\-Device@{motorcar\-::\-Spatial\-Pointing\-Device}!traverse\-Node@{traverse\-Node}}
+\index{traverse\-Node@{traverse\-Node}!motorcar::SpatialPointingDevice@{motorcar\-::\-Spatial\-Pointing\-Device}}
+\subsubsection[{traverse\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Spatial\-Pointing\-Device\-::traverse\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene, }
+\item[{long}]{delta\-Millis}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1SpatialPointingDevice_a53e251f5a0d7a9b0b8e7dc84d2e9d078}
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1SceneGraphNode_aa680a8e89fc8ebd12b784653fb30c29a}{motorcar\-::\-Scene\-Graph\-Node}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/input/\hyperlink{spatialpointingdevice_8h}{spatialpointingdevice.\-h}\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/input/\hyperlink{spatialpointingdevice_8cpp}{spatialpointingdevice.\-cpp}\end{DoxyCompactItemize}

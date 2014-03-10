@@ -1,0 +1,219 @@
+\hypertarget{classmotorcar_1_1SceneGraphNode}{\section{motorcar\-:\-:Scene\-Graph\-Node Class Reference}
+\label{classmotorcar_1_1SceneGraphNode}\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}}
+}
+
+
+{\ttfamily \#include $<$scenegraphnode.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Scene\-Graph\-Node\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmotorcar_1_1SceneGraphNode__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:Scene\-Graph\-Node\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{classmotorcar_1_1SceneGraphNode__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1SceneGraphNode_a293d96c3691afbaaba0da114a5e8f433}{Scene\-Graph\-Node} (\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent, glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4())
+\item 
+virtual \hyperlink{classmotorcar_1_1SceneGraphNode_ae81a28adc17e6be945c8279e4af4108c}{$\sim$\-Scene\-Graph\-Node} ()
+\item 
+virtual void \hyperlink{classmotorcar_1_1SceneGraphNode_aa680a8e89fc8ebd12b784653fb30c29a}{traverse\-Node} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}, long delta\-Millis)
+\item 
+void \hyperlink{classmotorcar_1_1SceneGraphNode_ac1e4d2185a8df5b84af1693a5d72d4fc}{traverse\-Scene\-Graph} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}, long delta\-Millis)
+\item 
+\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$ \hyperlink{classmotorcar_1_1SceneGraphNode_a57dd5826ed6bf15c8a879f5a090c6000}{parent\-Node} () const 
+\item 
+\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$ \hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene} ()
+\item 
+bool \hyperlink{classmotorcar_1_1SceneGraphNode_ac2be631270bc40cb1e070983c30a323f}{subtree\-Contains} (\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$node)
+\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform} () const 
+\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_af8b8174098f1de1067541f0e3ebec72e}{inverse\-Transform} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SceneGraphNode_a7cd7700336833efa89c8004e85a1fd61}{set\-Transform} (const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform})
+\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_a3e7fba2add3f63a65f31996f0ce9c9bf}{world\-Transform} () const 
+\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_a10e4fd743e891cef676435c5f5d5467d}{inverse\-World\-Transform} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SceneGraphNode_ac1a30cbe4af18133b19e6f852c33e30a}{set\-World\-Transform} (const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform})
+\item 
+virtual \\*
+\hyperlink{structmotorcar_1_1Geometry_1_1RaySurfaceIntersection}{Geometry\-::\-Ray\-Surface\-Intersection} $\ast$ \hyperlink{classmotorcar_1_1SceneGraphNode_ac268b171317430368fcc7733eab05ae6}{intersect\-With\-Surfaces} (const \hyperlink{structmotorcar_1_1Geometry_1_1Ray}{Geometry\-::\-Ray} \&ray)
+\item 
+std\-::vector$<$ \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$ $>$ \hyperlink{classmotorcar_1_1SceneGraphNode_a9a0c649390da0918afd58805192ccdca}{child\-Nodes} () const 
+\item 
+std\-::vector$<$ \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$ $>$ \hyperlink{classmotorcar_1_1SceneGraphNode_aa7ac1c085afbe0fb0b9d5cd578a8c4ef}{nodes\-In\-Subtree} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1SceneGraphNode_ab9bc5f59ccba332aab918c7b066c309f}{Scene\-Graph\-Node} ()
+\item 
+void \hyperlink{classmotorcar_1_1SceneGraphNode_a977b156ebcc07018a475b4042de8886a}{set\-Parent\-Node} (\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1SceneGraphNode_a293d96c3691afbaaba0da114a5e8f433}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!Scene\-Graph\-Node@{Scene\-Graph\-Node}}
+\index{Scene\-Graph\-Node@{Scene\-Graph\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{Scene\-Graph\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-Graph\-Node\-::\-Scene\-Graph\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{parent, }
+\item[{glm\-::mat4}]{transform = {\ttfamily glm\-:\-:mat4()}}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SceneGraphNode_a293d96c3691afbaaba0da114a5e8f433}
+\hypertarget{classmotorcar_1_1SceneGraphNode_ae81a28adc17e6be945c8279e4af4108c}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!$\sim$\-Scene\-Graph\-Node@{$\sim$\-Scene\-Graph\-Node}}
+\index{$\sim$\-Scene\-Graph\-Node@{$\sim$\-Scene\-Graph\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{$\sim$\-Scene\-Graph\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-Graph\-Node\-::$\sim$\-Scene\-Graph\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_ae81a28adc17e6be945c8279e4af4108c}
+\hypertarget{classmotorcar_1_1SceneGraphNode_ab9bc5f59ccba332aab918c7b066c309f}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!Scene\-Graph\-Node@{Scene\-Graph\-Node}}
+\index{Scene\-Graph\-Node@{Scene\-Graph\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{Scene\-Graph\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-Graph\-Node\-::\-Scene\-Graph\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classmotorcar_1_1SceneGraphNode_ab9bc5f59ccba332aab918c7b066c309f}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1SceneGraphNode_a9a0c649390da0918afd58805192ccdca}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!child\-Nodes@{child\-Nodes}}
+\index{child\-Nodes@{child\-Nodes}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{child\-Nodes}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Scene\-Graph\-Node} $\ast$ $>$ Scene\-Graph\-Node\-::child\-Nodes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_a9a0c649390da0918afd58805192ccdca}
+\hypertarget{classmotorcar_1_1SceneGraphNode_ac268b171317430368fcc7733eab05ae6}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!intersect\-With\-Surfaces@{intersect\-With\-Surfaces}}
+\index{intersect\-With\-Surfaces@{intersect\-With\-Surfaces}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{intersect\-With\-Surfaces}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Geometry\-::\-Ray\-Surface\-Intersection} $\ast$ Scene\-Graph\-Node\-::intersect\-With\-Surfaces (
+\begin{DoxyParamCaption}
+\item[{const {\bf Geometry\-::\-Ray} \&}]{ray}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_ac268b171317430368fcc7733eab05ae6}
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1WaylandSurfaceNode_adf71a714d07bb262405a361504a77ea4}{motorcar\-::\-Wayland\-Surface\-Node}.
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_af8b8174098f1de1067541f0e3ebec72e}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!inverse\-Transform@{inverse\-Transform}}
+\index{inverse\-Transform@{inverse\-Transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{inverse\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 Scene\-Graph\-Node\-::inverse\-Transform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_af8b8174098f1de1067541f0e3ebec72e}
+\hypertarget{classmotorcar_1_1SceneGraphNode_a10e4fd743e891cef676435c5f5d5467d}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!inverse\-World\-Transform@{inverse\-World\-Transform}}
+\index{inverse\-World\-Transform@{inverse\-World\-Transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{inverse\-World\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 Scene\-Graph\-Node\-::inverse\-World\-Transform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_a10e4fd743e891cef676435c5f5d5467d}
+\hypertarget{classmotorcar_1_1SceneGraphNode_aa7ac1c085afbe0fb0b9d5cd578a8c4ef}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!nodes\-In\-Subtree@{nodes\-In\-Subtree}}
+\index{nodes\-In\-Subtree@{nodes\-In\-Subtree}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{nodes\-In\-Subtree}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Scene\-Graph\-Node} $\ast$ $>$ Scene\-Graph\-Node\-::nodes\-In\-Subtree (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_aa7ac1c085afbe0fb0b9d5cd578a8c4ef}
+\hypertarget{classmotorcar_1_1SceneGraphNode_a57dd5826ed6bf15c8a879f5a090c6000}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!parent\-Node@{parent\-Node}}
+\index{parent\-Node@{parent\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{parent\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Scene\-Graph\-Node} $\ast$ Scene\-Graph\-Node\-::parent\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_a57dd5826ed6bf15c8a879f5a090c6000}
+\hypertarget{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!scene@{scene}}
+\index{scene@{scene}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{scene}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Scene} $\ast$ Scene\-Graph\-Node\-::scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}
+\hypertarget{classmotorcar_1_1SceneGraphNode_a977b156ebcc07018a475b4042de8886a}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!set\-Parent\-Node@{set\-Parent\-Node}}
+\index{set\-Parent\-Node@{set\-Parent\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{set\-Parent\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Graph\-Node\-::set\-Parent\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classmotorcar_1_1SceneGraphNode_a977b156ebcc07018a475b4042de8886a}
+\hypertarget{classmotorcar_1_1SceneGraphNode_a7cd7700336833efa89c8004e85a1fd61}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!set\-Transform@{set\-Transform}}
+\index{set\-Transform@{set\-Transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{set\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Graph\-Node\-::set\-Transform (
+\begin{DoxyParamCaption}
+\item[{const glm\-::mat4 \&}]{transform}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SceneGraphNode_a7cd7700336833efa89c8004e85a1fd61}
+\hypertarget{classmotorcar_1_1SceneGraphNode_ac1a30cbe4af18133b19e6f852c33e30a}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!set\-World\-Transform@{set\-World\-Transform}}
+\index{set\-World\-Transform@{set\-World\-Transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{set\-World\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Graph\-Node\-::set\-World\-Transform (
+\begin{DoxyParamCaption}
+\item[{const glm\-::mat4 \&}]{transform}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SceneGraphNode_ac1a30cbe4af18133b19e6f852c33e30a}
+\hypertarget{classmotorcar_1_1SceneGraphNode_ac2be631270bc40cb1e070983c30a323f}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!subtree\-Contains@{subtree\-Contains}}
+\index{subtree\-Contains@{subtree\-Contains}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{subtree\-Contains}]{\setlength{\rightskip}{0pt plus 5cm}bool Scene\-Graph\-Node\-::subtree\-Contains (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{node}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SceneGraphNode_ac2be631270bc40cb1e070983c30a323f}
+\hypertarget{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!transform@{transform}}
+\index{transform@{transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 Scene\-Graph\-Node\-::transform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}
+\hypertarget{classmotorcar_1_1SceneGraphNode_aa680a8e89fc8ebd12b784653fb30c29a}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!traverse\-Node@{traverse\-Node}}
+\index{traverse\-Node@{traverse\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{traverse\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Graph\-Node\-::traverse\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene, }
+\item[{long}]{delta\-Millis}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_aa680a8e89fc8ebd12b784653fb30c29a}
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1SixenseControllerNode_ab525f98319a51aff7043b79dc137e26f}{motorcar\-::\-Sixense\-Controller\-Node}, \hyperlink{classmotorcar_1_1SpatialPointingDevice_a53e251f5a0d7a9b0b8e7dc84d2e9d078}{motorcar\-::\-Spatial\-Pointing\-Device}, \hyperlink{classmotorcar_1_1VirtualNode_ad0eda301331d02d5bf03d13432e62d17}{motorcar\-::\-Virtual\-Node}, \hyperlink{classmotorcar_1_1Drawable_a931cb72d30d280d0e63f22c2e1ac39c6}{motorcar\-::\-Drawable}, and \hyperlink{classmotorcar_1_1SixenseBaseNode_a6454bbe79106600cdd7b92c2f30f7f63}{motorcar\-::\-Sixense\-Base\-Node}.
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_ac1e4d2185a8df5b84af1693a5d72d4fc}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!traverse\-Scene\-Graph@{traverse\-Scene\-Graph}}
+\index{traverse\-Scene\-Graph@{traverse\-Scene\-Graph}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{traverse\-Scene\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Graph\-Node\-::traverse\-Scene\-Graph (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene, }
+\item[{long}]{delta\-Millis}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SceneGraphNode_ac1e4d2185a8df5b84af1693a5d72d4fc}
+\hypertarget{classmotorcar_1_1SceneGraphNode_a3e7fba2add3f63a65f31996f0ce9c9bf}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!world\-Transform@{world\-Transform}}
+\index{world\-Transform@{world\-Transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{world\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 Scene\-Graph\-Node\-::world\-Transform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_a3e7fba2add3f63a65f31996f0ce9c9bf}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/\hyperlink{scenegraphnode_8h}{scenegraphnode.\-h}\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/\hyperlink{scenegraphnode_8cpp}{scenegraphnode.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,96 @@
+\hypertarget{structmotorcar_1_1Geometry_1_1Ray}{\section{motorcar\-:\-:Geometry\-:\-:Ray Struct Reference}
+\label{structmotorcar_1_1Geometry_1_1Ray}\index{motorcar\-::\-Geometry\-::\-Ray@{motorcar\-::\-Geometry\-::\-Ray}}
+}
+
+
+{\ttfamily \#include $<$geometry.\-h$>$}
+
+
+
+Collaboration diagram for motorcar\-:\-:Geometry\-:\-:Ray\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{structmotorcar_1_1Geometry_1_1Ray__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structmotorcar_1_1Geometry_1_1Ray_a0e703633f6101262ee14d17831745ca4}{Ray} (glm\-::vec3 \hyperlink{structmotorcar_1_1Geometry_1_1Ray_ac58960f9f82f19c6f514ae6c948deb86}{p}, glm\-::vec3 \hyperlink{structmotorcar_1_1Geometry_1_1Ray_a7140db28237277781ecb792fc280a95d}{d})
+\item 
+\hyperlink{structmotorcar_1_1Geometry_1_1Ray}{Ray} \hyperlink{structmotorcar_1_1Geometry_1_1Ray_a7de7ddd9609a26bdd1f2fe74933dfff6}{transform} (glm\-::mat4 t) const 
+\item 
+glm\-::vec3 \hyperlink{structmotorcar_1_1Geometry_1_1Ray_af14d102bfe9fdf08bb3396ad33d928bd}{solve} (float t) const 
+\item 
+void \hyperlink{structmotorcar_1_1Geometry_1_1Ray_a058da6e22e8fdcd7e2aa301153c9fa16}{print} () const 
+\item 
+void \hyperlink{structmotorcar_1_1Geometry_1_1Ray_a7d9403aa28c33c40d4b7e3c64ce3776d}{draw} (\hyperlink{classmotorcar_1_1SceneGraphNode}{motorcar\-::\-Scene\-Graph\-Node} $\ast$parent, glm\-::vec3 color, glm\-::mat4 \hyperlink{structmotorcar_1_1Geometry_1_1Ray_a7de7ddd9609a26bdd1f2fe74933dfff6}{transform}=glm\-::mat4(1))
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+glm\-::vec3 \hyperlink{structmotorcar_1_1Geometry_1_1Ray_ac58960f9f82f19c6f514ae6c948deb86}{p}
+\item 
+glm\-::vec3 \hyperlink{structmotorcar_1_1Geometry_1_1Ray_a7140db28237277781ecb792fc280a95d}{d}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{structmotorcar_1_1Geometry_1_1Ray_a0e703633f6101262ee14d17831745ca4}{\index{motorcar\-::\-Geometry\-::\-Ray@{motorcar\-::\-Geometry\-::\-Ray}!Ray@{Ray}}
+\index{Ray@{Ray}!motorcar::Geometry::Ray@{motorcar\-::\-Geometry\-::\-Ray}}
+\subsubsection[{Ray}]{\setlength{\rightskip}{0pt plus 5cm}Geometry\-::\-Ray\-::\-Ray (
+\begin{DoxyParamCaption}
+\item[{glm\-::vec3}]{p, }
+\item[{glm\-::vec3}]{d}
+\end{DoxyParamCaption}
+)}}\label{structmotorcar_1_1Geometry_1_1Ray_a0e703633f6101262ee14d17831745ca4}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{structmotorcar_1_1Geometry_1_1Ray_a7d9403aa28c33c40d4b7e3c64ce3776d}{\index{motorcar\-::\-Geometry\-::\-Ray@{motorcar\-::\-Geometry\-::\-Ray}!draw@{draw}}
+\index{draw@{draw}!motorcar::Geometry::Ray@{motorcar\-::\-Geometry\-::\-Ray}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}void Geometry\-::\-Ray\-::draw (
+\begin{DoxyParamCaption}
+\item[{{\bf motorcar\-::\-Scene\-Graph\-Node} $\ast$}]{parent, }
+\item[{glm\-::vec3}]{color, }
+\item[{glm\-::mat4}]{transform = {\ttfamily glm\-:\-:mat4(1)}}
+\end{DoxyParamCaption}
+)}}\label{structmotorcar_1_1Geometry_1_1Ray_a7d9403aa28c33c40d4b7e3c64ce3776d}
+\hypertarget{structmotorcar_1_1Geometry_1_1Ray_a058da6e22e8fdcd7e2aa301153c9fa16}{\index{motorcar\-::\-Geometry\-::\-Ray@{motorcar\-::\-Geometry\-::\-Ray}!print@{print}}
+\index{print@{print}!motorcar::Geometry::Ray@{motorcar\-::\-Geometry\-::\-Ray}}
+\subsubsection[{print}]{\setlength{\rightskip}{0pt plus 5cm}void Geometry\-::\-Ray\-::print (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{structmotorcar_1_1Geometry_1_1Ray_a058da6e22e8fdcd7e2aa301153c9fa16}
+\hypertarget{structmotorcar_1_1Geometry_1_1Ray_af14d102bfe9fdf08bb3396ad33d928bd}{\index{motorcar\-::\-Geometry\-::\-Ray@{motorcar\-::\-Geometry\-::\-Ray}!solve@{solve}}
+\index{solve@{solve}!motorcar::Geometry::Ray@{motorcar\-::\-Geometry\-::\-Ray}}
+\subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec3 Geometry\-::\-Ray\-::solve (
+\begin{DoxyParamCaption}
+\item[{float}]{t}
+\end{DoxyParamCaption}
+) const}}\label{structmotorcar_1_1Geometry_1_1Ray_af14d102bfe9fdf08bb3396ad33d928bd}
+\hypertarget{structmotorcar_1_1Geometry_1_1Ray_a7de7ddd9609a26bdd1f2fe74933dfff6}{\index{motorcar\-::\-Geometry\-::\-Ray@{motorcar\-::\-Geometry\-::\-Ray}!transform@{transform}}
+\index{transform@{transform}!motorcar::Geometry::Ray@{motorcar\-::\-Geometry\-::\-Ray}}
+\subsubsection[{transform}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Geometry\-::\-Ray} Geometry\-::\-Ray\-::transform (
+\begin{DoxyParamCaption}
+\item[{glm\-::mat4}]{t}
+\end{DoxyParamCaption}
+) const}}\label{structmotorcar_1_1Geometry_1_1Ray_a7de7ddd9609a26bdd1f2fe74933dfff6}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{structmotorcar_1_1Geometry_1_1Ray_a7140db28237277781ecb792fc280a95d}{\index{motorcar\-::\-Geometry\-::\-Ray@{motorcar\-::\-Geometry\-::\-Ray}!d@{d}}
+\index{d@{d}!motorcar::Geometry::Ray@{motorcar\-::\-Geometry\-::\-Ray}}
+\subsubsection[{d}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec3 motorcar\-::\-Geometry\-::\-Ray\-::d}}\label{structmotorcar_1_1Geometry_1_1Ray_a7140db28237277781ecb792fc280a95d}
+\hypertarget{structmotorcar_1_1Geometry_1_1Ray_ac58960f9f82f19c6f514ae6c948deb86}{\index{motorcar\-::\-Geometry\-::\-Ray@{motorcar\-::\-Geometry\-::\-Ray}!p@{p}}
+\index{p@{p}!motorcar::Geometry::Ray@{motorcar\-::\-Geometry\-::\-Ray}}
+\subsubsection[{p}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec3 motorcar\-::\-Geometry\-::\-Ray\-::p}}\label{structmotorcar_1_1Geometry_1_1Ray_ac58960f9f82f19c6f514ae6c948deb86}
+
+
+The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/\hyperlink{geometry_8h}{geometry.\-h}\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/\hyperlink{geometry_8cpp}{geometry.\-cpp}\end{DoxyCompactItemize}

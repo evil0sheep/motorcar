@@ -1,0 +1,23 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classFoo.html" title="Foo" alt="" coords="7,179,49,208"/>
+<area shape="rect" id="node3" href="$classmotorcar_1_1IOElement.html" title="motorcar::IOElement" alt="" coords="120,152,261,181"/>
+<area shape="rect" id="node31" href="$classmotorcar_1_1SceneGraphNode.html" title="motorcar::SceneGraphNode" alt="" coords="99,205,283,235"/>
+<area shape="rect" id="node5" href="$classmotorcar_1_1InputElement.html" title="motorcar::InputElement" alt="" coords="336,223,493,252"/>
+<area shape="rect" id="node9" href="$classmotorcar_1_1OutputElement.html" title="motorcar::OutputElement" alt="" coords="331,99,499,128"/>
+<area shape="rect" id="node7" href="$classmotorcar_1_1SpatialPointingDevice.html" title="motorcar::SpatialPointing\lDevice" alt="" coords="571,231,739,278"/>
+<area shape="rect" id="node11" href="$classmotorcar_1_1Display.html" title="motorcar::Display" alt="" coords="592,179,717,208"/>
+<area shape="rect" id="node17" href="$classmotorcar_1_1Drawable.html" title="motorcar::Drawable" alt="" coords="587,125,723,155"/>
+<area shape="rect" id="node25" href="$classmotorcar_1_1GLCamera.html" title="motorcar::GLCamera" alt="" coords="583,72,727,101"/>
+<area shape="rect" id="node27" href="$classmotorcar_1_1WaylandSurface.html" title="motorcar::WaylandSurface" alt="" coords="567,17,743,47"/>
+<area shape="rect" id="node13" href="$classmotorcar_1_1RenderToTextureDisplay.html" title="motorcar::RenderToTexture\lDisplay" alt="" coords="824,181,1005,227"/>
+<area shape="rect" id="node15" href="$classmotorcar_1_1OculusHMD.html" title="motorcar::OculusHMD" alt="" coords="1095,189,1247,219"/>
+<area shape="rect" id="node19" href="$classmotorcar_1_1WaylandDrawable.html" title="motorcar::WaylandDrawable" alt="" coords="821,128,1008,157"/>
+<area shape="rect" id="node23" href="$classmotorcar_1_1WireframeNode.html" title="motorcar::WireframeNode" alt="" coords="829,75,1000,104"/>
+<area shape="rect" id="node21" href="$classmotorcar_1_1WaylandSurfaceNode.html" title="motorcar::WaylandSurfaceNode" alt="" coords="1067,128,1275,157"/>
+<area shape="rect" id="node29" href="$classqtmotorcar_1_1QtWaylandMotorcarSurface.html" title="qtmotorcar::QtWaylandMotorcar\lSurface" alt="" coords="811,5,1019,51"/>
+<area shape="rect" id="node33" href="$classmotorcar_1_1PhysicalNode.html" title="motorcar::PhysicalNode" alt="" coords="333,289,496,319"/>
+<area shape="rect" id="node43" href="$classmotorcar_1_1VirtualNode.html" title="motorcar::VirtualNode" alt="" coords="340,152,489,181"/>
+<area shape="rect" id="node36" href="$classmotorcar_1_1Scene.html" title="motorcar::Scene" alt="" coords="596,301,713,331"/>
+<area shape="rect" id="node38" href="$classmotorcar_1_1SixenseBaseNode.html" title="motorcar::SixenseBaseNode" alt="" coords="560,355,749,384"/>
+<area shape="rect" id="node40" href="$classmotorcar_1_1SixenseControllerNode.html" title="motorcar::SixenseControllerNode" alt="" coords="548,408,761,437"/>
+</map>

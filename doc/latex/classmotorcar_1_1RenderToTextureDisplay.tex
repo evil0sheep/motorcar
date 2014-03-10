@@ -1,0 +1,150 @@
+\hypertarget{classmotorcar_1_1RenderToTextureDisplay}{\section{motorcar\-:\-:Render\-To\-Texture\-Display Class Reference}
+\label{classmotorcar_1_1RenderToTextureDisplay}\index{motorcar\-::\-Render\-To\-Texture\-Display@{motorcar\-::\-Render\-To\-Texture\-Display}}
+}
+
+
+{\ttfamily \#include $<$rendertotexturedisplay.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Render\-To\-Texture\-Display\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classmotorcar_1_1RenderToTextureDisplay__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:Render\-To\-Texture\-Display\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classmotorcar_1_1RenderToTextureDisplay__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1RenderToTextureDisplay_a9c79fc8d2429e8b15c0353a5a9fce42f}{Render\-To\-Texture\-Display} (float scale, glm\-::vec4 distortion\-K, \hyperlink{classmotorcar_1_1OpenGLContext}{Open\-G\-L\-Context} $\ast$\hyperlink{classmotorcar_1_1Display_a884dd0b78dbecee82a33eb6d26a2a403}{gl\-Context}, glm\-::vec2 display\-Dimensions, \hyperlink{classmotorcar_1_1PhysicalNode}{Physical\-Node} $\ast$parent, const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4())
+\item 
+virtual \hyperlink{classmotorcar_1_1RenderToTextureDisplay_a9cb7b619ef7450f8c208961d83671998}{$\sim$\-Render\-To\-Texture\-Display} ()
+\item 
+virtual void \hyperlink{classmotorcar_1_1RenderToTextureDisplay_abdf6861fe69ada64fafd0a7713391bed}{prepare\-For\-Draw} () override
+\item 
+virtual void \hyperlink{classmotorcar_1_1RenderToTextureDisplay_a5a312b98ac49013155797e814e6cf69e}{finish\-Draw} () override
+\item 
+virtual void \hyperlink{classmotorcar_1_1RenderToTextureDisplay_ad1ebd8928e00156ed06a2fcaf227ff56}{render\-Surface\-Node} (\hyperlink{classmotorcar_1_1WaylandSurfaceNode}{Wayland\-Surface\-Node} $\ast$surface\-Node, \hyperlink{classmotorcar_1_1GLCamera}{G\-L\-Camera} $\ast$camera) override
+\item 
+virtual void \hyperlink{classmotorcar_1_1RenderToTextureDisplay_a8e2f1f1bc62cd5fdea0dc00ef3dcd2fc}{render\-Wireframe\-Node} (\hyperlink{classmotorcar_1_1WireframeNode}{Wireframe\-Node} $\ast$node, \hyperlink{classmotorcar_1_1GLCamera}{G\-L\-Camera} $\ast$camera) override
+\item 
+virtual glm\-::ivec2 \hyperlink{classmotorcar_1_1RenderToTextureDisplay_a51b948b6feba962d622e1926d2bdade1}{resolution} () override
+\item 
+virtual glm\-::vec2 \hyperlink{classmotorcar_1_1RenderToTextureDisplay_ae9b133818a6e3ced457319bfdf618f73}{size} () const override
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1RenderToTextureDisplay_a9c79fc8d2429e8b15c0353a5a9fce42f}{\index{motorcar\-::\-Render\-To\-Texture\-Display@{motorcar\-::\-Render\-To\-Texture\-Display}!Render\-To\-Texture\-Display@{Render\-To\-Texture\-Display}}
+\index{Render\-To\-Texture\-Display@{Render\-To\-Texture\-Display}!motorcar::RenderToTextureDisplay@{motorcar\-::\-Render\-To\-Texture\-Display}}
+\subsubsection[{Render\-To\-Texture\-Display}]{\setlength{\rightskip}{0pt plus 5cm}Render\-To\-Texture\-Display\-::\-Render\-To\-Texture\-Display (
+\begin{DoxyParamCaption}
+\item[{float}]{scale, }
+\item[{glm\-::vec4}]{distortion\-K, }
+\item[{{\bf Open\-G\-L\-Context} $\ast$}]{gl\-Context, }
+\item[{glm\-::vec2}]{display\-Dimensions, }
+\item[{{\bf Physical\-Node} $\ast$}]{parent, }
+\item[{const glm\-::mat4 \&}]{transform = {\ttfamily glm\-:\-:mat4()}}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1RenderToTextureDisplay_a9c79fc8d2429e8b15c0353a5a9fce42f}
+\hypertarget{classmotorcar_1_1RenderToTextureDisplay_a9cb7b619ef7450f8c208961d83671998}{\index{motorcar\-::\-Render\-To\-Texture\-Display@{motorcar\-::\-Render\-To\-Texture\-Display}!$\sim$\-Render\-To\-Texture\-Display@{$\sim$\-Render\-To\-Texture\-Display}}
+\index{$\sim$\-Render\-To\-Texture\-Display@{$\sim$\-Render\-To\-Texture\-Display}!motorcar::RenderToTextureDisplay@{motorcar\-::\-Render\-To\-Texture\-Display}}
+\subsubsection[{$\sim$\-Render\-To\-Texture\-Display}]{\setlength{\rightskip}{0pt plus 5cm}Render\-To\-Texture\-Display\-::$\sim$\-Render\-To\-Texture\-Display (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1RenderToTextureDisplay_a9cb7b619ef7450f8c208961d83671998}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1RenderToTextureDisplay_a5a312b98ac49013155797e814e6cf69e}{\index{motorcar\-::\-Render\-To\-Texture\-Display@{motorcar\-::\-Render\-To\-Texture\-Display}!finish\-Draw@{finish\-Draw}}
+\index{finish\-Draw@{finish\-Draw}!motorcar::RenderToTextureDisplay@{motorcar\-::\-Render\-To\-Texture\-Display}}
+\subsubsection[{finish\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}void Render\-To\-Texture\-Display\-::finish\-Draw (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1RenderToTextureDisplay_a5a312b98ac49013155797e814e6cf69e}
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1Display_a162b721d9c039887fc37b6a090ff1074}{motorcar\-::\-Display}.
+
+\hypertarget{classmotorcar_1_1RenderToTextureDisplay_abdf6861fe69ada64fafd0a7713391bed}{\index{motorcar\-::\-Render\-To\-Texture\-Display@{motorcar\-::\-Render\-To\-Texture\-Display}!prepare\-For\-Draw@{prepare\-For\-Draw}}
+\index{prepare\-For\-Draw@{prepare\-For\-Draw}!motorcar::RenderToTextureDisplay@{motorcar\-::\-Render\-To\-Texture\-Display}}
+\subsubsection[{prepare\-For\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}void Render\-To\-Texture\-Display\-::prepare\-For\-Draw (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1RenderToTextureDisplay_abdf6861fe69ada64fafd0a7713391bed}
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1Display_a0b26d9162f4f8f0848af408791be631c}{motorcar\-::\-Display}.
+
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1OculusHMD_ae9834ea50d728809532b7a48f7ed1738}{motorcar\-::\-Oculus\-H\-M\-D}.
+
+\hypertarget{classmotorcar_1_1RenderToTextureDisplay_ad1ebd8928e00156ed06a2fcaf227ff56}{\index{motorcar\-::\-Render\-To\-Texture\-Display@{motorcar\-::\-Render\-To\-Texture\-Display}!render\-Surface\-Node@{render\-Surface\-Node}}
+\index{render\-Surface\-Node@{render\-Surface\-Node}!motorcar::RenderToTextureDisplay@{motorcar\-::\-Render\-To\-Texture\-Display}}
+\subsubsection[{render\-Surface\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Render\-To\-Texture\-Display\-::render\-Surface\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Wayland\-Surface\-Node} $\ast$}]{surface\-Node, }
+\item[{{\bf G\-L\-Camera} $\ast$}]{camera}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1RenderToTextureDisplay_ad1ebd8928e00156ed06a2fcaf227ff56}
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1Display_a1c329c8587b03aa7dba1dd986f719189}{motorcar\-::\-Display}.
+
+\hypertarget{classmotorcar_1_1RenderToTextureDisplay_a8e2f1f1bc62cd5fdea0dc00ef3dcd2fc}{\index{motorcar\-::\-Render\-To\-Texture\-Display@{motorcar\-::\-Render\-To\-Texture\-Display}!render\-Wireframe\-Node@{render\-Wireframe\-Node}}
+\index{render\-Wireframe\-Node@{render\-Wireframe\-Node}!motorcar::RenderToTextureDisplay@{motorcar\-::\-Render\-To\-Texture\-Display}}
+\subsubsection[{render\-Wireframe\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Render\-To\-Texture\-Display\-::render\-Wireframe\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Wireframe\-Node} $\ast$}]{node, }
+\item[{{\bf G\-L\-Camera} $\ast$}]{camera}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1RenderToTextureDisplay_a8e2f1f1bc62cd5fdea0dc00ef3dcd2fc}
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1Display_aa2dbfd4fef12770edc9c0695b0b0470f}{motorcar\-::\-Display}.
+
+\hypertarget{classmotorcar_1_1RenderToTextureDisplay_a51b948b6feba962d622e1926d2bdade1}{\index{motorcar\-::\-Render\-To\-Texture\-Display@{motorcar\-::\-Render\-To\-Texture\-Display}!resolution@{resolution}}
+\index{resolution@{resolution}!motorcar::RenderToTextureDisplay@{motorcar\-::\-Render\-To\-Texture\-Display}}
+\subsubsection[{resolution}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::ivec2 Render\-To\-Texture\-Display\-::resolution (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1RenderToTextureDisplay_a51b948b6feba962d622e1926d2bdade1}
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1Display_a3fa06b92ceb44855394c61b24e986153}{motorcar\-::\-Display}.
+
+\hypertarget{classmotorcar_1_1RenderToTextureDisplay_ae9b133818a6e3ced457319bfdf618f73}{\index{motorcar\-::\-Render\-To\-Texture\-Display@{motorcar\-::\-Render\-To\-Texture\-Display}!size@{size}}
+\index{size@{size}!motorcar::RenderToTextureDisplay@{motorcar\-::\-Render\-To\-Texture\-Display}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec2 Render\-To\-Texture\-Display\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1RenderToTextureDisplay_ae9b133818a6e3ced457319bfdf618f73}
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1Display_aa8abb8de1affc4cc048f5ee7e82e8ab2}{motorcar\-::\-Display}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/display/\hyperlink{rendertotexturedisplay_8h}{rendertotexturedisplay.\-h}\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/display/\hyperlink{rendertotexturedisplay_8cpp}{rendertotexturedisplay.\-cpp}\end{DoxyCompactItemize}

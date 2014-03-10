@@ -1,0 +1,148 @@
+\hypertarget{classQtwaylandSurfaceNode}{\section{Qtwayland\-Surface\-Node Class Reference}
+\label{classQtwaylandSurfaceNode}\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}}
+}
+
+
+{\ttfamily \#include $<$qtwaylandsurfacenode.\-h$>$}
+
+
+
+Collaboration diagram for Qtwayland\-Surface\-Node\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{classQtwaylandSurfaceNode__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classQtwaylandSurfaceNode_a582fc9fb7bee6fecc1935c229bc84e72}{Qtwayland\-Surface\-Node} (Q\-Object $\ast$parent, Q\-Wayland\-Surface $\ast$\hyperlink{classQtwaylandSurfaceNode_a8f07c78202a2faa244d9d6c389c03951}{surface}, glm\-::mat4 transform=glm\-::mat4(1))
+\item 
+virtual \hyperlink{classQtwaylandSurfaceNode_af762332b319b9239e955d4a69b165c14}{$\sim$\-Qtwayland\-Surface\-Node} ()
+\item 
+Q\-Wayland\-Surface $\ast$ \hyperlink{classQtwaylandSurfaceNode_a8f07c78202a2faa244d9d6c389c03951}{surface} () const 
+\item 
+void \hyperlink{classQtwaylandSurfaceNode_ace08a2691d01fe10087e9b6997d1523b}{set\-Surface} (Q\-Wayland\-Surface $\ast$\hyperlink{classQtwaylandSurfaceNode_a8f07c78202a2faa244d9d6c389c03951}{surface})
+\item 
+glm\-::mat4 \hyperlink{classQtwaylandSurfaceNode_a8f88e9c392012d312206da67d6ea81ed}{surface\-Transform} () const 
+\item 
+bool \hyperlink{classQtwaylandSurfaceNode_a0307e078cfa9bcd6aaad60830ab5b3a6}{compute\-Local\-Surface\-Intersection} (const Geometry\-::\-Ray \&local\-Ray, Q\-Point\-F \&local\-Intersection, float \&t) const 
+\item 
+virtual bool \hyperlink{classQtwaylandSurfaceNode_a620c58196d857fe5146cfff49c6787fd}{draw} (Display\-Node $\ast$display)
+\item 
+virtual \hyperlink{classQtwaylandSurfaceNode}{Qtwayland\-Surface\-Node} $\ast$ \hyperlink{classQtwaylandSurfaceNode_a72db2bcd85e26d7f0332175f691a0dfd}{get\-Surface\-Node} (const Q\-Wayland\-Surface $\ast$\hyperlink{classQtwaylandSurfaceNode_a8f07c78202a2faa244d9d6c389c03951}{surface}=N\-U\-L\-L)
+\item 
+virtual \\*
+Scene\-Graph\-Node\-::\-Ray\-Surface\-Intersection $\ast$ \hyperlink{classQtwaylandSurfaceNode_a82a9f9f93675df011cfd350a1857ea8b}{intersect\-With\-Surfaces} (const Geometry\-::\-Ray \&ray)
+\item 
+G\-Luint \hyperlink{classQtwaylandSurfaceNode_a16ad301303ca42fa9a2ad3d1799cf1a2}{compose\-Surface} (Q\-Wayland\-Surface $\ast$\hyperlink{classQtwaylandSurfaceNode_a8f07c78202a2faa244d9d6c389c03951}{surface}, \hyperlink{classOpenGLData}{Open\-G\-L\-Data} $\ast$gl\-Data)
+\item 
+void \hyperlink{classQtwaylandSurfaceNode_a0de0e4cbe5312d91334e091160ac4bce}{paint\-Children} (Q\-Wayland\-Surface $\ast$\hyperlink{classQtwaylandSurfaceNode_a8f07c78202a2faa244d9d6c389c03951}{surface}, Q\-Wayland\-Surface $\ast$window, \hyperlink{classOpenGLData}{Open\-G\-L\-Data} $\ast$gl\-Data)
+\item 
+void \hyperlink{classQtwaylandSurfaceNode_a9917572c6241c4a7593b4c9cd9f8c290}{compute\-Surface\-Transform} (float ppcm)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classQtwaylandSurfaceNode_a582fc9fb7bee6fecc1935c229bc84e72}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}}
+\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{Qtwayland\-Surface\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Qtwayland\-Surface\-Node\-::\-Qtwayland\-Surface\-Node (
+\begin{DoxyParamCaption}
+\item[{Q\-Object $\ast$}]{parent, }
+\item[{Q\-Wayland\-Surface $\ast$}]{surface, }
+\item[{glm\-::mat4}]{transform = {\ttfamily glm\-:\-:mat4(1)}}
+\end{DoxyParamCaption}
+)}}\label{classQtwaylandSurfaceNode_a582fc9fb7bee6fecc1935c229bc84e72}
+\hypertarget{classQtwaylandSurfaceNode_af762332b319b9239e955d4a69b165c14}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!$\sim$\-Qtwayland\-Surface\-Node@{$\sim$\-Qtwayland\-Surface\-Node}}
+\index{$\sim$\-Qtwayland\-Surface\-Node@{$\sim$\-Qtwayland\-Surface\-Node}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{$\sim$\-Qtwayland\-Surface\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Qtwayland\-Surface\-Node\-::$\sim$\-Qtwayland\-Surface\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classQtwaylandSurfaceNode_af762332b319b9239e955d4a69b165c14}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classQtwaylandSurfaceNode_a16ad301303ca42fa9a2ad3d1799cf1a2}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!compose\-Surface@{compose\-Surface}}
+\index{compose\-Surface@{compose\-Surface}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{compose\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}G\-Luint Qtwayland\-Surface\-Node\-::compose\-Surface (
+\begin{DoxyParamCaption}
+\item[{Q\-Wayland\-Surface $\ast$}]{surface, }
+\item[{{\bf Open\-G\-L\-Data} $\ast$}]{gl\-Data}
+\end{DoxyParamCaption}
+)}}\label{classQtwaylandSurfaceNode_a16ad301303ca42fa9a2ad3d1799cf1a2}
+\hypertarget{classQtwaylandSurfaceNode_a0307e078cfa9bcd6aaad60830ab5b3a6}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!compute\-Local\-Surface\-Intersection@{compute\-Local\-Surface\-Intersection}}
+\index{compute\-Local\-Surface\-Intersection@{compute\-Local\-Surface\-Intersection}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{compute\-Local\-Surface\-Intersection}]{\setlength{\rightskip}{0pt plus 5cm}bool Qtwayland\-Surface\-Node\-::compute\-Local\-Surface\-Intersection (
+\begin{DoxyParamCaption}
+\item[{const Geometry\-::\-Ray \&}]{local\-Ray, }
+\item[{Q\-Point\-F \&}]{local\-Intersection, }
+\item[{float \&}]{t}
+\end{DoxyParamCaption}
+) const}}\label{classQtwaylandSurfaceNode_a0307e078cfa9bcd6aaad60830ab5b3a6}
+\hypertarget{classQtwaylandSurfaceNode_a9917572c6241c4a7593b4c9cd9f8c290}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!compute\-Surface\-Transform@{compute\-Surface\-Transform}}
+\index{compute\-Surface\-Transform@{compute\-Surface\-Transform}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{compute\-Surface\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}void Qtwayland\-Surface\-Node\-::compute\-Surface\-Transform (
+\begin{DoxyParamCaption}
+\item[{float}]{ppcm}
+\end{DoxyParamCaption}
+)}}\label{classQtwaylandSurfaceNode_a9917572c6241c4a7593b4c9cd9f8c290}
+\hypertarget{classQtwaylandSurfaceNode_a620c58196d857fe5146cfff49c6787fd}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!draw@{draw}}
+\index{draw@{draw}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}bool Qtwayland\-Surface\-Node\-::draw (
+\begin{DoxyParamCaption}
+\item[{Display\-Node $\ast$}]{display}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classQtwaylandSurfaceNode_a620c58196d857fe5146cfff49c6787fd}
+\hypertarget{classQtwaylandSurfaceNode_a72db2bcd85e26d7f0332175f691a0dfd}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!get\-Surface\-Node@{get\-Surface\-Node}}
+\index{get\-Surface\-Node@{get\-Surface\-Node}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{get\-Surface\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qtwayland\-Surface\-Node} $\ast$ Qtwayland\-Surface\-Node\-::get\-Surface\-Node (
+\begin{DoxyParamCaption}
+\item[{const Q\-Wayland\-Surface $\ast$}]{surface = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classQtwaylandSurfaceNode_a72db2bcd85e26d7f0332175f691a0dfd}
+\hypertarget{classQtwaylandSurfaceNode_a82a9f9f93675df011cfd350a1857ea8b}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!intersect\-With\-Surfaces@{intersect\-With\-Surfaces}}
+\index{intersect\-With\-Surfaces@{intersect\-With\-Surfaces}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{intersect\-With\-Surfaces}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-Graph\-Node\-::\-Ray\-Surface\-Intersection $\ast$ Qtwayland\-Surface\-Node\-::intersect\-With\-Surfaces (
+\begin{DoxyParamCaption}
+\item[{const Geometry\-::\-Ray \&}]{ray}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classQtwaylandSurfaceNode_a82a9f9f93675df011cfd350a1857ea8b}
+\hypertarget{classQtwaylandSurfaceNode_a0de0e4cbe5312d91334e091160ac4bce}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!paint\-Children@{paint\-Children}}
+\index{paint\-Children@{paint\-Children}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{paint\-Children}]{\setlength{\rightskip}{0pt plus 5cm}void Qtwayland\-Surface\-Node\-::paint\-Children (
+\begin{DoxyParamCaption}
+\item[{Q\-Wayland\-Surface $\ast$}]{surface, }
+\item[{Q\-Wayland\-Surface $\ast$}]{window, }
+\item[{{\bf Open\-G\-L\-Data} $\ast$}]{gl\-Data}
+\end{DoxyParamCaption}
+)}}\label{classQtwaylandSurfaceNode_a0de0e4cbe5312d91334e091160ac4bce}
+\hypertarget{classQtwaylandSurfaceNode_ace08a2691d01fe10087e9b6997d1523b}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!set\-Surface@{set\-Surface}}
+\index{set\-Surface@{set\-Surface}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{set\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}void Qtwayland\-Surface\-Node\-::set\-Surface (
+\begin{DoxyParamCaption}
+\item[{Q\-Wayland\-Surface $\ast$}]{surface}
+\end{DoxyParamCaption}
+)}}\label{classQtwaylandSurfaceNode_ace08a2691d01fe10087e9b6997d1523b}
+\hypertarget{classQtwaylandSurfaceNode_a8f07c78202a2faa244d9d6c389c03951}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!surface@{surface}}
+\index{surface@{surface}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{surface}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Wayland\-Surface $\ast$ Qtwayland\-Surface\-Node\-::surface (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classQtwaylandSurfaceNode_a8f07c78202a2faa244d9d6c389c03951}
+\hypertarget{classQtwaylandSurfaceNode_a8f88e9c392012d312206da67d6ea81ed}{\index{Qtwayland\-Surface\-Node@{Qtwayland\-Surface\-Node}!surface\-Transform@{surface\-Transform}}
+\index{surface\-Transform@{surface\-Transform}!QtwaylandSurfaceNode@{Qtwayland\-Surface\-Node}}
+\subsubsection[{surface\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 Qtwayland\-Surface\-Node\-::surface\-Transform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classQtwaylandSurfaceNode_a8f88e9c392012d312206da67d6ea81ed}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/qt/src/\hyperlink{qtwaylandsurfacenode_8h}{qtwaylandsurfacenode.\-h}\item 
+/home/dave/thesis/qtwayland-\/motorcar-\/compositor/qt/src/\hyperlink{qtwaylandsurfacenode_8cpp}{qtwaylandsurfacenode.\-cpp}\end{DoxyCompactItemize}

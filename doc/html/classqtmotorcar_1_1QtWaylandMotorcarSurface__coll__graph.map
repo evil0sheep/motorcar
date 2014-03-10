@@ -1,0 +1,6 @@
+<map id="qtmotorcar::QtWaylandMotorcarSurface" name="qtmotorcar::QtWaylandMotorcarSurface">
+<area shape="rect" id="node2" href="$classmotorcar_1_1WaylandSurface.html" title="{motorcar::WaylandSurface\n|# m_latestMouseEventPos\l# m_type\l|+ WaylandSurface()\l+ ~WaylandSurface()\l+ texture()\l+ size()\l+ prepare()\l+ valid()\l+ sendMouseEvent()\l+ latestMouseEventPos()\l+ type()\l+ setType()\l}" alt="" coords="21,477,200,736"/>
+<area shape="rect" id="node4" href="$classmotorcar_1_1OutputElement.html" title="{motorcar::OutputElement\n||+ OutputElement()\l+ isInputElement()\l}" alt="" coords="27,326,195,429"/>
+<area shape="rect" id="node6" href="$classmotorcar_1_1IOElement.html" title="{motorcar::IOElement\n||+ IOElement()\l+ ~IOElement()\l+ isInputElement()\l+ isOutputElement()\l}" alt="" coords="40,139,181,277"/>
+<area shape="rect" id="node8" href="$classFoo.html" title="{Foo\n||}" alt="" coords="89,5,132,91"/>
+</map>
