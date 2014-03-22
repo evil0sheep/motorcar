@@ -9,6 +9,8 @@ SixenseControllerNode::SixenseControllerNode(int controllerIndex, PhysicalNode *
     ,m_controllerIndex(controllerIndex)
     ,m_enabled(true)
     ,m_bumperDown(false)
+    ,m_filteredPos(0)
+    ,m_filterConstant(.8)
 {
 
 }
@@ -32,6 +34,37 @@ void SixenseControllerNode::updateState(sixenseControllerData data)
         m_pointingDevice->setRightMouseDown((data.buttons & SIXENSE_BUTTON_2) != 0);
         m_pointingDevice->setMiddleMouseDown((data.buttons & SIXENSE_BUTTON_JOYSTICK) != 0);
     }
+
+    glm::mat3 rotation = glm::make_mat3((float *)data.rot_mat);
+    glm::vec3 newPosition = (glm::make_vec3(data.pos) / 1000.f);
+
+    m_filteredPos = (1-m_filterConstant) * m_filteredPos + m_filterConstant * newPosition;
+
+
+//                if(controller->controllerIndex() == 0){
+//                    Geometry::Ray(glm::vec3(0), rotation * glm::vec3(0,1,0)).draw(this, glm::vec3(1, 0, 1));
+
+//                }
+
+
+
+    glm::mat4 controllerTransform = glm::translate(glm::mat4(), m_filteredPos);// *
+//                                    glm::mat4(glm::vec4(rotation[0], 0),
+//                                              glm::vec4(rotation[1], 0),
+//                                              glm::vec4(rotation[2], 0),
+//                                              glm::vec4(0,0,0, 1));
+    if(controllerIndex() != 0){
+        controllerTransform = controllerTransform * glm::mat4(glm::vec4(rotation[0], 0),
+                                                              glm::vec4(rotation[1], 0),
+                                                              glm::vec4(rotation[2], 0),
+                                                              glm::vec4(0,0,0, 1));
+    }
+
+//                if(controller->controllerIndex() != 0){
+//                    controller->setWorldTransform(glm::translate(glm::mat4(), glm::vec3(0,0.1,0)));
+//                else
+        //controller->setWorldTransform(this->inverseWorldTransform() * controllerTransform);
+    setTransform(controllerTransform);
 
 }
 

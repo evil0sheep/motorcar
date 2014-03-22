@@ -44,7 +44,7 @@ public:
     //(inverse transform is cached whenever transform is set)
     glm::mat4 inverseTransform() const;
     //sets this node's transform relative to its parent
-    void setTransform(const glm::mat4 &transform);
+    virtual void setTransform(const glm::mat4 &transform);
 
     //returns this node's transform relative to the world
     glm::mat4 worldTransform() const;

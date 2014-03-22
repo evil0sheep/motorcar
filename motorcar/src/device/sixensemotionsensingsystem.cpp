@@ -25,7 +25,7 @@ SixenseMotionSensingSystem::SixenseMotionSensingSystem(Scene *scene)
 
                 std::cout << "Sixense base " << base << "is active, intitializing" << std::endl;
 
-                m_baseStations.push_back(new SixenseBaseNode(base, scene));//, glm::rotate(glm::mat4(1), 180.f, glm::vec3(0,1,0))));
+                m_baseStations.push_back(new SixenseBaseNode(base, scene, glm::translate(glm::mat4(1), glm::vec3(0.75,0.25,0))));
 
             }
         }

@@ -2,6 +2,7 @@
 
 using namespace motorcar;
 using namespace OVR;
+
 //using namespace OVR::Platform;
 //using namespace OVR::Render;
 
@@ -23,12 +24,22 @@ void OculusHMD::prepareForDraw()
 {
     OVR::Quatf ovrQuat = m_system->SFusion.GetOrientation();
 
-    OVR::Vector3f axis;
+    OVR::Vector3f OVRaxis;
     float angle;
-    ovrQuat.GetAxisAngle(&axis, &angle);
+    ovrQuat.GetAxisAngle(&OVRaxis, &angle);
+
+    glm::vec3 axis =glm::vec3(OVRaxis.x, OVRaxis.y, OVRaxis.z);
+
+    glm::quat orientation = glm::angleAxis(glm::degrees(angle), glm::normalize(axis));
+
+    //glm::mat4 rotMat = glm::rotate(glm::mat4(), glm::degrees(angle), glm::normalize(axis));
 
 
-    //setTransform(glm::rotate(glm::mat4(), glm::degrees(angle), glm::vec3(axis.x, axis.y, axis.z)));
+    glm::vec3 parentPos = glm::vec3(parentNode()->worldTransform() * glm::vec4(0,0,0,1));
+
+    //setTransform(rotMat);
+
+    parentNode()->setWorldTransform(glm::translate(glm::mat4(1), parentPos) *  glm::mat4_cast(orientation));
 
 
 //    glm::vec4 hmd_axis = this->worldTransform()*glm::vec4(0,1,0,0);

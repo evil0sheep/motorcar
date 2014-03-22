@@ -277,10 +277,10 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
 
                 parentNode = this->scene();
                 transform = glm::mat4(1)
-                                * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
-                                * glm::translate(glm::mat4(1), glm::vec3(0,0.0,1.25f))
-//                                * glm::rotate(glm::mat4(1), (-1 +  m_numSurfacesMapped % 3) * 30.f, glm::vec3(0, -1, 0))
-//                            * glm::rotate(glm::mat4(1), (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
+                              //  * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
+                                * glm::translate(glm::mat4(1), glm::vec3(0, 0 ,1.25f))
+                                * glm::rotate(glm::mat4(1), (-1 +  m_numSurfacesMapped % 3) * 30.f, glm::vec3(0, -1, 0))
+                            * glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
                             * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
                             * glm::mat4(1);
                 surfaceType = motorcar::WaylandSurface::SurfaceType::TOPLEVEL;

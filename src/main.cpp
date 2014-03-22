@@ -87,11 +87,20 @@ int main(int argc, char *argv[])
         compositor->display()->setParentNode(sixense->baseStations().front()->controllers().front());
 
 
-        glm::mat4 translation = glm::translate(glm::mat4(), glm::vec3(0,0,-.00));
+//        glm::mat4 translation = glm::translate(glm::mat4(), glm::vec3(0,0,-.00));
 
-        glm::mat4 rotation = glm::rotate(glm::mat4(), -45.f, glm::vec3(1,0,0));
+//        glm::mat4 rotation = glm::rotate(glm::mat4(), -45.f, glm::vec3(1,0,0));
 
-        compositor->display()->setTransform(rotation * translation );
+          glm::mat4 offsetTransform =
+                  glm::translate(glm::mat4(), glm::vec3(0, 0, -0.19)) *
+                  glm::rotate(glm::mat4(), 50.f, glm::vec3(-1, 0, 0)) *
+                  glm::translate(glm::mat4(), glm::vec3(0, -.16, 0));
+
+          glm::vec3 displayPosition = glm::vec3(0);//glm::vec3(offsetTransform * glm::vec4(0,0,0,1));
+
+          glm::mat4 displayTransform = glm::translate(glm::mat4(), displayPosition);
+
+          compositor->display()->setTransform(displayTransform);
     }
 
 

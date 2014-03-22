@@ -3,6 +3,7 @@
 
 #include "../scenegraph/output/display/rendertotexturedisplay.h"
 #include "OVR.h"
+#include "glm/gtc/quaternion.hpp"
 
 namespace motorcar {
 

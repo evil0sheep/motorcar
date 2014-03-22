@@ -32,7 +32,7 @@ SixenseBaseNode::SixenseBaseNode(int baseIndex, PhysicalNode *parent, const glm:
             fprintf( log_file, "\n" );
             fflush(log_file);
 
-            SixenseControllerNode *controller = new SixenseControllerNode(cont, scene());
+            SixenseControllerNode *controller = new SixenseControllerNode(cont, this);
 
             m_controllers.push_back(controller);
 
@@ -43,6 +43,19 @@ SixenseBaseNode::SixenseBaseNode(int baseIndex, PhysicalNode *parent, const glm:
         }
 
     }
+
+    float vertices[]= {
+        -0.0, 0, 0,
+        0.1, 0, 0,
+        0, -0.0, 0,
+        0, 0.1, 0,
+        0, 0, -0.0,
+        0, 0, 0.1,
+
+
+    };
+    new WireframeNode(vertices, 3, glm::vec3(1,0,1), this);
+
 }
 
 void SixenseBaseNode::traverseNode(Scene *scene, long deltaMillis)
@@ -70,26 +83,32 @@ void SixenseBaseNode::traverseNode(Scene *scene, long deltaMillis)
 
                 controller->updateState(data);
 
-                glm::mat3 rotation = glm::make_mat3((float *)data.rot_mat);
-                glm::vec3 position = (glm::make_vec3(data.pos) / 1000.f);
+//                glm::mat3 rotation = glm::make_mat3((float *)data.rot_mat);
+//                glm::vec3 position = (glm::make_vec3(data.pos) / 1000.f);
 
-//                if(controller->controllerIndex() == 0){
-//                    Geometry::Ray(glm::vec3(0), rotation * glm::vec3(0,1,0)).draw(this, glm::vec3(1, 0, 1));
+////                if(controller->controllerIndex() == 0){
+////                    Geometry::Ray(glm::vec3(0), rotation * glm::vec3(0,1,0)).draw(this, glm::vec3(1, 0, 1));
 
+////                }
+
+
+
+//                glm::mat4 controllerTransform = glm::translate(glm::mat4(), position);// *
+////                                    glm::mat4(glm::vec4(rotation[0], 0),
+////                                              glm::vec4(rotation[1], 0),
+////                                              glm::vec4(rotation[2], 0),
+////                                              glm::vec4(0,0,0, 1));
+//                if(controller->controllerIndex() != 0){
+//                    controllerTransform = controllerTransform * glm::mat4(glm::vec4(rotation[0], 0),
+//                                                                          glm::vec4(rotation[1], 0),
+//                                                                          glm::vec4(rotation[2], 0),
+//                                                                          glm::vec4(0,0,0, 1));
 //                }
 
-
-
-                glm::mat4 controllerTransform = glm::translate(glm::mat4(), position) *
-                                    glm::mat4(glm::vec4(rotation[0], 0),
-                                              glm::vec4(rotation[1], 0),
-                                              glm::vec4(rotation[2], 0),
-                                              glm::vec4(0,0,0, 1));
-
-//                if(controller->controllerIndex() != 0){
-//                    controller->setWorldTransform(glm::translate(glm::mat4(), glm::vec3(0,0.1,0)));
-//                else
-                    controller->setWorldTransform(this->inverseWorldTransform() * controllerTransform);
+////                if(controller->controllerIndex() != 0){
+////                    controller->setWorldTransform(glm::translate(glm::mat4(), glm::vec3(0,0.1,0)));
+////                else
+//                    controller->setWorldTransform(this->inverseWorldTransform() * controllerTransform);
 
 
 

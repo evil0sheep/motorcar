@@ -59,7 +59,11 @@ HEADERS += \
     motorcar/src/device/sixensecontrollernode.h \
     motorcar/src/device/sixensebasenode.h \
     motorcar/src/scenegraph/output/wireframenode.h \
-    motorcar/src/compositor.h
+    motorcar/src/compositor.h \
+    motorcar/src/scenegraph/input/bone.h \
+    motorcar/src/scenegraph/input/bonesensor.h \
+    motorcar/src/scenegraph/input/skeleton.h \
+    motorcar/src/scenegraph/input/singlebonetracker.h
 
 
 
@@ -98,7 +102,11 @@ SOURCES += \
     motorcar/src/device/sixensecontrollernode.cpp \
     motorcar/src/device/sixensebasenode.cpp \
     motorcar/src/scenegraph/output/wireframenode.cpp \
-    motorcar/src/compositor.cpp
+    motorcar/src/compositor.cpp \
+    motorcar/src/scenegraph/input/bone.cpp \
+    motorcar/src/scenegraph/input/bonesensor.cpp \
+    motorcar/src/scenegraph/input/skeleton.cpp \
+    motorcar/src/scenegraph/input/singlebonetracker.cpp
 
 
 

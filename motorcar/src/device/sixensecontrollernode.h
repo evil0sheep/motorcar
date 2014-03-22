@@ -30,6 +30,9 @@ private:
     int m_controllerIndex;
     bool m_enabled;
     bool m_bumperDown;
+
+    glm::vec3 m_filteredPos;
+    float m_filterConstant;
 };
 }
 
