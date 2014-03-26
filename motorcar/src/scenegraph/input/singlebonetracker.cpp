@@ -8,10 +8,48 @@ SingleBoneTracker::SingleBoneTracker(Bone *trackedBone, glm::mat4 boneTrackTrans
 {
 }
 
-void SingleBoneTracker::setTransform(const glm::mat4 &transform)
+
+glm::mat4 SingleBoneTracker::trackerParentSpaceToBoneParentSpaceTransform()
 {
+    //define tracker parent space in bone space
+    glm::mat4 workingTransform = trackedBone()->inverseWorldTransform() * this->parentNode()->worldTransform();
+    //apply inverse bone track transform in the bone space
+    //this makes sure that the bone's orientation is taken into account when applying translation
+    workingTransform = glm::inverse(boneTrackTransform()) * workingTransform;
+    //bring into bone parent space
+    workingTransform = trackedBone()->transform() * workingTransform;
+
+
+
+    return workingTransform;
+}
+
+void SingleBoneTracker::setTransformFromTrackedBone()
+{
+    this->setTransform(this->parentNode()->inverseWorldTransform() * trackedBone()->worldTransform() * boneTrackTransform());
+}
+
+void SingleBoneTracker::setPosition(const glm::vec3 &position)
+{
+    glm::vec4 parentSpaceBonePos = trackerParentSpaceToBoneParentSpaceTransform() * glm::vec4(position, 1);
+
+    trackedBone()->setPosition(glm::vec3(parentSpaceBonePos));
+
+    setTransformFromTrackedBone();
+}
+
+void SingleBoneTracker::setOrientation(const glm::mat3 &orientation)
+{
+    glm::mat4 orientation4X4 = glm::mat4(orientation);
+    glm::mat4 boneOrientation4X4 = trackerParentSpaceToBoneParentSpaceTransform() * orientation4X4 ;
+    trackedBone()->setOrientation(glm::mat3(boneOrientation4X4));
+    setTransformFromTrackedBone();
+
+
 
 }
+
+
 
 Bone *SingleBoneTracker::trackedBone() const
 {
@@ -31,6 +69,10 @@ void SingleBoneTracker::setBoneTrackTransform(const glm::mat4 &boneTrackTransfor
 {
     m_boneTrackTransform = boneTrackTransform;
 }
+
+
+
+
 
 
 

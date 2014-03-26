@@ -2,6 +2,7 @@
 #define OCULUSHMD_H
 
 #include "../scenegraph/output/display/rendertotexturedisplay.h"
+#include "../scenegraph/input/singlebonetracker.h"
 #include "OVR.h"
 #include "glm/gtc/quaternion.hpp"
 
@@ -16,7 +17,7 @@ public:
 
     //Attempts to create an OculusHMD through the API, if something in the API Fails
     //(for example if no HMD's are present) this method returns a NULL pointer
-    static OculusHMD *create(OpenGLContext *glContext, PhysicalNode *parent);
+    static OculusHMD *create(OpenGLContext *glContext, Skeleton *skeleton, PhysicalNode *parent);
     ~OculusHMD();
 
 
@@ -24,18 +25,19 @@ public:
     void prepareForDraw() override;
 
     //This constructor should not be called externally, use create() instead;
-    OculusHMD(OVRSystem * system,
+    OculusHMD(OVRSystem * system, Skeleton *skeleton,
               float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform);
+
 
 private:
 
-
+    SingleBoneTracker *m_boneTracker;
 
 
     class OVRSystem : OVR::MessageHandler{
     public:
         OVRSystem() : m_display(NULL) {m_isInitialized = initializeDevice();}
-        OculusHMD *getDisplay(OpenGLContext *glContext, PhysicalNode *parent);
+        OculusHMD *getDisplay(OpenGLContext *glContext, Skeleton *skeleton, PhysicalNode *parent);
          ~OVRSystem();
 
         OculusHMD *m_display;

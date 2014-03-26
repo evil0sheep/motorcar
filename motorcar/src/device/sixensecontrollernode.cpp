@@ -6,6 +6,7 @@ using namespace motorcar;
 SixenseControllerNode::SixenseControllerNode(int controllerIndex, PhysicalNode *parent, const glm::mat4 &transform )
     :PhysicalNode(parent, transform)
     ,m_pointingDevice(NULL)
+    ,m_boneTracker(NULL)
     ,m_controllerIndex(controllerIndex)
     ,m_enabled(true)
     ,m_bumperDown(false)
@@ -41,30 +42,23 @@ void SixenseControllerNode::updateState(sixenseControllerData data)
     m_filteredPos = (1-m_filterConstant) * m_filteredPos + m_filterConstant * newPosition;
 
 
-//                if(controller->controllerIndex() == 0){
-//                    Geometry::Ray(glm::vec3(0), rotation * glm::vec3(0,1,0)).draw(this, glm::vec3(1, 0, 1));
-
-//                }
 
 
 
     glm::mat4 controllerTransform = glm::translate(glm::mat4(), m_filteredPos);// *
-//                                    glm::mat4(glm::vec4(rotation[0], 0),
-//                                              glm::vec4(rotation[1], 0),
-//                                              glm::vec4(rotation[2], 0),
-//                                              glm::vec4(0,0,0, 1));
-    if(controllerIndex() != 0){
-        controllerTransform = controllerTransform * glm::mat4(glm::vec4(rotation[0], 0),
+
+
+    controllerTransform = glm::translate(glm::mat4(), m_filteredPos) * glm::mat4(glm::vec4(rotation[0], 0),
                                                               glm::vec4(rotation[1], 0),
                                                               glm::vec4(rotation[2], 0),
                                                               glm::vec4(0,0,0, 1));
+    setTransform(controllerTransform);
+
+
+    if(m_boneTracker != NULL){
+        m_boneTracker->setPosition(m_filteredPos);
     }
 
-//                if(controller->controllerIndex() != 0){
-//                    controller->setWorldTransform(glm::translate(glm::mat4(), glm::vec3(0,0.1,0)));
-//                else
-        //controller->setWorldTransform(this->inverseWorldTransform() * controllerTransform);
-    setTransform(controllerTransform);
 
 }
 
@@ -108,3 +102,13 @@ void SixenseControllerNode::setPointingDevice(SpatialPointingDevice *pointingDev
 {
     m_pointingDevice = pointingDevice;
 }
+SingleBoneTracker *SixenseControllerNode::boneTracker() const
+{
+    return m_boneTracker;
+}
+
+void SixenseControllerNode::setBoneTracker(SingleBoneTracker *boneTracker)
+{
+    m_boneTracker = boneTracker;
+}
+

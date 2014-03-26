@@ -6,11 +6,14 @@ using namespace OVR;
 //using namespace OVR::Platform;
 //using namespace OVR::Render;
 
-OculusHMD::OculusHMD(OVRSystem *system, float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform)
+OculusHMD::OculusHMD(OVRSystem *system, Skeleton *skeleton, float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform)
     :RenderToTextureDisplay(scale, distortionK, glContext, displayDimensions, parent, transform)
+    , m_boneTracker(new SingleBoneTracker(skeleton->headBone(), glm::mat4(),skeleton, parent))
     , m_system(system)
 {
 }
+
+
 
 OculusHMD::~OculusHMD()
 {
@@ -39,8 +42,8 @@ void OculusHMD::prepareForDraw()
 
     //setTransform(rotMat);
 
-    parentNode()->setWorldTransform(glm::translate(glm::mat4(1), parentPos) *  glm::mat4_cast(orientation));
-
+    //parentNode()->setWorldTransform(glm::translate(glm::mat4(1), parentPos) *  glm::mat4_cast(orientation));
+    m_boneTracker->setOrientation(glm::mat3_cast(orientation));
 
 //    glm::vec4 hmd_axis = this->worldTransform()*glm::vec4(0,1,0,0);
 //    std::cout << glm::degrees(glm::dot(glm::vec3(0,1,0), glm::normalize(glm::vec3(0, hmd_axis.y, hmd_axis.z)))) << std::endl;
@@ -49,7 +52,7 @@ void OculusHMD::prepareForDraw()
 }
 
 
-OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNode *parent)
+OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, Skeleton *skeleton, PhysicalNode *parent)
 {
 
     if(m_display == NULL){
@@ -105,7 +108,7 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNo
 
         //RenderToTextureDisplay display(scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0, 0, EyeToScreenDistance)));
 
-        m_display = new OculusHMD(this, scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0, 0, EyeToScreenDistance)));
+        m_display = new OculusHMD(this, skeleton, scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0, 0, EyeToScreenDistance)));
 
 
 
@@ -119,6 +122,7 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, PhysicalNo
 
         m_display->addViewpoint(lCam);
         m_display->addViewpoint(rCam);
+
 
 
     }
@@ -238,11 +242,11 @@ bool OculusHMD::OVRSystem::SupportsMessageType(MessageType mt) const
     return true;
 }
 
-OculusHMD *OculusHMD::create(OpenGLContext *glContext, PhysicalNode *parent)
+OculusHMD *OculusHMD::create(OpenGLContext *glContext, Skeleton *skeleton, PhysicalNode *parent)
 {
     System::Init();
     OVRSystem *system = new OVRSystem();
-    return system->getDisplay(glContext, parent);
+    return system->getDisplay(glContext, skeleton, parent);
 }
 
 

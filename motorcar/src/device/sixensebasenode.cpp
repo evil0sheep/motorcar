@@ -36,9 +36,9 @@ SixenseBaseNode::SixenseBaseNode(int baseIndex, PhysicalNode *parent, const glm:
 
             m_controllers.push_back(controller);
 
-            if(cont != 0){
-                controller->setPointingDevice(new SpatialPointingDevice(controller));
-            }
+//            if(cont != 0){
+//                controller->setPointingDevice(new SpatialPointingDevice(controller));
+//            }
 
         }
 

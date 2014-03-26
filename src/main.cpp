@@ -62,7 +62,9 @@ int main(int argc, char *argv[])
     motorcar::OpenGLContext *context = compositor->getContext();
 
 
-    motorcar::OculusHMD *hmd = motorcar::OculusHMD::create(context, scene);
+    motorcar::Skeleton *skeleton = new motorcar::Skeleton(scene);
+
+    motorcar::OculusHMD *hmd = motorcar::OculusHMD::create(context, skeleton, scene);
 
     if(hmd){
         std::cout << "Using Oculus Display" << std::endl;
@@ -80,23 +82,28 @@ int main(int argc, char *argv[])
 
 
 
+
+
     motorcar::SixenseMotionSensingSystem *sixense = new motorcar::SixenseMotionSensingSystem(scene);
     if(sixense->isInitialized() && !sixense->baseStations().empty() && !sixense->baseStations().front()->controllers().empty() ){
 
+        motorcar::SixenseBaseNode *baseNode = sixense->baseStations().front();
+
+        motorcar::SixenseControllerNode *headController = baseNode->controllers().front(),
+                                        *handController = baseNode->controllers().back();
+
+        baseNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0.5,0.25,.25)));
+
+        handController->setPointingDevice(new motorcar::SpatialPointingDevice(handController));
+
+        headController->setBoneTracker(new motorcar::SingleBoneTracker(skeleton->headBone(), glm::translate(glm::mat4(), glm::vec3(0, .073, .184)),
+                                                                       skeleton, baseNode));
+
         std::cout << "parenting display to controller "<<std::endl;
-        compositor->display()->setParentNode(sixense->baseStations().front()->controllers().front());
+        compositor->display()->setParentNode(skeleton->headBone());
 
 
-//        glm::mat4 translation = glm::translate(glm::mat4(), glm::vec3(0,0,-.00));
-
-//        glm::mat4 rotation = glm::rotate(glm::mat4(), -45.f, glm::vec3(1,0,0));
-
-          glm::mat4 offsetTransform =
-                  glm::translate(glm::mat4(), glm::vec3(0, 0, -0.19)) *
-                  glm::rotate(glm::mat4(), 50.f, glm::vec3(-1, 0, 0)) *
-                  glm::translate(glm::mat4(), glm::vec3(0, -.16, 0));
-
-          glm::vec3 displayPosition = glm::vec3(0);//glm::vec3(offsetTransform * glm::vec4(0,0,0,1));
+          glm::vec3 displayPosition = glm::vec3(0, .127, -.165);
 
           glm::mat4 displayTransform = glm::translate(glm::mat4(), displayPosition);
 
