@@ -5,7 +5,7 @@ using namespace motorcar;
 
 Scene::Scene()
     :PhysicalNode()
-    ,m_windowManager(new WindowManager(this))
+    ,m_windowManager(NULL)
     ,m_cursorNode(NULL)
 {
 }

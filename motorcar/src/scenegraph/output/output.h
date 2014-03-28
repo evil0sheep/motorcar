@@ -9,7 +9,6 @@
 #include "display/display.h"
 #include "display/rendertotexturedisplay.h"
 
-#include "wayland/waylandsurface.h"
 #include "wayland/waylanddrawable.h"
 #include "wayland/waylandsurfacenode.h"
 

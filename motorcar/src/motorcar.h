@@ -7,9 +7,10 @@
 #include "displayserver.h"
 #include "windowmanager.h"
 #include "scenegraph/scenegraph.h"
-#include "device/device.h"
 #include "gl/openglshader.h"
 #include "gl/openglcontext.h"
 #include "events/events.h"
+#include "wayland/input/waylandinput.h"
+#include "wayland/output/waylandsurface.h"
 
 #endif // MOTORCAR_H

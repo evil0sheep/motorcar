@@ -4,6 +4,7 @@
 #include "scenegraph/output/wayland/waylandsurfacenode.h"
 #include "scenegraph/scene.h"
 #include "events/events.h"
+#include "wayland/input/waylandinput.h"
 #include <map>
 
 namespace motorcar{
@@ -15,7 +16,7 @@ class WindowManager
 public:
 
 
-    WindowManager(Scene *scene);
+    WindowManager(Scene *scene, Seat *defaultSeat);
 
     WaylandSurfaceNode *createSurface(WaylandSurface *surface);
     void destroySurface(WaylandSurface *surface);
@@ -28,22 +29,22 @@ public:
 
     WaylandSurfaceNode *getSurfaceNode(WaylandSurface *surface) const;
 
-    WaylandSurfaceNode *mouseFocus() const;
-    void setMouseFocus(WaylandSurfaceNode *mouseFocus);
-
-    WaylandSurfaceNode *keyboardFocus() const;
-    void setKeyboardFocus(WaylandSurfaceNode *keyboardFocus);
 
 
 
     Scene *scene() const;
     void setScene(Scene *scene);
 
+    Seat *defaultSeat() const;
+    void setDefaultSeat(Seat *defaultSeat);
+
+    void ensureKeyboardFocusIsValid(WaylandSurface *oldSurface);
+
 private:
     std::map<WaylandSurface *, WaylandSurfaceNode *> m_surfaceMap;
     int m_numSurfacesMapped;
-    WaylandSurfaceNode * m_mouseFocus, *m_keyboardFocus;
     Scene *m_scene;
+    Seat *m_defaultSeat;
 };
 }
 

@@ -1,7 +1,7 @@
 #ifndef WAYLANDSURFACENODE_H
 #define WAYLANDSURFACENODE_H
 #include "waylanddrawable.h"
-#include "waylandsurface.h"
+#include "../../../wayland/output/waylandsurface.h"
 
 
 namespace motorcar {
@@ -29,6 +29,8 @@ public:
 
     //inhereted from SceneGraphNode
     virtual Geometry::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray) override;
+
+    bool isSurfaceNode() override {return true;}
 
     //inhereted from Drawable
     void drawViewpoint(GLCamera *viewpoint) override;

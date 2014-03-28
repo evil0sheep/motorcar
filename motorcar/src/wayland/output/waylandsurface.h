@@ -1,10 +1,10 @@
 #ifndef WAYLANDSURFACE_H
 #define WAYLANDSURFACE_H
-#include "../outputelement.h"
+#include "../../scenegraph/output/outputelement.h"
 #include "glm/glm.hpp"
 #include <GLES2/gl2.h>
 //#include <GL/gl.h>
-#include "../../../events/events.h"
+#include "../../events/events.h"
 
 namespace motorcar{
 class WaylandSurface : public OutputElement

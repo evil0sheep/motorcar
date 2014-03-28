@@ -57,10 +57,8 @@ void QtWaylandMotorcarSurface::sendEvent(const motorcar::Event &event)
 
         QPointF localPos(mouseEvent.localPosition().x, mouseEvent.localPosition().y);
 
-        if( input->mouseFocus() != m_surface){
-            //std::cout << "setting mouse focus from: " << input->mouseFocus() << " to: " << m_surface << std::endl;
-            input->setMouseFocus(m_surface, localPos);
-        }
+        event.seat()->setPointerFocus(this, mouseEvent.localPosition());
+        event.seat()->setKeyboardFocus(this);
 
         Qt::MouseButton button;
         switch(mouseEvent.button()){
@@ -85,9 +83,6 @@ void QtWaylandMotorcarSurface::sendEvent(const motorcar::Event &event)
         switch(mouseEvent.event()){
         case motorcar::MouseEvent::Event::BUTTON_PRESS:
             //std::cout << "button press event" << std::endl;
-            if (m_surface && input->keyboardFocus() != m_surface) {
-                input->setKeyboardFocus(m_surface);
-            }
             input->sendMousePressEvent(button, localPos);
             break;
         case motorcar::MouseEvent::Event::BUTTON_RELEASE:
@@ -103,6 +98,8 @@ void QtWaylandMotorcarSurface::sendEvent(const motorcar::Event &event)
         }
     } else if(eventType == motorcar::Event::EventType::KEYBOARD){
         motorcar::KeyboardEvent keyboardEvent = dynamic_cast<const motorcar::KeyboardEvent &>(event);
+        std::cout << "delivering keyboard event to surface " << this << std::endl;
+        event.seat()->setKeyboardFocus(this);
         switch(keyboardEvent.event()){
         case motorcar::KeyboardEvent::Event::KEY_PRESS:
              input->sendKeyPressEvent(keyboardEvent.keyCode());

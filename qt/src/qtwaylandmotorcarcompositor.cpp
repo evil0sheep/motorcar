@@ -39,7 +39,7 @@
 
 #include "qtwaylandmotorcarcompositor.h"
 #include "qtwaylandmotorcarsurface.h"
-
+#include "qtwaylandmotorcarseat.h"
 
 
 #include <QMouseEvent>
@@ -69,6 +69,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     , m_cursorHotspotY(0)
     , m_modifiers(Qt::NoModifier)
     , m_app(app)
+    , m_defaultSeat(NULL)
 
 {
     setDisplay(NULL);
@@ -84,7 +85,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     setOutputGeometry(QRect(QPoint(0, 0), window->size()));
     setOutputRefreshRate(qRound(qGuiApp->primaryScreen()->refreshRate() * 1000.0));
 
-
+    m_defaultSeat = new QtWaylandMotorcarSeat(this->defaultInputDevice());
 
 
 //    motorcar::Display testDisplay(window_context, glm::vec2(1), *m_scene, glm::mat4(1));
@@ -102,7 +103,7 @@ QtWaylandMotorcarCompositor::~QtWaylandMotorcarCompositor()
     delete m_glData;
 }
 
-motorcar::Compositor *QtWaylandMotorcarCompositor::create(int argc, char** argv, motorcar::Scene *scene)
+QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char** argv, motorcar::Scene *scene)
 {
     // Enable the following to have touch events generated from mouse events.
     // Very handy for testing touch event delivery without a real touch device.
@@ -181,8 +182,12 @@ motorcar::WaylandSurfaceNode *QtWaylandMotorcarCompositor::getSurfaceNode(QWayla
             return NULL;
         }
     }
-    if(m_surfaceMap.count(surface)){
-        return m_surfaceMap.find(surface)->second;
+    if(!m_surfaceMap.empty() && m_surfaceMap.count(surface)){
+        auto it = m_surfaceMap.find(surface);
+        if(it != m_surfaceMap.end()){
+            return it->second;
+        }
+
     }
     return NULL;
 }
@@ -229,7 +234,7 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
     QPoint pos;
     //if (!m_surfaces.contains(surface)) {
 
-        surface->setPos(QPoint(0, 0));
+        //surface->setPos(QPoint(0, 0));
         if (surface->hasShellSurface()) {
 
             motorcar::WaylandSurface::SurfaceType surfaceType;
@@ -258,11 +263,10 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
             }
 
             this->scene()->windowManager()->mapSurface(surfaceNode->surface(), surfaceType);
-
+            std::cout << "mapped surfaceNode " << surfaceNode << std::endl;
             //defaultInputDevice()->setKeyboardFocus(surface);
 
     }
-
 
 
 
@@ -301,7 +305,7 @@ void QtWaylandMotorcarCompositor::surfaceDamaged(const QRect &rect)
     if(surface != NULL){
         motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
         if(surfaceNode != NULL){
-            surfaceNode->setDamaged(true);
+            //surfaceNode->setDamaged(true);
         }else{
             std::cout << "Warning: surface damaged but doesnt have associated surfaceNode" <<std::endl;
         }
@@ -332,8 +336,12 @@ void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
     connect(surface, SIGNAL(extendedSurfaceReady()), this, SLOT(sendExpose()));
     connect(surface, SIGNAL(posChanged()), this, SLOT(surfacePosChanged()));
 
-    motorcar::WaylandSurfaceNode *surfaceNode = this->scene()->windowManager()->createSurface(new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA));
-    m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
+    if(surface->hasShellSurface()){
+        motorcar::WaylandSurfaceNode *surfaceNode = this->scene()->windowManager()->createSurface(new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA));
+        std::cout << "created surfaceNode " << surfaceNode << std::endl;
+        m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
+    }
+
 
     m_renderScheduler.start(0);
 }
@@ -383,14 +391,30 @@ void QtWaylandMotorcarCompositor::updateCursor()
         cursorIsSet = true;
     }
 }
+QtWaylandMotorcarSeat *QtWaylandMotorcarCompositor::defaultSeat() const
+{
+    return m_defaultSeat;
+}
+
+void QtWaylandMotorcarCompositor::setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat)
+{
+    m_defaultSeat = defaultSeat;
+}
+
+
+
 
 void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY)
 {
 
     if(m_cursorSurfaceNode == NULL){
         m_cursorMotorcarSurface =new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::CURSOR);
-        m_cursorSurfaceNode =  new motorcar::WaylandSurfaceNode(m_cursorMotorcarSurface, m_scene, glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0)));
+        //m_cursorSurfaceNode =  new motorcar::WaylandSurfaceNode(m_cursorMotorcarSurface, m_scene, glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0)));
+        m_cursorSurfaceNode = this->scene()->windowManager()->createSurface(m_cursorMotorcarSurface);
+        m_cursorSurfaceNode->setTransform(glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0)));
+        m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, m_cursorSurfaceNode));
         m_scene->setCursorNode(m_cursorSurfaceNode);
+        std::cout << "created cursor surface node " << m_cursorSurfaceNode << std::endl;
     }
 
     m_cursorMotorcarSurface->setSurface(surface);
@@ -542,8 +566,8 @@ bool QtWaylandMotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
 //        m_modifiers = ke->modifiers();
 //        QWaylandSurface *targetSurface = input->keyboardFocus();
 //        if (targetSurface)
-            input->sendKeyPressEvent(ke->nativeScanCode());
-          this->scene()->windowManager()->sendEvent(motorcar::KeyboardEvent(motorcar::KeyboardEvent::Event::KEY_PRESS, ke->nativeScanCode()));
+           // input->sendKeyPressEvent(ke->nativeScanCode());
+          this->scene()->windowManager()->sendEvent(motorcar::KeyboardEvent(motorcar::KeyboardEvent::Event::KEY_PRESS, ke->nativeScanCode(), defaultSeat()));
           break;
     }
     case QEvent::KeyRelease: {
@@ -554,8 +578,8 @@ bool QtWaylandMotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
 //        m_modifiers = ke->modifiers();
 //        QWaylandSurface *targetSurface = input->keyboardFocus();
 //        if (targetSurface)
-            input->sendKeyReleaseEvent(ke->nativeScanCode());
-        this->scene()->windowManager()->sendEvent(motorcar::KeyboardEvent(motorcar::KeyboardEvent::Event::KEY_PRESS, ke->nativeScanCode()));
+           // input->sendKeyReleaseEvent(ke->nativeScanCode());
+        this->scene()->windowManager()->sendEvent(motorcar::KeyboardEvent(motorcar::KeyboardEvent::Event::KEY_RELEASE, ke->nativeScanCode(), defaultSeat()));
         break;
     }
         //    case QEvent::TouchBegin:

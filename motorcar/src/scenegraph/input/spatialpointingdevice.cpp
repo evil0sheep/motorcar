@@ -2,9 +2,9 @@
 #include "../scene.h"
 
 using namespace motorcar;
-
-SpatialPointingDevice::SpatialPointingDevice(PhysicalNode *parent, const glm::mat4 &transform)
+SpatialPointingDevice::SpatialPointingDevice(Seat *seat, PhysicalNode *parent, const glm::mat4 &transform)
     :PhysicalNode(parent, transform)
+    ,m_seat(seat)
     ,m_latestIntersection(NULL)
     ,m_leftMouseDown(false)
     ,m_rightMouseDown(false)
@@ -29,6 +29,8 @@ SpatialPointingDevice::SpatialPointingDevice(PhysicalNode *parent, const glm::ma
 
 }
 
+
+
 void SpatialPointingDevice::traverseNode(Scene *scene, long deltaMillis)
 {
     PhysicalNode::traverseNode(scene, deltaMillis);
@@ -48,7 +50,7 @@ void SpatialPointingDevice::traverseNode(Scene *scene, long deltaMillis)
            glm::vec3 position = glm::vec3(surfaceNode->surfaceTransform() *
                                           glm::vec4((intersection->surfaceLocalCoordinates +
                                                      (glm::vec2(cursor->surface()->size())/2.0f) - glm::vec2(scene->cursorHotspot())) /
-                                                    glm::vec2(surfaceNode->surface()->size()),0.001,1));
+                                                    glm::vec2(surfaceNode->surface()->size()),0.01,1));
 
            cursor->setParentNode(surfaceNode);
            cursor->setTransform(glm::translate(glm::mat4(), position));
@@ -97,11 +99,21 @@ void SpatialPointingDevice::mouseEvent(MouseEvent::Event event, MouseEvent::Butt
     if(m_latestIntersection != NULL){
         //std::cout << "found surface to send mouse event to" << std::endl;
         WaylandSurface *surface = m_latestIntersection->surfaceNode->surface();
-        surface->sendEvent(MouseEvent(event, button, m_latestIntersection->surfaceLocalCoordinates));
+        surface->sendEvent(MouseEvent(event, button, m_latestIntersection->surfaceLocalCoordinates, m_seat));
     }else{
         //std::cout << "could not find surface to send mouse event to" << std::endl;
     }
 }
+Seat *SpatialPointingDevice::seat() const
+{
+    return m_seat;
+}
+
+void SpatialPointingDevice::setSeat(Seat *seat)
+{
+    m_seat = seat;
+}
+
 
 
 

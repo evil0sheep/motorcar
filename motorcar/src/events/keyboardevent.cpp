@@ -3,8 +3,9 @@
 using namespace motorcar;
 
 
-KeyboardEvent::KeyboardEvent(KeyboardEvent::Event event, uint32_t keyCode)
-    :m_event(event)
+KeyboardEvent::KeyboardEvent(KeyboardEvent::Event event, uint32_t keyCode, Seat *seat)
+    :motorcar::Event(seat)
+    ,m_event(event)
     ,m_keyCode(keyCode)
 {
 

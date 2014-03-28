@@ -54,9 +54,10 @@
 
 #include <QObject>
 #include <QTimer>
+
 namespace qtmotorcar{
-class QtWaylandMotorcarScene;
 class QtWaylandMotorcarSurface;
+class QtWaylandMotorcarSeat;
 class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor, public motorcar::Compositor
 {
     Q_OBJECT
@@ -65,7 +66,7 @@ public:
     ~QtWaylandMotorcarCompositor();
 
 
-    static motorcar::Compositor *create(int argc, char **argv, motorcar::Scene *scene);
+    static QtWaylandMotorcarCompositor *create(int argc, char **argv, motorcar::Scene *scene);
 
     virtual int start() override;
 
@@ -81,6 +82,9 @@ public:
     void setScene(motorcar::Scene *scene);
 
     motorcar::WaylandSurfaceNode *getSurfaceNode(QWaylandSurface *surface = NULL) const;
+
+    QtWaylandMotorcarSeat *defaultSeat() const;
+    void setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat);
 
 private slots:
     void surfaceDestroyed(QObject *object);
@@ -114,6 +118,7 @@ private slots:
 
 private:
     QGuiApplication *m_app;
+    QtWaylandMotorcarSeat *m_defaultSeat;
 
     motorcar::Scene *m_scene;
     //QList<QWaylandSurface *> m_surfaces;

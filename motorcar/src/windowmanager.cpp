@@ -1,9 +1,10 @@
 #include "windowmanager.h"
 
 using namespace motorcar;
-WindowManager::WindowManager(Scene *scene)
+WindowManager::WindowManager(Scene *scene, Seat *defaultSeat)
     :m_numSurfacesMapped(0)
     ,m_scene(scene)
+    ,m_defaultSeat(defaultSeat)
 {
 }
 
@@ -11,6 +12,8 @@ WaylandSurfaceNode *WindowManager::createSurface(WaylandSurface *surface)
 {
     WaylandSurfaceNode *surfaceNode = new WaylandSurfaceNode(surface, this->scene());
     m_surfaceMap.insert(std::pair<WaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
+    //ensureKeyboardFocusIsValid(surface);
+    return surfaceNode;
 }
 
 void WindowManager::destroySurface(WaylandSurface *surface)
@@ -18,29 +21,27 @@ void WindowManager::destroySurface(WaylandSurface *surface)
     WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
     if(surfaceNode != NULL){
 
-        std::vector<motorcar::SceneGraphNode *> subtreeNodes = surfaceNode->nodesInSubtree();
-        for(motorcar::SceneGraphNode *node : subtreeNodes){
-            motorcar::WaylandSurfaceNode *subtreeSurfaceNode = dynamic_cast<motorcar::WaylandSurfaceNode *>(node);
-            if(subtreeSurfaceNode != NULL){
-                WaylandSurface *subtreeSurface = subtreeSurfaceNode->surface();
+//        std::vector<motorcar::SceneGraphNode *> subtreeNodes = surfaceNode->nodesInSubtree();
+//        for(motorcar::SceneGraphNode *node : subtreeNodes){
+//            motorcar::WaylandSurfaceNode *subtreeSurfaceNode = dynamic_cast<motorcar::WaylandSurfaceNode *>(node);
+//            if(subtreeSurfaceNode != NULL){
+//                WaylandSurface *subtreeSurface = subtreeSurfaceNode->surface();
 
-                    std::map<WaylandSurface *, motorcar::WaylandSurfaceNode *>::iterator it = m_surfaceMap.find(subtreeSurface);
-                    if (it != m_surfaceMap.end()){
-                        std::cout << "nulling surfaceNode pointer: " << it->second  << " in surface map" <<std::endl;
-                        it->second = NULL;
-                    }
+//                    std::map<WaylandSurface *, motorcar::WaylandSurfaceNode *>::iterator it = m_surfaceMap.find(subtreeSurface);
+//                    if (it != m_surfaceMap.end()){
+//                        std::cout << "nulling surfaceNode pointer: " << it->second  << " in surface map" <<std::endl;
+//                        it->second = NULL;
+//                    }
 
-            }
-        }
+//            }
+//        }
         m_surfaceMap.erase (surface);
 
-        std::cout << "attempting to delete surfaceNode pointer " << surfaceNode <<std::endl;
+        //std::cout << "attempting to delete surfaceNode pointer " << surfaceNode <<std::endl;
 
         delete surfaceNode;
 
-
-        this->setMouseFocus(NULL);
-        this->setKeyboardFocus(NULL);
+        ensureKeyboardFocusIsValid(surface);
 
 
     }
@@ -61,8 +62,8 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
         transform = glm::mat4(1)
                       //  * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
                         * glm::translate(glm::mat4(1), glm::vec3(0, 0 ,1.25f))
-                        * glm::rotate(glm::mat4(1), (-1 +  m_numSurfacesMapped % 3) * 30.f, glm::vec3(0, -1, 0))
-                    * glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
+                       // * glm::rotate(glm::mat4(1), (-1 +  m_numSurfacesMapped % 3) * 30.f, glm::vec3(0, -1, 0))
+                   // * glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
                     * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
                     * glm::mat4(1);
         m_numSurfacesMapped ++;
@@ -70,10 +71,14 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
              type == WaylandSurface::SurfaceType::TRANSIENT){
 
         WaylandSurfaceNode *parentSurfaceNode;
-        if(surface->parentSurface() != NULL){
-           parentSurfaceNode = this->getSurfaceNode(surface->parentSurface());
+        //if(surface->parentSurface() != NULL){
+        //   parentSurfaceNode = this->getSurfaceNode(surface->parentSurface());
+        //    glm::vec2 localPos = glm::vec2(surface->position());
+        if(defaultSeat()->pointerFocus() != NULL){
+           parentSurfaceNode = this->getSurfaceNode(defaultSeat()->pointerFocus());
+           glm::vec2 localPos = this->defaultSeat()->pointer()->localPositon();
            glm::vec3 position = glm::vec3(parentSurfaceNode->surfaceTransform() *
-                                          glm::vec4((glm::vec2(surface->position()) + glm::vec2(surface->size()) / 2.0f) /
+                                          glm::vec4((localPos + glm::vec2(surface->size()) / 2.0f) /
                                                        glm::vec2(parentSurfaceNode->surface()->size()), popupZOffset, 1));
            std::cout << "creating popup/transient window with parent " << parentSurfaceNode << " at position:" << std::endl;
            motorcar::Geometry::printVector(position);
@@ -103,15 +108,17 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
         surfaceNode->setParentNode(parentNode);
         surfaceNode->setTransform(transform);
     }else{
+        std::cout << "Warning: surface mapped before surfaceNode created, creating now" << std::endl;
         surfaceNode = new WaylandSurfaceNode(surface, parentNode, transform);
         m_surfaceMap.insert(std::pair<WaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
     }
 
     if(type == WaylandSurface::SurfaceType::POPUP || type == WaylandSurface::SurfaceType::TOPLEVEL){
-        this->setMouseFocus(surfaceNode);
+        this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
     }
 
     surfaceNode->setMapped(true);
+    //ensureKeyboardFocusIsValid(surface);
     return surfaceNode;
 }
 
@@ -120,6 +127,7 @@ void WindowManager::unmapSurface(WaylandSurface *surface)
     WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
     if(surfaceNode != NULL){
         surfaceNode->setMapped(false);
+        ensureKeyboardFocusIsValid(surface);
     }else{
         std::cout << "Warning: surface unmapped but doesnt have associated surfaceNode" <<std::endl;
     }
@@ -127,12 +135,19 @@ void WindowManager::unmapSurface(WaylandSurface *surface)
 
 void WindowManager::sendEvent(const Event &event)
 {
+    WaylandSurface *focus;
     switch(event.type()){
     case Event::EventType::MOUSE:
-        this->mouseFocus()->surface()->sendEvent(event);
+        focus = event.seat()->pointerFocus();
+        if(focus != NULL){
+            focus->sendEvent(event);
+        }
         break;
     case Event::EventType::KEYBOARD:
-        this->keyboardFocus()->surface()->sendEvent(event);
+        focus = event.seat()->keyboardFocus();
+        if(focus != NULL){
+            focus->sendEvent(event);
+        }
         break;
     default:
         break;
@@ -148,24 +163,7 @@ WaylandSurfaceNode *WindowManager::getSurfaceNode(WaylandSurface *surface) const
     }
 
 }
-WaylandSurfaceNode *WindowManager::mouseFocus() const
-{
-    return m_mouseFocus;
-}
 
-void WindowManager::setMouseFocus(WaylandSurfaceNode *mouseFocus)
-{
-    m_mouseFocus = mouseFocus;
-}
-WaylandSurfaceNode *WindowManager::keyboardFocus() const
-{
-    return m_keyboardFocus;
-}
-
-void WindowManager::setKeyboardFocus(WaylandSurfaceNode *keyboardFocus)
-{
-    m_keyboardFocus = keyboardFocus;
-}
 Scene *WindowManager::scene() const
 {
     return m_scene;
@@ -175,6 +173,26 @@ void WindowManager::setScene(Scene *scene)
 {
     m_scene = scene;
 }
+Seat *WindowManager::defaultSeat() const
+{
+    return m_defaultSeat;
+}
+
+void WindowManager::setDefaultSeat(Seat *defaultSeat)
+{
+    m_defaultSeat = defaultSeat;
+}
+
+void WindowManager::ensureKeyboardFocusIsValid(WaylandSurface *oldSurface)
+{
+    WaylandSurface *nextSurface = NULL;
+    if(!m_surfaceMap.empty()){
+        nextSurface = m_surfaceMap.begin()->first;
+    }
+    m_defaultSeat->ensureKeyboardFocusIsValid(oldSurface, nextSurface);
+}
+
+
 
 
 

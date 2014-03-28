@@ -1,4 +1,4 @@
-QT += gui widgets gui-private core-private compositor
+QT += gui widgets compositor gui-private core-private
 
 LIBOVRPATH=../thirdPartySource/Oculus/OculusSDK/LibOVR
 SIXENSEPATH=../thirdPartySource/sixenseSDK_linux_OSX
@@ -42,7 +42,6 @@ HEADERS += \
     motorcar/src/scenegraph/output/output.h \
     motorcar/src/scenegraph/foo.h \
     motorcar/src/motorcar.h \
-    motorcar/src/scenegraph/output/wayland/waylandsurface.h \
     qt/src/qtwaylandmotorcarsurface.h \
     motorcar/src/scenegraph/output/wayland/waylanddrawable.h \
     motorcar/src/gl/openglshader.h \
@@ -69,7 +68,14 @@ HEADERS += \
     motorcar/src/events/event.h \
     motorcar/src/events/mouseevent.h \
     motorcar/src/events/events.h \
-    motorcar/src/events/keyboardevent.h
+    motorcar/src/events/keyboardevent.h \
+    motorcar/src/wayland/input/seat.h \
+    motorcar/src/wayland/input/pointer.h \
+    motorcar/src/wayland/input/keyboard.h \
+    motorcar/src/wayland/input/waylandinput.h \
+    motorcar/src/wayland/output/waylandsurface.h \
+    qt/src/qtwaylandmotorcarseat.h \
+    motorcar/src/scenegraph/input/input.h
 
 
 
@@ -92,7 +98,6 @@ SOURCES += \
     motorcar/src/scenegraph/output/outputelement.cpp \
     motorcar/src/scenegraph/output/drawable.cpp \
     motorcar/src/scenegraph/output/wayland/waylandsurfacenode.cpp \
-    motorcar/src/scenegraph/output/wayland/waylandsurface.cpp \
     qt/src/qtwaylandmotorcarsurface.cpp \
     motorcar/src/scenegraph/output/wayland/waylanddrawable.cpp \
     motorcar/src/gl/openglshader.cpp \
@@ -117,7 +122,12 @@ SOURCES += \
     motorcar/src/windowmanager.cpp \
     motorcar/src/events/event.cpp \
     motorcar/src/events/mouseevent.cpp \
-    motorcar/src/events/keyboardevent.cpp
+    motorcar/src/events/keyboardevent.cpp \
+    motorcar/src/wayland/input/seat.cpp \
+    motorcar/src/wayland/input/pointer.cpp \
+    motorcar/src/wayland/input/keyboard.cpp \
+    motorcar/src/wayland/output/waylandsurface.cpp \
+    qt/src/qtwaylandmotorcarseat.cpp
 
 
 

@@ -12,7 +12,7 @@ public:
         KEY_RELEASE
     };
 
-    KeyboardEvent(KeyboardEvent::Event event, uint32_t keyCode);
+    KeyboardEvent(KeyboardEvent::Event event, uint32_t keyCode, Seat *seat);
     EventType type() const override;
     KeyboardEvent::Event event() const;
     uint32_t keyCode() const;

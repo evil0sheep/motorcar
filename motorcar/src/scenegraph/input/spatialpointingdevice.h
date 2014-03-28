@@ -12,7 +12,7 @@ namespace motorcar {
 class SpatialPointingDevice : public InputElement, public PhysicalNode
 {
 public:
-    SpatialPointingDevice(PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
+    SpatialPointingDevice(Seat *seat, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
     virtual ~SpatialPointingDevice() {}
 
     //inhereted from SceneGraphNode
@@ -36,6 +36,9 @@ public:
 
 
 
+    Seat *seat() const;
+    void setSeat(Seat *seat);
+
 private:
 
     void mouseEvent(MouseEvent::Event event, MouseEvent::Button button);
@@ -46,7 +49,7 @@ private:
     WaylandSurfaceNode *m_grabbedSurfaceNode;
     glm::mat4 m_grabbedSurfaceNodeTransform;
 
-
+    Seat *m_seat;
 
 };
 }

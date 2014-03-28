@@ -36,7 +36,11 @@ SceneGraphNode::~SceneGraphNode(){
         this->parentNode()->removeChildNode(this);
 
     for (SceneGraphNode *child : m_childNodes) {
-        delete child;
+        if(!child->isSurfaceNode()){
+            delete child;
+        }else{
+            child->setParentNode(NULL);
+        }
     }
 }
 
@@ -75,12 +79,13 @@ void SceneGraphNode::setParentNode(SceneGraphNode *parent)
 
     this->m_parentNode = parent;
 
-    Scene *scene = this->scene();
-    if(!scene->subtreeContains(this)){
-        scene->notifyNodeAdded(this);
-    }
+
 
     if(parent != NULL){
+//        Scene *scene = this->scene();
+//        if(!scene->subtreeContains(this)){
+//            scene->notifyNodeAdded(this);
+//        }
         parent->addChildNode(this);
 
     }

@@ -67,6 +67,7 @@ public:
     ///returns a list of all nodes in this the scenegraph subtree rooted at this node
     std::vector<SceneGraphNode *> nodesInSubtree() const;
 
+    virtual bool isSurfaceNode(){return false;}
 
 private :
     //traverse the children of this node in the scenegraph

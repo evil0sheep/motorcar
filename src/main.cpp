@@ -39,28 +39,21 @@
 ****************************************************************************/
 
 #include "motorcar/src/motorcar.h"
+#include "motorcar/src/device/device.h"
 #include "../qt/src/qtwaylandmotorcarcompositor.h"
-
+#include "../qt/src/qtwaylandmotorcarseat.h"
 
 
 
 int main(int argc, char *argv[])
 {
-
-
-
     motorcar::Scene *scene = new motorcar::Scene();
 
+    qtmotorcar::QtWaylandMotorcarCompositor *compositor = qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene) ;
 
-
-    motorcar::Compositor *compositor = qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene) ;
-
-
-
-
+    scene->setWindowManager( new motorcar::WindowManager(scene, compositor->defaultSeat()));
 
     motorcar::OpenGLContext *context = compositor->getContext();
-
 
     motorcar::Skeleton *skeleton = new motorcar::Skeleton(scene);
 
@@ -94,7 +87,7 @@ int main(int argc, char *argv[])
 
         baseNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0.5,0.25,.25)));
 
-        handController->setPointingDevice(new motorcar::SpatialPointingDevice(handController));
+        handController->setPointingDevice(new motorcar::SpatialPointingDevice(compositor->defaultSeat(),handController));
 
         headController->setBoneTracker(new motorcar::SingleBoneTracker(skeleton->headBone(), glm::translate(glm::mat4(), glm::vec3(0, .073, .184)),
                                                                        skeleton, baseNode));
@@ -103,7 +96,7 @@ int main(int argc, char *argv[])
         compositor->display()->setParentNode(skeleton->headBone());
 
 
-          glm::vec3 displayPosition = glm::vec3(0, .127, -.165);
+          glm::vec3 displayPosition = glm::vec3(0, .127, 0); // -.165);
 
           glm::mat4 displayTransform = glm::translate(glm::mat4(), displayPosition);
 

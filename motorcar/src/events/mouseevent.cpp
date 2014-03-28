@@ -4,8 +4,9 @@ using namespace motorcar;
 
 
 
-MouseEvent::MouseEvent(MouseEvent::Event event, MouseEvent::Button button, glm::vec2 localPostion)
-    :m_event(event)
+MouseEvent::MouseEvent(MouseEvent::Event event, MouseEvent::Button button, glm::vec2 localPostion, Seat *seat)
+    :motorcar::Event(seat)
+    ,m_event(event)
     ,m_button(button)
     ,m_localPosition(localPostion)
 {

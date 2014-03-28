@@ -21,7 +21,7 @@ public:
 
     };
 
-    MouseEvent(MouseEvent::Event event, MouseEvent::Button button, glm::vec2 localPostion);
+    MouseEvent(MouseEvent::Event event, MouseEvent::Button button, glm::vec2 localPostion, Seat *seat);
     EventType type() const override;
 
 
