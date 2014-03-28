@@ -21,6 +21,21 @@ glm::ivec2 QtWaylandMotorcarSurface::size()
     return glm::ivec2(m_surface->size().width(), m_surface->size().height());
 }
 
+glm::ivec2 QtWaylandMotorcarSurface::position()
+{
+    return glm::ivec2(m_surface->pos().x(), m_surface->pos().y());
+}
+
+motorcar::WaylandSurface *QtWaylandMotorcarSurface::parentSurface()
+{
+    if(m_surface->parentSurface() != NULL){
+        return m_compositor->getSurfaceNode(m_surface->parentSurface())->surface();
+    }else{
+        return NULL;
+    }
+
+}
+
 void QtWaylandMotorcarSurface::prepare()
 {
     if (m_ownsTexture){
@@ -29,64 +44,77 @@ void QtWaylandMotorcarSurface::prepare()
     m_textureID = composeSurface(m_surface, &m_ownsTexture, m_compositor->glData());
 }
 
-
-
-void QtWaylandMotorcarSurface::sendMouseEvent(motorcar::WaylandSurface::MouseEvent eventType, motorcar::WaylandSurface::MouseButton buttonId, glm::vec2 localPostion)
+void QtWaylandMotorcarSurface::sendEvent(const motorcar::Event &event)
 {
 
     //std::cout << "recieved mouse event in qt wayland surface" << std::endl;
     QWaylandInputDevice *input = m_compositor->defaultInputDevice();
 
-    m_latestMouseEventPos = localPostion;
+    int eventType = static_cast<int>(event.type());
 
-    QPointF localPos(localPostion.x, localPostion.y);
+    if(eventType == motorcar::Event::EventType::MOUSE){
+        motorcar::MouseEvent mouseEvent = dynamic_cast<const motorcar::MouseEvent &>(event);
 
-    if( input->mouseFocus() != m_surface){
-        //std::cout << "setting mouse focus from: " << input->mouseFocus() << " to: " << m_surface << std::endl;
-        input->setMouseFocus(m_surface, localPos);
+        QPointF localPos(mouseEvent.localPosition().x, mouseEvent.localPosition().y);
 
-
-    }
-
-    Qt::MouseButton button;
-    switch(buttonId){
-    case motorcar::WaylandSurface::MouseButton::LEFT:
-        //std::cout << "left mouse button" << std::endl;
-        button = Qt::LeftButton;
-        break;
-    case motorcar::WaylandSurface::MouseButton::RIGHT:
-        //std::cout << "right mouse button" << std::endl;
-        button = Qt::RightButton;
-        break;
-    case motorcar::WaylandSurface::MouseButton::MIDDLE:
-        //std::cout << "middle mouse button" << std::endl;
-        button = Qt::MiddleButton;
-        break;
-    default:
-        //std::cout << "no mouse button" << std::endl;
-        button = Qt::NoButton;
-        break;
-    }
-
-    switch(eventType){
-    case motorcar::WaylandSurface::MouseEvent::BUTTON_PRESS:
-        //std::cout << "button press event" << std::endl;
-        if (m_surface && input->keyboardFocus() != m_surface) {
-            input->setKeyboardFocus(m_surface);
+        if( input->mouseFocus() != m_surface){
+            //std::cout << "setting mouse focus from: " << input->mouseFocus() << " to: " << m_surface << std::endl;
+            input->setMouseFocus(m_surface, localPos);
         }
-        input->sendMousePressEvent(button, localPos);
-        break;
-    case motorcar::WaylandSurface::MouseEvent::BUTTON_RELEASE:
-        //std::cout << "button release event" << std::endl;
-        input->sendMouseReleaseEvent(button, localPos);
-        break;
-    case motorcar::WaylandSurface::MouseEvent::MOVE:
-        //std::cout << "mouse move event" << std::endl;
-        input->sendMouseMoveEvent(m_surface, localPos);
-        break;
-    default:
-        break;
+
+        Qt::MouseButton button;
+        switch(mouseEvent.button()){
+        case motorcar::MouseEvent::Button::LEFT:
+            //std::cout << "left mouse button" << std::endl;
+            button = Qt::LeftButton;
+            break;
+        case motorcar::MouseEvent::Button::RIGHT:
+            //std::cout << "right mouse button" << std::endl;
+            button = Qt::RightButton;
+            break;
+        case motorcar::MouseEvent::Button::MIDDLE:
+            //std::cout << "middle mouse button" << std::endl;
+            button = Qt::MiddleButton;
+            break;
+        default:
+            //std::cout << "no mouse button" << std::endl;
+            button = Qt::NoButton;
+            break;
+        }
+
+        switch(mouseEvent.event()){
+        case motorcar::MouseEvent::Event::BUTTON_PRESS:
+            //std::cout << "button press event" << std::endl;
+            if (m_surface && input->keyboardFocus() != m_surface) {
+                input->setKeyboardFocus(m_surface);
+            }
+            input->sendMousePressEvent(button, localPos);
+            break;
+        case motorcar::MouseEvent::Event::BUTTON_RELEASE:
+            //std::cout << "button release event" << std::endl;
+            input->sendMouseReleaseEvent(button, localPos);
+            break;
+        case motorcar::MouseEvent::Event::MOVE:
+            //std::cout << "mouse move event" << std::endl;
+            input->sendMouseMoveEvent(m_surface, localPos);
+            break;
+        default:
+            break;
+        }
+    } else if(eventType == motorcar::Event::EventType::KEYBOARD){
+        motorcar::KeyboardEvent keyboardEvent = dynamic_cast<const motorcar::KeyboardEvent &>(event);
+        switch(keyboardEvent.event()){
+        case motorcar::KeyboardEvent::Event::KEY_PRESS:
+             input->sendKeyPressEvent(keyboardEvent.keyCode());
+             break;
+        case motorcar::KeyboardEvent::Event::KEY_RELEASE:
+             input->sendKeyReleaseEvent(keyboardEvent.keyCode());
+             break;
+        default:
+            break;
+        }
     }
+
 }
 
 bool QtWaylandMotorcarSurface::valid()

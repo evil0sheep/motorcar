@@ -21,8 +21,13 @@ namespace qtmotorcar{
         //inherited from WaylandSurface
         GLuint texture() override;
         glm::ivec2 size() override;
+        ///Get the position of this surface in parent surface-local coordinates
+        glm::ivec2 position() override;
+        ///return the parent surface
+        WaylandSurface *parentSurface() override;
+
         void prepare() override;      
-        void sendMouseEvent(MouseEvent eventType, MouseButton buttonId, glm::vec2 localPostion) override;
+        void sendEvent(const motorcar::Event &event) override;
         bool valid() override;
 
 

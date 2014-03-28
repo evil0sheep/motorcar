@@ -40,7 +40,7 @@ void SpatialPointingDevice::traverseNode(Scene *scene, long deltaMillis)
     this->m_latestIntersection = intersection;
 
     if(intersection != NULL){
-        mouseEvent(WaylandSurface::MouseEvent::MOVE, WaylandSurface::MouseButton::NONE);
+        mouseEvent(MouseEvent::Event::MOVE, MouseEvent::Button::NONE);
 
         WaylandSurfaceNode *cursor = scene->cursorNode();
         if(cursor){
@@ -92,12 +92,12 @@ void SpatialPointingDevice::releaseGrabbedSurface()
 
 
 
-void SpatialPointingDevice::mouseEvent(WaylandSurface::MouseEvent eventType, WaylandSurface::MouseButton button)
+void SpatialPointingDevice::mouseEvent(MouseEvent::Event event, MouseEvent::Button button)
 {
     if(m_latestIntersection != NULL){
         //std::cout << "found surface to send mouse event to" << std::endl;
         WaylandSurface *surface = m_latestIntersection->surfaceNode->surface();
-        surface->sendMouseEvent(eventType, button, m_latestIntersection->surfaceLocalCoordinates);
+        surface->sendEvent(MouseEvent(event, button, m_latestIntersection->surfaceLocalCoordinates));
     }else{
         //std::cout << "could not find surface to send mouse event to" << std::endl;
     }
@@ -114,9 +114,9 @@ void SpatialPointingDevice::setRightMouseDown(bool rightMouseDown)
 {
     if(rightMouseDown != m_rightMouseDown){
         if(rightMouseDown){
-            mouseEvent(WaylandSurface::MouseEvent::BUTTON_PRESS, WaylandSurface::MouseButton::RIGHT);
+            mouseEvent(MouseEvent::Event::BUTTON_PRESS, MouseEvent::Button::RIGHT);
         }else{
-            mouseEvent(WaylandSurface::MouseEvent::BUTTON_RELEASE, WaylandSurface::MouseButton::RIGHT);
+            mouseEvent(MouseEvent::Event::BUTTON_RELEASE, MouseEvent::Button::RIGHT);
         }
     }
     m_rightMouseDown = rightMouseDown;
@@ -132,9 +132,9 @@ void SpatialPointingDevice::setLeftMouseDown(bool leftMouseDown)
 {
     if(leftMouseDown != m_leftMouseDown){
         if(leftMouseDown){
-            mouseEvent(WaylandSurface::MouseEvent::BUTTON_PRESS, WaylandSurface::MouseButton::LEFT);
+            mouseEvent(MouseEvent::Event::BUTTON_PRESS, MouseEvent::Button::LEFT);
         }else{
-            mouseEvent(WaylandSurface::MouseEvent::BUTTON_RELEASE, WaylandSurface::MouseButton::LEFT);
+            mouseEvent(MouseEvent::Event::BUTTON_RELEASE, MouseEvent::Button::LEFT);
         }
     }
     m_leftMouseDown = leftMouseDown;
@@ -149,9 +149,9 @@ void SpatialPointingDevice::setMiddleMouseDown(bool middleMouseDown)
 {
     if(middleMouseDown != m_middleMouseDown){
         if(middleMouseDown){
-            mouseEvent(WaylandSurface::MouseEvent::BUTTON_PRESS, WaylandSurface::MouseButton::MIDDLE);
+            mouseEvent(MouseEvent::Event::BUTTON_PRESS, MouseEvent::Button::MIDDLE);
         }else{
-            mouseEvent(WaylandSurface::MouseEvent::BUTTON_RELEASE, WaylandSurface::MouseButton::MIDDLE);
+            mouseEvent(MouseEvent::Event::BUTTON_RELEASE, MouseEvent::Button::MIDDLE);
         }
     }
     m_middleMouseDown = middleMouseDown;

@@ -33,9 +33,19 @@ public:
     //inhereted from Drawable
     void drawViewpoint(GLCamera *viewpoint) override;
 
+    bool mapped() const;
+    void setMapped(bool mapped);
+
+    bool damaged() const;
+    void setDamaged(bool damaged);
+
 private:
     WaylandSurface *m_surface;
     glm::mat4 m_surfaceTransform;
+
+    bool m_mapped;
+    bool m_damaged;
+
 
 
 

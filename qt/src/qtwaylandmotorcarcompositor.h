@@ -137,7 +137,6 @@ private:
     Qt::KeyboardModifiers m_modifiers;
 
     std::map<QWaylandSurface *, motorcar::WaylandSurfaceNode *> m_surfaceMap;
-    int m_numSurfacesMapped;
 
 };
 }

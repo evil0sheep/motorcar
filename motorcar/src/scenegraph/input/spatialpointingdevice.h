@@ -38,7 +38,7 @@ public:
 
 private:
 
-    void mouseEvent(WaylandSurface::MouseEvent eventType, WaylandSurface::MouseButton button);
+    void mouseEvent(MouseEvent::Event event, MouseEvent::Button button);
 
     Geometry::RaySurfaceIntersection *m_latestIntersection;
     bool m_leftMouseDown, m_rightMouseDown, m_middleMouseDown;

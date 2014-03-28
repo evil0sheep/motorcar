@@ -69,7 +69,6 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     , m_cursorHotspotY(0)
     , m_modifiers(Qt::NoModifier)
     , m_app(app)
-    , m_numSurfacesMapped(0)
 
 {
     setDisplay(NULL);
@@ -193,17 +192,17 @@ motorcar::WaylandSurfaceNode *QtWaylandMotorcarCompositor::getSurfaceNode(QWayla
 //TODO: consider revising to take  MotorcarSurfaceNode as argument depending on call sites
 void QtWaylandMotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *oldSurface)
 {
-    QWaylandSurface *kbdFocus = defaultInputDevice()->keyboardFocus();
-    if (kbdFocus == oldSurface || !kbdFocus){
-        motorcar::WaylandSurfaceNode *n = this->getSurfaceNode();
-        // defaultInputDevice()->setKeyboardFocus(m_surfaces.isEmpty() ? 0 : m_surfaces.last());
-        if(n){
-            defaultInputDevice()->setKeyboardFocus(static_cast<QtWaylandMotorcarSurface *>(n->surface())->surface());
-        }else{
-            defaultInputDevice()->setKeyboardFocus(NULL);
-        }
+//    QWaylandSurface *kbdFocus = defaultInputDevice()->keyboardFocus();
+//    if (kbdFocus == oldSurface || !kbdFocus){
+//        motorcar::WaylandSurfaceNode *n = this->getSurfaceNode();
+//        // defaultInputDevice()->setKeyboardFocus(m_surfaces.isEmpty() ? 0 : m_surfaces.last());
+//        if(n){
+//            defaultInputDevice()->setKeyboardFocus(static_cast<QtWaylandMotorcarSurface *>(n->surface())->surface());
+//        }else{
+//            defaultInputDevice()->setKeyboardFocus(NULL);
+//        }
 
-    }
+//    }
 }
 
 
@@ -215,42 +214,13 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
     //m_surfaces.removeOne(surface);
     if(surface != NULL){ //because calling getSurfaceNode with NULL will cause the first surface node to be returned
         motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
-
-
         if(surfaceNode != NULL){
-            scene()->cursorNode()->setValid(false);
-
-            std::vector<motorcar::SceneGraphNode *> subtreeNodes = surfaceNode->nodesInSubtree();
-            for(motorcar::SceneGraphNode *node : subtreeNodes){
-                motorcar::WaylandSurfaceNode *subtreeSurfaceNode = dynamic_cast<motorcar::WaylandSurfaceNode *>(node);
-                if(subtreeSurfaceNode != NULL){
-                    QtWaylandMotorcarSurface *subtreeSurface = dynamic_cast<QtWaylandMotorcarSurface *>(subtreeSurfaceNode->surface());
-                    if(subtreeSurface != NULL){
-                        std::map<QWaylandSurface *, motorcar::WaylandSurfaceNode *>::iterator it = m_surfaceMap.find(subtreeSurface->surface());
-                        if (it != m_surfaceMap.end()){
-                            std::cout << "nulling surfaceNode pointer: " << it->second  << " in surface map" <<std::endl;
-                            it->second = NULL;
-                        }
-                    }
-
-                }
-            }
-            m_surfaceMap.erase (surface);
-
-            std::cout << "attempting to delete surfaceNode pointer " << surfaceNode <<std::endl;
-            motorcar::Scene *tempScene = new motorcar::Scene();
-            //delete surfaceNode;
-            surfaceNode->setParentNode(tempScene);
-            //surfaceNode->setValid(false);
-            defaultInputDevice()->setMouseFocus(NULL, QPointF(0,0));
-            defaultInputDevice()->setKeyboardFocus(NULL);
-
-
+            this->scene()->windowManager()->destroySurface(surfaceNode->surface());
         }
 
     }
-    ensureKeyboardFocusSurface(surface);
-    m_renderScheduler.start(0);
+//    ensureKeyboardFocusSurface(surface);
+//    m_renderScheduler.start(0);
 }
 
 void QtWaylandMotorcarCompositor::surfaceMapped()
@@ -258,12 +228,10 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
     QPoint pos;
     //if (!m_surfaces.contains(surface)) {
-    if (!this->getSurfaceNode(surface)) {
+
         surface->setPos(QPoint(0, 0));
         if (surface->hasShellSurface()) {
 
-            glm::mat4 transform;
-            motorcar::SceneGraphNode *parentNode;
             motorcar::WaylandSurface::SurfaceType surfaceType;
 
             int type = static_cast<int>(surface->windowType());
@@ -271,63 +239,33 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
 
 
             if(type == QWaylandSurface::WindowType::Toplevel){
-                int n = 1000;
-                int thetaTiles = 3;
-                int phiTiles = 2;
-
-                parentNode = this->scene();
-                transform = glm::mat4(1)
-                              //  * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
-                                * glm::translate(glm::mat4(1), glm::vec3(0, 0 ,1.25f))
-                                * glm::rotate(glm::mat4(1), (-1 +  m_numSurfacesMapped % 3) * 30.f, glm::vec3(0, -1, 0))
-                            * glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
-                            * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
-                            * glm::mat4(1);
                 surfaceType = motorcar::WaylandSurface::SurfaceType::TOPLEVEL;
-                m_numSurfacesMapped ++;
             }else if(type == QWaylandSurface::WindowType::Popup){
-
-                motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(this->defaultInputDevice()->mouseFocus());
-                parentNode = surfaceNode;
-                glm::vec3 position = glm::vec3(surfaceNode->surfaceTransform() *
-                                               glm::vec4((surfaceNode->surface()->latestMouseEventPos() +
-                                                          glm::vec2(surface->size().width() / 2, surface->size().height() /2)) /
-                                                            glm::vec2(surfaceNode->surface()->size()), popupZOffset, 1));
-                std::cout << "creating popup window with parent " << surfaceNode << " at position:" << std::endl;
-                motorcar::Geometry::printVector(position);
-                transform = glm::translate(glm::mat4(), position);
                 surfaceType = motorcar::WaylandSurface::SurfaceType::POPUP;
             }else if(type == QWaylandSurface::WindowType::Transient){
-                transform = glm::translate(glm::mat4(), glm::vec3(0,0,popupZOffset));
-                parentNode = this->getSurfaceNode(this->defaultInputDevice()->mouseFocus());
                 surfaceType = motorcar::WaylandSurface::SurfaceType::TRANSIENT;
             }else{
-                transform = glm::translate(glm::mat4(), glm::vec3(0,0,popupZOffset));
-                parentNode = this->getSurfaceNode(this->defaultInputDevice()->mouseFocus());
                 surfaceType = motorcar::WaylandSurface::SurfaceType::NA;
             }
 
+            motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
+            if(surfaceNode == NULL){
+                //if it is not present for some weird reason just go ahead and create it for good measure
+                std::cout << "Warning: qwaylandsurface was mapped but surfaceNode does not exist yet, creating now" <<std::endl;
+                surfaceCreated(surface);
+                surfaceNode = this->getSurfaceNode(surface);
 
-            motorcar::WaylandSurfaceNode *surfaceNode = new motorcar::WaylandSurfaceNode(new QtWaylandMotorcarSurface(surface, this, surfaceType), parentNode, transform);
-            defaultInputDevice()->setKeyboardFocus(surface);
+            }
 
-            m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
+            this->scene()->windowManager()->mapSurface(surfaceNode->surface(), surfaceType);
 
-            std::cout << "surface parameters: "
-                      << surface->hasInputPanelSurface() << ", "
-                      << surface->isWidgetType() << ", "
-                      << surface->isWindowType() << ", "
-                      << surface->type() << ", "
-                      << surface->windowType() << ", "
-                      << surface << ", "
-                      << "<" << surface->pos().x() << ", " << surface->pos().y() << ">" << std::endl;
-
+            //defaultInputDevice()->setKeyboardFocus(surface);
 
     }
 
 
 
-    }
+
 
     m_renderScheduler.start(0);
 }
@@ -339,14 +277,37 @@ void QtWaylandMotorcarCompositor::surfaceUnmapped()
     //    if (m_surfaces.removeOne(surface))
     //        m_surfaces.insert(0, surface);
 
-    ensureKeyboardFocusSurface(surface);
 
+    if(surface != NULL){
+        motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
+        if(surfaceNode != NULL){
+            this->scene()->windowManager()->unmapSurface(surfaceNode->surface());
+        }else{
+            std::cout << "Warning: surface unmapped but doesnt have associated surfaceNode" <<std::endl;
+        }
+
+    }
+
+
+
+    ensureKeyboardFocusSurface(surface);
     //m_renderScheduler.start(0);
 }
 
 void QtWaylandMotorcarCompositor::surfaceDamaged(const QRect &rect)
 {
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
+
+    if(surface != NULL){
+        motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
+        if(surfaceNode != NULL){
+            surfaceNode->setDamaged(true);
+        }else{
+            std::cout << "Warning: surface damaged but doesnt have associated surfaceNode" <<std::endl;
+        }
+
+    }
+
     surfaceDamaged(surface, rect);
 }
 
@@ -370,6 +331,10 @@ void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
     connect(surface, SIGNAL(damaged(const QRect &)), this, SLOT(surfaceDamaged(const QRect &)));
     connect(surface, SIGNAL(extendedSurfaceReady()), this, SLOT(sendExpose()));
     connect(surface, SIGNAL(posChanged()), this, SLOT(surfacePosChanged()));
+
+    motorcar::WaylandSurfaceNode *surfaceNode = this->scene()->windowManager()->createSurface(new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA));
+    m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
+
     m_renderScheduler.start(0);
 }
 
@@ -383,25 +348,26 @@ void QtWaylandMotorcarCompositor::sendExpose()
 
 QPointF QtWaylandMotorcarCompositor::toSurface(QWaylandSurface *surface, const QPointF &point) const
 {
-    motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
+//    motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
 
-    if(surfaceNode != NULL){
-        motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(glm::vec2(point.x(), point.y()));
-        ray = ray.transform(glm::inverse(surfaceNode->worldTransform()));
-        float t;
-        glm::vec2 intersection;
-        bool isIntersected = surfaceNode->computeLocalSurfaceIntersection(ray, intersection, t);
-        if(isIntersected){
-            return QPointF(intersection.x, intersection.y);
-        }else{
-            qDebug() << "ERROR: surface plane does not interesect camera ray through cursor";
-            return QPointF();
-        }
+//    if(surfaceNode != NULL){
+//        motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(glm::vec2(point.x(), point.y()));
+//        ray = ray.transform(glm::inverse(surfaceNode->worldTransform()));
+//        float t;
+//        glm::vec2 intersection;
+//        bool isIntersected = surfaceNode->computeLocalSurfaceIntersection(ray, intersection, t);
+//        if(isIntersected){
+//            return QPointF(intersection.x, intersection.y);
+//        }else{
+//            qDebug() << "ERROR: surface plane does not interesect camera ray through cursor";
+//            return QPointF();
+//        }
 
-    }else{
-        qDebug() << "ERROR: could not find SceneGraphNode for the given Surface";
-        return QPointF();
-    }
+//    }else{
+//        qDebug() << "ERROR: could not find SceneGraphNode for the given Surface";
+//        return QPointF();
+//    }
+    return QPointF();
 }
 
 void QtWaylandMotorcarCompositor::updateCursor()
@@ -443,23 +409,24 @@ void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int
 
 QWaylandSurface *QtWaylandMotorcarCompositor::surfaceAt(const QPointF &point, QPointF *local)
 {
-    motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(glm::vec2(point.x(), point.y()));
-    motorcar::Geometry::RaySurfaceIntersection *intersection = m_scene->intersectWithSurfaces(ray);
+//    motorcar::Geometry::Ray ray = display()->worldRayAtDisplayPosition(glm::vec2(point.x(), point.y()));
+//    motorcar::Geometry::RaySurfaceIntersection *intersection = m_scene->intersectWithSurfaces(ray);
 
-    if(intersection){
-        //qDebug() << "intersection found between cursor ray and scene graph";
-        if (local){
-            *local = QPointF(intersection->surfaceLocalCoordinates.x, intersection->surfaceLocalCoordinates.y);
-        }
-        motorcar::WaylandSurface *surface = intersection->surfaceNode->surface();
-        delete intersection;
+//    if(intersection){
+//        //qDebug() << "intersection found between cursor ray and scene graph";
+//        if (local){
+//            *local = QPointF(intersection->surfaceLocalCoordinates.x, intersection->surfaceLocalCoordinates.y);
+//        }
+//        motorcar::WaylandSurface *surface = intersection->surfaceNode->surface();
+//        delete intersection;
 
-        return static_cast<QtWaylandMotorcarSurface *>(surface)->surface();
+//        return static_cast<QtWaylandMotorcarSurface *>(surface)->surface();
 
-    }else{
-        //qDebug() << "no intersection found between cursor ray and scene graph";
-        return NULL;
-    }
+//    }else{
+//        //qDebug() << "no intersection found between cursor ray and scene graph";
+//        return NULL;
+//    }
+    return NULL;
 
 
 }
@@ -514,79 +481,81 @@ bool QtWaylandMotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
             }
         }
         break;
-    case QEvent::MouseButtonPress: {
-        QPointF local;
-        QMouseEvent *me = static_cast<QMouseEvent *>(event);
-        QWaylandSurface *targetSurface = surfaceAt(me->localPos(), &local);
-        if (m_dragKeyIsPressed && targetSurface) {
-            m_draggingWindow = targetSurface;
-            m_drag_diff = local;
-        } else {
-            if (targetSurface && input->keyboardFocus() != targetSurface) {
-                input->setKeyboardFocus(targetSurface);
-                //                m_surfaces.removeOne(targetSurface);
-                //                m_surfaces.append(targetSurface);
-                m_renderScheduler.start(0);
-            }
-            input->sendMousePressEvent(me->button(), local, me->localPos());
-        }
-        return true;
-    }
-    case QEvent::MouseButtonRelease: {
-        QWaylandSurface *targetSurface = input->mouseFocus();
-        if (m_draggingWindow) {
-            m_draggingWindow = 0;
-            m_drag_diff = QPointF();
-        } else {
-            QMouseEvent *me = static_cast<QMouseEvent *>(event);
-            QPointF localPos;
-            if (targetSurface)
-                localPos = toSurface(targetSurface, me->localPos());
-            input->sendMouseReleaseEvent(me->button(), localPos, me->localPos());
-        }
-        return true;
-    }
-    case QEvent::MouseMove: {
-        QMouseEvent *me = static_cast<QMouseEvent *>(event);
-        if (m_draggingWindow) {
-            m_draggingWindow->setPos(me->localPos() - m_drag_diff);
-            m_renderScheduler.start(0);
-        } else {
-            QPointF local;
-            QWaylandSurface *targetSurface = surfaceAt(me->localPos(), &local);
-            input->sendMouseMoveEvent(targetSurface, local, me->localPos());
-        }
-        break;
-    }
-    case QEvent::Wheel: {
-        QWheelEvent *we = static_cast<QWheelEvent *>(event);
-        input->sendMouseWheelEvent(we->orientation(), we->delta());
-        break;
-    }
+//    case QEvent::MouseButtonPress: {
+//        QPointF local;
+//        QMouseEvent *me = static_cast<QMouseEvent *>(event);
+//        QWaylandSurface *targetSurface = surfaceAt(me->localPos(), &local);
+//        if (m_dragKeyIsPressed && targetSurface) {
+//            m_draggingWindow = targetSurface;
+//            m_drag_diff = local;
+//        } else {
+//            if (targetSurface && input->keyboardFocus() != targetSurface) {
+//                input->setKeyboardFocus(targetSurface);
+//                //                m_surfaces.removeOne(targetSurface);
+//                //                m_surfaces.append(targetSurface);
+//                m_renderScheduler.start(0);
+//            }
+//            input->sendMousePressEvent(me->button(), local, me->localPos());
+//        }
+//        return true;
+//    }
+//    case QEvent::MouseButtonRelease: {
+//        QWaylandSurface *targetSurface = input->mouseFocus();
+//        if (m_draggingWindow) {
+//            m_draggingWindow = 0;
+//            m_drag_diff = QPointF();
+//        } else {
+//            QMouseEvent *me = static_cast<QMouseEvent *>(event);
+//            QPointF localPos;
+//            if (targetSurface)
+//                localPos = toSurface(targetSurface, me->localPos());
+//            input->sendMouseReleaseEvent(me->button(), localPos, me->localPos());
+//        }
+//        return true;
+//    }
+//    case QEvent::MouseMove: {
+//        QMouseEvent *me = static_cast<QMouseEvent *>(event);
+//        if (m_draggingWindow) {
+//            m_draggingWindow->setPos(me->localPos() - m_drag_diff);
+//            m_renderScheduler.start(0);
+//        } else {
+//            QPointF local;
+//            QWaylandSurface *targetSurface = surfaceAt(me->localPos(), &local);
+//            input->sendMouseMoveEvent(targetSurface, local, me->localPos());
+//        }
+//        break;
+//    }
+//    case QEvent::Wheel: {
+//        QWheelEvent *we = static_cast<QWheelEvent *>(event);
+//        input->sendMouseWheelEvent(we->orientation(), we->delta());
+//        break;
+//    }
     case QEvent::KeyPress: {
         QKeyEvent *ke = static_cast<QKeyEvent *>(event);
-        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
-            m_dragKeyIsPressed = true;
-        }/*else if(ke->key() == Qt::Key_Up){
-            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,0.001f)) * m_glData->m_cameraNode->transform());
-        }else if(ke->key() == Qt::Key_Down){
-            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,-0.001f)) * m_glData->m_cameraNode->transform());
-        }*/
-        m_modifiers = ke->modifiers();
-        QWaylandSurface *targetSurface = input->keyboardFocus();
-        if (targetSurface)
+//        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
+//            m_dragKeyIsPressed = true;
+//        }/*else if(ke->key() == Qt::Key_Up){
+//            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,0.001f)) * m_glData->m_cameraNode->transform());
+//        }else if(ke->key() == Qt::Key_Down){
+//            m_glData->m_cameraNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,-0.001f)) * m_glData->m_cameraNode->transform());
+//        }*/
+//        m_modifiers = ke->modifiers();
+//        QWaylandSurface *targetSurface = input->keyboardFocus();
+//        if (targetSurface)
             input->sendKeyPressEvent(ke->nativeScanCode());
-        break;
+          this->scene()->windowManager()->sendEvent(motorcar::KeyboardEvent(motorcar::KeyboardEvent::Event::KEY_PRESS, ke->nativeScanCode()));
+          break;
     }
     case QEvent::KeyRelease: {
         QKeyEvent *ke = static_cast<QKeyEvent *>(event);
-        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
-            m_dragKeyIsPressed = false;
-        }
-        m_modifiers = ke->modifiers();
-        QWaylandSurface *targetSurface = input->keyboardFocus();
-        if (targetSurface)
+//        if (ke->key() == Qt::Key_Meta || ke->key() == Qt::Key_Super_L) {
+//            m_dragKeyIsPressed = false;
+//        }
+//        m_modifiers = ke->modifiers();
+//        QWaylandSurface *targetSurface = input->keyboardFocus();
+//        if (targetSurface)
             input->sendKeyReleaseEvent(ke->nativeScanCode());
+        this->scene()->windowManager()->sendEvent(motorcar::KeyboardEvent(motorcar::KeyboardEvent::Event::KEY_PRESS, ke->nativeScanCode()));
         break;
     }
         //    case QEvent::TouchBegin:

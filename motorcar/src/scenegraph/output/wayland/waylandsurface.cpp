@@ -7,10 +7,6 @@ WaylandSurface::WaylandSurface(SurfaceType type)
 
 }
 
-glm::vec2 WaylandSurface::latestMouseEventPos() const
-{
-    return m_latestMouseEventPos;
-}
 
 
 WaylandSurface::SurfaceType WaylandSurface::type() const

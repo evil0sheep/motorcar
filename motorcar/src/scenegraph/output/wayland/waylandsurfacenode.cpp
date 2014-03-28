@@ -101,3 +101,23 @@ void WaylandSurfaceNode::drawViewpoint(GLCamera *viewpoint)
     }
 
 }
+bool WaylandSurfaceNode::mapped() const
+{
+    return m_mapped;
+}
+
+void WaylandSurfaceNode::setMapped(bool mapped)
+{
+    m_mapped = mapped;
+}
+bool WaylandSurfaceNode::damaged() const
+{
+    return m_damaged;
+}
+
+void WaylandSurfaceNode::setDamaged(bool damaged)
+{
+    m_damaged = damaged;
+}
+
+

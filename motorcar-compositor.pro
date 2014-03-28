@@ -63,7 +63,13 @@ HEADERS += \
     motorcar/src/scenegraph/input/bone.h \
     motorcar/src/scenegraph/input/bonesensor.h \
     motorcar/src/scenegraph/input/skeleton.h \
-    motorcar/src/scenegraph/input/singlebonetracker.h
+    motorcar/src/scenegraph/input/singlebonetracker.h \
+    motorcar/src/displayserver.h \
+    motorcar/src/windowmanager.h \
+    motorcar/src/events/event.h \
+    motorcar/src/events/mouseevent.h \
+    motorcar/src/events/events.h \
+    motorcar/src/events/keyboardevent.h
 
 
 
@@ -106,7 +112,12 @@ SOURCES += \
     motorcar/src/scenegraph/input/bone.cpp \
     motorcar/src/scenegraph/input/bonesensor.cpp \
     motorcar/src/scenegraph/input/skeleton.cpp \
-    motorcar/src/scenegraph/input/singlebonetracker.cpp
+    motorcar/src/scenegraph/input/singlebonetracker.cpp \
+    motorcar/src/displayserver.cpp \
+    motorcar/src/windowmanager.cpp \
+    motorcar/src/events/event.cpp \
+    motorcar/src/events/mouseevent.cpp \
+    motorcar/src/events/keyboardevent.cpp
 
 
 

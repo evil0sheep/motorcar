@@ -1,11 +1,18 @@
 #include "scene.h"
+#include "../windowmanager.h"
 
 using namespace motorcar;
 
 Scene::Scene()
     :PhysicalNode()
+    ,m_windowManager(new WindowManager(this))
     ,m_cursorNode(NULL)
 {
+}
+
+Scene::~Scene()
+{
+    delete m_windowManager;
 }
 
 
@@ -13,15 +20,7 @@ void Scene::notifyNodeAdded(SceneGraphNode *node)
 {
 }
 
-void Scene::addDisplay(Display *display)
-{
-    m_displays.push_back(display);
-}
 
-std::vector<Display *> Scene::displays() const
-{
-    return m_displays;
-}
 
 void Scene::draw(long deltaMillis)
 {
@@ -55,4 +54,34 @@ glm::ivec2 Scene::cursorHotspot() const
 void Scene::setCursorHotspot(const glm::ivec2 &cursorHotspot)
 {
     m_cursorHotspot = cursorHotspot;
+}
+WindowManager *Scene::windowManager() const
+{
+    return m_windowManager;
+}
+
+void Scene::setWindowManager(WindowManager *windowManager)
+{
+    m_windowManager = windowManager;
+}
+Compositor *Scene::compositor() const
+{
+    return m_compositor;
+}
+
+void Scene::setCompositor(Compositor *compositor)
+{
+    m_compositor = compositor;
+}
+
+
+
+void Scene::addDisplay(Display *display)
+{
+    m_displays.push_back(display);
+}
+
+std::vector<Display *> Scene::displays() const
+{
+    return m_displays;
 }
