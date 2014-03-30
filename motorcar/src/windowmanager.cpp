@@ -39,9 +39,13 @@ void WindowManager::destroySurface(WaylandSurface *surface)
 
         //std::cout << "attempting to delete surfaceNode pointer " << surfaceNode <<std::endl;
 
-        delete surfaceNode;
+        if(surfaceNode == m_defaultSeat->pointer()->cursorNode()){
+            m_defaultSeat->pointer()->setCursorNode(NULL);
+        }
 
         ensureKeyboardFocusIsValid(surface);
+        delete surfaceNode;
+
 
 
     }
@@ -76,7 +80,13 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
         //    glm::vec2 localPos = glm::vec2(surface->position());
         if(defaultSeat()->pointerFocus() != NULL){
            parentSurfaceNode = this->getSurfaceNode(defaultSeat()->pointerFocus());
-           glm::vec2 localPos = this->defaultSeat()->pointer()->localPositon();
+           glm::vec2 localPos;
+           if(type == WaylandSurface::SurfaceType::POPUP){
+              localPos = this->defaultSeat()->pointer()->localPositon();
+           }else{
+              localPos = surface->position();
+           }
+
            glm::vec3 position = glm::vec3(parentSurfaceNode->surfaceTransform() *
                                           glm::vec4((localPos + glm::vec2(surface->size()) / 2.0f) /
                                                        glm::vec2(parentSurfaceNode->surface()->size()), popupZOffset, 1));

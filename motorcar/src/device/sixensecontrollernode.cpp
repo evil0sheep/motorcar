@@ -2,6 +2,7 @@
 using namespace motorcar;
 
 #include "../scenegraph/scene.h"
+#include "../compositor.h"
 
 SixenseControllerNode::SixenseControllerNode(int controllerIndex, PhysicalNode *parent, const glm::mat4 &transform )
     :PhysicalNode(parent, transform)
@@ -60,6 +61,7 @@ void SixenseControllerNode::updateState(sixenseControllerData data)
     }
 
 
+
 }
 
 int SixenseControllerNode::controllerIndex() const
@@ -77,6 +79,10 @@ void SixenseControllerNode::traverseNode(Scene *scene, long deltaMillis)
    PhysicalNode::traverseNode(scene, deltaMillis);
 //    std::cout << "controller " << controllerIndex() << " has " << childNodes().size()<< " children" <<std::endl;
 //    Geometry::printMatrix(worldTransform());
+
+//   glm::vec3 displayRelativePos = glm::vec3(scene->compositor()->display()->inverseWorldTransform() * this->worldTransform() * glm::vec4(0,0,0,1));
+//   std::cout << "position of controller " << m_controllerIndex << " is " <<std::endl <<std::endl;
+//   Geometry::printVector(displayRelativePos);
 }
 
 

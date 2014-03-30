@@ -133,8 +133,8 @@ private:
 
     //Cursor
     QWaylandSurface *m_cursorSurface;
-    motorcar::WaylandSurfaceNode *m_cursorSurfaceNode;
-    QtWaylandMotorcarSurface *m_cursorMotorcarSurface;
+    //motorcar::WaylandSurfaceNode *m_cursorSurfaceNode;
+    //QtWaylandMotorcarSurface *m_cursorMotorcarSurface;
     int m_cursorHotspotX;
     int m_cursorHotspotY;
 

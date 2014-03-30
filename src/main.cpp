@@ -49,9 +49,12 @@ int main(int argc, char *argv[])
 {
     motorcar::Scene *scene = new motorcar::Scene();
 
+    scene->setTrash(new motorcar::Scene());
+
     qtmotorcar::QtWaylandMotorcarCompositor *compositor = qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene) ;
 
     scene->setWindowManager( new motorcar::WindowManager(scene, compositor->defaultSeat()));
+    scene->setCompositor(compositor);
 
     motorcar::OpenGLContext *context = compositor->getContext();
 
@@ -96,7 +99,7 @@ int main(int argc, char *argv[])
         compositor->display()->setParentNode(skeleton->headBone());
 
 
-          glm::vec3 displayPosition = glm::vec3(0, .127, 0); // -.165);
+          glm::vec3 displayPosition = glm::vec3(0, .127, -.165);
 
           glm::mat4 displayTransform = glm::translate(glm::mat4(), displayPosition);
 
@@ -107,6 +110,7 @@ int main(int argc, char *argv[])
     int result = compositor->start();
 
     delete sixense;
+    delete scene->trash();
     delete scene;
 
     return result;

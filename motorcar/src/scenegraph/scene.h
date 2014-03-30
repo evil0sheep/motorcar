@@ -17,14 +17,8 @@ public:
     virtual void notifyNodeAdded(SceneGraphNode *node);
 
 
-
     void draw(long deltaMillis);
 
-    WaylandSurfaceNode *cursorNode() const;
-    void setCursorNode(WaylandSurfaceNode *cursorNode);
-
-    glm::ivec2 cursorHotspot() const;
-    void setCursorHotspot(const glm::ivec2 &cursorHotspot);
 
     WindowManager *windowManager() const;
     void setWindowManager(WindowManager *windowManager);
@@ -36,11 +30,14 @@ public:
     std::vector<Display *> displays() const;
 
 
+    Scene *trash() const;
+    void setTrash(Scene *trash);
+
 private:
     WindowManager *m_windowManager;
     Compositor *m_compositor;
-    WaylandSurfaceNode * m_cursorNode;
-    glm::ivec2 m_cursorHotspot;
+    Scene *m_trash;
+
     std::vector<Display *> m_displays;
 
 };

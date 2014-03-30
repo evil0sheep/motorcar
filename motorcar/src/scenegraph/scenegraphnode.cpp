@@ -39,7 +39,7 @@ SceneGraphNode::~SceneGraphNode(){
         if(!child->isSurfaceNode()){
             delete child;
         }else{
-            child->setParentNode(NULL);
+            child->setParentNode(scene()->trash());
         }
     }
 }

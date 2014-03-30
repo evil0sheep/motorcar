@@ -6,7 +6,7 @@ using namespace motorcar;
 Scene::Scene()
     :PhysicalNode()
     ,m_windowManager(NULL)
-    ,m_cursorNode(NULL)
+    ,m_trash(NULL)
 {
 }
 
@@ -36,25 +36,7 @@ void Scene::draw(long deltaMillis)
 
 
 
-WaylandSurfaceNode *Scene::cursorNode() const
-{
-    return m_cursorNode;
-}
 
-void Scene::setCursorNode(WaylandSurfaceNode *cursorNode)
-{
-    m_cursorNode = cursorNode;
-}
-
-glm::ivec2 Scene::cursorHotspot() const
-{
-    return m_cursorHotspot;
-}
-
-void Scene::setCursorHotspot(const glm::ivec2 &cursorHotspot)
-{
-    m_cursorHotspot = cursorHotspot;
-}
 WindowManager *Scene::windowManager() const
 {
     return m_windowManager;
@@ -85,3 +67,13 @@ std::vector<Display *> Scene::displays() const
 {
     return m_displays;
 }
+Scene *Scene::trash() const
+{
+    return m_trash;
+}
+
+void Scene::setTrash(Scene *trash)
+{
+    m_trash = trash;
+}
+

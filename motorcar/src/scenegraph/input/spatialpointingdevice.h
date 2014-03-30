@@ -7,6 +7,8 @@
 #include "../physicalnode.h"
 #include "../output/wireframenode.h"
 #include "../output/wayland/waylandsurfacenode.h"
+#include "../../wayland/input/seat.h"
+#include "../../wayland/input/pointer.h"
 
 namespace motorcar {
 class SpatialPointingDevice : public InputElement, public PhysicalNode

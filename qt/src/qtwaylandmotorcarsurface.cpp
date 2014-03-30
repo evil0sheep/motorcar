@@ -57,6 +57,7 @@ void QtWaylandMotorcarSurface::sendEvent(const motorcar::Event &event)
 
         QPointF localPos(mouseEvent.localPosition().x, mouseEvent.localPosition().y);
 
+
         event.seat()->setPointerFocus(this, mouseEvent.localPosition());
         event.seat()->setKeyboardFocus(this);
 

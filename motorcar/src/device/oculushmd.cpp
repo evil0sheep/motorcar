@@ -113,11 +113,11 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, Skeleton *
 
 
         GLCamera *lCam = new GLCamera(near, far, m_display, m_display,
-                                       glm::translate(glm::mat4(), glm::vec3(-InterpupillaryDistance/2, VScreenSize/2 - VScreenCenter, -EyeToScreenDistance)),
+                                       glm::translate(glm::mat4(), glm::vec3(-InterpupillaryDistance/2, VScreenSize/2 - VScreenCenter, EyeToScreenDistance)),
                                        glm::vec4(0,0,.5,1), glm::vec3(h, 0, 0));
 
         GLCamera *rCam = new GLCamera(near, far, m_display, m_display,
-                                       glm::translate(glm::mat4(), glm::vec3(InterpupillaryDistance/2, VScreenSize/2 - VScreenCenter, -EyeToScreenDistance)),
+                                       glm::translate(glm::mat4(), glm::vec3(InterpupillaryDistance/2, VScreenSize/2 - VScreenCenter, EyeToScreenDistance)),
                                        glm::vec4(.5,0,.5,1), glm::vec3(-h, 0, 0));
 
         m_display->addViewpoint(lCam);

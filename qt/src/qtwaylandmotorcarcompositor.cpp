@@ -63,8 +63,8 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     , m_draggingWindow(0)
     , m_dragKeyIsPressed(false)
     , m_cursorSurface(NULL)
-    , m_cursorSurfaceNode(NULL)
-    , m_cursorMotorcarSurface(NULL)
+//    , m_cursorSurfaceNode(NULL)
+//    , m_cursorMotorcarSurface(NULL)
     , m_cursorHotspotX(0)
     , m_cursorHotspotY(0)
     , m_modifiers(Qt::NoModifier)
@@ -221,6 +221,7 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
         motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
         if(surfaceNode != NULL){
             this->scene()->windowManager()->destroySurface(surfaceNode->surface());
+            m_surfaceMap.erase (surface);
         }
 
     }
@@ -256,14 +257,19 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
             motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
             if(surfaceNode == NULL){
                 //if it is not present for some weird reason just go ahead and create it for good measure
-                std::cout << "Warning: qwaylandsurface was mapped but surfaceNode does not exist yet, creating now" <<std::endl;
-                surfaceCreated(surface);
-                surfaceNode = this->getSurfaceNode(surface);
+//                std::cout << "Warning: qwaylandsurface was mapped but surfaceNode does not exist yet, creating now" <<std::endl;
+//                surfaceCreated(surface);
+//                surfaceNode = this->getSurfaceNode(surface);
+                surfaceNode = this->scene()->windowManager()->createSurface(new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA));
+                std::cout << "created surfaceNode " << surfaceNode << std::endl;
+                 m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
 
             }
+                this->scene()->windowManager()->mapSurface(surfaceNode->surface(), surfaceType);
+                std::cout << "mapped surfaceNode " << surfaceNode << std::endl;
 
-            this->scene()->windowManager()->mapSurface(surfaceNode->surface(), surfaceType);
-            std::cout << "mapped surfaceNode " << surfaceNode << std::endl;
+
+
             //defaultInputDevice()->setKeyboardFocus(surface);
 
     }
@@ -336,11 +342,11 @@ void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
     connect(surface, SIGNAL(extendedSurfaceReady()), this, SLOT(sendExpose()));
     connect(surface, SIGNAL(posChanged()), this, SLOT(surfacePosChanged()));
 
-    if(surface->hasShellSurface()){
-        motorcar::WaylandSurfaceNode *surfaceNode = this->scene()->windowManager()->createSurface(new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA));
-        std::cout << "created surfaceNode " << surfaceNode << std::endl;
-        m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
-    }
+//    if(surface->hasShellSurface()){
+//        motorcar::WaylandSurfaceNode *surfaceNode = this->scene()->windowManager()->createSurface(new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA));
+//        std::cout << "created surfaceNode " << surfaceNode << std::endl;
+//        m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
+//    }
 
 
     m_renderScheduler.start(0);
@@ -378,6 +384,17 @@ QPointF QtWaylandMotorcarCompositor::toSurface(QWaylandSurface *surface, const Q
     return QPointF();
 }
 
+QtWaylandMotorcarSeat *QtWaylandMotorcarCompositor::defaultSeat() const
+{
+    return m_defaultSeat;
+}
+
+void QtWaylandMotorcarCompositor::setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat)
+{
+    m_defaultSeat = defaultSeat;
+}
+
+
 void QtWaylandMotorcarCompositor::updateCursor()
 {
     if (!m_cursorSurface)
@@ -391,15 +408,6 @@ void QtWaylandMotorcarCompositor::updateCursor()
         cursorIsSet = true;
     }
 }
-QtWaylandMotorcarSeat *QtWaylandMotorcarCompositor::defaultSeat() const
-{
-    return m_defaultSeat;
-}
-
-void QtWaylandMotorcarCompositor::setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat)
-{
-    m_defaultSeat = defaultSeat;
-}
 
 
 
@@ -407,18 +415,18 @@ void QtWaylandMotorcarCompositor::setDefaultSeat(QtWaylandMotorcarSeat *defaultS
 void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY)
 {
 
-    if(m_cursorSurfaceNode == NULL){
-        m_cursorMotorcarSurface =new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::CURSOR);
+    if(m_defaultSeat->pointer()->cursorNode() == NULL){
+        motorcar::WaylandSurface *cursorMotorcarSurface =new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::CURSOR);
         //m_cursorSurfaceNode =  new motorcar::WaylandSurfaceNode(m_cursorMotorcarSurface, m_scene, glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0)));
-        m_cursorSurfaceNode = this->scene()->windowManager()->createSurface(m_cursorMotorcarSurface);
-        m_cursorSurfaceNode->setTransform(glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0)));
-        m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, m_cursorSurfaceNode));
-        m_scene->setCursorNode(m_cursorSurfaceNode);
-        std::cout << "created cursor surface node " << m_cursorSurfaceNode << std::endl;
+        motorcar::WaylandSurfaceNode *cursorSurfaceNode = this->scene()->windowManager()->createSurface(cursorMotorcarSurface);
+        cursorSurfaceNode->setTransform(glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0)));
+        m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, cursorSurfaceNode));
+        m_defaultSeat->pointer()->setCursorNode(cursorSurfaceNode);
+        std::cout << "created cursor surface node " << cursorSurfaceNode << std::endl;
     }
 
-    m_cursorMotorcarSurface->setSurface(surface);
-    m_scene->setCursorHotspot(glm::ivec2(hotspotX, hotspotY));
+    (static_cast<QtWaylandMotorcarSurface *>(m_defaultSeat->pointer()->cursorNode()->surface()))->setSurface(surface);
+    m_defaultSeat->pointer()->setCursorHotspot(glm::ivec2(hotspotX, hotspotY));
 
 
     if ((m_cursorSurface != surface) && surface){
