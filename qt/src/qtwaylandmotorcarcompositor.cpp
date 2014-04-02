@@ -313,7 +313,7 @@ void QtWaylandMotorcarCompositor::surfaceDamaged(const QRect &rect)
         if(surfaceNode != NULL){
             //surfaceNode->setDamaged(true);
         }else{
-            std::cout << "Warning: surface damaged but doesnt have associated surfaceNode" <<std::endl;
+          //  std::cout << "Warning: surface damaged but doesnt have associated surfaceNode" <<std::endl;
         }
 
     }
