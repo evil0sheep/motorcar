@@ -1,11 +1,16 @@
 #include "windowmanager.h"
+#include "scenegraph/scene.h"
+
+
 
 using namespace motorcar;
 WindowManager::WindowManager(Scene *scene, Seat *defaultSeat)
     :m_numSurfacesMapped(0)
     ,m_scene(scene)
     ,m_defaultSeat(defaultSeat)
+    ,m_shell(new Shell(scene))
 {
+
 }
 
 WaylandSurfaceNode *WindowManager::createSurface(WaylandSurface *surface)

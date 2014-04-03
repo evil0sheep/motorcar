@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="motorcar">
+	<interface name="motorcar_shell" version="1">
+		<description summary="a 3D compositor shell">
+	      	description
+   		 </description>
+
+    <request name="make_motorcar_surface">
+      <description summary="registers an existing wayland surface into a motorcar surface">
+	 	This request takes the ID of an existing wayalnd surface and informs the compositor that it is a motorcar surface
+      </description>
+      <arg name="surface" type="object" interface="wl_surface"/>
+    </request>
+	</interface>
+</protocol>

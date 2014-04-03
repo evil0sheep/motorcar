@@ -52,9 +52,10 @@ int main(int argc, char *argv[])
     scene->setTrash(new motorcar::Scene());
 
     qtmotorcar::QtWaylandMotorcarCompositor *compositor = qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene) ;
+    scene->setCompositor(compositor);
 
     scene->setWindowManager( new motorcar::WindowManager(scene, compositor->defaultSeat()));
-    scene->setCompositor(compositor);
+
 
     motorcar::OpenGLContext *context = compositor->getContext();
 

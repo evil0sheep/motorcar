@@ -72,6 +72,8 @@ public:
 
     virtual motorcar::OpenGLContext *getContext() override;
 
+    struct wl_display *wlDisplay() override;
+
 
     OpenGLData *glData() const;
     void setGlData(OpenGLData *glData);

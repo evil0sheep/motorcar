@@ -2,14 +2,19 @@ QT += gui widgets compositor gui-private core-private
 
 LIBOVRPATH=../thirdPartySource/Oculus/OculusSDK/LibOVR
 SIXENSEPATH=../thirdPartySource/sixenseSDK_linux_OSX
-INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include"
+INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include" ./motorcar/protocol
+
 
 RELEASETYPE=Release
 SYSARCH=x86_64
 
-LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr \
-        -L$$SIXENSEPATH/lib/linux_x64/release -lsixense_x64 -lsixense_utils_x64\
-        -ludev -lpthread -lGL -lX11 -lXinerama
+LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr
+
+LIBS += -L$$SIXENSEPATH/lib/linux_x64/release -lsixense_x64 -lsixense_utils_x64
+
+LIBS += -L./motorcar/protocol -lmotorcar -lwayland-server
+
+LIBS +=  -ludev -lpthread -lGL -lX11 -lXinerama
 
 DESTDIR = bin
 OBJECTS_DIR = bin/.obj
@@ -75,7 +80,8 @@ HEADERS += \
     motorcar/src/wayland/input/waylandinput.h \
     motorcar/src/wayland/output/waylandsurface.h \
     qt/src/qtwaylandmotorcarseat.h \
-    motorcar/src/scenegraph/input/input.h
+    motorcar/src/scenegraph/input/input.h \
+    motorcar/src/shell.h
 
 
 
@@ -127,7 +133,8 @@ SOURCES += \
     motorcar/src/wayland/input/pointer.cpp \
     motorcar/src/wayland/input/keyboard.cpp \
     motorcar/src/wayland/output/waylandsurface.cpp \
-    qt/src/qtwaylandmotorcarseat.cpp
+    qt/src/qtwaylandmotorcarseat.cpp \
+    motorcar/src/shell.cpp
 
 
 

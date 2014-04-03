@@ -2,6 +2,8 @@
 #define COMPOSITOR_H
 #include "scenegraph/output/display/display.h"
 #include "gl/openglcontext.h"
+#include "wayland-server.h"
+#include "wayland-server-protocol.h"
 
 namespace motorcar {
 ///This class handles only the invoking the draw calls on the scenegraph needed to display its contents
@@ -27,6 +29,8 @@ public:
 
     Display *display() const;
     void setDisplay(Display *display);
+
+    virtual struct wl_display *wlDisplay() = 0;
 
 private:
     //    std::vector<Display *> m_displays;

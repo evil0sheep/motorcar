@@ -148,6 +148,11 @@ motorcar::OpenGLContext *QtWaylandMotorcarCompositor::getContext()
     return new QtWaylandMotorcarOpenGLContext(this->glData()->m_window);
 }
 
+wl_display *QtWaylandMotorcarCompositor::wlDisplay()
+{
+    return QWaylandCompositor::waylandDisplay();
+}
+
 
 
 

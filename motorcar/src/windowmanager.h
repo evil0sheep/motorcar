@@ -5,6 +5,8 @@
 #include "scenegraph/scene.h"
 #include "events/events.h"
 #include "wayland/input/waylandinput.h"
+#include "compositor.h"
+#include "shell.h"
 #include <map>
 
 namespace motorcar{
@@ -41,10 +43,12 @@ public:
     void ensureKeyboardFocusIsValid(WaylandSurface *oldSurface);
 
 private:
+
     std::map<WaylandSurface *, WaylandSurfaceNode *> m_surfaceMap;
     int m_numSurfacesMapped;
     Scene *m_scene;
     Seat *m_defaultSeat;
+    Shell *m_shell;
 };
 }
 
