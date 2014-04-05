@@ -3,6 +3,9 @@
 #include "../../geometry.h"
 #include "../virtualnode.h"
 #include "outputelement.h"
+#include "wayland-server.h"
+#include "wayland-server-protocol.h"
+#include "motorcar-server-protocol.h"
 //#include <GL/gl.h>
 //#include "display.h"
 
@@ -67,6 +70,11 @@ public:
     glm::vec4 centerOfFocus() const;
 
 
+    motorcar_viewpoint *viewpointHandle() const;
+    void setViewpointHandle(motorcar_viewpoint *viewpointHandle);
+
+    void sendCurrentViewpointToClients();
+
 private:
     float near, far;
     GLViewPort *m_viewport;
@@ -78,6 +86,14 @@ private:
 
     //cached matrices
     glm::mat4 m_viewMatrix, m_projectionMatrix, m_viewProjectionMatrix;
+
+    struct motorcar_viewpoint *m_viewpointHandle;
+    struct wl_global *m_global;
+
+    static void bind_func(struct wl_client *client, void *data,
+                          uint32_t version, uint32_t id);
+
+
 
 };
 }

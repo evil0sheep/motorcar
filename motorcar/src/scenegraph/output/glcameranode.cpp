@@ -1,7 +1,12 @@
 #include "glcameranode.h"
 #include "display/display.h"
+#include "../scene.h"
+#include "../../compositor.h"
+
 
 using namespace motorcar;
+
+//const static struct motorcar_viewpoint_interface motorcarViewpointInterface ={};
 
 GLCamera::GLCamera(float near, float far, Display *display, SceneGraphNode *parent, glm::mat4 transform, glm::vec4 viewPortParams, glm::vec3 centerOfProjection)
     :VirtualNode(parent, transform)
@@ -10,10 +15,24 @@ GLCamera::GLCamera(float near, float far, Display *display, SceneGraphNode *pare
     , m_centerOfFocus(centerOfProjection, 1)
     , m_COFTransform(glm::translate(glm::mat4(1), centerOfProjection))
     , m_viewport(new GLViewPort(viewPortParams.x, viewPortParams.y, viewPortParams.z, viewPortParams.w, display))
+    , m_viewpointHandle(NULL)
+    , m_global(NULL)
 
 {
     calculateVPMatrix();
     std::cout << "Camera FOV: " << fov() <<std::endl;
+
+
+
+
+
+    m_global = wl_global_create(scene()->compositor()->wlDisplay(),
+                     &motorcar_shell_interface,
+                      motorcar_shell_interface.version,
+                     this,
+                     GLCamera::bind_func);
+
+
 }
 
 GLCamera::~GLCamera()
@@ -174,9 +193,34 @@ glm::vec4 GLCamera::centerOfFocus() const
 {
     return m_centerOfFocus;
 }
+motorcar_viewpoint *GLCamera::viewpointHandle() const
+{
+    return m_viewpointHandle;
+}
+
+void GLCamera::setViewpointHandle(motorcar_viewpoint *viewpointHandle)
+{
+    m_viewpointHandle = viewpointHandle;
+}
+
+void GLCamera::sendCurrentViewpointToClients()
+{
+    struct wl_array *view;
+    struct wl_array *projection;
+   // motorcar_viewpoint_send_update_data((struct wl_resource *)m_global, view, projection);
+}
+
 
 glm::vec4 GLCamera::GLViewPort::viewportParams() const
 {
     return glm::vec4(m_offsetX, m_offsetY, m_width, m_height);
+}
+
+void GLCamera::bind_func(struct wl_client *client, void *data,
+                      uint32_t version, uint32_t id)
+{
+
+    struct wl_resource *resource = wl_resource_create(client, &motorcar_viewpoint_interface, version, id);
+    //wl_resource_set_implementation(resource, &motorcarViewpointInterface, data, 0);
 }
 

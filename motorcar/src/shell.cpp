@@ -4,8 +4,9 @@
 
 using namespace motorcar;
 
-void make_motorcar_surface(struct wl_client *client,
+void get_motorcar_surface(struct wl_client *client,
                            struct wl_resource *resource,
+                           //uint32_t id,
                            struct wl_resource *surface)
 {
     std::cout << "OMG PROTOCOL EXTENSIONS BITCHES" <<std::endl;
@@ -13,14 +14,13 @@ void make_motorcar_surface(struct wl_client *client,
 
 
 const static struct motorcar_shell_interface motorcarShellInterface = {
-    make_motorcar_surface
+    get_motorcar_surface
 };
 
 Shell::Shell(Scene *scene)
 {
     m_display = scene->compositor()->wlDisplay();
-    //wl_display_interface.get_registry;
-    //struct wl_global* wl_global_create(display, const struct wl_interface *interface, int version, void *data, wl_global_bind_func_t bind);
+
     struct wl_global *global =0;
 
     global = wl_global_create(m_display,
@@ -33,9 +33,16 @@ Shell::Shell(Scene *scene)
     //struct motorcar_shell_interface *shell =
 }
 
+Shell::~Shell()
+{
+    //todo: destroy the shell global
+}
+
+
 void Shell::bind_func(struct wl_client *client, void *data,
                       uint32_t version, uint32_t id)
 {
+    std::cout << "Shell Bind function Called" <<std::endl;
     struct wl_resource *resource = wl_resource_create(client, &motorcar_shell_interface, version, id);
     wl_resource_set_implementation(resource, &motorcarShellInterface, data, 0);
 }

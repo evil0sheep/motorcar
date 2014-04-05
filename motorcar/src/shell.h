@@ -5,6 +5,8 @@
 #include "wayland-server-protocol.h"
 #include "motorcar-server-protocol.h"
 
+#include "scenegraph/output/glcameranode.h"
+
 
 namespace motorcar {
 class Scene;
@@ -12,6 +14,7 @@ class Shell
 {
 public:
     Shell(Scene *scene);
+    ~Shell();
 
 private:
     struct wl_display *m_display;

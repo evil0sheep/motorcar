@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
     }else{
         std::cout << "Using Default Display" << std::endl;
         float camToDisplayDistance = 0.1;
-        motorcar::Display *display = new motorcar::Display(context, glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, -camToDisplayDistance)));
+        motorcar::Display *display = new motorcar::Display(context, glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, 1.f)));
         display->addViewpoint(new motorcar::GLCamera( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance))));
         compositor->setDisplay(display);
     }

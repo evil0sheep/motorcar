@@ -2,14 +2,68 @@
 <protocol name="motorcar">
 	<interface name="motorcar_shell" version="1">
 		<description summary="a 3D compositor shell">
-	      	description
+	      	An interface to allow a copositor to composite 3D data from multiple clients
+	      	in a manner that makes it appear to be in the same 3D space. Combined with
+	      	embedding tradtional wayland surfaces on quads in the same space it provides the 
+	      	framework needed to achieve a seamless mixture of 2D and 3D user interfaces while 
+	      	still giving clients full flexibility in how their content is drawn to 2D
+
+      		It allows clients to associate a motorcar_surface with a basic surface, which
+      		both tells the compositor to perform 3D compositing on the client surface, and also
+      		provides a mechanism for the compositor to give the client the information it needs to draw
+      		its content to 2D correctly.
    		 </description>
 
-    <request name="make_motorcar_surface">
-      <description summary="registers an existing wayland surface into a motorcar surface">
-	 	This request takes the ID of an existing wayalnd surface and informs the compositor that it is a motorcar surface
-      </description>
-      <arg name="surface" type="object" interface="wl_surface"/>
-    </request>
+	    <request name="get_motorcar_surface">
+	      <description summary="create a motorcar surface from a surface">
+		 		Create a motorcar surface for an existing surface.
+
+				Only one motorcar surface can be associated with a given surface.
+	      </description>
+	      <!-- <arg name="id" type="new_id" interface="motorcar_surface"/> -->
+	      <arg name="surface" type="object" interface="wl_surface"/>
+	    </request>
 	</interface>
+
+	<interface name="motorcar_surface" version="1">
+
+	    <description summary="interface for 3D depth composited motorcar surfaces">
+	      An interface that may be implemented by a wl_surface, for
+	      implementations that provide motorcar style depth composited 3D surfaces
+
+	      A motorcar_surface can be created from an exisitng surface, and provides the client
+	      with the information needed to draw its content in a way that can be depth composited by
+	      a motorcar compliant compositor
+	    </description>
+
+
+	</interface>
+
+	<interface name="motorcar_viewpoint" version="1">
+		<description summary="represents a single viewpoint in the compositor, essentially a view and projection matrix">
+	      An interface that may be implemented by a wl_surface, for
+	      implementations that provide motorcar style depth composited 3D surfaces
+
+	      A motorcar_surface can be created from an exisitng surface, and provides the client
+	      with the information needed to draw its content in a way that can be depth composited by
+	      a motorcar compliant compositor
+	    </description>
+
+	    <event name="update_data">
+	      <description summary="sets the view and projection matrices of this viewpoint">
+			This event is sent (ideally) at the beginning of each frame to give the client the view
+			and projection matrices it needs to draw its content to 2D in the same manner as the compositor,
+			which is essential for proper depth compositing.
+
+			Each matrix is a column-major 4x4 matrix of 32 bit floats. 'The first' is the 'view matrix' which brings
+			vectors from world space into view (or camera) space, and is also the inverse of the camera transform. 
+			The second is a projection matrix in the form of those used by OpenGL, which (with the help of a homogeneous divide
+			done in hardware) brings vectors from view space into Uniform device coordinate space. All values are specified in meters.
+	      </description>
+	      <arg name="view" type="array" summary="the view matrix for this frame"/>
+	      <arg name="projection" type="array" summary="the projection matrix for this frame"/>
+	    </event>
+	</interface>
+
+
 </protocol>

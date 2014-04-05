@@ -101,6 +101,7 @@ struct window {
 	struct wl_egl_window *native;
 	struct wl_surface *surface;
 	struct wl_shell_surface *shell_surface;
+	struct motorcar_surface *motorcar_surface;
 	EGLSurface egl_surface;
 	struct wl_callback *callback;
 	int fullscreen, configured, opaque, buffer_size, frame_sync;
@@ -429,7 +430,10 @@ create_surface(struct window *window)
 
 	wl_shell_surface_set_title(window->shell_surface, "simple-egl");
 
-	motorcar_shell_make_motorcar_surface(display->motorshell, window->surface);
+
+
+	// window->motorcar_surface =
+	//motorcar_shell_get_motorcar_surface(display->motorshell, window->surface);
 
 	ret = eglMakeCurrent(window->display->egl.dpy, window->egl_surface,
 			     window->egl_surface, window->display->egl.ctx);
