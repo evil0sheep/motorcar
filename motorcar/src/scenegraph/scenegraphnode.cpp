@@ -36,10 +36,10 @@ SceneGraphNode::~SceneGraphNode(){
         this->parentNode()->removeChildNode(this);
 
     for (SceneGraphNode *child : m_childNodes) {
-        if(!child->isSurfaceNode()){
+        if(!child->isSurfaceNode() || parentNode() == NULL){
             delete child;
         }else{
-            child->setParentNode(scene()->trash());
+            child->setParentNode(scene());
         }
     }
 }
@@ -79,13 +79,7 @@ void SceneGraphNode::setParentNode(SceneGraphNode *parent)
 
     this->m_parentNode = parent;
 
-
-
     if(parent != NULL){
-//        Scene *scene = this->scene();
-//        if(!scene->subtreeContains(this)){
-//            scene->notifyNodeAdded(this);
-//        }
         parent->addChildNode(this);
 
     }
@@ -129,14 +123,12 @@ SceneGraphNode *SceneGraphNode::parentNode() const
 
 Scene *SceneGraphNode::scene()
 {
-    if(m_parentNode != NULL){
-        //if we are not at the root of the scenegraph yet we keep going up
-        return m_parentNode->scene();
+    if(parentNode() != NULL){
+        return parentNode()->scene();
     }else{
-        //we cast ourselves to a Scene and return (this returns NULL if the root is not a Scene
-        //which is consistent with the function's defined semantics)
-        return dynamic_cast<Scene *>(this);
+        return NULL;
     }
+
 }
 
 

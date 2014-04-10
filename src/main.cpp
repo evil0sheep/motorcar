@@ -49,8 +49,6 @@ int main(int argc, char *argv[])
 {
     motorcar::Scene *scene = new motorcar::Scene();
 
-    scene->setTrash(new motorcar::Scene());
-
     qtmotorcar::QtWaylandMotorcarCompositor *compositor = qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene) ;
     scene->setCompositor(compositor);
 
@@ -70,7 +68,7 @@ int main(int argc, char *argv[])
         std::cout << "Using Default Display" << std::endl;
         float camToDisplayDistance = 0.1;
         motorcar::Display *display = new motorcar::Display(context, glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, 1.f)));
-        display->addViewpoint(new motorcar::GLCamera( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance))));
+        display->addViewpoint(new motorcar::ViewPoint( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance))));
         compositor->setDisplay(display);
     }
 
@@ -111,7 +109,6 @@ int main(int argc, char *argv[])
     int result = compositor->start();
 
     delete sixense;
-    delete scene->trash();
     delete scene;
 
     return result;

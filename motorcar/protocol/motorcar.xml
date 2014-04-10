@@ -41,28 +41,59 @@
 
 	<interface name="motorcar_viewpoint" version="1">
 		<description summary="represents a single viewpoint in the compositor, essentially a view and projection matrix">
-	      An interface that may be implemented by a wl_surface, for
-	      implementations that provide motorcar style depth composited 3D surfaces
+	      This interface represents a viewpoint (essentially a virtual camera) in the compositor's 3D compositing space, 
+	      and the events it contains are designed to keep the compositor and client viewpoints synced so that the viewpoints 
+	      in the client and compositor space stay consistent;
 
-	      A motorcar_surface can be created from an exisitng surface, and provides the client
-	      with the information needed to draw its content in a way that can be depth composited by
-	      a motorcar compliant compositor
 	    </description>
 
-	    <event name="update_data">
-	      <description summary="sets the view and projection matrices of this viewpoint">
+	    <event name="view_matrix">
+	      <description summary="sets the view matrix of this viewpoint for the next frame">
 			This event is sent (ideally) at the beginning of each frame to give the client the view
-			and projection matrices it needs to draw its content to 2D in the same manner as the compositor,
-			which is essential for proper depth compositing.
+			matrix it needs to draw its content to 2D in the same manner as the compositor.
 
-			Each matrix is a column-major 4x4 matrix of 32 bit floats. 'The first' is the 'view matrix' which brings
-			vectors from world space into view (or camera) space, and is also the inverse of the camera transform. 
-			The second is a projection matrix in the form of those used by OpenGL, which (with the help of a homogeneous divide
-			done in hardware) brings vectors from view space into Uniform device coordinate space. All values are specified in meters.
+			This matrix is the view matrix, which brings vectors from world space into view (or camera) space, which is the inverse of the camera transform. 	
 	      </description>
 	      <arg name="view" type="array" summary="the view matrix for this frame"/>
-	      <arg name="projection" type="array" summary="the projection matrix for this frame"/>
 	    </event>
+
+	    <event name="projection_matrix">
+	      <description summary="change the projection matrix of this viewpoint">
+			This event is sent immediately after the viewpoint global is bound by the client, and is only resent if the projection
+			matrix for this viewpoint changes in the compoisitor (which would be unusual but is certainly possible)
+
+			This matrix is in the form of the projection matrices used by OpenGL, which (with the help of a homogeneous divide
+			done in hardware) brings vectors from view space into uniform device coordinate space in which vertices are projected from
+			3D to 2D. 
+
+			It is represented here as a column-major 4x4 matrix of 32 bit floats, with all values are specified in meters.
+	      </description>
+	      <arg name="projection" type="array" summary="the new projection matrix for this viewpoint"/>
+	    </event>
+
+	    <event name="view_port">
+	      <description summary="sets the view ports of this viewpoint to be used when rendering into motorcar surface buffers">
+			This event tells the client where in its surface buffer it needs to draw the output associated with this viewpoint,
+			which allows the compositor to extract the correct output for each viewpoint. Like the projection matrix, this event 
+			is sent immediately after the client binds this viewpoint global and is only sent again if the viewport changes on the 
+			compositor side.
+
+			Viewport consists of a position and a size in surface local coordinates. Each viewpoint has two viewports associated with it,
+			one to hold the color buffer from the client, and one to hold the depth buffer contents (which is encoded in the color buffer 
+			since EGL does not support a color mode that includes depth). If an EGL extension was written which creates a format that includes
+			the depth buffer, then the depth viewport could hypothetically be ignored when that extension was present.
+	      </description>
+	      <arg name="color_x" type="int" summary="x position of the color viewport, in pixels"/>
+	      <arg name="color_y" type="int" summary="y position of the color viewport, in pixels"/>
+	      <arg name="color_width" type="uint" summary="width of the color viewport, in pixels"/>
+	      <arg name="color_height" type="uint" summary="height of the color viewport, in pixels"/>
+	      <arg name="depth_x" type="int" summary="x position of the depth viewport, in pixels"/>
+	      <arg name="depth_y" type="int" summary="y position of the depth viewport, in pixels"/>
+	      <arg name="depth_width" type="uint" summary="width of the depth viewport, in pixels"/>
+	      <arg name="depth_height" type="uint" summary="height of the depth viewport, in pixels"/>
+	    </event>
+
+
 	</interface>
 
 

@@ -14,7 +14,7 @@ public:
     WireframeNode(float *segments, int numSegments, glm::vec3 lineColor, SceneGraphNode *parent, const glm::mat4 &transform = glm::mat4());
 
     //inhereted from Drawable
-    void drawViewpoint(GLCamera *viewpoint) override;
+    void drawViewpoint(ViewPoint *viewpoint) override;
 
     glm::vec3 lineColor() const;
     void setLineColor(const glm::vec3 &lineColor);

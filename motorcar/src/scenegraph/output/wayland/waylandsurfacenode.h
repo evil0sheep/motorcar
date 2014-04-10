@@ -33,7 +33,7 @@ public:
     bool isSurfaceNode() override {return true;}
 
     //inhereted from Drawable
-    void drawViewpoint(GLCamera *viewpoint) override;
+    void drawViewpoint(ViewPoint *viewpoint) override;
 
     bool mapped() const;
     void setMapped(bool mapped);

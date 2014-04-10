@@ -10,14 +10,14 @@ class Compositor;
 class Scene : public PhysicalNode
 {
 public:
+
     Scene();
     virtual ~Scene();
 
-    //notifies this scene that a node has been added to the scene
-    virtual void notifyNodeAdded(SceneGraphNode *node);
-
-
     void draw(long deltaMillis);
+
+    ///Overloads SceneGraphNode definition to return this node
+    Scene *scene() override;
 
 
     WindowManager *windowManager() const;
@@ -30,10 +30,9 @@ public:
     std::vector<Display *> displays() const;
 
 
-    Scene *trash() const;
-    void setTrash(Scene *trash);
 
 private:
+
     WindowManager *m_windowManager;
     Compositor *m_compositor;
     Scene *m_trash;

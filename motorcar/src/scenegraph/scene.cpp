@@ -10,15 +10,12 @@ Scene::Scene()
 {
 }
 
+
 Scene::~Scene()
 {
     delete m_windowManager;
 }
 
-
-void Scene::notifyNodeAdded(SceneGraphNode *node)
-{
-}
 
 
 
@@ -32,6 +29,11 @@ void Scene::draw(long deltaMillis)
     for(Display *display : displays()){
         display->finishDraw();
     }
+}
+
+Scene *Scene::scene()
+{
+    return this;
 }
 
 
@@ -67,13 +69,5 @@ std::vector<Display *> Scene::displays() const
 {
     return m_displays;
 }
-Scene *Scene::trash() const
-{
-    return m_trash;
-}
 
-void Scene::setTrash(Scene *trash)
-{
-    m_trash = trash;
-}
 

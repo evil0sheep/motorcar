@@ -20,7 +20,7 @@ WireframeNode::WireframeNode(float *segments, int numSegments, glm::vec3 lineCol
     memcpy (m_segments, segments, numSegments * 2 * 3 * sizeof (float)) ;
 }
 
-void WireframeNode::drawViewpoint(GLCamera *viewpoint)
+void WireframeNode::drawViewpoint(ViewPoint *viewpoint)
 {
     viewpoint->viewport()->display()->renderWireframeNode(this, viewpoint);
 }

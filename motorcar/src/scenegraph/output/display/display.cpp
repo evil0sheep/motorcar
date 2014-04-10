@@ -60,11 +60,11 @@ Display::~Display()
 
 void Display::prepareForDraw()
 {
-//    std::cout << "active display transform"  <<std::endl;
+   //std::cout << "display size: " << this->resolution().x << ", " << this->resolution().y <<std::endl;
 //    Geometry::printMatrix(worldTransform());
 
-    for(GLCamera *viewpoint : viewpoints()){
-        viewpoint->calculateVPMatrix();
+    for(ViewPoint *viewpoint : viewpoints()){
+        viewpoint->updateViewMatrix();
     }
     glContext()->makeCurrent();
     glClearColor(.7f, .85f, 1.f, 1.0f);
@@ -75,18 +75,18 @@ void Display::prepareForDraw()
 
 void Display::renderDrawable(Drawable *drawable)
 {
-    for(GLCamera *viewpoint : m_viewpoints){
+    for(ViewPoint *viewpoint : m_viewpoints){
         drawable->drawViewpoint(viewpoint);
     }
 }
 
-void Display::addViewpoint(GLCamera *v)
+void Display::addViewpoint(ViewPoint *v)
 {
     m_viewpoints.push_back(v);
 }
 
 
-std::vector<GLCamera *> Display::viewpoints() const
+std::vector<ViewPoint *> Display::viewpoints() const
 {
     return m_viewpoints;
 }
@@ -97,7 +97,7 @@ glm::vec2 Display::size() const
 }
 
 
-void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera)
+void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *camera)
 {
     camera->viewport()->set();
 
@@ -131,7 +131,7 @@ void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camer
 
 }
 
-void Display::renderWireframeNode(WireframeNode *node, GLCamera *camera)
+void Display::renderWireframeNode(WireframeNode *node, ViewPoint *camera)
 {
     camera->viewport()->set();
 
@@ -159,7 +159,7 @@ void Display::renderWireframeNode(WireframeNode *node, GLCamera *camera)
 
 Geometry::Ray Display::worldRayAtDisplayPosition(glm::vec2 pixel)
 {
-    GLCamera *cam = viewpoints().front();
+    ViewPoint *cam = viewpoints().front();
 //    glm::vec3 cameraCenterOfFocus(cam->worldTransform() * cam->centerOfFocus());
 //    glm::vec3 pixelPos = worldPositionAtDisplayPosition(pixel);
 //    Geometry::printVector(pixelPos);

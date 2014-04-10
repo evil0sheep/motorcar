@@ -27,6 +27,8 @@
 #include <math.h>
 #include <assert.h>
 #include <signal.h>
+#include <unistd.h>
+
 
 #include <linux/input.h>
 
@@ -44,6 +46,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "glm/gtc/matrix_access.hpp"
 
+#include <vector>
+
 #ifndef EGL_EXT_swap_buffers_with_damage
 #define EGL_EXT_swap_buffers_with_damage 1
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPBUFFERSWITHDAMAGEEXTPROC)(EGLDisplay dpy, EGLSurface surface, EGLint *rects, EGLint n_rects);
@@ -56,6 +60,22 @@ typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPBUFFERSWITHDAMAGEEXTPROC)(EGLDisplay 
 
 struct window;
 struct seat;
+
+struct viewport{
+	int32_t x;
+	int32_t y;
+	uint32_t width;
+	uint32_t height;
+};
+
+struct viewpoint{
+	motorcar_viewpoint *handle;
+	glm::mat4 viewMatrix;
+	glm::mat4 projectionMatrix;
+	struct viewport colorViewport;
+	struct viewport depthViewport;
+
+};
 
 struct display {
 	struct wl_display *display;
@@ -80,6 +100,7 @@ struct display {
 	PFNEGLSWAPBUFFERSWITHDAMAGEEXTPROC swap_buffers_with_damage;
 
 	struct motorcar_shell *motorshell;
+	std::vector<struct viewpoint *> viewpoints;
 };
 
 
@@ -101,10 +122,12 @@ struct window {
 	struct wl_egl_window *native;
 	struct wl_surface *surface;
 	struct wl_shell_surface *shell_surface;
-	struct motorcar_surface *motorcar_surface;
 	EGLSurface egl_surface;
 	struct wl_callback *callback;
 	int fullscreen, configured, opaque, buffer_size, frame_sync;
+
+	struct motorcar_surface *motorcar_surface;
+
 };
 
 static const char *vert_shader_text =
@@ -432,8 +455,8 @@ create_surface(struct window *window)
 
 
 
-	// window->motorcar_surface =
-	//motorcar_shell_get_motorcar_surface(display->motorshell, window->surface);
+	//window->motorcar_surface =
+		motorcar_shell_get_motorcar_surface(display->motorshell, window->surface);
 
 	ret = eglMakeCurrent(window->display->egl.dpy, window->egl_surface,
 			     window->egl_surface, window->display->egl.ctx);
@@ -528,20 +551,17 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	// rotation[2][2] =  cos(angle);
 
 
-	glm::mat4 perspective = glm::perspective(30.f, 1.f, 0.1f, 100.f);
-	glm::mat4 view = glm::lookAt(glm::vec3(4,1,0), glm::vec3(0,0,0), glm::vec3(0,1,0));
-	glm::mat4 model =  glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0));
 
 	if (display->swap_buffers_with_damage)
 		eglQuerySurface(display->egl.dpy, window->egl_surface,
 				EGL_BUFFER_AGE_EXT, &buffer_age);
 
-	glViewport(0, 0, window->geometry.width, window->geometry.height);
 
-	glUniformMatrix4fv(window->gl.rotation_uniform, 1, GL_FALSE, glm::value_ptr(perspective * view * model));
+
+
 
 	// /glClearDepth(1);
-	glClearColor(0.0, 0.0, 0.0, 0.5);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// glVertexAttribPointer(window->gl.pos, 3, GL_FLOAT, GL_FALSE, 0, verts);
@@ -556,7 +576,28 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.indices);
 
-	glDrawElements(GL_TRIANGLES, 36,GL_UNSIGNED_INT, 0);
+
+	glm::mat4 model =  glm::translate(glm::mat4(), glm::vec3(0,0,-1))
+						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) ;
+
+	int i = 0;
+	for(struct viewpoint *vp : display->viewpoints){
+
+		glViewport(vp->colorViewport.x, vp->colorViewport.y, vp->colorViewport.width, vp->colorViewport.height);
+
+		glm::mat4 projection = vp->projectionMatrix;
+		glm::mat4 view = vp->viewMatrix;
+		
+		glUniformMatrix4fv(window->gl.rotation_uniform, 1, GL_FALSE, glm::value_ptr(projection * view * model));
+
+		glDrawElements(GL_TRIANGLES, 36,GL_UNSIGNED_INT, 0);
+
+		i++;
+	}
+
+
+	
+	//printf("dims: %d, %d\n", window->geometry.width, window->geometry.height);
 
 	//glDrawArrays(GL_TRIANGLES, 0, 24);
 
@@ -744,6 +785,69 @@ static const struct wl_keyboard_listener keyboard_listener = {
 	keyboard_handle_modifiers,
 };
 
+
+static void
+motorcar_viewpoint_handle_view_matrix(void *data,
+			    struct motorcar_viewpoint *motorcar_viewpoint,
+			    struct wl_array *view){
+
+	struct viewpoint *vp = static_cast<struct viewpoint *>(data);
+
+	vp->viewMatrix = glm::make_mat4((float *)(view->data));
+
+	// printf("viewpoint updated view matrix :\n");
+	// printMatrix(vp->viewMatrix);
+}
+
+static void
+motorcar_viewpoint_handle_projection_matrix(void *data,
+			    struct motorcar_viewpoint *motorcar_viewpoint,
+			    struct wl_array *projection){
+
+	struct viewpoint *vp = static_cast<struct viewpoint *>(data);
+
+	vp->projectionMatrix = glm::make_mat4((float *)(projection->data));
+
+	printf("viewpoint updated projection matrix :\n");
+	//printMatrix(vp->projectionMatrix);
+}
+
+static void
+motorcar_viewpoint_handle_view_port(void *data,
+			  struct motorcar_viewpoint *motorcar_viewpoint,
+			  int32_t color_x,
+			  int32_t color_y,
+			  uint32_t color_width,
+			  uint32_t color_height,
+			  int32_t depth_x,
+			  int32_t depth_y,
+			  uint32_t depth_width,
+			  uint32_t depth_height){
+	printf("viewpoint updated viewport : %u, %u, %u, %u\n", color_x, color_y, color_width, color_height);
+
+	struct viewpoint *vp = static_cast<struct viewpoint *>(data);
+
+	vp->colorViewport.x = color_x;
+	vp->colorViewport.y = color_y;
+	vp->colorViewport.width = color_width;
+	vp->colorViewport.height = color_height;
+
+	vp->depthViewport.x = depth_x;
+	vp->depthViewport.y = depth_y;
+	vp->depthViewport.width = depth_width;
+	vp->depthViewport.height = depth_height;
+
+}
+
+
+
+struct motorcar_viewpoint_listener viewpoint_listener= {
+	motorcar_viewpoint_handle_view_matrix,
+	motorcar_viewpoint_handle_projection_matrix,
+	motorcar_viewpoint_handle_view_port
+
+};
+
 static void
 seat_handle_capabilities(void *data, struct wl_seat *seat,
 			 uint32_t caps)
@@ -803,9 +907,20 @@ registry_handle_global(void *data, struct wl_registry *registry,
 		d->default_cursor =
 			wl_cursor_theme_get_cursor(d->cursor_theme, "left_ptr");
 	} else if (strcmp(interface, "motorcar_shell") == 0) {
-		printf("got motorcar shell\n");
 		d->motorshell = (motorcar_shell *) wl_registry_bind(registry, name,
 					   &motorcar_shell_interface, 1);
+		printf("got motorcar shell %p\n", d->motorshell);
+	} else if (strcmp(interface, "motorcar_viewpoint") == 0) {
+		struct motorcar_viewpoint *motorcar_viewpoint_handle =
+		 (motorcar_viewpoint *) wl_registry_bind(registry, name, &motorcar_viewpoint_interface, 1);
+
+		printf("got motorcar viewpoint, numviewpoints=%lu\n", d->viewpoints.size() + 1);
+
+		struct viewpoint *vp = (struct viewpoint *) malloc(sizeof(struct viewpoint));
+		vp->handle = motorcar_viewpoint_handle;
+		motorcar_viewpoint_add_listener(motorcar_viewpoint_handle, &viewpoint_listener, vp);
+		d->viewpoints.push_back(vp);
+
 	}
 }
 
@@ -849,8 +964,8 @@ main(int argc, char **argv)
 
 	window.display = &display;
 	display.window = &window;
-	window.window_size.width  = 250;
-	window.window_size.height = 250;
+	window.window_size.width  = 2194;
+	window.window_size.height = 1371;
 	window.buffer_size = 32;
 	window.frame_sync = 1;
 

@@ -108,7 +108,7 @@ void RenderToTextureDisplay::finishDraw()
     float temp_scale = m_scale;
     m_scale = 1;
 
-    for(GLCamera *cam : viewpoints()){
+    for(ViewPoint *cam : viewpoints()){
 
         cam->viewport()->uvCoords(texCoords);
         cam->viewport()->set();
@@ -138,7 +138,7 @@ void RenderToTextureDisplay::finishDraw()
     glUseProgram(0);
 }
 
-void RenderToTextureDisplay::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera)
+void RenderToTextureDisplay::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *camera)
 {
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
@@ -146,7 +146,7 @@ void RenderToTextureDisplay::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void RenderToTextureDisplay::renderWireframeNode(WireframeNode *node, GLCamera *camera)
+void RenderToTextureDisplay::renderWireframeNode(WireframeNode *node, ViewPoint *camera)
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
     Display::renderWireframeNode(node, camera);

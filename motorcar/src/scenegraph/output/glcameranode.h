@@ -3,6 +3,8 @@
 #include "../../geometry.h"
 #include "../virtualnode.h"
 #include "outputelement.h"
+struct wl_global;
+
 #include "wayland-server.h"
 #include "wayland-server-protocol.h"
 #include "motorcar-server-protocol.h"
@@ -13,18 +15,19 @@
 
 namespace motorcar {
 class Display;
-class GLCamera : public OutputElement, public VirtualNode
+class ViewPoint : public OutputElement, public VirtualNode
 {
 public:
     //centerOfProjection: center of projection in camera space, applied as a translation to the projection matrix
-    GLCamera(float near, float far, Display *display, SceneGraphNode *parent,
+    ViewPoint(float near, float far, Display *display, SceneGraphNode *parent,
               glm::mat4 transform = glm::mat4(), glm::vec4 viewPortParams = glm::vec4(0,0,1,1), glm::vec3 centerOfProjection = glm::vec3(0));
-    ~GLCamera();
+    ~ViewPoint();
 
-    void calculateVPMatrix();
+    void updateViewMatrix();
+    void updateProjectionMatrix();
     glm::mat4 viewMatrix() const;
     glm::mat4 projectionMatrix() const;
-    glm::mat4 viewProjectionMatrix() const;
+
 
     //returns camera vertical field of view in degrees
     float fov();
@@ -32,10 +35,10 @@ public:
 
     //normalized viewport within a given window,
     //all numerical arguments range from 0 to 1 and are multiplied by the size of the window in all getters and before being passed to OpenGL calls
-    class GLViewPort{
+    class ViewPort{
     public:
 
-        GLViewPort(float offsetX, float offsetY, float width, float height, Display *display);
+        ViewPort(float offsetX, float offsetY, float width, float height, Display *display);
 
         float offsetX() const;
         float offsetY() const;
@@ -55,7 +58,6 @@ public:
         glm::vec4 viewportParams() const;
 
         Display *display() const;
-        void setDisplay(Display *display);
 
     private:
         float m_offsetX, m_offsetY, m_width, m_height;
@@ -64,8 +66,8 @@ public:
 
     Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);
 
-    GLViewPort *viewport() const;
-    void setViewport(GLViewPort *viewport);
+    ViewPort *viewport() const;
+    void setViewport(ViewPort *viewport);
 
     glm::vec4 centerOfFocus() const;
 
@@ -73,11 +75,18 @@ public:
     motorcar_viewpoint *viewpointHandle() const;
     void setViewpointHandle(motorcar_viewpoint *viewpointHandle);
 
-    void sendCurrentViewpointToClients();
+    void sendViewMatrixToClients();
+    void sendProjectionMatrixToClients();
+    void sendViewPortToClients();
+    void sendCurrentStateToSingleClient(wl_resource *resource);
+
+    wl_global *global() const;
+    void setGlobal(wl_global *global);
+
 
 private:
     float near, far;
-    GLViewPort *m_viewport;
+    ViewPort *m_viewport;
 
     //center of projection information
     glm::vec4 m_centerOfFocus;
@@ -89,9 +98,14 @@ private:
 
     struct motorcar_viewpoint *m_viewpointHandle;
     struct wl_global *m_global;
+    std::vector<struct wl_resource*> m_resources;
+
+    static void destroy_func(struct wl_resource *resource);
 
     static void bind_func(struct wl_client *client, void *data,
                           uint32_t version, uint32_t id);
+
+    struct wl_array m_viewArray, m_projectionArray;
 
 
 

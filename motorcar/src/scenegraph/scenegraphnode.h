@@ -33,7 +33,7 @@ public:
     SceneGraphNode *parentNode() const;
     ///gets the scene which forms the root of the scenegraph this node is embedded in
     ///returns NULL if this node is not rooted in a scene
-    Scene *scene();
+    virtual Scene *scene();
     ///returns whether or not the given Node exists in the subtree rooted at this node
     bool subtreeContains(SceneGraphNode *node);
 

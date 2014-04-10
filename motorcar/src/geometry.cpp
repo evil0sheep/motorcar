@@ -78,7 +78,7 @@ void Geometry::Ray::draw(SceneGraphNode *parent, glm::vec3 color, glm::mat4 tran
     WireframeNode *node = new WireframeNode(vertices, 4, color, parent, transform*translation);
 
     for(Display *display : node->scene()->displays()){
-        for(GLCamera *cam : display->viewpoints()){
+        for(ViewPoint *cam : display->viewpoints()){
             display->renderWireframeNode(node, cam);
         }
 

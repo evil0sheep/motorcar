@@ -1,4 +1,4 @@
-QT += gui widgets compositor gui-private core-private
+QT += gui widgets gui-private core-private compositor
 
 LIBOVRPATH=../thirdPartySource/Oculus/OculusSDK/LibOVR
 SIXENSEPATH=../thirdPartySource/sixenseSDK_linux_OSX
@@ -12,7 +12,7 @@ LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr
 
 LIBS += -L$$SIXENSEPATH/lib/linux_x64/release -lsixense_x64 -lsixense_utils_x64
 
-LIBS += -L./motorcar/protocol -lmotorcar -lwayland-server
+LIBS += -L./motorcar/protocol -lmotorcar -lwayland-server -lwayland-client
 
 LIBS +=  -ludev -lpthread -lGL -lX11 -lXinerama
 
@@ -24,7 +24,7 @@ UI_DIR = bin/.ui
 
 QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES
 
-LIBS += -L ../../lib -lGL -lGLU -lglut
+LIBS += -L ../thirdPartySource/qt5_GLES/qtwayland/lib -lGL -lGLU -lglut
 #include (../../src/qt-compositor/qt-compositor.pri)
 #include(scenegraph/include.pri)
 
@@ -143,13 +143,13 @@ SOURCES += \
 
 
 # to make QtCompositor/... style includes working without installing
-INCLUDEPATH += $$PWD/../../include
+INCLUDEPATH += $$PWD../thirdPartySource/qt5_GLES/qtwayland/include
 
 
 #  if you want to compile QtCompositor as part of the application
 #  instead of linking to it, remove the QT += compositor and uncomment
 #  the following line
-#include(../../src/compositor/compositor.pri)
+#include(../thirdPartySource/qt5_GLES/qtwayland/src/compositor/compositor.pri)
 
 RESOURCES += motorcar-compositor.qrc
 

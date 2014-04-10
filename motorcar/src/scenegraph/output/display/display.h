@@ -29,9 +29,9 @@ public:
     void renderDrawable(Drawable *node);
 
     //renders the given surface from the given viewpoint in an implementation specific manner
-    virtual void renderSurfaceNode(WaylandSurfaceNode *surfaceNode, GLCamera *camera);
+    virtual void renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *camera);
 
-    virtual void renderWireframeNode(WireframeNode *node, GLCamera *camera);
+    virtual void renderWireframeNode(WireframeNode *node, ViewPoint *camera);
 
     //for legacy mouse support
     //projects mouse position into worldpace based on implementation specific details
@@ -46,9 +46,9 @@ public:
     virtual glm::vec2 size() const;
 
 
-    void addViewpoint(GLCamera *v);
+    void addViewpoint(ViewPoint *v);
 
-    std::vector<GLCamera *> viewpoints() const;
+    std::vector<ViewPoint *> viewpoints() const;
 
 
 
@@ -61,7 +61,7 @@ public:
 
 
 private:
-    std::vector<GLCamera *> m_viewpoints;
+    std::vector<ViewPoint *> m_viewpoints;
     glm::vec2 m_size;
     OpenGLContext *m_glContext;
 
