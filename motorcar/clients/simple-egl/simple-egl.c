@@ -486,16 +486,26 @@ destroy_surface(struct window *window)
 		wl_callback_destroy(window->callback);
 }
 
-//static const struct wl_callback_listener frame_listener;
+static void
+redraw(void *data, struct wl_callback *callback, uint32_t time);
+
+static const struct wl_callback_listener frame_listener = {
+	redraw
+};
 
 static void
 redraw(void *data, struct wl_callback *callback, uint32_t time)
 {
 
+	//printf("drawing\n");
+
 
 
 	struct window *window = (struct window *) data;
 	struct display *display = window->display;
+
+
+
 	// static const GLfloat verts[3][2] = {
 	// 	{ -0.5, -0.5 },
 	// 	{  0.5, -0.5 },
@@ -522,17 +532,24 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	EGLint buffer_age = 0;
 	struct timeval tv;
 
-	assert(window->callback == callback);
-	window->callback = NULL;
+	//assert(window->callback == callback);
+	//window->callback = NULL;
 
-	if (callback)
+	 if (callback)
 		wl_callback_destroy(callback);
+
+	 wl_callback *frame_callback = wl_surface_frame(window->surface);
+	 //wl_callback *frame_callback = wl_display_sync(display->display);
+	 wl_callback_add_listener(frame_callback,
+		&frame_listener, window);
+	
 
 	if (!window->configured)
 		return;
 
+	//printf("%u\n", time);
 	gettimeofday(&tv, NULL);
-	time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	//time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	if (window->frames == 0)
 		window->benchmark_time = time;
 	if (time - window->benchmark_time > (benchmark_interval * 1000)) {
@@ -577,8 +594,9 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.indices);
 
 
-	glm::mat4 model =  glm::translate(glm::mat4(), glm::vec3(0,0,-2))
-						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) ;
+	glm::mat4 model =  glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,0))
+						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) 
+						* glm::scale(glm::mat4(), glm::vec3(0.2));
 
 	int i = 0;
 	for(struct viewpoint *vp : display->viewpoints){
@@ -627,11 +645,13 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 		eglSwapBuffers(display->egl.dpy, window->egl_surface);
 	}
 	window->frames++;
+
+	// wl_display_dispatch_pending(display->display);
+	// while (!window->configured)
+	//  		wl_display_dispatch(display->display);
 }
 
-static const struct wl_callback_listener frame_listener = {
-	redraw
-};
+
 
 static void
 pointer_handle_enter(void *data, struct wl_pointer *pointer,
@@ -1009,11 +1029,32 @@ main(int argc, char **argv)
 	 * EGL to read events so we can just call
 	 * wl_display_dispatch_pending() to handle any events that got
 	 * queued up as a side effect. */
-	while (running && ret != -1) {
-		wl_display_dispatch_pending(display.display);
-		while (!window.configured)
-			wl_display_dispatch(display.display);
-		redraw(&window, NULL, 0);
+	// while (running && ret != -1) {
+	// 	wl_display_dispatch_pending(display.display);
+	// 	while (!window.configured)
+	// 		wl_display_dispatch(display.display);
+	// 	redraw(&window, NULL, 0);
+	// }
+
+	
+	 // wl_callback *frame_callback = wl_surface_frame(window.surface);
+	 // wl_callback_add_listener(frame_callback, &frame_listener, &window);
+
+	 wl_callback *sync_callback = wl_display_sync(display.display);
+	 wl_callback_add_listener(sync_callback, &frame_listener, &window);
+
+
+	 while (running && ret != -1) {
+	 	wl_display_flush(display.display);
+	 	//wl_display_read_events(display.display);
+	 	//wl_display_dispatch_pending(display.display);
+	 	//while (!window.configured)
+	 		wl_display_dispatch(display.display);
+	 	//redraw(&window, NULL, 0);
+
+		
+	 	
+
 	}
 
 	fprintf(stderr, "simple-egl exiting\n");

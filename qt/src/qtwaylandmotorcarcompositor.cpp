@@ -42,9 +42,9 @@
 #include "qtwaylandmotorcarseat.h"
 #include <sys/time.h>
 
-#include "../../../thirdPartySource/qt5_GLES/qtwayland/src/compositor/wayland_wrapper/qwlsurface_p.h"
-//#include <QtCompositor/private/qwlsurface_p.h>
 
+#include <QtCompositor/private/qwlsurface_p.h>
+#include <QtCompositor/private/qwlcompositor_p.h>
 
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -79,7 +79,8 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
 {
     setDisplay(NULL);
 
-    m_renderScheduler.setSingleShot(true);
+    m_renderScheduler.setSingleShot(false);
+    m_renderScheduler.setInterval(16);
     connect(&m_renderScheduler,SIGNAL(timeout()),this,SLOT(render()));
 
 
@@ -143,6 +144,7 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
 int QtWaylandMotorcarCompositor::start()
 {
     this->glData()->m_window->showFullScreen();
+    m_renderScheduler.start(0);
     int result = m_app->exec();
     delete m_app;
     return result;
@@ -252,7 +254,7 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
 
     }
 //    ensureKeyboardFocusSurface(surface);
-//    m_renderScheduler.start(0);
+//    //m_renderScheduler.start(0);
 }
 
 void QtWaylandMotorcarCompositor::surfaceMapped()
@@ -312,7 +314,7 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
 
 
 
-    m_renderScheduler.start(0);
+    //m_renderScheduler.start(0);
 }
 
 void QtWaylandMotorcarCompositor::surfaceUnmapped()
@@ -358,14 +360,14 @@ void QtWaylandMotorcarCompositor::surfaceDamaged(const QRect &rect)
 
 void QtWaylandMotorcarCompositor::surfacePosChanged()
 {
-    m_renderScheduler.start(0);
+    //m_renderScheduler.start(0);
 }
 
 void QtWaylandMotorcarCompositor::surfaceDamaged(QWaylandSurface *surface, const QRect &rect)
 {
     Q_UNUSED(surface)
     Q_UNUSED(rect)
-    m_renderScheduler.start(0);
+    //m_renderScheduler.start(0);
 }
 
 void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
@@ -388,8 +390,9 @@ void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
 //        m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
 //    }
 
+    //surface->handle()->
 
-    m_renderScheduler.start(0);
+    //m_renderScheduler.start(0);
 }
 
 void QtWaylandMotorcarCompositor::sendExpose()
@@ -520,24 +523,25 @@ void QtWaylandMotorcarCompositor::render()
 
 
 
-    scene()->draw(0);
+    scene()->draw(this->handle()->currentTimeMsecs());
 
     for(motorcar::Display *display : scene()->displays()){
         for(motorcar::ViewPoint *viewpoint : display->viewpoints()){
             viewpoint->updateViewMatrix();
         }
     }
+    //std::cout << this->handle()->currentTimeMsecs() << std::endl;
     sendFrameCallbacks(surfaces());
 
 
     //frameFinished();
-    // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.
+
     m_glData->m_window->swapBuffers();
 
     struct timeval tv;
     static const int32_t benchmark_interval = 5;
     gettimeofday(&tv, NULL);
-        uint32_t time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+        uint32_t time = this->handle()->currentTimeMsecs();//tv.tv_sec * 1000 + tv.tv_usec / 1000;
         if (m_frames == 0)
             m_benchmark_time = time;
         if (time - m_benchmark_time > (benchmark_interval * 1000)) {
@@ -552,8 +556,11 @@ void QtWaylandMotorcarCompositor::render()
 
         m_frames++;
 
+    //m_renderScheduler.start(0);
+
     glFinish();
-    m_renderScheduler.start(0);
+    // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.
+
 }
 
 bool QtWaylandMotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
@@ -565,7 +572,7 @@ bool QtWaylandMotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
 
     switch (event->type()) {
     case QEvent::Expose:
-        m_renderScheduler.start(0);
+        //m_renderScheduler.start(0);
         if (m_glData->m_window->isExposed()) {
             // Alt-tabbing away normally results in the alt remaining in
             // pressed state in the clients xkb state. Prevent this by sending
@@ -592,7 +599,7 @@ bool QtWaylandMotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
 //                input->setKeyboardFocus(targetSurface);
 //                //                m_surfaces.removeOne(targetSurface);
 //                //                m_surfaces.append(targetSurface);
-//                m_renderScheduler.start(0);
+//                //m_renderScheduler.start(0);
 //            }
 //            input->sendMousePressEvent(me->button(), local, me->localPos());
 //        }
@@ -616,7 +623,7 @@ bool QtWaylandMotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
 //        QMouseEvent *me = static_cast<QMouseEvent *>(event);
 //        if (m_draggingWindow) {
 //            m_draggingWindow->setPos(me->localPos() - m_drag_diff);
-//            m_renderScheduler.start(0);
+//            //m_renderScheduler.start(0);
 //        } else {
 //            QPointF local;
 //            QWaylandSurface *targetSurface = surfaceAt(me->localPos(), &local);
