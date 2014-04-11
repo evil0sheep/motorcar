@@ -1,15 +1,21 @@
 #include "shell.h"
 #include "scenegraph/scene.h"
 #include "compositor.h"
+#include "windowmanager.h"
 
 using namespace motorcar;
 
 void get_motorcar_surface(struct wl_client *client,
                            struct wl_resource *resource,
-                           //uint32_t id,
-                           struct wl_resource *surface)
+                           uint32_t id,
+                           struct wl_resource *surface_resource)
 {
-    std::cout << "OMG PROTOCOL EXTENSIONS BITCHES" <<std::endl;
+    Shell *shell = static_cast<Shell*>(resource->data);
+
+    WaylandSurface *surface = shell->scene()->compositor()->getSurfaceFromResource(surface_resource);
+
+    shell->scene()->windowManager()->mapSurface(surface, WaylandSurface::SurfaceType::DEPTH_COMPOSITED);
+    //new ShellSurface(shell, client, id, surface);
 }
 
 
@@ -18,6 +24,7 @@ const static struct motorcar_shell_interface motorcarShellInterface = {
 };
 
 Shell::Shell(Scene *scene)
+    :m_scene(scene)
 {
     m_display = scene->compositor()->wlDisplay();
 
@@ -37,6 +44,13 @@ Shell::~Shell()
 {
     //todo: destroy the shell global
 }
+Scene *Shell::scene() const
+{
+    return m_scene;
+}
+
+
+
 
 
 void Shell::bind_func(struct wl_client *client, void *data,

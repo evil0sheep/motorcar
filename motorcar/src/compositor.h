@@ -32,6 +32,9 @@ public:
 
     virtual struct wl_display *wlDisplay() = 0;
 
+
+    virtual WaylandSurface *getSurfaceFromResource(struct wl_resource *resource) = 0;
+
 private:
     //    std::vector<Display *> m_displays;
     Display *m_display;

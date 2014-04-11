@@ -20,7 +20,7 @@
 
 				Only one motorcar surface can be associated with a given surface.
 	      </description>
-	      <!-- <arg name="id" type="new_id" interface="motorcar_surface"/> -->
+	      <arg name="id" type="new_id" interface="motorcar_surface"/>
 	      <arg name="surface" type="object" interface="wl_surface"/>
 	    </request>
 	</interface>

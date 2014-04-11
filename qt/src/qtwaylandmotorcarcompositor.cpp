@@ -41,6 +41,9 @@
 #include "qtwaylandmotorcarsurface.h"
 #include "qtwaylandmotorcarseat.h"
 
+#include "../../../thirdPartySource/qt5_GLES/qtwayland/src/compositor/wayland_wrapper/qwlsurface_p.h"
+//#include <QtCompositor/private/qwlsurface_p.h>
+
 
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -153,6 +156,21 @@ wl_display *QtWaylandMotorcarCompositor::wlDisplay()
     return QWaylandCompositor::waylandDisplay();
 }
 
+motorcar::WaylandSurface *QtWaylandMotorcarCompositor::getSurfaceFromResource(wl_resource *resource)
+{
+    QWaylandSurface *surface = QtWayland::Surface::fromResource(resource)->waylandSurface();
+    std::cout << "got surface from resource: " << surface <<std::endl;
+
+    QtWaylandMotorcarSurface *motorsurface = this->getMotorcarSurface(surface);
+    if(motorsurface == NULL){
+        std::cout << "Warning: surface has not been created, creating now " << surface <<std::endl;
+        motorsurface = new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA);
+    }
+
+    return motorsurface;
+
+}
+
 
 
 
@@ -177,7 +195,7 @@ void QtWaylandMotorcarCompositor::setScene(motorcar::Scene *scene)
     m_scene = scene;
 }
 
-motorcar::WaylandSurfaceNode *QtWaylandMotorcarCompositor::getSurfaceNode(QWaylandSurface *surface) const
+QtWaylandMotorcarSurface *QtWaylandMotorcarCompositor::getMotorcarSurface(QWaylandSurface *surface) const
 {
     //if passed NULL return first Surface
     if(surface == NULL){
@@ -195,6 +213,7 @@ motorcar::WaylandSurfaceNode *QtWaylandMotorcarCompositor::getSurfaceNode(QWayla
 
     }
     return NULL;
+
 }
 
 
@@ -223,9 +242,9 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
     QWaylandSurface *surface = static_cast<QWaylandSurface *>(object);
     //m_surfaces.removeOne(surface);
     if(surface != NULL){ //because calling getSurfaceNode with NULL will cause the first surface node to be returned
-        motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
-        if(surfaceNode != NULL){
-            this->scene()->windowManager()->destroySurface(surfaceNode->surface());
+        motorcar::WaylandSurface *motorsurface = this->getMotorcarSurface(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
+        if(motorsurface != NULL){
+            this->scene()->windowManager()->destroySurface(motorsurface);
             m_surfaceMap.erase (surface);
         }
 
@@ -237,6 +256,9 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
 void QtWaylandMotorcarCompositor::surfaceMapped()
 {
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
+
+    std::cout << "mapped surface: " << surface << std::endl;
+
     QPoint pos;
     //if (!m_surfaces.contains(surface)) {
 
@@ -259,19 +281,25 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
                 surfaceType = motorcar::WaylandSurface::SurfaceType::NA;
             }
 
-            motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
-            if(surfaceNode == NULL){
+            QtWaylandMotorcarSurface *motorsurface = this->getMotorcarSurface(surface);
+            if(motorsurface == NULL){
                 //if it is not present for some weird reason just go ahead and create it for good measure
-//                std::cout << "Warning: qwaylandsurface was mapped but surfaceNode does not exist yet, creating now" <<std::endl;
+                std::cout << "Warning: qwaylandsurface was mapped but motorcar surface does not exist yet, creating now" <<std::endl;
 //                surfaceCreated(surface);
 //                surfaceNode = this->getSurfaceNode(surface);
-                surfaceNode = this->scene()->windowManager()->createSurface(new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA));
-                std::cout << "created surfaceNode " << surfaceNode << std::endl;
-                 m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
+                motorsurface = new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA);
+
+                 m_surfaceMap.insert(std::pair<QWaylandSurface *, QtWaylandMotorcarSurface *>(surface, motorsurface));
 
             }
-                this->scene()->windowManager()->mapSurface(surfaceNode->surface(), surfaceType);
-                std::cout << "mapped surfaceNode " << surfaceNode << std::endl;
+            if(motorsurface->type() == motorcar::WaylandSurface::SurfaceType::DEPTH_COMPOSITED
+                 && surfaceType == motorcar::WaylandSurface::SurfaceType::TOPLEVEL){
+                std::cout << "Warning: ignoring request to remap a depth composited surface to a top level surface " <<std::endl;
+            }else{
+                this->scene()->windowManager()->mapSurface(motorsurface, surfaceType);
+            }
+
+
 
 
 
@@ -294,9 +322,9 @@ void QtWaylandMotorcarCompositor::surfaceUnmapped()
 
 
     if(surface != NULL){
-        motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
-        if(surfaceNode != NULL){
-            this->scene()->windowManager()->unmapSurface(surfaceNode->surface());
+        motorcar::WaylandSurface *motorsurface = this->getMotorcarSurface(surface);
+        if(motorsurface != NULL){
+            this->scene()->windowManager()->unmapSurface(motorsurface);
         }else{
             std::cout << "Warning: surface unmapped but doesnt have associated surfaceNode" <<std::endl;
         }
@@ -314,8 +342,8 @@ void QtWaylandMotorcarCompositor::surfaceDamaged(const QRect &rect)
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
 
     if(surface != NULL){
-        motorcar::WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
-        if(surfaceNode != NULL){
+        motorcar::WaylandSurface *motorsurface = this->getMotorcarSurface(surface);
+        if(motorsurface != NULL){
             //surfaceNode->setDamaged(true);
         }else{
           //  std::cout << "Warning: surface damaged but doesnt have associated surfaceNode" <<std::endl;
@@ -347,8 +375,13 @@ void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
     connect(surface, SIGNAL(extendedSurfaceReady()), this, SLOT(sendExpose()));
     connect(surface, SIGNAL(posChanged()), this, SLOT(surfacePosChanged()));
 
+    std::cout << "created surface: " << surface << std::endl;
+
+    QtWaylandMotorcarSurface *motorsurface = new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA);
+    m_surfaceMap.insert(std::pair<QWaylandSurface *, QtWaylandMotorcarSurface *>(surface, motorsurface));
+
 //    if(surface->hasShellSurface()){
-//        motorcar::WaylandSurfaceNode *surfaceNode = this->scene()->windowManager()->createSurface(new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA));
+//        motorcar::WaylandSurfaceNode *surfaceNode = this->scene()->windowManager()->createSurface();
 //        std::cout << "created surfaceNode " << surfaceNode << std::endl;
 //        m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
 //    }
@@ -421,11 +454,11 @@ void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int
 {
 
     if(m_defaultSeat->pointer()->cursorNode() == NULL){
-        motorcar::WaylandSurface *cursorMotorcarSurface =new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::CURSOR);
+        QtWaylandMotorcarSurface *cursorMotorcarSurface =new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::CURSOR);
         //m_cursorSurfaceNode =  new motorcar::WaylandSurfaceNode(m_cursorMotorcarSurface, m_scene, glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0)));
         motorcar::WaylandSurfaceNode *cursorSurfaceNode = this->scene()->windowManager()->createSurface(cursorMotorcarSurface);
-        cursorSurfaceNode->setTransform(glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0)));
-        m_surfaceMap.insert(std::pair<QWaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, cursorSurfaceNode));
+        //cursorSurfaceNode->setTransform(glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0)));
+        m_surfaceMap.insert(std::pair<QWaylandSurface *, QtWaylandMotorcarSurface *>(surface, cursorMotorcarSurface));
         m_defaultSeat->pointer()->setCursorNode(cursorSurfaceNode);
         std::cout << "created cursor surface node " << cursorSurfaceNode << std::endl;
     }

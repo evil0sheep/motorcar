@@ -15,9 +15,13 @@ WindowManager::WindowManager(Scene *scene, Seat *defaultSeat)
 
 WaylandSurfaceNode *WindowManager::createSurface(WaylandSurface *surface)
 {
-    WaylandSurfaceNode *surfaceNode = new WaylandSurfaceNode(surface, this->scene());
-    m_surfaceMap.insert(std::pair<WaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
-    //ensureKeyboardFocusIsValid(surface);
+
+    WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
+    if(surfaceNode==NULL){
+        surfaceNode = new WaylandSurfaceNode(surface, this->scene());
+        m_surfaceMap.insert(std::pair<WaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
+    }
+
     return surfaceNode;
 }
 
@@ -67,6 +71,7 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 
 
     if(type == WaylandSurface::SurfaceType::TOPLEVEL){
+         std::cout << "mapping top level surface" << std::endl;
         parentNode = this->scene();
         transform = glm::mat4(1)
                       //  * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
@@ -106,27 +111,25 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
         }
 
 
-
-
-
-    }else{
+    }else if(type == WaylandSurface::SurfaceType::DEPTH_COMPOSITED){
+        std::cout << "mapping depth composited surface" << std::endl;
         transform = glm::mat4();
         parentNode = this->scene();
+    }else{
+
     }
 
     //WaylandSurfaceNode *surfaceNode = new WaylandSurfaceNode(surface, parentNode, transform);
 
-    WaylandSurfaceNode *surfaceNode = getSurfaceNode(surface);
+    //this creates a new surface if needed but otherwise gives us the associated surface
+    surface->setType(surfaceType);
 
-    if(surfaceNode != NULL){
-        surfaceNode->surface()->setType(surfaceType);
-        surfaceNode->setParentNode(parentNode);
-        surfaceNode->setTransform(transform);
-    }else{
-        std::cout << "Warning: surface mapped before surfaceNode created, creating now" << std::endl;
-        surfaceNode = new WaylandSurfaceNode(surface, parentNode, transform);
-        m_surfaceMap.insert(std::pair<WaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
-    }
+    WaylandSurfaceNode *surfaceNode = createSurface(surface);
+
+    surfaceNode->setParentNode(parentNode);
+    surfaceNode->setTransform(transform);
+
+    std::cout << "mapped surfaceNode " << surfaceNode << std::endl;
 
     if(type == WaylandSurface::SurfaceType::POPUP || type == WaylandSurface::SurfaceType::TOPLEVEL){
         this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
@@ -178,6 +181,8 @@ WaylandSurfaceNode *WindowManager::getSurfaceNode(WaylandSurface *surface) const
     }
 
 }
+
+
 
 Scene *WindowManager::scene() const
 {

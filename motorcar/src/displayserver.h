@@ -1,6 +1,8 @@
 #ifndef DISPLAYSERVER_H
 #define DISPLAYSERVER_H
 
+#include "wayland/output/waylandsurface.h"
+
 namespace motorcar{
 ///This class handles client connection/disconnection and most of the direct wayland interactions
 /*Designed mainly to abstract the qtwayland dependency out of the core scenegraph code and allow the option of
@@ -11,6 +13,7 @@ class DisplayServer
 {
 public:
     DisplayServer();
+
 };
 }
 

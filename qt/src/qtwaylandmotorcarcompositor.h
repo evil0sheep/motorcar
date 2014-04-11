@@ -74,6 +74,7 @@ public:
 
     struct wl_display *wlDisplay() override;
 
+    motorcar::WaylandSurface *getSurfaceFromResource(struct wl_resource *resource) override;
 
     OpenGLData *glData() const;
     void setGlData(OpenGLData *glData);
@@ -83,7 +84,7 @@ public:
     motorcar::Scene *scene() const;
     void setScene(motorcar::Scene *scene);
 
-    motorcar::WaylandSurfaceNode *getSurfaceNode(QWaylandSurface *surface = NULL) const;
+    QtWaylandMotorcarSurface *getMotorcarSurface(QWaylandSurface *surface = NULL) const;
 
     QtWaylandMotorcarSeat *defaultSeat() const;
     void setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat);
@@ -143,7 +144,7 @@ private:
 
     Qt::KeyboardModifiers m_modifiers;
 
-    std::map<QWaylandSurface *, motorcar::WaylandSurfaceNode *> m_surfaceMap;
+    std::map<QWaylandSurface *, QtWaylandMotorcarSurface *> m_surfaceMap;
 
 };
 }

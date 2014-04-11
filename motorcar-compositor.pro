@@ -1,4 +1,13 @@
-QT += gui widgets gui-private core-private compositor
+QT += gui widgets gui-private core-private compositor compositor-private
+
+INCLUDEPATH +=
+#QTWAYLANDPATH=$$PWD/../thirdPartySource/qt5_GLES/qtwayland/src/compositor
+
+#include ($$QTWAYLANDPATH/global/global.pri)
+#include ($$QTWAYLANDPATH/wayland_wrapper/wayland_wrapper.pri)
+#include ($$QTWAYLANDPATH/hardware_integration/hardware_integration.pri)
+#include ($$QTWAYLANDPATH/compositor_api/compositor_api.pri)
+#include ($$QTWAYLANDPATH/windowmanagerprotocol/windowmanagerprotocol.pri)
 
 LIBOVRPATH=../thirdPartySource/Oculus/OculusSDK/LibOVR
 SIXENSEPATH=../thirdPartySource/sixenseSDK_linux_OSX
@@ -81,7 +90,8 @@ HEADERS += \
     motorcar/src/wayland/output/waylandsurface.h \
     qt/src/qtwaylandmotorcarseat.h \
     motorcar/src/scenegraph/input/input.h \
-    motorcar/src/shell.h
+    motorcar/src/shell.h \
+    motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.h
 
 
 
@@ -134,7 +144,8 @@ SOURCES += \
     motorcar/src/wayland/input/keyboard.cpp \
     motorcar/src/wayland/output/waylandsurface.cpp \
     qt/src/qtwaylandmotorcarseat.cpp \
-    motorcar/src/shell.cpp
+    motorcar/src/shell.cpp \
+    motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.cpp
 
 
 
@@ -143,13 +154,13 @@ SOURCES += \
 
 
 # to make QtCompositor/... style includes working without installing
-INCLUDEPATH += $$PWD../thirdPartySource/qt5_GLES/qtwayland/include
-
+INCLUDEPATH += $$PWD/../thirdPartySource/qt5_GLES/qtwayland/include
+INCLUDEPATH += $$PWD/../thirdPartySource/qt5_GLES/qtwayland/include/QtCompositor/5.3.0/
 
 #  if you want to compile QtCompositor as part of the application
 #  instead of linking to it, remove the QT += compositor and uncomment
 #  the following line
-#include(../thirdPartySource/qt5_GLES/qtwayland/src/compositor/compositor.pri)
+#include($$PWD/../thirdPartySource/qt5_GLES/qtwayland/src/compositor/compositor.pri)
 
 RESOURCES += motorcar-compositor.qrc
 

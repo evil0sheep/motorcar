@@ -29,7 +29,7 @@ glm::ivec2 QtWaylandMotorcarSurface::position()
 motorcar::WaylandSurface *QtWaylandMotorcarSurface::parentSurface()
 {
     if(m_surface->parentSurface() != NULL){
-        return m_compositor->getSurfaceNode(m_surface->parentSurface())->surface();
+        return m_compositor->getMotorcarSurface(m_surface->parentSurface());
     }else{
         return NULL;
     }

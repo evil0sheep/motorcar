@@ -454,10 +454,6 @@ create_surface(struct window *window)
 	wl_shell_surface_set_title(window->shell_surface, "simple-egl");
 
 
-
-	//window->motorcar_surface =
-		motorcar_shell_get_motorcar_surface(display->motorshell, window->surface);
-
 	ret = eglMakeCurrent(window->display->egl.dpy, window->egl_surface,
 			     window->egl_surface, window->display->egl.ctx);
 	assert(ret == EGL_TRUE);
@@ -466,6 +462,10 @@ create_surface(struct window *window)
 		eglSwapInterval(display->egl.dpy, 0);
 
 	set_fullscreen(window, window->fullscreen);
+
+	window->motorcar_surface =
+		motorcar_shell_get_motorcar_surface(display->motorshell, window->surface);
+
 }
 
 static void
