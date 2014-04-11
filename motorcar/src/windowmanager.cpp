@@ -18,7 +18,12 @@ WaylandSurfaceNode *WindowManager::createSurface(WaylandSurface *surface)
 
     WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
     if(surfaceNode==NULL){
-        surfaceNode = new WaylandSurfaceNode(surface, this->scene());
+        if(surface->type() == WaylandSurface::SurfaceType::DEPTH_COMPOSITED){
+            surfaceNode = new DepthCompositedSurfaceNode(surface, this->scene());
+        }else{
+            surfaceNode = new WaylandSurfaceNode(surface, this->scene());
+        }
+
         m_surfaceMap.insert(std::pair<WaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
     }
 

@@ -8,6 +8,7 @@
 #include "../../../gl/openglshader.h"
 #include "../../../gl/openglcontext.h"
 #include "../wayland/waylandsurfacenode.h"
+#include "../wayland/depthcompositedsurfacenode.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
@@ -29,7 +30,9 @@ public:
     void renderDrawable(Drawable *node);
 
     //renders the given surface from the given viewpoint in an implementation specific manner
-    virtual void renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *camera);
+    virtual void renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *viewpoint);
+
+    virtual void renderDepthCompositedSurfaceNode(DepthCompositedSurfaceNode *surfaceNode, ViewPoint *viewpoint);
 
     virtual void renderWireframeNode(WireframeNode *node, ViewPoint *camera);
 

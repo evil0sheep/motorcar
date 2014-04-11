@@ -14,6 +14,7 @@ public:
     virtual void prepareForDraw() override;
     virtual void finishDraw() override;
     virtual void renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *camera) override;
+    virtual void renderDepthCompositedSurfaceNode(DepthCompositedSurfaceNode *surfaceNode, ViewPoint *camera) override;
     virtual void renderWireframeNode(WireframeNode *node, ViewPoint *camera) override;
 
     //inherited from Display, apply scaling factor to base class output

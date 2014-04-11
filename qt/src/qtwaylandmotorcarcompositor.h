@@ -146,6 +146,8 @@ private:
 
     std::map<QWaylandSurface *, QtWaylandMotorcarSurface *> m_surfaceMap;
 
+    uint32_t m_frames, m_benchmark_time;
+
 };
 }
 

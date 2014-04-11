@@ -2,6 +2,7 @@
 #define WINDOWMANAGER_H
 
 #include "scenegraph/output/wayland/waylandsurfacenode.h"
+#include "scenegraph/output/wayland/depthcompositedsurfacenode.h"
 #include "scenegraph/scene.h"
 #include "events/events.h"
 #include "wayland/input/waylandinput.h"

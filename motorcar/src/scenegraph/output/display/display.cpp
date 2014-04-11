@@ -63,9 +63,9 @@ void Display::prepareForDraw()
    //std::cout << "display size: " << this->resolution().x << ", " << this->resolution().y <<std::endl;
 //    Geometry::printMatrix(worldTransform());
 
-    for(ViewPoint *viewpoint : viewpoints()){
-        viewpoint->updateViewMatrix();
-    }
+//    for(ViewPoint *viewpoint : viewpoints()){
+//        viewpoint->updateViewMatrix();
+//    }
     glContext()->makeCurrent();
     glClearColor(.7f, .85f, 1.f, 1.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -97,9 +97,9 @@ glm::vec2 Display::size() const
 }
 
 
-void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *camera)
+void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *viewpoint)
 {
-    camera->viewport()->set();
+    viewpoint->viewport()->set();
 
     GLuint texture = surfaceNode->surface()->texture();
 
@@ -113,7 +113,7 @@ void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *came
     glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
     glVertexAttribPointer(h_aTexCoord_surface, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(camera->projectionMatrix() * camera->viewMatrix() *  surfaceNode->worldTransform() * surfaceNode->surfaceTransform()));
+    glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(viewpoint->projectionMatrix() * viewpoint->viewMatrix() *  surfaceNode->worldTransform() * surfaceNode->surfaceTransform()));
 
     glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -129,6 +129,54 @@ void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *came
 
     glUseProgram(0);
 
+}
+
+void Display::renderDepthCompositedSurfaceNode(DepthCompositedSurfaceNode *surfaceNode, ViewPoint *viewpoint)
+{
+    viewpoint->viewport()->set();
+
+    glm::vec4 vp = viewpoint->viewport()->viewportParams();
+
+    const GLfloat textureCoordinates[] = {
+        vp.x, vp.y + vp.w,
+        vp.x, vp.y,
+        vp.x + vp.z, vp.y,
+        vp.x + vp.z, vp.y + vp.w,
+    };
+
+//    for(GLfloat f : textureCoordinates){
+//        std::cout << f << ", ";
+//    }
+//    std::cout <<std::endl;
+
+    GLuint texture = surfaceNode->surface()->texture();
+
+    glUseProgram(m_surfaceShader->handle());
+
+    glEnableVertexAttribArray(h_aPosition_surface);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
+    glVertexAttribPointer(h_aPosition_surface, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glEnableVertexAttribArray(h_aTexCoord_surface);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
+    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
+    glVertexAttribPointer(h_aTexCoord_surface, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(surfaceNode->surfaceTransform()));
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glDisableVertexAttribArray(h_aPosition_surface);
+    glDisableVertexAttribArray(h_aTexCoord_surface);
+
+    glUseProgram(0);
 }
 
 void Display::renderWireframeNode(WireframeNode *node, ViewPoint *camera)

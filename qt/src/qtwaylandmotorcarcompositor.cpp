@@ -40,6 +40,7 @@
 #include "qtwaylandmotorcarcompositor.h"
 #include "qtwaylandmotorcarsurface.h"
 #include "qtwaylandmotorcarseat.h"
+#include <sys/time.h>
 
 #include "../../../thirdPartySource/qt5_GLES/qtwayland/src/compositor/wayland_wrapper/qwlsurface_p.h"
 //#include <QtCompositor/private/qwlsurface_p.h>
@@ -73,6 +74,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     , m_modifiers(Qt::NoModifier)
     , m_app(app)
     , m_defaultSeat(NULL)
+    , m_frames(0)
 
 {
     setDisplay(NULL);
@@ -520,10 +522,37 @@ void QtWaylandMotorcarCompositor::render()
 
     scene()->draw(0);
 
-     sendFrameCallbacks(surfaces());
+    for(motorcar::Display *display : scene()->displays()){
+        for(motorcar::ViewPoint *viewpoint : display->viewpoints()){
+            viewpoint->updateViewMatrix();
+        }
+    }
+    sendFrameCallbacks(surfaces());
+
+
     //frameFinished();
     // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.
     m_glData->m_window->swapBuffers();
+
+    struct timeval tv;
+    static const int32_t benchmark_interval = 5;
+    gettimeofday(&tv, NULL);
+        uint32_t time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+        if (m_frames == 0)
+            m_benchmark_time = time;
+        if (time - m_benchmark_time > (benchmark_interval * 1000)) {
+            printf("%d frames in %d seconds: %f fps\n",
+                   m_frames,
+                   benchmark_interval,
+                   (float) m_frames / benchmark_interval);
+            fflush(stdout);
+            m_benchmark_time = time;
+            m_frames = 0;
+        }
+
+        m_frames++;
+
+    glFinish();
     m_renderScheduler.start(0);
 }
 

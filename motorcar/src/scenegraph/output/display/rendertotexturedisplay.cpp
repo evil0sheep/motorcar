@@ -146,6 +146,13 @@ void RenderToTextureDisplay::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void RenderToTextureDisplay::renderDepthCompositedSurfaceNode(DepthCompositedSurfaceNode *surfaceNode, ViewPoint *camera)
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+    Display::renderDepthCompositedSurfaceNode(surfaceNode, camera);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 void RenderToTextureDisplay::renderWireframeNode(WireframeNode *node, ViewPoint *camera)
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);

@@ -577,7 +577,7 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.indices);
 
 
-	glm::mat4 model =  glm::translate(glm::mat4(), glm::vec3(0,0,-1))
+	glm::mat4 model =  glm::translate(glm::mat4(), glm::vec3(0,0,-2))
 						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) ;
 
 	int i = 0;
