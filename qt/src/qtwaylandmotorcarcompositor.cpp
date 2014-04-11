@@ -79,8 +79,8 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
 {
     setDisplay(NULL);
 
-    m_renderScheduler.setSingleShot(false);
-    m_renderScheduler.setInterval(16);
+    m_renderScheduler.setSingleShot(true);
+    //m_renderScheduler.setInterval(16);
     connect(&m_renderScheduler,SIGNAL(timeout()),this,SLOT(render()));
 
 
@@ -100,7 +100,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
 //            motorcar::Geometry::printVector(testDisplay.worldPositionAtDisplayPosition(glm::vec2(i * window->size().width(), j * window->size().height())));
 //        }
 //    }
-   //m_renderScheduler.start(0);
+   m_renderScheduler.start(0);
     //glClearDepth(0.1f);
 }
 
@@ -144,7 +144,6 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
 int QtWaylandMotorcarCompositor::start()
 {
     this->glData()->m_window->showFullScreen();
-    m_renderScheduler.start(0);
     int result = m_app->exec();
     delete m_app;
     return result;
@@ -367,7 +366,7 @@ void QtWaylandMotorcarCompositor::surfaceDamaged(QWaylandSurface *surface, const
 {
     Q_UNUSED(surface)
     Q_UNUSED(rect)
-    //m_renderScheduler.start(0);
+    m_renderScheduler.start(0);
 }
 
 void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
@@ -509,7 +508,8 @@ QWaylandSurface *QtWaylandMotorcarCompositor::surfaceAt(const QPointF &point, QP
 
 void QtWaylandMotorcarCompositor::render()
 {
-
+    m_glData->m_window->makeCurrent();
+    cleanupGraphicsResources();
 
     //   m_glData->m_backgroundTexture = m_glData->m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_glData->m_backgroundImage);
 
@@ -556,9 +556,10 @@ void QtWaylandMotorcarCompositor::render()
 
         m_frames++;
 
-    //m_renderScheduler.start(0);
 
-    glFinish();
+//    glFlush();
+//    glFinish();
+    m_renderScheduler.start(16);
     // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.
 
 }

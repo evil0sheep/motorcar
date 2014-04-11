@@ -80,6 +80,8 @@ private:
     GLint h_aPosition_surface, h_aTexCoord_surface, h_uMVPMatrix_surface;
     GLint h_aPosition_line, h_uMVPMatrix_line, h_uColor_line;
 
+
+
 };
 }
 

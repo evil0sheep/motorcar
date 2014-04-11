@@ -2,6 +2,19 @@
 
 using namespace motorcar;
 
+static const GLfloat textureCoordinates[] = {
+    0, 0,
+    0, 1,
+    1, 1,
+    1, 0
+};
+static const GLfloat vertexCoordinates[] ={
+    0, 0, 0,
+    0, 1, 0,
+    1, 1, 0,
+    1, 0, 0
+};
+
 Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform)
     :PhysicalNode(parent, transform)
     ,m_glContext(glContext)
@@ -10,18 +23,8 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
     ,m_size(displayDimensions)
 
 {
-    const GLfloat textureCoordinates[] = {
-        0, 0,
-        0, 1,
-        1, 1,
-        1, 0
-    };
-    const GLfloat vertexCoordinates[] ={
-        0, 0, 0,
-        0, 1, 0,
-        1, 1, 0,
-        1, 0, 0
-    };
+
+
 
     glGenBuffers(1, &m_surfaceTextureCoordinates);
     glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
@@ -111,6 +114,7 @@ void Display::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *view
 
     glEnableVertexAttribArray(h_aTexCoord_surface);
     glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
+    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
     glVertexAttribPointer(h_aTexCoord_surface, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(viewpoint->projectionMatrix() * viewpoint->viewMatrix() *  surfaceNode->worldTransform() * surfaceNode->surfaceTransform()));
@@ -137,7 +141,7 @@ void Display::renderDepthCompositedSurfaceNode(DepthCompositedSurfaceNode *surfa
 
     glm::vec4 vp = viewpoint->viewport()->viewportParams();
 
-    const GLfloat textureCoordinates[] = {
+    const GLfloat newTextureCoordinates[] = {
         vp.x, vp.y + vp.w,
         vp.x, vp.y,
         vp.x + vp.z, vp.y,
@@ -159,7 +163,7 @@ void Display::renderDepthCompositedSurfaceNode(DepthCompositedSurfaceNode *surfa
 
     glEnableVertexAttribArray(h_aTexCoord_surface);
     glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
-    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), newTextureCoordinates, GL_STATIC_DRAW);
     glVertexAttribPointer(h_aTexCoord_surface, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(surfaceNode->surfaceTransform()));
