@@ -51,6 +51,7 @@ QOpenGLWindow::QOpenGLWindow(const QSurfaceFormat &format, const QRect &geometry
     m_context = new QOpenGLContext;
     m_context->setFormat(format);
     m_context->create();
+
 }
 
 void QOpenGLWindow::touchEvent(QTouchEvent *event)

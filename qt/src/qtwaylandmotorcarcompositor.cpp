@@ -131,6 +131,7 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
     QSurfaceFormat format;
     format.setDepthBufferSize(16);
     format.setStencilBufferSize(8);
+    format.setSwapInterval(1);
 
     QRect geom = screenGeometry;
     if (QCoreApplication::arguments().contains(QLatin1String("-nofullscreen")))
@@ -557,9 +558,13 @@ void QtWaylandMotorcarCompositor::render()
         m_frames++;
 
 
-//    glFlush();
-//    glFinish();
-    m_renderScheduler.start(16);
+    glFlush();
+    glFinish();
+
+    if(this->surfaces().empty()){
+        m_renderScheduler.start(16);
+    }
+
     // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.
 
 }
