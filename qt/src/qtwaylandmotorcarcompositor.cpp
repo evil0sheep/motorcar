@@ -100,7 +100,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
 //            motorcar::Geometry::printVector(testDisplay.worldPositionAtDisplayPosition(glm::vec2(i * window->size().width(), j * window->size().height())));
 //        }
 //    }
-   m_renderScheduler.start(0);
+
     //glClearDepth(0.1f);
 }
 
@@ -116,15 +116,12 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
     // QGuiApplication::setAttribute(Qt::AA_SynthesizeTouchForUnhandledMouseEvents, true);
 
     QGuiApplication *app = new QGuiApplication(argc, argv);
-    QScreen *screen;
+    QScreen *screen = NULL;
 
-    if(QGuiApplication::screens().size() ==1){
-        screen = QGuiApplication::primaryScreen();
-    }else{
-        screen =  QGuiApplication::screens().at(1);
 
-    }
 
+    //screen = QGuiApplication::primaryScreen();
+    screen = QGuiApplication::screens().back();
 
     QRect screenGeometry = screen->availableGeometry();
 
@@ -134,9 +131,9 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
     format.setSwapInterval(1);
 
     QRect geom = screenGeometry;
-    if (QCoreApplication::arguments().contains(QLatin1String("-nofullscreen")))
-        geom = QRect(screenGeometry.width() / 4, screenGeometry.height() / 4,
-                     screenGeometry.width() / 2, screenGeometry.height() / 2);
+//    if (QCoreApplication::arguments().contains(QLatin1String("-nofullscreen")))
+//        geom = QRect(screenGeometry.width() / 4, screenGeometry.height() / 4,
+//                     screenGeometry.width() / 2, screenGeometry.height() / 2);
 
     QOpenGLWindow *window = new QOpenGLWindow(format, geom);
     return  new QtWaylandMotorcarCompositor(window, app, scene);
@@ -558,8 +555,8 @@ void QtWaylandMotorcarCompositor::render()
         m_frames++;
 
 
-    glFlush();
-    glFinish();
+//    glFlush();
+//    glFinish();
 
     if(this->surfaces().empty()){
         m_renderScheduler.start(16);
@@ -578,7 +575,7 @@ bool QtWaylandMotorcarCompositor::eventFilter(QObject *obj, QEvent *event)
 
     switch (event->type()) {
     case QEvent::Expose:
-        //m_renderScheduler.start(0);
+        m_renderScheduler.start(0);
         if (m_glData->m_window->isExposed()) {
             // Alt-tabbing away normally results in the alt remaining in
             // pressed state in the clients xkb state. Prevent this by sending

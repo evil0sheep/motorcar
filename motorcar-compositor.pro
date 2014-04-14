@@ -9,8 +9,8 @@ INCLUDEPATH +=
 #include ($$QTWAYLANDPATH/compositor_api/compositor_api.pri)
 #include ($$QTWAYLANDPATH/windowmanagerprotocol/windowmanagerprotocol.pri)
 
-LIBOVRPATH=../thirdPartySource/Oculus/OculusSDK/LibOVR
-SIXENSEPATH=../thirdPartySource/sixenseSDK_linux_OSX
+LIBOVRPATH=$$PWD/../thirdPartySource/Oculus/OculusSDK/LibOVR
+SIXENSEPATH=$$PWD/../thirdPartySource/sixenseSDK_linux_OSX
 INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include" ./motorcar/protocol
 
 
@@ -21,7 +21,7 @@ LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr
 
 LIBS += -L$$SIXENSEPATH/lib/linux_x64/release -lsixense_x64 -lsixense_utils_x64
 
-LIBS += -L./motorcar/protocol -lmotorcar -lwayland-server -lwayland-client
+LIBS += -L$$PWD/motorcar/protocol -lmotorcar -lwayland-server -lwayland-client
 
 LIBS +=  -ludev -lpthread -lGL -lX11 -lXinerama
 
