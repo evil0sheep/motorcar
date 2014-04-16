@@ -45,19 +45,14 @@ HEADERS += \
     motorcar/src/geometry.h \
     motorcar/src/scenegraph/scenegraphnode.h \
     motorcar/src/scenegraph/scenegraph.h \
-    motorcar/src/scenegraph/output/glcameranode.h \
     motorcar/src/scenegraph/physicalnode.h \
     motorcar/src/scenegraph/virtualnode.h \
-    motorcar/src/scenegraph/ioelement.h \
     motorcar/src/scenegraph/scene.h \
-    motorcar/src/scenegraph/output/outputelement.h \
     motorcar/src/scenegraph/output/drawable.h \
     motorcar/src/scenegraph/output/wayland/waylandsurfacenode.h \
     motorcar/src/scenegraph/output/output.h \
-    motorcar/src/scenegraph/foo.h \
     motorcar/src/motorcar.h \
     qt/src/qtwaylandmotorcarsurface.h \
-    motorcar/src/scenegraph/output/wayland/waylanddrawable.h \
     motorcar/src/gl/openglshader.h \
     motorcar/src/gl/GLSLHelper.h \
     motorcar/src/gl/openglcontext.h \
@@ -66,7 +61,6 @@ HEADERS += \
     motorcar/src/scenegraph/output/display/rendertotexturedisplay.h \
     motorcar/src/device/device.h \
     motorcar/src/device/oculushmd.h \
-    motorcar/src/scenegraph/input/inputelement.h \
     motorcar/src/device/sixensemotionsensingsystem.h \
     motorcar/src/scenegraph/input/spatialpointingdevice.h \
     motorcar/src/device/sixensecontrollernode.h \
@@ -91,7 +85,8 @@ HEADERS += \
     qt/src/qtwaylandmotorcarseat.h \
     motorcar/src/scenegraph/input/input.h \
     motorcar/src/shell.h \
-    motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.h
+    motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.h \
+    motorcar/src/scenegraph/output/viewpoint.h
 
 
 
@@ -106,16 +101,12 @@ SOURCES += \
     qt/src/opengldata.cpp \
     motorcar/src/geometry.cpp \
     motorcar/src/scenegraph/scenegraphnode.cpp \
-    motorcar/src/scenegraph/output/glcameranode.cpp \
     motorcar/src/scenegraph/physicalnode.cpp \
     motorcar/src/scenegraph/virtualnode.cpp \
-    motorcar/src/scenegraph/ioelement.cpp \
     motorcar/src/scenegraph/scene.cpp \
-    motorcar/src/scenegraph/output/outputelement.cpp \
     motorcar/src/scenegraph/output/drawable.cpp \
     motorcar/src/scenegraph/output/wayland/waylandsurfacenode.cpp \
     qt/src/qtwaylandmotorcarsurface.cpp \
-    motorcar/src/scenegraph/output/wayland/waylanddrawable.cpp \
     motorcar/src/gl/openglshader.cpp \
     motorcar/src/gl/GLSLHelper.cpp \
     motorcar/src/gl/openglcontext.cpp \
@@ -123,7 +114,6 @@ SOURCES += \
     motorcar/src/scenegraph/output/display/display.cpp \
     motorcar/src/scenegraph/output/display/rendertotexturedisplay.cpp \
     motorcar/src/device/oculushmd.cpp \
-    motorcar/src/scenegraph/input/inputelement.cpp \
     motorcar/src/device/sixensemotionsensingsystem.cpp \
     motorcar/src/scenegraph/input/spatialpointingdevice.cpp \
     motorcar/src/device/sixensecontrollernode.cpp \
@@ -145,7 +135,8 @@ SOURCES += \
     motorcar/src/wayland/output/waylandsurface.cpp \
     qt/src/qtwaylandmotorcarseat.cpp \
     motorcar/src/shell.cpp \
-    motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.cpp
+    motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.cpp \
+    motorcar/src/scenegraph/output/viewpoint.cpp
 
 
 

@@ -13,8 +13,7 @@ public:
     //does nothing unless overridded
     virtual void animate(long deltaMillis);
 
-    //calls animate on the current node
-    virtual void traverseNode(Scene *scene, long deltaMillis) override;
+    virtual void handleFrameBegin(Scene *scene) override;
 
     void setParentNode(SceneGraphNode *parent);
 

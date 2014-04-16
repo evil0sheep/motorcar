@@ -1,11 +1,10 @@
 #ifndef BONE_H
 #define BONE_H
-#include "inputelement.h"
 #include "../physicalnode.h"
 #include "glm/gtc/quaternion.hpp"
 
 namespace motorcar{
-class Bone : public InputElement, public PhysicalNode
+class Bone : public PhysicalNode
 {
 public:
     Bone(PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());

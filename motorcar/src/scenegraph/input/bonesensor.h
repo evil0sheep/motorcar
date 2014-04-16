@@ -1,12 +1,11 @@
 #ifndef BONESENSOR_H
 #define BONESENSOR_H
 
-#include "inputelement.h"
 #include "../physicalnode.h"
 #include "skeleton.h"
 
 namespace motorcar{
-class BoneSensor : public InputElement, public PhysicalNode
+class BoneSensor :  public PhysicalNode
 {
 public:
     BoneSensor(Skeleton *skeleton, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());

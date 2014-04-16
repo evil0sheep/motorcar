@@ -1,36 +1,32 @@
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
-#include "outputelement.h"
 #include "../virtualnode.h"
-#include "glcameranode.h"
+#include "viewpoint.h"
 
 namespace motorcar {
-class Drawable : public OutputElement, public VirtualNode
+class Drawable : public VirtualNode
 {
 public:
     Drawable(SceneGraphNode *parent, const glm::mat4 &transform = glm::mat4());
     virtual ~Drawable(){}
 
-    //calls VirtualNode::traverseNode() and then draw()
-    virtual void traverseNode(Scene *scene, long deltaMillis) override;
+    ///Draw this node for the current display
+    /* this method should contain all the openGL code needed to draw the node,
+     * implementations can assume that the correct context is current and the
+     * correct framebuffer is bound. If the framebuffer needs to be unbound
+     * the implementation must tell the display to rebind its framebuffer
+     * before drawing into it, do not assume drawing into the default
+     * framebuffer is safe*/
+    virtual void draw(Scene *scene, Display *display) = 0;
 
+    ///Gets the active display from the scene and calls draw on it
+    virtual void handleFrameDraw(Scene *scene) override;
 
-
-    //draws this node from the specified viewpoint
-    //implementations typically get the display associated with this viewpoint and make a viewpoint specific draw call to that display
-    //this exists to allow the drawable to control what content is sent to which viewpoints
-    virtual void drawViewpoint(ViewPoint *viewpoint) = 0;
-
-    //defines whether the drawable is valid for drawing
-    bool valid() const;
-    void setValid(bool valid);
+    bool visible() const;
+    void setVisible(bool visible);
 
 private:
-    //draws this node to every display owned by users with read permissions on this node
-    //this allows the drawable to control which displays it's drawn to
-    void draw(Scene *scene);
-
-    bool m_valid;
+    bool m_visible;
 
 };
 }

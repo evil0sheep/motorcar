@@ -14,8 +14,15 @@ public:
     ///inhereted from SceneGraphNode
     virtual Geometry::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray) override;
 
-    ///inhereted from Drawable
-    virtual void drawViewpoint(ViewPoint *viewpoint) override;
+    ///extracts the depth and color information from the client surface, clips them against the surface boundaries, and composites with the scene
+    virtual void draw(Scene *scene, Display *display) override;
+
+    ///prepares the surface and computes the surface transform
+    virtual void handleFrameBegin(Scene *scene) override;
+
+private:
+    //attribute buffers
+    GLuint m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
 };
 }
 

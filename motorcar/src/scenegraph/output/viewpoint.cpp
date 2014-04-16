@@ -1,4 +1,4 @@
-#include "glcameranode.h"
+#include "viewpoint.h"
 #include "display/display.h"
 #include "../scene.h"
 #include "../../compositor.h"

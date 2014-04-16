@@ -29,11 +29,9 @@ SpatialPointingDevice::SpatialPointingDevice(Seat *seat, PhysicalNode *parent, c
 
 }
 
-
-
-void SpatialPointingDevice::traverseNode(Scene *scene, long deltaMillis)
+void SpatialPointingDevice::handleFrameBegin(Scene *scene)
 {
-    PhysicalNode::traverseNode(scene, deltaMillis);
+    PhysicalNode::handleFrameBegin(scene);
 
     Geometry::Ray ray = Geometry::Ray(glm::vec3(0,0,0), glm::vec3(0,0,-1)).transform(worldTransform());
 
@@ -54,12 +52,12 @@ void SpatialPointingDevice::traverseNode(Scene *scene, long deltaMillis)
 
            cursor->setParentNode(surfaceNode);
            cursor->setTransform(glm::translate(glm::mat4(), position));
-           cursor->setValid(true);
+           cursor->setVisible(true);
         }
     }else{
         WaylandSurfaceNode *cursor = m_seat->pointer()->cursorNode();
         if(cursor){
-            cursor->setValid(false);
+            cursor->setVisible(false);
         }
     }
 
@@ -67,6 +65,9 @@ void SpatialPointingDevice::traverseNode(Scene *scene, long deltaMillis)
         m_grabbedSurfaceNode->setTransform( m_grabbedSurfaceNode->parentNode()->inverseWorldTransform() * this->worldTransform() * m_grabbedSurfaceNodeTransform);
     }
 }
+
+
+
 
 
 

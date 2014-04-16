@@ -5,7 +5,6 @@
 #include "scenegraphnode.h"
 #include "physicalnode.h"
 #include "virtualnode.h"
-#include "ioelement.h"
 #include "scene.h"
 #include "output/output.h"
 #include "input/input.h"

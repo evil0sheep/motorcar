@@ -18,10 +18,6 @@ public:
     bool enabled() const;
     void setEnabled(bool enabled);
 
-    //inhereted from SceneGraphNode
-    void traverseNode(Scene *scene, long deltaMillis) override;
-
-
 
     SpatialPointingDevice *pointingDevice() const;
     void setPointingDevice(SpatialPointingDevice *pointingDevice);

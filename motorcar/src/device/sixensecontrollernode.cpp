@@ -74,19 +74,7 @@ void SixenseControllerNode::setControllerIndex(int controllerIndex)
     m_controllerIndex = controllerIndex;
 }
 
-void SixenseControllerNode::traverseNode(Scene *scene, long deltaMillis)
-{
-   PhysicalNode::traverseNode(scene, deltaMillis);
-//    std::cout << "controller " << controllerIndex() << " has " << childNodes().size()<< " children" <<std::endl;
-//    Geometry::printMatrix(worldTransform());
 
-//   if(m_controllerIndex == 0){
-//       glm::vec3 displayRelativePos = glm::vec3(scene->compositor()->display()->viewpoints()[1]->inverseWorldTransform() * this->worldTransform() * glm::vec4(0,0,0,1));
-//      // std::cout << "position of controller " << m_controllerIndex << " is " <<std::endl;
-//       Geometry::printVector(displayRelativePos);
-//   }
-
-}
 
 
 

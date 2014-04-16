@@ -1,11 +1,13 @@
 #ifndef WAYLANDSURFACENODE_H
 #define WAYLANDSURFACENODE_H
-#include "waylanddrawable.h"
+#include "../drawable.h"
+#include "../../../gl/openglshader.h"
+#include "../../../gl/openglcontext.h"
 #include "../../../wayland/output/waylandsurface.h"
 
 
 namespace motorcar {
-class WaylandSurfaceNode : public WaylandDrawable
+class WaylandSurfaceNode : public Drawable
 {
 public:
 
@@ -20,7 +22,11 @@ public:
     virtual Geometry::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray) override;
 
     ///inhereted from Drawable
-    virtual void drawViewpoint(ViewPoint *viewpoint) override;
+    virtual void draw(Scene *scene, Display *display) override;
+
+    ///prepares the surface and computes the surface transform
+    virtual void handleFrameBegin(Scene *scene) override;
+
 
 
     WaylandSurface *surface() const;
@@ -52,8 +58,16 @@ private:
     bool m_mapped;
     bool m_damaged;
 
+    //attribute buffers
+    GLuint m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
+
 protected:
     glm::mat4 m_surfaceTransform;
+
+    OpenGLShader *m_surfaceShader;
+
+    //shader variable handles
+    GLint h_aPosition_surface, h_aTexCoord_surface, h_uMVPMatrix_surface;
 
 
 };

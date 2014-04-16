@@ -77,11 +77,9 @@ void Geometry::Ray::draw(SceneGraphNode *parent, glm::vec3 color, glm::mat4 tran
     };
     WireframeNode *node = new WireframeNode(vertices, 4, color, parent, transform*translation);
 
-    for(Display *display : node->scene()->displays()){
-        for(ViewPoint *cam : display->viewpoints()){
-            display->renderWireframeNode(node, cam);
-        }
-
+    Scene *scene = parent->scene();
+    for(Display *display : scene->displays()){
+        node->draw(scene, display);
     }
 
     delete node;

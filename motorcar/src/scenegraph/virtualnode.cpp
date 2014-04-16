@@ -1,4 +1,5 @@
 #include "virtualnode.h"
+#include "scene.h"
 using namespace motorcar;
 
 
@@ -12,11 +13,12 @@ void VirtualNode::animate(long deltaMillis)
 {
 }
 
-void VirtualNode::traverseNode(Scene *scene, long deltaMillis)
+void VirtualNode::handleFrameBegin(Scene *scene)
 {
-    SceneGraphNode::traverseNode(scene, deltaMillis);
-    this->animate(deltaMillis);
+    animate(scene->latestTimestampChange());
 }
+
+
 
 void VirtualNode::setParentNode(SceneGraphNode *parent)
 {

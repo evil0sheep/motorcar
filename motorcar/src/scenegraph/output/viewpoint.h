@@ -2,7 +2,6 @@
 #define GLCAMERANODE_H
 #include "../../geometry.h"
 #include "../virtualnode.h"
-#include "outputelement.h"
 struct wl_global;
 
 #include "wayland-server.h"
@@ -15,7 +14,7 @@ struct wl_global;
 
 namespace motorcar {
 class Display;
-class ViewPoint : public OutputElement, public VirtualNode
+class ViewPoint : public VirtualNode
 {
 public:
     //centerOfProjection: center of projection in camera space, applied as a translation to the projection matrix

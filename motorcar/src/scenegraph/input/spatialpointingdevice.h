@@ -3,7 +3,7 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include "inputelement.h"
+
 #include "../physicalnode.h"
 #include "../output/wireframenode.h"
 #include "../output/wayland/waylandsurfacenode.h"
@@ -11,16 +11,15 @@
 #include "../../wayland/input/pointer.h"
 
 namespace motorcar {
-class SpatialPointingDevice : public InputElement, public PhysicalNode
+class SpatialPointingDevice : public PhysicalNode
 {
 public:
     SpatialPointingDevice(Seat *seat, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
     virtual ~SpatialPointingDevice() {}
 
-    //inhereted from SceneGraphNode
-    void traverseNode(Scene *scene, long deltaMillis) override;
 
-
+    ///updates the current device state and moves any attaches surfaces
+    virtual void handleFrameBegin(Scene *scene) override;
 
     bool leftMouseDown() const;
     void setLeftMouseDown(bool leftMouseDown);

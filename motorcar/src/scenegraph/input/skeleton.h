@@ -5,7 +5,7 @@
 
 namespace motorcar{
 
-class Skeleton : public InputElement, public PhysicalNode
+class Skeleton : public PhysicalNode
 {
 public:
     Skeleton(PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());

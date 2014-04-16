@@ -2,6 +2,7 @@
 #define RENDERTOTEXTUREDISPLAY_H
 
 #include "display.h"
+#include "../../../gl/openglshader.h"
 
 namespace motorcar{
 class RenderToTextureDisplay : public Display
@@ -13,9 +14,7 @@ public:
     //inherited from Display
     virtual void prepareForDraw() override;
     virtual void finishDraw() override;
-    virtual void renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *camera) override;
-    virtual void renderDepthCompositedSurfaceNode(DepthCompositedSurfaceNode *surfaceNode, ViewPoint *camera) override;
-    virtual void renderWireframeNode(WireframeNode *node, ViewPoint *camera) override;
+
 
     //inherited from Display, apply scaling factor to base class output
     virtual glm::ivec2 resolution() override;
@@ -25,7 +24,7 @@ private:
     glm::vec4 m_distortionK;
     GLuint m_frameBuffer, m_frameBufferTexture, m_depthBuffer, m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
     //shaders
-    motorcar::OpenGLShader *m_distortionShader;
+    OpenGLShader *m_distortionShader;
 
     //shader variable handles
     GLint h_aPosition_distortion, h_aTexCoord_distortion, h_uDistortionK, h_uLenseCenter, h_uViewportParams, h_uScaleFactor;

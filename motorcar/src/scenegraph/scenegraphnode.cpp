@@ -44,24 +44,6 @@ SceneGraphNode::~SceneGraphNode(){
     }
 }
 
-void SceneGraphNode::traverseNode(Scene *scene, long deltaMillis)
-{
-}
-
-void SceneGraphNode::traverseSceneGraph(Scene *scene, long deltaMillis)
-{
-    traverseNode(scene, deltaMillis);
-    traverseChildren(scene, deltaMillis);
-}
-
-void SceneGraphNode::traverseChildren(Scene *scene, long deltaMillis)
-{
-    for (SceneGraphNode *child : m_childNodes) {
-        if (child != NULL){
-            child->traverseSceneGraph(scene, deltaMillis);
-        }
-    }
-}
 
 
 
@@ -105,6 +87,14 @@ void SceneGraphNode::removeChildNode(SceneGraphNode *node)
          m_childNodes.erase(position);
     }
 
+}
+
+void SceneGraphNode::mapOntoSubTree(void (SceneGraphNode::*mapFunc)(Scene *), Scene * scene)
+{
+    ((this)->*(mapFunc))(scene);
+    for(SceneGraphNode *childNode : m_childNodes){
+        ((childNode)->mapOntoSubTree(mapFunc, scene));
+    }
 }
 
 SceneGraphNode::SceneGraphNode()

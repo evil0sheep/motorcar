@@ -11,7 +11,10 @@ class SixenseBaseNode : public PhysicalNode
 public:
     SixenseBaseNode(int baseIndex, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
 
-    void traverseNode(Scene *scene, long deltaMillis) override;
+    ///gets current system state and passes new controller state to controller nodes
+    virtual void handleFrameBegin(Scene *scene) override;
+
+
 
     bool connected() const;
     void setConnected(bool connected);

@@ -521,14 +521,18 @@ void QtWaylandMotorcarCompositor::render()
 
 
 
-    scene()->draw(this->handle()->currentTimeMsecs());
+//    scene()->draw(this->handle()->currentTimeMsecs());
 
-    for(motorcar::Display *display : scene()->displays()){
-        for(motorcar::ViewPoint *viewpoint : display->viewpoints()){
-            viewpoint->updateViewMatrix();
-        }
-    }
-    //std::cout << this->handle()->currentTimeMsecs() << std::endl;
+//    for(motorcar::Display *display : scene()->displays()){
+//        for(motorcar::ViewPoint *viewpoint : display->viewpoints()){
+//            viewpoint->updateViewMatrix();
+//        }
+//    }
+
+    scene()->drawFrame();
+    scene()->finishFrame();
+
+    scene()->prepareForFrame(this->handle()->currentTimeMsecs());
     sendFrameCallbacks(surfaces());
 
 

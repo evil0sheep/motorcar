@@ -80,16 +80,19 @@ RenderToTextureDisplay::~RenderToTextureDisplay()
 
 void RenderToTextureDisplay::prepareForDraw()
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
-    Display::prepareForDraw();
-
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClearColor(0.f, 0.f, 0.f, 1.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+    glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+    Display::prepareForDraw();
 }
 
 void RenderToTextureDisplay::finishDraw()
 {
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     glUseProgram(m_distortionShader->handle());
 
@@ -108,14 +111,15 @@ void RenderToTextureDisplay::finishDraw()
     float temp_scale = m_scale;
     m_scale = 1;
 
-    for(ViewPoint *cam : viewpoints()){
 
-        cam->viewport()->uvCoords(texCoords);
-        cam->viewport()->set();
+    for(ViewPoint *viewpoint : viewpoints()){
+
+        viewpoint->viewport()->uvCoords(texCoords);
+        viewpoint->viewport()->set();
 
 
-        glUniform2fv(h_uLenseCenter, 1, glm::value_ptr(glm::vec2(cam->centerOfFocus())));
-        glUniform4fv(h_uViewportParams, 1, glm::value_ptr(cam->viewport()->viewportParams()));
+        glUniform2fv(h_uLenseCenter, 1, glm::value_ptr(glm::vec2(viewpoint->centerOfFocus())));
+        glUniform4fv(h_uViewportParams, 1, glm::value_ptr(viewpoint->viewport()->viewportParams()));
         glUniform4fv(h_uDistortionK, 1, glm::value_ptr(m_distortionK));
         glUniform1f(h_uScaleFactor, temp_scale);
 
@@ -138,27 +142,6 @@ void RenderToTextureDisplay::finishDraw()
     glUseProgram(0);
 }
 
-void RenderToTextureDisplay::renderSurfaceNode(WaylandSurfaceNode *surfaceNode, ViewPoint *camera)
-{
-
-    glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
-    Display::renderSurfaceNode(surfaceNode, camera);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-void RenderToTextureDisplay::renderDepthCompositedSurfaceNode(DepthCompositedSurfaceNode *surfaceNode, ViewPoint *camera)
-{
-    glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
-    Display::renderDepthCompositedSurfaceNode(surfaceNode, camera);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-void RenderToTextureDisplay::renderWireframeNode(WireframeNode *node, ViewPoint *camera)
-{
-    glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
-    Display::renderWireframeNode(node, camera);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
 
 glm::ivec2 RenderToTextureDisplay::resolution()
 {

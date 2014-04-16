@@ -8,7 +8,7 @@
 
 //#include "output/wayland/waylandsurfacenode.h"
 
-#include "foo.h"
+
 
 
 namespace motorcar {
@@ -16,18 +16,29 @@ namespace motorcar {
 class Scene;
 
 
-class SceneGraphNode : public Foo
+class SceneGraphNode
 {
 public:
     SceneGraphNode(SceneGraphNode *parent, glm::mat4 transform = glm::mat4());
     ///calls destructor on all children and removes this node from its parent's list of children
     virtual ~SceneGraphNode();
 
-    ///handles any additional action this node wishes to take as it is traversed over (e.g. drawing, updating etc)
-    ///default behavior does nothing unless overriddedn
-    virtual void traverseNode(Scene *scene, long deltaMillis);
-    ///traverses this node and then traverses all of its children
-    void traverseSceneGraph(Scene *scene, long deltaMillis);
+    ///Set up the current node for the next frame
+    /* This is virtual function called once per frame on all nodes in the scenegraph,
+     * should be overridden by classes that need to do per-frame setup work, including animation or state updates
+     * this is the only place where it is safe to bind a different framebuffer without rebinding it to the current display's active framebuffer
+     * the spcacial configuration of the scene should not be modified outside of this function*/
+    virtual void handleFrameBegin(Scene *scene){}
+    ///draw the current node for the next frame
+    /* This function is called on ever node in the scenegraph once per display, and should be used to do drawing work for nodes that are drawable.
+     * The current active display can be accessed through the Scene and the node should draw content for every viewpoint in this display which
+     * it would like to be visible from (typically all of them)*/
+    virtual void handleFrameDraw(Scene *scene){}
+    ///cleanup after the current frame is finished
+    /* this function is called once per frame on every node in the scenegraph, it should be used to clean up graphics resources to be ready for the
+     * next frame. If a display does a second rendering pass it should be applied here*/
+    virtual void handleFrameEnd(Scene *scene){}
+
 
     ///gets this node's parent in the scenegraph
     SceneGraphNode *parentNode() const;
@@ -83,11 +94,18 @@ private :
     //removes the given node from the list of children if it exists therein
     void removeChildNode(SceneGraphNode *node);
 
+
+
 protected:
-    //protected constructor used by Scene class to construct parentless, un-transformed root node
+    ///protected constructor used by Scene class to construct parentless, un-transformed root node
     SceneGraphNode();
-    //removes this node from its existing parent's list of children and sets the given node to be this nodes parent and then adds this node to the given node's list of children
+    ///removes this node from its existing parent's list of children and sets the given node to be this nodes parent and then adds this node to the given node's list of children
     void setParentNode(SceneGraphNode *parent);
+
+    ///Maps a given function onto all nodes in the subtree rooted at this node
+    /* This function forms the core of the scenegraph, use for all of the pre frame callbacks.
+        It takes a function, mapFunc, calls it on the current node, and then recursively maps it onto all of its children*/
+    void mapOntoSubTree(void (SceneGraphNode::*mapFunc)(Scene *), Scene *scene);
 
 };
 

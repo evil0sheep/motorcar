@@ -3,9 +3,41 @@
 using namespace motorcar;
 
 WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform)
-    :WaylandDrawable(parent, transform)
+    :Drawable(parent, transform)
+    ,m_surfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/motorcarsurface.vert"), std::string("../motorcar/src/shaders/motorcarsurface.frag")))
+
 {
     this->setSurface(surface);
+    static const GLfloat textureCoordinates[] = {
+        0, 0,
+        0, 1,
+        1, 1,
+        1, 0
+    };
+    static const GLfloat vertexCoordinates[] ={
+        0, 0, 0,
+        0, 1, 0,
+        1, 1, 0,
+        1, 0, 0
+    };
+
+    glGenBuffers(1, &m_surfaceTextureCoordinates);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
+    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &m_surfaceVertexCoordinates);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
+    glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertexCoordinates, GL_STATIC_DRAW);
+
+
+
+    h_aPosition_surface =  glGetAttribLocation(m_surfaceShader->handle(), "aPosition");
+    h_aTexCoord_surface =  glGetAttribLocation(m_surfaceShader->handle(), "aTexCoord");
+    h_uMVPMatrix_surface  = glGetUniformLocation(m_surfaceShader->handle(), "uMVPMatrix");
+
+    if(h_aPosition_surface < 0 || h_aTexCoord_surface < 0 || h_uMVPMatrix_surface < 0 ){
+       std::cout << "problem with surface shader handles: " << h_aPosition_surface << ", "<< h_aTexCoord_surface << ", " << h_uMVPMatrix_surface << std::endl;
+    }
 
 }
 
@@ -91,16 +123,51 @@ Geometry::RaySurfaceIntersection *WaylandSurfaceNode::intersectWithSurfaces(cons
     }
 }
 
-void WaylandSurfaceNode::drawViewpoint(ViewPoint *viewpoint)
+void WaylandSurfaceNode::draw(Scene *scene, Display *display)
 {
-    //std::cout << "drawing surface" <<std::endl;
-    //if(this->mapped()){
-        computeSurfaceTransform(8);
-        surface()->prepare();
-        viewpoint->viewport()->display()->renderSurfaceNode(this, viewpoint);
-   // }
 
+
+    GLuint texture = this->surface()->texture();
+
+    glUseProgram(m_surfaceShader->handle());
+
+    glEnableVertexAttribArray(h_aPosition_surface);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
+    glVertexAttribPointer(h_aPosition_surface, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glEnableVertexAttribArray(h_aTexCoord_surface);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
+    glVertexAttribPointer(h_aTexCoord_surface, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    for(ViewPoint *viewpoint : display->viewpoints()){
+        viewpoint->viewport()->set();
+        glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(viewpoint->projectionMatrix() * viewpoint->viewMatrix() *  this->worldTransform() * this->surfaceTransform()));
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    }
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glDisableVertexAttribArray(h_aPosition_surface);
+    glDisableVertexAttribArray(h_aTexCoord_surface);
+
+    glUseProgram(0);
 }
+
+void WaylandSurfaceNode::handleFrameBegin(Scene *scene)
+{
+    computeSurfaceTransform(8);
+    surface()->prepare();
+    Drawable::handleFrameBegin(scene);
+}
+
+
 bool WaylandSurfaceNode::mapped() const
 {
     return m_mapped;

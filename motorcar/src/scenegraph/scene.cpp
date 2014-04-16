@@ -7,6 +7,9 @@ Scene::Scene()
     :PhysicalNode()
     ,m_windowManager(NULL)
     ,m_trash(NULL)
+    ,m_currentTimestampMillis(0)
+    ,m_lastTimestepMillis(0)
+    ,m_activeDisplay(NULL)
 {
 }
 
@@ -19,21 +22,43 @@ Scene::~Scene()
 
 
 
-void Scene::draw(long deltaMillis)
-{
+//void Scene::draw(long deltaMillis)
+//{
 
-    for(Display *display : displays()){
-        display->prepareForDraw();
-    }
-    this->traverseSceneGraph(this, deltaMillis);
-    for(Display *display : displays()){
-        display->finishDraw();
-    }
-}
+//    for(Display *display : displays()){
+//        display->prepareForDraw();
+//    }
+//    this->traverseSceneGraph(this, deltaMillis);
+//    for(Display *display : displays()){
+//        display->finishDraw();
+//    }
+//}
 
 Scene *Scene::scene()
 {
     return this;
+}
+
+void Scene::prepareForFrame(long timeStampMillis)
+{
+    this->setCurrentTimestampMillis(timeStampMillis);
+    this->mapOntoSubTree(&SceneGraphNode::handleFrameBegin, this);
+}
+
+void Scene::drawFrame()
+{
+    for(Display * display : this->displays()){
+        this->setActiveDisplay(display);
+        display->prepareForDraw();
+        this->mapOntoSubTree(&SceneGraphNode::handleFrameDraw, this);
+        display->finishDraw();
+
+    }
+}
+
+void Scene::finishFrame()
+{
+    this->mapOntoSubTree(&SceneGraphNode::handleFrameEnd, this);
 }
 
 
@@ -69,5 +94,34 @@ std::vector<Display *> Scene::displays() const
 {
     return m_displays;
 }
+long Scene::currentTimestampMillis() const
+{
+    return m_currentTimestampMillis;
+}
+
+void Scene::setCurrentTimestampMillis(long currentTimestampMillis)
+{
+    m_lastTimestepMillis = m_currentTimestampMillis;
+    m_currentTimestampMillis = currentTimestampMillis;
+
+}
+
+long Scene::latestTimestampChange()
+{
+    return m_currentTimestampMillis - m_lastTimestepMillis;
+}
+Display *Scene::activeDisplay() const
+{
+    return m_activeDisplay;
+}
+
+void Scene::setActiveDisplay(Display *activeDisplay)
+{
+    m_activeDisplay = activeDisplay;
+}
+
+
+
+
 
 

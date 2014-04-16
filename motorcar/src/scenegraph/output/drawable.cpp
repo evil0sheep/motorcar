@@ -4,40 +4,29 @@ using namespace motorcar;
 
 Drawable::Drawable(SceneGraphNode *parent, const glm::mat4 &transform)
     : VirtualNode(parent, transform)
-    , m_valid(true)
 {
 }
 
-
-
-
-void Drawable::traverseNode(Scene *scene, long deltaMillis)
+void Drawable::handleFrameDraw(Scene *scene)
 {
-    VirtualNode::traverseNode(scene, deltaMillis);
-    this->draw(scene);
-}
-
-void Drawable::draw(Scene *scene)
-{
-    if(valid()){
-        for(Display *display : scene->displays()){
-            display->renderDrawable(this);
-        }
+    VirtualNode::handleFrameDraw(scene);
+    if(visible()){
+        this->draw(scene, scene->activeDisplay());
     }
-
 }
 
-
-
-
-bool Drawable::valid() const
+bool Drawable::visible() const
 {
-    return m_valid;
+    return m_visible;
 }
 
-void Drawable::setValid(bool valid)
+void Drawable::setVisible(bool visible)
 {
-    m_valid = valid;
+    m_visible = visible;
 }
+
+
+
+
 
 
