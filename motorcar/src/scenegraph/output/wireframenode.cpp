@@ -47,6 +47,7 @@ void WireframeNode::draw(Scene *scene, Display *display)
 
 
     for(ViewPoint *viewpoint : display->viewpoints()){
+        //Geometry::printMatrix(viewpoint->viewMatrix());
         glUniformMatrix4fv(h_uMVPMatrix_line, 1, GL_FALSE, glm::value_ptr(viewpoint->projectionMatrix() * viewpoint->viewMatrix() *  this->worldTransform()));
         viewpoint->viewport()->set();
         glDrawArrays(GL_LINES, 0, 2 * this->numSegments());

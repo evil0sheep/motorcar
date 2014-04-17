@@ -4,6 +4,7 @@ using namespace motorcar;
 
 Drawable::Drawable(SceneGraphNode *parent, const glm::mat4 &transform)
     : VirtualNode(parent, transform)
+    ,m_visible(true)
 {
 }
 

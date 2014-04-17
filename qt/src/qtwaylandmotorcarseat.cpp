@@ -21,11 +21,13 @@ void QtWaylandMotorcarSeat::setKeyboardFocus(motorcar::WaylandSurface *keyboardF
 {
     motorcar::Seat::setKeyboardFocus(keyboardFocus);
     if(keyboardFocus == NULL){
-        m_inputDevice->setKeyboardFocus(NULL);
+
     }else{
         QtWaylandMotorcarSurface *surface = dynamic_cast<QtWaylandMotorcarSurface *>(keyboardFocus);
         if(surface){
             m_inputDevice->setKeyboardFocus(surface->surface());
+        }else{
+            m_inputDevice->setKeyboardFocus(NULL);
         }
     }
 

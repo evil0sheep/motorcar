@@ -43,6 +43,11 @@ void Scene::prepareForFrame(long timeStampMillis)
 {
     this->setCurrentTimestampMillis(timeStampMillis);
     this->mapOntoSubTree(&SceneGraphNode::handleFrameBegin, this);
+    for(Display *display : displays()){
+        for(ViewPoint *viewpoint : display->viewpoints()){
+            viewpoint->updateViewMatrix();
+        }
+    }
 }
 
 void Scene::drawFrame()

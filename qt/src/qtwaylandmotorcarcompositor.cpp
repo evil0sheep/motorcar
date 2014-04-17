@@ -562,9 +562,9 @@ void QtWaylandMotorcarCompositor::render()
 //    glFlush();
 //    glFinish();
 
-    if(this->surfaces().empty()){
+    //if(this->surfaces().empty()){
         m_renderScheduler.start(16);
-    }
+    //}
 
     // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.
 

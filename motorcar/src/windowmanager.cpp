@@ -23,7 +23,7 @@ WaylandSurfaceNode *WindowManager::createSurface(WaylandSurface *surface)
         }else{
             surfaceNode = new WaylandSurfaceNode(surface, this->scene());
         }
-
+        std::cout << "allocating surface node " << surfaceNode << " for surface " << surface <<std::endl;
         m_surfaceMap.insert(std::pair<WaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
     }
 
@@ -32,6 +32,7 @@ WaylandSurfaceNode *WindowManager::createSurface(WaylandSurface *surface)
 
 void WindowManager::destroySurface(WaylandSurface *surface)
 {
+    std::cout << "destroying surface " << surface <<std::endl;
     WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
     if(surfaceNode != NULL){
 
@@ -49,9 +50,10 @@ void WindowManager::destroySurface(WaylandSurface *surface)
 
 //            }
 //        }
+
         m_surfaceMap.erase (surface);
 
-        //std::cout << "attempting to delete surfaceNode pointer " << surfaceNode <<std::endl;
+        std::cout << "attempting to delete surfaceNode pointer " << surfaceNode <<std::endl;
 
         if(surfaceNode == m_defaultSeat->pointer()->cursorNode()){
             m_defaultSeat->pointer()->setCursorNode(NULL);
@@ -211,9 +213,19 @@ void WindowManager::setDefaultSeat(Seat *defaultSeat)
 void WindowManager::ensureKeyboardFocusIsValid(WaylandSurface *oldSurface)
 {
     WaylandSurface *nextSurface = NULL;
-    if(!m_surfaceMap.empty()){
-        nextSurface = m_surfaceMap.begin()->first;
+//    if(!m_surfaceMap.empty()){
+//        nextSurface = m_surfaceMap.begin()->first;
+//    }
+    std::map<WaylandSurface *, WaylandSurfaceNode *>::iterator it;
+    for(it = m_surfaceMap.begin(); it != m_surfaceMap.end(); it++) {
+        WaylandSurface * surface = it->first;
+        if(surface->type() == WaylandSurface::SurfaceType::TOPLEVEL ||
+           surface->type() == WaylandSurface::SurfaceType::DEPTH_COMPOSITED){
+            nextSurface = surface;
+            break;
+        }
     }
+
     m_defaultSeat->ensureKeyboardFocusIsValid(oldSurface, nextSurface);
 }
 

@@ -7,6 +7,8 @@ WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *
     ,m_surfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/motorcarsurface.vert"), std::string("../motorcar/src/shaders/motorcarsurface.frag")))
 
 {
+
+     std::cout << std::endl << "constructing surface node " << this << std::endl;
     this->setSurface(surface);
     static const GLfloat textureCoordinates[] = {
         0, 0,
@@ -125,7 +127,7 @@ Geometry::RaySurfaceIntersection *WaylandSurfaceNode::intersectWithSurfaces(cons
 
 void WaylandSurfaceNode::draw(Scene *scene, Display *display)
 {
-
+    //std::cout << "drawing surface node " << this <<std::endl;
 
     GLuint texture = this->surface()->texture();
 
@@ -162,9 +164,13 @@ void WaylandSurfaceNode::draw(Scene *scene, Display *display)
 
 void WaylandSurfaceNode::handleFrameBegin(Scene *scene)
 {
-    computeSurfaceTransform(8);
-    surface()->prepare();
     Drawable::handleFrameBegin(scene);
+    if(visible()){
+        computeSurfaceTransform(8);
+        surface()->prepare();
+
+    }
+
 }
 
 
