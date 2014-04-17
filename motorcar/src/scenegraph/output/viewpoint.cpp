@@ -15,6 +15,8 @@ ViewPoint::ViewPoint(float near, float far, Display *display, SceneGraphNode *pa
     , m_centerOfFocus(centerOfProjection, 1)
     , m_COFTransform(glm::translate(glm::mat4(1), centerOfProjection))
     , m_viewport(new ViewPort(viewPortParams.x, viewPortParams.y, viewPortParams.z, viewPortParams.w, display))
+    , m_clientColorViewport(new ViewPort(viewPortParams.x, viewPortParams.y, viewPortParams.z, viewPortParams.w, display))
+    , m_clientDepthViewport(new ViewPort(viewPortParams.x, viewPortParams.y + viewPortParams.w, viewPortParams.z, viewPortParams.w, display))
     , m_viewpointHandle(NULL)
     , m_global(NULL)
 
@@ -233,7 +235,11 @@ void ViewPoint::sendProjectionMatrixToClients()
 void ViewPoint::sendViewPortToClients()
 {
     for(struct wl_resource *resource : m_resources){
-        motorcar_viewpoint_send_view_port(resource, m_viewport->offsetX(), m_viewport->offsetY(), m_viewport->width(), m_viewport->height(), 0,0,0,0);
+        motorcar_viewpoint_send_view_port(resource,
+                                          m_clientColorViewport->offsetX(), m_clientColorViewport->offsetY(),
+                                          m_clientColorViewport->width(), m_clientColorViewport->height(),
+                                          m_clientDepthViewport->offsetX(), m_clientDepthViewport->offsetY(),
+                                          m_clientDepthViewport->width(), m_clientDepthViewport->height());
     }
 }
 
@@ -241,7 +247,11 @@ void ViewPoint::sendCurrentStateToSingleClient(wl_resource *resource)
 {
      motorcar_viewpoint_send_view_matrix(resource, &m_viewArray);
      motorcar_viewpoint_send_projection_matrix(resource, &m_projectionArray);
-     motorcar_viewpoint_send_view_port(resource, m_viewport->offsetX(), m_viewport->offsetY(), m_viewport->width(), m_viewport->height(), 0,0,0,0);
+     motorcar_viewpoint_send_view_port(resource,
+                                       m_clientColorViewport->offsetX(), m_clientColorViewport->offsetY(),
+                                       m_clientColorViewport->width(), m_clientColorViewport->height(),
+                                       m_clientDepthViewport->offsetX(), m_clientDepthViewport->offsetY(),
+                                       m_clientDepthViewport->width(), m_clientDepthViewport->height());
 }
 
 
@@ -254,6 +264,26 @@ void ViewPoint::setGlobal(wl_global *global)
 {
     m_global = global;
 }
+ViewPoint::ViewPort *ViewPoint::clientColorViewport() const
+{
+    return m_clientColorViewport;
+}
+
+void ViewPoint::setClientColorViewport(ViewPort *clientColorViewport)
+{
+    m_clientColorViewport = clientColorViewport;
+}
+ViewPoint::ViewPort *ViewPoint::clientDepthViewport() const
+{
+    return m_clientDepthViewport;
+}
+
+void ViewPoint::setClientDepthViewport(ViewPort *clientDepthViewport)
+{
+    m_clientDepthViewport = clientDepthViewport;
+}
+
+
 
 void ViewPoint::destroy_func(wl_resource *resource)
 {

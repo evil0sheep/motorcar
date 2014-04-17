@@ -82,10 +82,18 @@ public:
     wl_global *global() const;
     void setGlobal(wl_global *global);
 
+    ViewPort *clientColorViewport() const;
+    void setClientColorViewport(ViewPort *clientColorViewport);
+
+    ViewPort *clientDepthViewport() const;
+    void setClientDepthViewport(ViewPort *clientDepthViewport);
 
 private:
     float near, far;
     ViewPort *m_viewport;
+    ViewPort *m_clientColorViewport;
+    ViewPort *m_clientDepthViewport;
+
 
     //center of projection information
     glm::vec4 m_centerOfFocus;

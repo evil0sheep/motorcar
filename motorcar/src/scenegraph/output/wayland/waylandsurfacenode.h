@@ -16,7 +16,7 @@ public:
     virtual ~WaylandSurfaceNode();
 
     ///computes surface transform
-    virtual void computeSurfaceTransform(float ppcm);
+    void computeSurfaceTransform(float ppcm);
 
     ///inhereted from SceneGraphNode
     virtual Geometry::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray) override;

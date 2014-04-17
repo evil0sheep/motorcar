@@ -6,10 +6,10 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
     :WaylandSurfaceNode(surface, parent, transform)
 {
     static const GLfloat vertexCoordinates[] ={
-        0, 0, 0,
-        0, 1, 0,
+        -1, -1, 0,
+        -1, 1, 0,
         1, 1, 0,
-        1, 0, 0
+        1, -1, 0
     };
 
     glGenBuffers(1, &m_surfaceTextureCoordinates);
@@ -21,10 +21,6 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
     glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertexCoordinates, GL_STATIC_DRAW);
 }
 
-void DepthCompositedSurfaceNode::computeSurfaceTransform(float ppcm)
-{
-    m_surfaceTransform = glm::translate(glm::mat4(), glm::vec3(-1, -1, 0)) * glm::scale(glm::mat4(), glm::vec3(2, 2, 1));
-}
 
 Geometry::RaySurfaceIntersection *DepthCompositedSurfaceNode::intersectWithSurfaces(const Geometry::Ray &ray)
 {
@@ -50,7 +46,7 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 
 
 
-    glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(this->surfaceTransform()));
+    glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(glm::mat4()));
 
     glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -60,7 +56,7 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
     for(ViewPoint *viewpoint : display->viewpoints()){
         viewpoint->viewport()->set();
 
-        glm::vec4 vp = viewpoint->viewport()->viewportParams();
+        glm::vec4 vp = viewpoint->clientColorViewport()->viewportParams();
 
         const GLfloat newTextureCoordinates[] = {
             vp.x, vp.y + vp.w,
@@ -87,9 +83,13 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
     glUseProgram(0);
 }
 
-void DepthCompositedSurfaceNode::handleFrameBegin(Scene *scene)
-{
-    computeSurfaceTransform(8);
-    surface()->prepare();
-}
+
+
+
+
+
+
+
+
+
 
