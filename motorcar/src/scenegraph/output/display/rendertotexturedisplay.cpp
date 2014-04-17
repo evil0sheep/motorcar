@@ -32,10 +32,12 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
 
     const GLfloat vertexCoordinates[] ={
        -1.0f, -1.0f, 0.0f,
-       -1.0f,  1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f,
         1.0f,  1.0f, 0.0f,
-        1.0f, -1.0f, 0.0f
+       -1.0f,  1.0f, 0.0f
     };
+
+
 
     glGenBuffers(1, &m_surfaceTextureCoordinates);
 

@@ -5,11 +5,18 @@ using namespace motorcar;
 DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform)
     :WaylandSurfaceNode(surface, parent, transform)
 {
-    static const GLfloat vertexCoordinates[] ={
-        -1, -1, 0,
-        -1, 1, 0,
-        1, 1, 0,
-        1, -1, 0
+//    static const GLfloat vertexCoordinates[] ={
+//        -1, -1, 0,
+//        -1, 3, 0,
+//        1, 3, 0,
+//        1, -1, 0
+//    };
+
+    const GLfloat vertexCoordinates[] ={
+       -1.0f, -1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f,
+        1.0f,  3.0f, 0.0f,
+       -1.0f,  3.0f, 0.0f
     };
 
     glGenBuffers(1, &m_surfaceTextureCoordinates);
@@ -60,9 +67,9 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 
         const GLfloat newTextureCoordinates[] = {
             vp.x, vp.y + vp.w,
-            vp.x, vp.y,
-            vp.x + vp.z, vp.y,
             vp.x + vp.z, vp.y + vp.w,
+            vp.x + vp.z, vp.y,
+            vp.x, vp.y,
         };
 
         glEnableVertexAttribArray(h_aTexCoord_surface);
