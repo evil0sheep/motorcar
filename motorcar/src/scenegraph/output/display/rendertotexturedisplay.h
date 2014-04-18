@@ -17,8 +17,10 @@ public:
 
 
     //inherited from Display, apply scaling factor to base class output
-    virtual glm::ivec2 resolution() override;
-    virtual glm::vec2 size() const override;
+    virtual glm::ivec2 size() override;
+    virtual glm::vec2 dimensions() const override;
+
+    virtual GLuint activeFrameBuffer() override;
 private:
     float m_scale;
     glm::vec4 m_distortionK;

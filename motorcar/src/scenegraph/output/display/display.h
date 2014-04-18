@@ -11,7 +11,7 @@
 
 namespace motorcar {
 class WaylandSurface;
-class Display : public PhysicalNode
+class Display : public PhysicalNode, public Geometry::Rectangle
 {
 public:
     Display(OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
@@ -28,11 +28,11 @@ public:
 
     glm::vec3 worldPositionAtDisplayPosition(glm::vec2 pixel);
 
-    //returns resolution of this display in pixels
-    virtual glm::ivec2 resolution();
+    //returns resolution of this display in pixels, inherited from rectangle
+    virtual glm::ivec2 size() override;
 
     //returns the size of this display in meters
-    virtual glm::vec2 size() const;
+    virtual glm::vec2 dimensions() const;
 
 
     void addViewpoint(ViewPoint *v);
@@ -43,13 +43,15 @@ public:
     OpenGLContext *glContext() const;
     void setGlContext(OpenGLContext *glContext);
 
+    virtual GLuint activeFrameBuffer() {return 0;}
+
 
 
 
 
 private:
     std::vector<ViewPoint *> m_viewpoints;
-    glm::vec2 m_size;
+    glm::vec2 m_dimensions;
     OpenGLContext *m_glContext;
 
 

@@ -1,6 +1,7 @@
 #ifndef GLCAMERANODE_H
 #define GLCAMERANODE_H
 #include "../../geometry.h"
+#include "../../gl/viewport.h"
 #include "../virtualnode.h"
 struct wl_global;
 
@@ -22,6 +23,11 @@ public:
               glm::mat4 transform = glm::mat4(), glm::vec4 viewPortParams = glm::vec4(0,0,1,1), glm::vec3 centerOfProjection = glm::vec3(0));
     ~ViewPoint();
 
+
+
+
+
+
     void updateViewMatrix();
     void updateProjectionMatrix();
     glm::mat4 viewMatrix() const;
@@ -29,39 +35,7 @@ public:
 
 
     //returns camera vertical field of view in degrees
-    float fov();
-
-
-    //normalized viewport within a given window,
-    //all numerical arguments range from 0 to 1 and are multiplied by the size of the window in all getters and before being passed to OpenGL calls
-    class ViewPort{
-    public:
-
-        ViewPort(float offsetX, float offsetY, float width, float height, Display *display);
-
-        float offsetX() const;
-        float offsetY() const;
-        float width() const;
-        float height() const;
-
-        //calls glViewport with parameters
-        void set() const;
-
-
-        glm::vec2 displayCoordsToViewportCoords(float pixelX, float pixelY) const;
-
-        //takes a buffer of at least 8 floats and fills it with the UV space texture coordinates for the four corners of the viewport
-        void uvCoords(float *buf);
-
-        //returns a vector of the four floats which this was constructed on
-        glm::vec4 viewportParams() const;
-
-        Display *display() const;
-
-    private:
-        float m_offsetX, m_offsetY, m_width, m_height;
-        Display *m_display;
-    };
+    float fov(Display *display);
 
     Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);
 
@@ -88,7 +62,14 @@ public:
     ViewPort *clientDepthViewport() const;
     void setClientDepthViewport(ViewPort *clientDepthViewport);
 
+    Display *display() const;
+
+    Geometry::Rectangle *bufferGeometry() const;
+    void setBufferGeometry(Geometry::Rectangle *bufferGeometry);
+
 private:
+    Display *m_display;
+
     float near, far;
     ViewPort *m_viewport;
     ViewPort *m_clientColorViewport;
@@ -98,6 +79,7 @@ private:
     //center of projection information
     glm::vec4 m_centerOfFocus;
     glm::mat4 m_COFTransform;
+    Geometry::Rectangle *m_bufferGeometry;
 
 
     //cached matrices

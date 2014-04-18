@@ -7,7 +7,7 @@ using namespace motorcar;
 Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform)
     :PhysicalNode(parent, transform)
     ,m_glContext(glContext)
-    ,m_size(displayDimensions)
+    ,m_dimensions(displayDimensions)
 
 {
 
@@ -46,9 +46,9 @@ std::vector<ViewPoint *> Display::viewpoints() const
     return m_viewpoints;
 }
 
-glm::vec2 Display::size() const
+glm::vec2 Display::dimensions() const
 {
-    return m_size;
+    return m_dimensions;
 }
 
 
@@ -76,10 +76,10 @@ glm::vec3 Display::worldPositionAtDisplayPosition(glm::vec2 pixel)
 //    Geometry::printVector(glm::vec3(size(), 0));
 
 
-    return glm::vec3(worldTransform() * glm::vec4(((pixel / glm::vec2(resolution())) - glm::vec2(0.5)) * size(), 0 , 1));
+    return glm::vec3(worldTransform() * glm::vec4(((pixel / glm::vec2(size())) - glm::vec2(0.5)) * dimensions(), 0 , 1));
 }
 
-glm::ivec2 Display::resolution()
+glm::ivec2 Display::size()
 {
     return glContext()->defaultFramebufferSize();
 }

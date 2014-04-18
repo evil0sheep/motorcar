@@ -4,6 +4,7 @@
 #include "../../compositor.h"
 
 
+
 using namespace motorcar;
 
 //const static struct motorcar_viewpoint_interface motorcarViewpointInterface;
@@ -14,14 +15,23 @@ ViewPoint::ViewPoint(float near, float far, Display *display, SceneGraphNode *pa
     , far(far)
     , m_centerOfFocus(centerOfProjection, 1)
     , m_COFTransform(glm::translate(glm::mat4(1), centerOfProjection))
-    , m_viewport(new ViewPort(viewPortParams.x, viewPortParams.y, viewPortParams.z, viewPortParams.w, display))
-    , m_clientColorViewport(new ViewPort(viewPortParams.x, viewPortParams.y, viewPortParams.z, viewPortParams.w, display))
-    , m_clientDepthViewport(new ViewPort(viewPortParams.x, viewPortParams.y + viewPortParams.w, viewPortParams.z, viewPortParams.w, display))
+    , m_display(display)
+    , m_viewport(NULL)
+    , m_clientColorViewport(NULL)
+    , m_clientDepthViewport(NULL)
     , m_viewpointHandle(NULL)
     , m_global(NULL)
 
 {
 
+    m_bufferGeometry = new Geometry::Rectangle(glm::ivec2(display->size().x, display->size().y * 2));
+    glm::vec2 vpPos(viewPortParams.x, viewPortParams.y);
+    glm::vec2 vpSize(viewPortParams.z, viewPortParams.w);
+
+
+    m_viewport = new ViewPort(vpPos, vpSize, m_display);
+    m_clientColorViewport = new ViewPort(glm::vec2(vpPos.x, vpPos.y / 2), glm::vec2(vpSize.x, vpSize.y/2), m_bufferGeometry);
+    m_clientDepthViewport = new ViewPort(glm::vec2(vpPos.x, vpPos.y / 2 + vpSize.y/2), glm::vec2(vpSize.x, vpSize.y/2), m_bufferGeometry);
 
     std::cout << "creating viewpoint global: " << this <<std::endl;
 
@@ -69,7 +79,7 @@ void ViewPoint::updateViewMatrix()
 
 void ViewPoint::updateProjectionMatrix()
 {
-    m_projectionMatrix = m_COFTransform * glm::perspective(fov(), (m_viewport->width())/ (m_viewport->height()), near, far);
+    m_projectionMatrix = m_COFTransform * glm::perspective(fov(display()), (m_viewport->width())/ (m_viewport->height()), near, far);
 
     this->sendProjectionMatrixToClients();
 }
@@ -80,7 +90,7 @@ Geometry::Ray ViewPoint::worldRayAtDisplayPosition(float pixelX, float pixelY)
 
     glm::vec2 normalizedPixelPos = glm::vec2(-1, 1) * m_viewport->displayCoordsToViewportCoords(pixelX, pixelY);
     float h = (m_viewport->height()/m_viewport->width()) /2;
-    float theta = glm::radians(fov() / 2);
+    float theta = glm::radians(fov(display()) / 2);
     float d = h / glm::tan(theta);
 
     return Geometry::Ray(glm::vec3(0), glm::normalize(glm::vec3(normalizedPixelPos, d))).transform(this->worldTransform());
@@ -89,18 +99,18 @@ Geometry::Ray ViewPoint::worldRayAtDisplayPosition(float pixelX, float pixelY)
 
 
 
-float ViewPoint::fov()
+float ViewPoint::fov(Display *display)
 {
 
     //take camera distance to display and project it onto display normal
-    glm::mat4 displayWorldTransform = m_viewport->display()->worldTransform();
+    glm::mat4 displayWorldTransform = display->worldTransform();
     glm::vec4 origin(0, 0, 0, 1);
     glm::vec3 cameraToDisplayVector = glm::vec3((displayWorldTransform * origin) -  (worldTransform() * origin));
     glm::vec3 displayNormal = glm::normalize(glm::vec3(displayWorldTransform * glm::vec4(0, 0, 1, 0)));
     float eyeToScreenDistance = glm::abs(glm::dot(cameraToDisplayVector, displayNormal));
 
 
-    return glm::degrees(2 * atan(m_viewport->display()->size().y / (2 * eyeToScreenDistance)));
+    return glm::degrees(2 * atan(display->dimensions().y / (2 * eyeToScreenDistance)));
 }
 
 
@@ -110,13 +120,14 @@ glm::mat4 ViewPoint::projectionMatrix() const
 }
 
 
+
 glm::mat4 ViewPoint::viewMatrix() const
 {
     return m_viewMatrix;
 }
 
 
-ViewPoint::ViewPort *ViewPoint::viewport() const
+ViewPort *ViewPoint::viewport() const
 {
     return m_viewport;
 }
@@ -130,73 +141,24 @@ void ViewPoint::setViewport(ViewPort *viewport)
 
 
 
-ViewPoint::ViewPort::ViewPort(float offsetX, float offsetY, float width, float height, Display *display)
-    : m_offsetX(offsetX)
-    , m_offsetY(offsetY)
-    , m_width(width)
-    , m_height(height)
-    , m_display(display)
-{
-}
-
-void ViewPoint::ViewPort::set() const
-{
-    glViewport(offsetX(), offsetY(), width(), height());
-}
-
-glm::vec2 ViewPoint::ViewPort::displayCoordsToViewportCoords(float pixelX, float pixelY) const
-{
-    return glm::vec2(((pixelX - offsetX()) / width() - 0.5f), ((pixelY - offsetY()) / height()  - 0.5f) * (height() / width()));
-}
-
-void ViewPoint::ViewPort::uvCoords(float *buf)
-{
-    buf[0] = m_offsetX;
-    buf[1] = m_offsetY;
-
-    buf[2] = m_offsetX;
-    buf[3] = m_offsetY + m_height;
-
-    buf[4] = m_offsetX + m_width;
-    buf[5] = m_offsetY + m_height;
-
-    buf[6] = m_offsetX + m_width;
-    buf[7] = m_offsetY;
-
-
-}
-
-
-float ViewPoint::ViewPort::height() const
-{
-    return m_height * m_display->resolution().y;
-}
-
-float ViewPoint::ViewPort::width() const
-{
-    return m_width * m_display->resolution().x;
-}
-
-float ViewPoint::ViewPort::offsetY() const
-{
-    return m_offsetY * m_display->resolution().y;
-}
-
-float ViewPoint::ViewPort::offsetX() const
-{
-    return m_offsetX * m_display->resolution().x;
-}
 
 
 
 
-
-
-
-Display *ViewPoint::ViewPort::display() const
+Display *ViewPoint::display() const
 {
     return m_display;
 }
+Geometry::Rectangle *ViewPoint::bufferGeometry() const
+{
+    return m_bufferGeometry;
+}
+
+void ViewPoint::setBufferGeometry(Geometry::Rectangle *bufferGeometry)
+{
+    m_bufferGeometry = bufferGeometry;
+}
+
 
 
 glm::vec4 ViewPoint::centerOfFocus() const
@@ -264,7 +226,7 @@ void ViewPoint::setGlobal(wl_global *global)
 {
     m_global = global;
 }
-ViewPoint::ViewPort *ViewPoint::clientColorViewport() const
+ViewPort *ViewPoint::clientColorViewport() const
 {
     return m_clientColorViewport;
 }
@@ -273,7 +235,7 @@ void ViewPoint::setClientColorViewport(ViewPort *clientColorViewport)
 {
     m_clientColorViewport = clientColorViewport;
 }
-ViewPoint::ViewPort *ViewPoint::clientDepthViewport() const
+ViewPort *ViewPoint::clientDepthViewport() const
 {
     return m_clientDepthViewport;
 }
@@ -294,15 +256,25 @@ void ViewPoint::destroy_func(wl_resource *resource)
 
 
 
-glm::vec4 ViewPoint::ViewPort::viewportParams() const
+glm::vec4 ViewPort::viewportParams() const
 {
     return glm::vec4(m_offsetX, m_offsetY, m_width, m_height);
+}
+Geometry::Rectangle *ViewPort::bufferGeometry() const
+{
+    return m_bufferGeometry;
+}
+
+void ViewPort::setBufferGeometry(Geometry::Rectangle *bufferGeometry)
+{
+    m_bufferGeometry = bufferGeometry;
 }
 
 
 
+
 void ViewPoint::bind_func(struct wl_client *client, void *data,
-                      uint32_t version, uint32_t id)
+                          uint32_t version, uint32_t id)
 {
     ViewPoint *viewpoint = static_cast<ViewPoint *>(data);
     std::cout << "client bound viewpoint global: " << viewpoint << std::endl;

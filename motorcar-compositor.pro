@@ -86,7 +86,8 @@ HEADERS += \
     motorcar/src/scenegraph/input/input.h \
     motorcar/src/shell.h \
     motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.h \
-    motorcar/src/scenegraph/output/viewpoint.h
+    motorcar/src/scenegraph/output/viewpoint.h \
+    motorcar/src/gl/viewport.h
 
 
 
@@ -136,7 +137,8 @@ SOURCES += \
     qt/src/qtwaylandmotorcarseat.cpp \
     motorcar/src/shell.cpp \
     motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.cpp \
-    motorcar/src/scenegraph/output/viewpoint.cpp
+    motorcar/src/scenegraph/output/viewpoint.cpp \
+    motorcar/src/gl/viewport.cpp
 
 
 

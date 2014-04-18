@@ -797,7 +797,7 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	            uvPos.x, uvPos.y + uvSize.y,
 	        };
 
-	        struct viewport textureViewport = textureViewport = textureViewports[i];
+	        struct viewport textureViewport = textureViewports[i];
 	        glViewport(textureViewport.x, textureViewport.y, textureViewport.width, textureViewport.height);
 
 	        glEnableVertexAttribArray(window->gl.h_aTexCoord);

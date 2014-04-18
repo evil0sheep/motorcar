@@ -1,5 +1,6 @@
 #include "waylandsurfacenode.h"
 #include "../display/display.h"
+#include "../../../gl/viewport.h"
 using namespace motorcar;
 
 WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform)

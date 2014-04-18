@@ -73,6 +73,19 @@ public:
         float intersect(Ray r);
     };
 
+    struct Rectangle
+    {
+        Rectangle(glm::ivec2 size);
+        Rectangle();
+        virtual ~Rectangle() {}
+
+        virtual glm::ivec2 size() {return m_size;}
+
+    protected:
+        glm::ivec2 m_size;
+
+    };
+
     struct RaySurfaceIntersection
     {
         RaySurfaceIntersection(WaylandSurfaceNode *surfaceNode, glm::vec2 surfaceLocalCoordinates , const Geometry::Ray &ray , float t );

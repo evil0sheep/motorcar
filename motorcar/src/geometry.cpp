@@ -128,3 +128,16 @@ Geometry::RaySurfaceIntersection::RaySurfaceIntersection(WaylandSurfaceNode *sur
 
 
 
+
+
+Geometry::Rectangle::Rectangle(glm::ivec2 size)
+    :m_size(size)
+{
+
+}
+
+Geometry::Rectangle::Rectangle()
+    :m_size(0)
+{
+
+}

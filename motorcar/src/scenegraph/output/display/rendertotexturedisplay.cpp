@@ -1,5 +1,6 @@
 #include "rendertotexturedisplay.h"
 
+
 using namespace motorcar;
 
 RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform)
@@ -46,15 +47,15 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertexCoordinates, GL_STATIC_DRAW);
 
 
-    glm::ivec2 res = resolution();
+    glm::ivec2 res = size();
 
     glGenFramebuffers(1, &m_frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 
     glGenTextures(1, &m_frameBufferTexture);
     glBindTexture(GL_TEXTURE_2D, m_frameBufferTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     // Allocate space for the texture
@@ -105,8 +106,8 @@ void RenderToTextureDisplay::finishDraw()
     glVertexAttribPointer(h_aPosition_distortion, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindTexture(GL_TEXTURE_2D, m_frameBufferTexture);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     GLfloat texCoords [8];
 
@@ -145,12 +146,17 @@ void RenderToTextureDisplay::finishDraw()
 }
 
 
-glm::ivec2 RenderToTextureDisplay::resolution()
+glm::ivec2 RenderToTextureDisplay::size()
 {
-    return glm::ivec2(m_scale * glm::vec2(Display::resolution()));
+    return glm::ivec2(m_scale * glm::vec2(Display::size()));
 }
 
-glm::vec2 RenderToTextureDisplay::size() const
+glm::vec2 RenderToTextureDisplay::dimensions() const
 {
-    return m_scale * Display::size();
+    return m_scale * Display::dimensions();
+}
+
+GLuint RenderToTextureDisplay::activeFrameBuffer()
+{
+    return m_frameBuffer;
 }
