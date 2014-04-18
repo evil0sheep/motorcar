@@ -442,16 +442,43 @@ init_gl(struct window *window)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    // Allocate space for the texture
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, window->geometry.width, window->geometry.height / 2, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, window->gl.colorBufferTexture, 0);
 
+    glGenTextures(1, &window->gl.depthBufferTexture);
+    glBindTexture(GL_TEXTURE_2D, window->gl.depthBufferTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, window->geometry.width, window->geometry.height / 2, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, window->gl.depthBufferTexture, 0);
 
-    glGenRenderbuffers(1, &window->gl.depthBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, window->gl.depthBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, window->geometry.width, window->geometry.height / 2);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, window->gl.depthBuffer);
+
+  	switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
+  		case(GL_FRAMEBUFFER_COMPLETE):
+  			std::cout << "Framebuffer Complete" << std::endl;
+  			break;
+  		case(GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT):
+  			std::cout << "Framebuffer Attachment Incomplete" << std::endl;
+  			break;
+  		case(GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS):
+  			std::cout << "Framebuffer Dimensions Incomplete" << std::endl;
+  			break;
+  		case(GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT):
+  			std::cout << "Framebuffer Attachment Incomplete/Missing" << std::endl;
+  			break;
+  		case(GL_FRAMEBUFFER_UNSUPPORTED):
+  			std::cout << "Framebuffer Unsupported" << std::endl;
+  			break;
+  	}
+
+    // glGenRenderbuffers(1, &window->gl.depthBuffer);
+    // glBindRenderbuffer(GL_RENDERBUFFER, window->gl.depthBuffer);
+    // glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, window->geometry.width, window->geometry.height / 2);
+    // glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, window->gl.depthBuffer);
+
+
     glEnable(GL_TEXTURE_2D);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -734,47 +761,53 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
     glBindBuffer(GL_ARRAY_BUFFER, window->gl.textureBlitVertices);
     glVertexAttribPointer(window->gl.h_aPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glBindTexture(GL_TEXTURE_2D, window->gl.colorBufferTexture);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 
     GLfloat texCoords [8];
 
+    GLuint textures[] = {window->gl.colorBufferTexture, window->gl.depthBufferTexture};
+
 
     for(struct viewpoint *vp : display->viewpoints){
+    	struct viewport textureViewports[] = {vp->colorViewport, vp->depthViewport};
+    	for(int i = 0; i < 2; i++){
+    		glBindTexture(GL_TEXTURE_2D, textures[i]);
+    		
+	    	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	    	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    	struct viewport textureViewport = vp->depthViewport;
-        glm::vec2 textureViewportPos(textureViewport.x, textureViewport.y);
-        glm::vec2 textureViewportSize(textureViewport.width, textureViewport.height);
-        glm::vec2 textureSize(window->geometry.width, window->geometry.height / 2);
+	        glm::vec2 textureViewportPos(vp->colorViewport.x, vp->colorViewport.y);
+	        glm::vec2 textureViewportSize(vp->colorViewport.width, vp->colorViewport.height);
+	        glm::vec2 textureSize(window->geometry.width, window->geometry.height / 2);
 
-        glm::vec2 uvPos(textureViewportPos / textureSize);
-        glm::vec2 uvSize(textureViewportSize / textureSize);
+	        glm::vec2 uvPos(textureViewportPos / textureSize);
+	        glm::vec2 uvSize(textureViewportSize / textureSize);
 
-        // const GLfloat textureCoordinates[] = {
-        //     uvPos.x, uvPos.y + uvSize.y,
-        //     uvPos.x + uvSize.x, uvPos.y + uvSize.y,
-        //     uvPos.x + uvSize.x, uvPos.y,
-        //     uvPos.x, uvPos.y,
-        // };
+	        // const GLfloat textureCoordinates[] = {
+	        //     uvPos.x, uvPos.y + uvSize.y,
+	        //     uvPos.x + uvSize.x, uvPos.y + uvSize.y,
+	        //     uvPos.x + uvSize.x, uvPos.y,
+	        //     uvPos.x, uvPos.y,
+	        // };
 
-        const GLfloat textureCoordinates[] = {
-        	uvPos.x, uvPos.y,
-            uvPos.x + uvSize.x, uvPos.y,
-            uvPos.x + uvSize.x, uvPos.y + uvSize.y,
-            uvPos.x, uvPos.y + uvSize.y,
-        };
+	        const GLfloat textureCoordinates[] = {
+	        	uvPos.x, uvPos.y,
+	            uvPos.x + uvSize.x, uvPos.y,
+	            uvPos.x + uvSize.x, uvPos.y + uvSize.y,
+	            uvPos.x, uvPos.y + uvSize.y,
+	        };
 
-        glViewport(vp->colorViewport.x, vp->colorViewport.y, vp->colorViewport.width, vp->colorViewport.height);
+	        struct viewport textureViewport = textureViewport = textureViewports[i];
+	        glViewport(textureViewport.x, textureViewport.y, textureViewport.width, textureViewport.height);
 
+	        glEnableVertexAttribArray(window->gl.h_aTexCoord);
+	        glBindBuffer(GL_ARRAY_BUFFER, window->gl.textureBlitTextureCoords);
+	        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
+	        glVertexAttribPointer(window->gl.h_aTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-
-        glEnableVertexAttribArray(window->gl.h_aTexCoord);
-        glBindBuffer(GL_ARRAY_BUFFER, window->gl.textureBlitTextureCoords);
-        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
-        glVertexAttribPointer(window->gl.h_aTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    	}
+    	
 
     }
 
