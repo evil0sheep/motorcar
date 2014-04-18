@@ -1044,7 +1044,8 @@ motorcar_viewpoint_handle_view_port(void *data,
 			  int32_t depth_y,
 			  uint32_t depth_width,
 			  uint32_t depth_height){
-	printf("viewpoint updated viewport : %u, %u, %u, %u\n", color_x, color_y, color_width, color_height);
+	printf("viewpoint updated color viewport : %u, %u, %u, %u\n", color_x, color_y, color_width, color_height);
+	printf("viewpoint updated depth viewport : %u, %u, %u, %u\n", depth_x, depth_y, depth_width, depth_height);
 
 	struct viewpoint *vp = static_cast<struct viewpoint *>(data);
 

@@ -28,6 +28,8 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
        -1.0f,  1.0f, 0.0f
     };
 
+
+
     glGenBuffers(1, &m_surfaceTextureCoordinates);
 //    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
 //    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
@@ -115,11 +117,19 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
         glm::vec4 vp = viewpoint->viewport()->viewportParams();
 
         const GLfloat clientColorTextureCoordinates[] = {
-            vp.x, vp.y + vp.w,
-            vp.x + vp.z, vp.y + vp.w,
-            vp.x + vp.z, vp.y,
             vp.x, vp.y,
+            vp.x + vp.z, vp.y,
+            vp.x + vp.z, vp.y + vp.w,
+            vp.x, vp.y + vp.w,
         };
+
+//        const GLfloat clientColorTextureCoordinates[] = {
+//            vp.x, vp.y + vp.w,
+//            vp.x + vp.z, vp.y + vp.w,
+//            vp.x + vp.z, vp.y,
+//            vp.x, vp.y,
+//        };
+
 
         glEnableVertexAttribArray(h_aTexCoord_surface);
         glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
@@ -167,14 +177,22 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 
         viewpoint->viewport()->set();
 
-        glm::vec4 vp = viewpoint->clientDepthViewport()->viewportParams();
+        ViewPort *viewport = viewpoint->clientColorViewport();
+        glm::vec4 vp = viewport->viewportParams();
+
+        //printf("Drawing client viewport %f, %f, %f, %f\n", viewport->offsetX(), viewport->offsetY(), viewport->width(), viewport->height());
+
+        //printf("sampling uv coords %f, %f, %f, %f\n", vp.x, vp.y, vp.z, vp.w);
 
         const GLfloat clientColorTextureCoordinates[] = {
-            vp.x, vp.y,
-            vp.x + vp.z, vp.y,
-            vp.x + vp.z, vp.y + vp.w,
-            vp.x, vp.y + vp.w,
+            vp.x, 1 - vp.y,
+            vp.x + vp.z, 1 - vp.y,
+            vp.x + vp.z, 1 - (vp.y + vp.w),
+            vp.x, 1 - (vp.y + vp.w),
         };
+
+
+
 
         glEnableVertexAttribArray(h_aTexCoord_surface);
         glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
