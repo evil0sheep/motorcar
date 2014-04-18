@@ -47,6 +47,7 @@
 #include "glm/gtc/matrix_access.hpp"
 
 #include <vector>
+#include <iostream>
 
 #ifndef EGL_EXT_swap_buffers_with_damage
 #define EGL_EXT_swap_buffers_with_damage 1
@@ -116,6 +117,11 @@ struct window {
 		GLuint pos;
 		GLuint col;
 		GLuint vertices, colors, indices;
+		GLuint frameBuffer, depthBuffer;
+		GLuint colorBufferTexture, depthBufferTexture;
+		GLuint drawProgram, textureBlitProgram;
+		GLuint textureBlitVertices, textureBlitTextureCoords;
+		GLuint h_aPosition, h_aTexCoord;
 	} gl;
 
 	uint32_t benchmark_time, frames;
@@ -145,6 +151,23 @@ static const char *frag_shader_text =
 	"varying vec4 v_color;\n"
 	"void main() {\n"
 	"  gl_FragColor = v_color;\n"
+	"}\n";
+
+static const char *blit_vert_shader_text =
+	"attribute vec3 aPosition;\n"
+	"attribute vec2 aTexCoord;\n"
+	"varying vec2 vTexCoord;\n"
+	"void main() {\n"
+	"  gl_Position = vec4(aPosition, 1);\n"
+	"  vTexCoord = aTexCoord;\n"
+	"}\n";
+
+static const char *blit_frag_shader_text =
+	"precision highp float;\n"
+	"varying vec2 vTexCoord;\n"
+	"uniform sampler2D uTexSampler;\n"
+	"void main() {\n"
+	"  gl_FragColor = texture2D(uTexSampler, vTexCoord);\n"
 	"}\n";
 
 static int running = 1;
@@ -272,36 +295,75 @@ init_gl(struct window *window)
     glDisable(GL_CULL_FACE);
 	
 
-
+    //draw shaders
 
 	frag = create_shader(window, frag_shader_text, GL_FRAGMENT_SHADER);
 	vert = create_shader(window, vert_shader_text, GL_VERTEX_SHADER);
 
-	program = glCreateProgram();
-	glAttachShader(program, frag);
-	glAttachShader(program, vert);
-	glLinkProgram(program);
+	window->gl.drawProgram = glCreateProgram();
+	glAttachShader(window->gl.drawProgram, frag);
+	glAttachShader(window->gl.drawProgram, vert);
+	glLinkProgram(window->gl.drawProgram);
 
-	glGetProgramiv(program, GL_LINK_STATUS, &status);
+	glGetProgramiv(window->gl.drawProgram, GL_LINK_STATUS, &status);
 	if (!status) {
 		char log[1000];
 		GLsizei len;
-		glGetProgramInfoLog(program, 1000, &len, log);
+		glGetProgramInfoLog(window->gl.drawProgram, 1000, &len, log);
 		fprintf(stderr, "Error: linking:\n%*s\n", len, log);
 		exit(1);
 	}
 
-	glUseProgram(program);
-	
 	window->gl.pos = 0;
 	window->gl.col = 1;
 
-	glBindAttribLocation(program, window->gl.pos, "pos");
-	glBindAttribLocation(program, window->gl.col, "color");
-	glLinkProgram(program);
+	window->gl.pos = glGetAttribLocation(window->gl.drawProgram, "pos");
+	window->gl.col = glGetAttribLocation(window->gl.drawProgram,  "color");
+	window->gl.rotation_uniform = glGetUniformLocation(window->gl.drawProgram, "rotation");
 
-	window->gl.rotation_uniform =
-		glGetUniformLocation(program, "rotation");
+
+
+	//texture blit shaders
+
+	if(window->gl.pos < 0 || window->gl.col < 0 || window->gl.rotation_uniform < 0){
+       std::cout << "problem with draw shader handles: "
+                 << window->gl.pos
+                 << ", "<< window->gl.col
+                 << ", "<< window->gl.rotation_uniform
+                 << std::endl;
+    }
+
+
+	frag = create_shader(window, blit_frag_shader_text, GL_FRAGMENT_SHADER);
+	vert = create_shader(window, blit_vert_shader_text, GL_VERTEX_SHADER);
+
+	window->gl.textureBlitProgram = glCreateProgram();
+	glAttachShader(window->gl.textureBlitProgram, frag);
+	glAttachShader(window->gl.textureBlitProgram, vert);
+	glLinkProgram(window->gl.textureBlitProgram);
+
+	glGetProgramiv(window->gl.textureBlitProgram, GL_LINK_STATUS, &status);
+	if (!status) {
+		char log[1000];
+		GLsizei len;
+		glGetProgramInfoLog(window->gl.textureBlitProgram, 1000, &len, log);
+		fprintf(stderr, "Error: linking:\n%*s\n", len, log);
+		exit(1);
+	}
+
+
+	window->gl.h_aPosition =  glGetAttribLocation(window->gl.textureBlitProgram, "aPosition");
+	window->gl.h_aTexCoord =  glGetAttribLocation(window->gl.textureBlitProgram, "aTexCoord");
+
+	
+	if(window->gl.h_aPosition < 0 || window->gl.h_aTexCoord < 0){
+       std::cout << "problem with texture blitter shader handles: "
+                 << window->gl.h_aPosition
+                 << ", "<< window->gl.h_aTexCoord
+                 << std::endl;
+    }
+	
+
 
 	static const GLfloat verts[8][3]= {
 		{ 0.5, 0.5 , 0.5},
@@ -340,6 +402,13 @@ init_gl(struct window *window)
 
 	};
 
+	const GLfloat textureBlitVertices[] ={
+       -1.0f, -1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f,
+        1.0f,  1.0f, 0.0f,
+       -1.0f,  1.0f, 0.0f
+    };
+
 	glGenBuffers(1, &window->gl.vertices);
     glBindBuffer(GL_ARRAY_BUFFER, window->gl.vertices);
     glBufferData(GL_ARRAY_BUFFER, 8 * 3 * sizeof(float), verts, GL_STATIC_DRAW);
@@ -352,6 +421,39 @@ init_gl(struct window *window)
  	glGenBuffers(1, &window->gl.indices);
  	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.indices);
  	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 12 * 3 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+
+
+
+ 	glGenBuffers(1, &window->gl.textureBlitVertices);
+ 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.textureBlitVertices);
+ 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 4 * 3 * sizeof(float), textureBlitVertices, GL_STATIC_DRAW);
+
+ 	glGenBuffers(1, &window->gl.textureBlitTextureCoords);
+
+
+ 	//Setup framebuffers for sending depth and color to compositor
+
+ 	glGenFramebuffers(1, &window->gl.frameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, window->gl.frameBuffer);
+
+    glGenTextures(1, &window->gl.colorBufferTexture);
+    glBindTexture(GL_TEXTURE_2D, window->gl.colorBufferTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    // Allocate space for the texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, window->geometry.width, window->geometry.height / 2, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, window->gl.colorBufferTexture, 0);
+
+
+    glGenRenderbuffers(1, &window->gl.depthBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, window->gl.depthBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, window->geometry.width, window->geometry.height / 2);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, window->gl.depthBuffer);
+    glEnable(GL_TEXTURE_2D);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
 
@@ -574,15 +676,16 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 				EGL_BUFFER_AGE_EXT, &buffer_age);
 
 
+	//---- draw geometry ----
+
+	glBindFramebuffer(GL_FRAMEBUFFER, window->gl.frameBuffer);
+	glUseProgram(window->gl.drawProgram);
 
 
-
-	// /glClearDepth(1);
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// glVertexAttribPointer(window->gl.pos, 3, GL_FLOAT, GL_FALSE, 0, verts);
-	// glVertexAttribPointer(window->gl.col, 3, GL_FLOAT, GL_FALSE, 0, colors);
+
 	glEnableVertexAttribArray(window->gl.pos);
 	glBindBuffer(GL_ARRAY_BUFFER, window->gl.vertices);
 	glVertexAttribPointer(window->gl.pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -614,13 +717,78 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	}
 
 
-	
-	//printf("dims: %d, %d\n", window->geometry.width, window->geometry.height);
-
-	//glDrawArrays(GL_TRIANGLES, 0, 24);
-
 	glDisableVertexAttribArray(window->gl.pos);
 	glDisableVertexAttribArray(window->gl.col);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+	//---- blit framebuffer contents ----
+
+
+	glUseProgram(window->gl.textureBlitProgram);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glEnableVertexAttribArray(window->gl.h_aPosition);
+    glBindBuffer(GL_ARRAY_BUFFER, window->gl.textureBlitVertices);
+    glVertexAttribPointer(window->gl.h_aPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindTexture(GL_TEXTURE_2D, window->gl.colorBufferTexture);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    GLfloat texCoords [8];
+
+
+    for(struct viewpoint *vp : display->viewpoints){
+
+    	struct viewport textureViewport = vp->depthViewport;
+        glm::vec2 textureViewportPos(textureViewport.x, textureViewport.y);
+        glm::vec2 textureViewportSize(textureViewport.width, textureViewport.height);
+        glm::vec2 textureSize(window->geometry.width, window->geometry.height / 2);
+
+        glm::vec2 uvPos(textureViewportPos / textureSize);
+        glm::vec2 uvSize(textureViewportSize / textureSize);
+
+        // const GLfloat textureCoordinates[] = {
+        //     uvPos.x, uvPos.y + uvSize.y,
+        //     uvPos.x + uvSize.x, uvPos.y + uvSize.y,
+        //     uvPos.x + uvSize.x, uvPos.y,
+        //     uvPos.x, uvPos.y,
+        // };
+
+        const GLfloat textureCoordinates[] = {
+        	uvPos.x, uvPos.y,
+            uvPos.x + uvSize.x, uvPos.y,
+            uvPos.x + uvSize.x, uvPos.y + uvSize.y,
+            uvPos.x, uvPos.y + uvSize.y,
+        };
+
+        glViewport(vp->colorViewport.x, vp->colorViewport.y, vp->colorViewport.width, vp->colorViewport.height);
+
+
+
+        glEnableVertexAttribArray(window->gl.h_aTexCoord);
+        glBindBuffer(GL_ARRAY_BUFFER, window->gl.textureBlitTextureCoords);
+        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
+        glVertexAttribPointer(window->gl.h_aTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    }
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glDisableVertexAttribArray(window->gl.h_aPosition);
+    glDisableVertexAttribArray(window->gl.h_aTexCoord);
+
+    glUseProgram(0);
+
+
+
+
+
 
 	if (window->opaque || window->fullscreen) {
 		region = wl_compositor_create_region(window->display->compositor);
@@ -985,7 +1153,7 @@ main(int argc, char **argv)
 	window.display = &display;
 	display.window = &window;
 	window.window_size.width  = 2194;
-	window.window_size.height = 1371;
+	window.window_size.height = 2742;
 	window.buffer_size = 32;
 	window.frame_sync = 1;
 
