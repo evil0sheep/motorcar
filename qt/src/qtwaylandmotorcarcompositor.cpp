@@ -338,7 +338,7 @@ void QtWaylandMotorcarCompositor::surfaceUnmapped()
     //m_renderScheduler.start(0);
 }
 
-void QtWaylandMotorcarCompositor::surfaceDamaged(const QRect &rect)
+void QtWaylandMotorcarCompositor::surfaceDamaged()
 {
     QWaylandSurface *surface = qobject_cast<QWaylandSurface *>(sender());
 
@@ -352,7 +352,7 @@ void QtWaylandMotorcarCompositor::surfaceDamaged(const QRect &rect)
 
     }
 
-    surfaceDamaged(surface, rect);
+    surfaceDamaged(surface);
 }
 
 void QtWaylandMotorcarCompositor::surfacePosChanged()
@@ -360,10 +360,10 @@ void QtWaylandMotorcarCompositor::surfacePosChanged()
     //m_renderScheduler.start(0);
 }
 
-void QtWaylandMotorcarCompositor::surfaceDamaged(QWaylandSurface *surface, const QRect &rect)
+void QtWaylandMotorcarCompositor::surfaceDamaged(QWaylandSurface *surface)
 {
     Q_UNUSED(surface)
-    Q_UNUSED(rect)
+   // Q_UNUSED(rect)
     m_renderScheduler.start(0);
 }
 
@@ -372,7 +372,7 @@ void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
     connect(surface, SIGNAL(destroyed(QObject *)), this, SLOT(surfaceDestroyed(QObject *)));
     connect(surface, SIGNAL(mapped()), this, SLOT(surfaceMapped()));
     connect(surface, SIGNAL(unmapped()), this, SLOT(surfaceUnmapped()));
-    connect(surface, SIGNAL(damaged(const QRect &)), this, SLOT(surfaceDamaged(const QRect &)));
+    connect(surface, SIGNAL(committed()), this, SLOT(surfaceDamaged()));
     connect(surface, SIGNAL(extendedSurfaceReady()), this, SLOT(sendExpose()));
     connect(surface, SIGNAL(posChanged()), this, SLOT(surfacePosChanged()));
 

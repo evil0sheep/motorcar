@@ -1,4 +1,4 @@
-precision highp float;
+//precision highp float;
 attribute vec3 aPosition;
 //attribute vec2 aTexCoord;
 

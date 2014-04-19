@@ -33,7 +33,7 @@ UI_DIR = bin/.ui
 
 QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES
 
-LIBS += -L ../thirdPartySource/qt5_GLES/qtwayland/lib -lGL -lGLU -lglut
+LIBS += -L ../thirdPartySource/qt5_GL/qtwayland/lib -lGL -lGLU -lglut
 #include (../../src/qt-compositor/qt-compositor.pri)
 #include(scenegraph/include.pri)
 
@@ -147,8 +147,8 @@ SOURCES += \
 
 
 # to make QtCompositor/... style includes working without installing
-INCLUDEPATH += $$PWD/../thirdPartySource/qt5_GLES/qtwayland/include
-INCLUDEPATH += $$PWD/../thirdPartySource/qt5_GLES/qtwayland/include/QtCompositor/5.3.0/
+INCLUDEPATH += $$PWD/../thirdPartySource/qt5_GL/qtwayland/include
+INCLUDEPATH += $$PWD/../thirdPartySource/qt5_GL/qtwayland/include/QtCompositor/5.3.0/
 
 #  if you want to compile QtCompositor as part of the application
 #  instead of linking to it, remove the QT += compositor and uncomment

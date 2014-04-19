@@ -3,7 +3,8 @@
 #include "../viewpoint.h"
 #include "../../physicalnode.h"
 #include "../../../gl/openglcontext.h"
-#include <GLES2/gl2.h>
+//#include <GLES2/gl2.h>
+#include <GL/gl.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>

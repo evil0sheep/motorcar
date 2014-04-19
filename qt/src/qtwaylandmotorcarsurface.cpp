@@ -188,7 +188,7 @@ GLuint QtWaylandMotorcarSurface::composeSurface(QWaylandSurface *surface, bool *
     GLuint texture = 0;
 
     QSize windowSize = surface->size();
-    surface->advanceBufferQueue();
+    surface->swapBuffers();
 
     QOpenGLFunctions *functions = QOpenGLContext::currentContext()->functions();
     functions->glBindFramebuffer(GL_FRAMEBUFFER, glData->m_surface_fbo);
@@ -223,7 +223,8 @@ void QtWaylandMotorcarSurface::paintChildren(QWaylandSurface *surface, QWaylandS
         QWaylandSurface *subSurface = i.next();
         QPointF p = subSurface->mapTo(window,QPointF(0,0));
         QSize subSize = subSurface->size();
-        subSurface->advanceBufferQueue();
+        //subSurface->advanceBufferQueue();
+        subSurface->swapBuffers();
         if (subSize.isValid()) {
             GLuint texture = 0;
             if (subSurface->type() == QWaylandSurface::Texture) {

@@ -63,7 +63,7 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
         /* check shader status requires helper functions */
         printOpenGLError();
         glGetShaderiv(VS, GL_COMPILE_STATUS, &vCompiled);
-        //printShaderInfoLog(VS);
+        printShaderInfoLog(VS);
 
         if (!vCompiled) {
                 printf("Error compiling vertex shader:\n\n ");
@@ -82,7 +82,7 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
         /* check shader status requires helper functions */
         printOpenGLError();
         glGetShaderiv(FS, GL_COMPILE_STATUS, &fCompiled);
-        //printShaderInfoLog(FS);
+        printShaderInfoLog(FS);
 
         if (!fCompiled) {
                 printf("Error compiling fragment shader:\n\n ");

@@ -87,9 +87,9 @@ void DepthCompositedSurfaceNode::prepareFrameBufferForDrawing(Display *display)
             case(GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT):
                 std::cout << "Framebuffer Attachment Incomplete" << std::endl;
                 break;
-            case(GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS):
-                std::cout << "Framebuffer Dimensions Incomplete" << std::endl;
-                break;
+//            case(GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS):
+//                std::cout << "Framebuffer Dimensions Incomplete" << std::endl;
+//                break;
             case(GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT):
                 std::cout << "Framebuffer Attachment Incomplete/Missing" << std::endl;
                 break;
@@ -196,9 +196,9 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
-        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-        //glDrawPixels(viewpoint->clientDepthViewport()->size().x, viewpoint->clientDepthViewport()->size().y, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, texture);
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+//        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+//        glDrawPixels(viewpoint->clientDepthViewport()->size().x, viewpoint->clientDepthViewport()->size().y, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, texture);
+//        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }
 
      this->drawFrameBufferContents(display);
