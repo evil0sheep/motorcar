@@ -180,9 +180,6 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
         ViewPort *viewport = viewpoint->clientColorViewport();
         glm::vec4 vp = viewport->viewportParams();
 
-        //printf("Drawing client viewport %f, %f, %f, %f\n", viewport->offsetX(), viewport->offsetY(), viewport->width(), viewport->height());
-
-        //printf("sampling uv coords %f, %f, %f, %f\n", vp.x, vp.y, vp.z, vp.w);
 
         const GLfloat clientColorTextureCoordinates[] = {
             vp.x, 1 - vp.y,
@@ -192,8 +189,6 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
         };
 
 
-
-
         glEnableVertexAttribArray(h_aTexCoord_surface);
         glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
         glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), clientColorTextureCoordinates, GL_STATIC_DRAW);
@@ -201,6 +196,9 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
+        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+        //glDrawPixels(viewpoint->clientDepthViewport()->size().x, viewpoint->clientDepthViewport()->size().y, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, texture);
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }
 
      this->drawFrameBufferContents(display);

@@ -47,6 +47,10 @@
 
 int main(int argc, char *argv[])
 {
+    #ifdef GL_EXT_frag_depth
+        std::cout << "depth extension available" << std::endl
+    #endif
+
     motorcar::Scene *scene = new motorcar::Scene();
 
     qtmotorcar::QtWaylandMotorcarCompositor *compositor = qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene) ;
