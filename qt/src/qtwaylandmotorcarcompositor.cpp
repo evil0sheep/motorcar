@@ -507,6 +507,7 @@ QWaylandSurface *QtWaylandMotorcarCompositor::surfaceAt(const QPointF &point, QP
 void QtWaylandMotorcarCompositor::render()
 {
     m_glData->m_window->makeCurrent();
+    frameStarted();
     cleanupGraphicsResources();
 
     //   m_glData->m_backgroundTexture = m_glData->m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_glData->m_backgroundImage);

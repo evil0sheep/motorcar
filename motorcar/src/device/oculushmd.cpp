@@ -35,18 +35,10 @@ void OculusHMD::prepareForDraw()
 
     glm::quat orientation = glm::angleAxis(glm::degrees(angle), glm::normalize(axis));
 
-    //glm::mat4 rotMat = glm::rotate(glm::mat4(), glm::degrees(angle), glm::normalize(axis));
-
-
     glm::vec3 parentPos = glm::vec3(parentNode()->worldTransform() * glm::vec4(0,0,0,1));
 
-    //setTransform(rotMat);
-
-    //parentNode()->setWorldTransform(glm::translate(glm::mat4(1), parentPos) *  glm::mat4_cast(orientation));
     m_boneTracker->setOrientation(glm::mat3_cast(orientation));
 
-//    glm::vec4 hmd_axis = this->worldTransform()*glm::vec4(0,1,0,0);
-//    std::cout << glm::degrees(glm::dot(glm::vec3(0,1,0), glm::normalize(glm::vec3(0, hmd_axis.y, hmd_axis.z)))) << std::endl;
 
     RenderToTextureDisplay::prepareForDraw();
 }
