@@ -2,6 +2,7 @@
 #define DEPTHCOMPOSITEDSURFACE_H
 #include "waylandsurfacenode.h"
 
+
 namespace motorcar {
 class DepthCompositedSurfaceNode : public WaylandSurfaceNode
 {
@@ -23,10 +24,8 @@ public:
 
 private:
 
-    void prepareFrameBufferForDrawing(Display * display);
     void drawFrameBufferContents(Display * display);
 
-    GLuint m_frameBuffer, m_colorBufferTexture, m_depthBufferTexture;
 
     //attribute buffers
     GLuint m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;

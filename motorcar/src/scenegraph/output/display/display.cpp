@@ -10,6 +10,44 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
     ,m_dimensions(displayDimensions)
 
 {
+    m_glContext->makeCurrent();
+
+    glm::ivec2 res = this->size();
+
+
+    glGenFramebuffers(1, &m_scratchFrameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_scratchFrameBuffer);
+
+    glGenRenderbuffers(1, &m_scratchColorBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchColorBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA32F, res.x, res.y);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_scratchColorBuffer);
+
+
+    glGenRenderbuffers(1, &m_scratchDepthBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchDepthBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, res.x, res.y);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_scratchDepthBuffer);
+
+    std::cout << "Checking Scratch Framebuffer:" << std::endl;
+    switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
+            case(GL_FRAMEBUFFER_COMPLETE):
+                std::cout << "Framebuffer Complete" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT):
+                std::cout << "Framebuffer Attachment Incomplete" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT):
+                std::cout << "Framebuffer Attachment Incomplete/Missing" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_UNSUPPORTED):
+                std::cout << "Framebuffer Unsupported" << std::endl;
+                break;
+            default:
+                std::cout << "Framebuffer is Incomplete for Unknown Reasons" << std::endl;
+                break;
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
 
@@ -99,3 +137,12 @@ void Display::setGlContext(OpenGLContext *glContext)
 {
     m_glContext = glContext;
 }
+
+
+GLuint Display::scratchFrameBuffer() const
+{
+    return m_scratchFrameBuffer;
+}
+
+
+

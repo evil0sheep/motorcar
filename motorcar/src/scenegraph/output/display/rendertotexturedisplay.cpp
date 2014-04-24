@@ -49,6 +49,9 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
 
     glm::ivec2 res = size();
 
+    std::cout << res.x << " , " << res.y <<std::endl;
+
+
     glGenFramebuffers(1, &m_frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 
@@ -68,6 +71,61 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     glBindRenderbuffer(GL_RENDERBUFFER, m_depthBuffer);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, res.x, res.y);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthBuffer);
+
+    std::cout << "Checking Distortion Framebuffer:" << std::endl;
+    switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
+            case(GL_FRAMEBUFFER_COMPLETE):
+                std::cout << "Framebuffer Complete" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT):
+                std::cout << "Framebuffer Attachment Incomplete" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT):
+                std::cout << "Framebuffer Attachment Incomplete/Missing" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_UNSUPPORTED):
+                std::cout << "Framebuffer Unsupported" << std::endl;
+                break;
+            default:
+                std::cout << "Framebuffer is Incomplete for Unknown Reasons" << std::endl;
+                break;
+    }
+
+
+    //generate new renderbuffers of correct size
+    glBindFramebuffer(GL_FRAMEBUFFER, m_scratchFrameBuffer);
+
+    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchColorBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, res.x, res.y);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_scratchColorBuffer);
+
+
+
+
+    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchDepthBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, res.x, res.y);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_scratchDepthBuffer);
+
+    std::cout << "Checking Modified Scratch Framebuffer:" << std::endl;
+    switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
+            case(GL_FRAMEBUFFER_COMPLETE):
+                std::cout << "Framebuffer Complete" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT):
+                std::cout << "Framebuffer Attachment Incomplete" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT):
+                std::cout << "Framebuffer Attachment Incomplete/Missing" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_UNSUPPORTED):
+                std::cout << "Framebuffer Unsupported" << std::endl;
+                break;
+            default:
+                std::cout << "Framebuffer is Incomplete for Unknown Reasons" << std::endl;
+                break;
+    }
+
+
     glEnable(GL_TEXTURE_2D);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -83,19 +141,19 @@ RenderToTextureDisplay::~RenderToTextureDisplay()
 
 void RenderToTextureDisplay::prepareForDraw()
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glClearColor(0.f, 0.f, 0.f, 1.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-    glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_frameBuffer);
     Display::prepareForDraw();
 }
 
 void RenderToTextureDisplay::finishDraw()
 {
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
     glUseProgram(m_distortionShader->handle());
 
@@ -109,15 +167,15 @@ void RenderToTextureDisplay::finishDraw()
 //    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 //    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    GLfloat texCoords [8];
 
     float temp_scale = m_scale;
     m_scale = 1;
 
 
+
+
     for(ViewPoint *viewpoint : viewpoints()){
 
-        viewpoint->viewport()->uvCoords(texCoords);
         viewpoint->viewport()->set();
 
 
@@ -127,22 +185,23 @@ void RenderToTextureDisplay::finishDraw()
         glUniform1f(h_uScaleFactor, temp_scale);
 
 
-        glEnableVertexAttribArray(h_aTexCoord_distortion);
-        glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
-        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), texCoords, GL_STATIC_DRAW);
-        glVertexAttribPointer(h_aTexCoord_distortion, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
     }
+
     m_scale = temp_scale;
 
     glBindTexture(GL_TEXTURE_2D, 0);
 
+
     glDisableVertexAttribArray(h_aPosition_distortion);
-    glDisableVertexAttribArray(h_aTexCoord_distortion);
+
+
 
     glUseProgram(0);
+
+
 }
 
 

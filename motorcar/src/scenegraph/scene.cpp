@@ -48,6 +48,7 @@ void Scene::prepareForFrame(long timeStampMillis)
             viewpoint->updateViewMatrix();
         }
     }
+
 }
 
 void Scene::drawFrame()
@@ -59,11 +60,19 @@ void Scene::drawFrame()
         display->finishDraw();
 
     }
+
+
 }
 
 void Scene::finishFrame()
 {
     this->mapOntoSubTree(&SceneGraphNode::handleFrameEnd, this);
+
+    int error = glGetError();
+    if(error != GL_NO_ERROR){
+        std::cout <<  "OpenGL Error from frame: " << error <<std::endl;
+    }
+
 }
 
 

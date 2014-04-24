@@ -33,7 +33,7 @@ UI_DIR = bin/.ui
 
 QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES
 
-LIBS += -L ../thirdPartySource/qt5_GL/qtwayland/lib -lGL -lGLU -lglut
+LIBS += -L ../thirdPartySource/qt5_GL/qtwayland/lib -lGL #-lGLU -lglut
 #include (../../src/qt-compositor/qt-compositor.pri)
 #include(scenegraph/include.pri)
 

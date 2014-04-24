@@ -46,14 +46,16 @@ public:
 
     virtual GLuint activeFrameBuffer() {return 0;}
 
-
-
+    GLuint scratchFrameBuffer() const;
 
 
 private:
     std::vector<ViewPoint *> m_viewpoints;
     glm::vec2 m_dimensions;
     OpenGLContext *m_glContext;
+
+protected:
+    GLuint m_scratchFrameBuffer, m_scratchColorBuffer, m_scratchDepthBuffer;
 
 
 
