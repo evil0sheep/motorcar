@@ -23,12 +23,15 @@ public:
 
 
 private:
-
+    OpenGLShader *m_depthCompositedSurfaceShader;
     void drawFrameBufferContents(Display * display);
 
 
     //attribute buffers
-    GLuint m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
+    GLuint m_colorTextureCoordinates, m_depthTextureCoordinates,  m_surfaceVertexCoordinates;
+
+    //shader variable handles
+    GLint h_aPosition, h_aColorTexCoord, h_aDepthTexCoord;
 
 };
 }

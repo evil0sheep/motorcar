@@ -13,6 +13,7 @@ using namespace motorcar;
 
 DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform)
     :WaylandSurfaceNode(surface, parent, transform)
+    ,m_depthCompositedSurfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/depthcompositedsurface.vert"), std::string("../motorcar/src/shaders/depthcompositedsurface.frag")))
 {
 //    static const GLfloat vertexCoordinates[] ={
 //        -1, -1, 0,
@@ -30,7 +31,8 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
 
 
 
-    glGenBuffers(1, &m_surfaceTextureCoordinates);
+    glGenBuffers(1, &m_colorTextureCoordinates);
+    glGenBuffers(1, &m_depthTextureCoordinates);
 //    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
 //    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
 
@@ -39,6 +41,14 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
     glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertexCoordinates, GL_STATIC_DRAW);
 
 
+
+    h_aPosition =  glGetAttribLocation(m_depthCompositedSurfaceShader->handle(), "aPosition");
+    h_aColorTexCoord =  glGetAttribLocation(m_depthCompositedSurfaceShader->handle(), "aColorTexCoord");
+    h_aDepthTexCoord =  glGetAttribLocation(m_depthCompositedSurfaceShader->handle(), "aDepthTexCoord");
+
+    if(h_aPosition < 0 || h_aColorTexCoord < 0 || h_aDepthTexCoord < 0 ){
+       std::cout << "problem with surface shader handles: " << h_aPosition << ", "<< h_aColorTexCoord << ", " << h_aDepthTexCoord << std::endl;
+    }
 
 
 
@@ -61,31 +71,12 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 
     glBindFramebuffer(GL_READ_FRAMEBUFFER, display->scratchFrameBuffer());
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->activeFrameBuffer());
+
     glm::ivec2 res = display->size();
     glBlitFramebuffer(0, 0, res.x - 1, res.y - 1, 0, 0, res.x - 1 , res.y - 1, GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
-//    //printOpenGLError ();
-//    int error;
-//    do{
-//         error = glGetError();
-//        switch(error){
-//            case(GL_INVALID_OPERATION):
-//                std::cout << "GL_INVALID_OPERATION" <<std::endl;
-//                break;
-//            case(GL_INVALID_FRAMEBUFFER_OPERATION):
-//                std::cout << "GL_INVALID_FRAMEBUFFER_OPERATION" <<std::endl;
-//                break;
-//            case(GL_INVALID_VALUE):
-//                std::cout << "GL_INVALID_VALUE" <<std::endl;
-//                break;
-//            case(GL_NO_ERROR):
-//                std::cout << "GL_NO_ERROR" <<std::endl;
-//                break;
-//            default:
-//                std::cout << "default" <<std::endl;
-
-//        }
-//    }while (error != GL_NO_ERROR);
+    //only for default display
+    //glGetError();
 
 
     //std::cout << glGetError() <<std::endl <<std::endl;
@@ -103,13 +94,16 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
     GLuint texture = this->surface()->texture();
 
 
-    glUseProgram(m_surfaceShader->handle());
+    glUseProgram(m_depthCompositedSurfaceShader->handle());
 
-    glEnableVertexAttribArray(h_aPosition_surface);
+    glEnableVertexAttribArray(h_aPosition);
     glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
-    glVertexAttribPointer(h_aPosition_surface, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(h_aPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(glm::mat4()));
+    glEnableVertexAttribArray(h_aColorTexCoord);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glEnableVertexAttribArray(h_aDepthTexCoord);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->scratchFrameBuffer());
@@ -122,14 +116,12 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
     glBindTexture(GL_TEXTURE_2D, texture);
 
 
-
+    glm::vec4 vp;
     for(ViewPoint *viewpoint : display->viewpoints()){
 
         viewpoint->viewport()->set();
 
-        ViewPort *viewport = viewpoint->clientColorViewport();
-        glm::vec4 vp = viewport->viewportParams();
-
+        vp = viewpoint->clientColorViewport()->viewportParams();
 
         const GLfloat clientColorTextureCoordinates[] = {
             vp.x, 1 - vp.y,
@@ -139,10 +131,30 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
         };
 
 
-        glEnableVertexAttribArray(h_aTexCoord_surface);
-        glBindBuffer(GL_ARRAY_BUFFER, m_surfaceTextureCoordinates);
-        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), clientColorTextureCoordinates, GL_STATIC_DRAW);
-        glVertexAttribPointer(h_aTexCoord_surface, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+//        glEnableVertexAttribArray(h_aColorTexCoord);
+//        glBindBuffer(GL_ARRAY_BUFFER, 0);
+//        glBindBuffer(GL_ARRAY_BUFFER, m_colorTextureCoordinates);
+//        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), clientColorTextureCoordinates, GL_STATIC_DRAW);
+//        glVertexAttribPointer(h_aColorTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
+        glVertexAttribPointer(h_aColorTexCoord, 2, GL_FLOAT, GL_FALSE, 0, clientColorTextureCoordinates);
+
+        vp = viewpoint->clientDepthViewport()->viewportParams();
+
+        const GLfloat clientDepthTextureCoordinates[] = {
+            vp.x, 1 - vp.y,
+            vp.x + vp.z, 1 - vp.y,
+            vp.x + vp.z, 1 - (vp.y + vp.w),
+            vp.x, 1 - (vp.y + vp.w),
+        };
+
+
+//        glEnableVertexAttribArray(h_aDepthTexCoord);
+//        glBindBuffer(GL_ARRAY_BUFFER, 0);
+//        glBindBuffer(GL_ARRAY_BUFFER, m_depthTextureCoordinates);
+//        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), clientDepthTextureCoordinates, GL_STATIC_DRAW);
+//        glVertexAttribPointer(h_aDepthTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
+        glVertexAttribPointer(h_aDepthTexCoord, 2, GL_FLOAT, GL_FALSE, 0, clientDepthTextureCoordinates);
 
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
@@ -151,14 +163,15 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 //        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }
 
+
     this->drawFrameBufferContents(display);
 
 
 
     glBindFramebuffer(GL_FRAMEBUFFER, display->activeFrameBuffer());
 
-    glDisableVertexAttribArray(h_aPosition_surface);
-    glDisableVertexAttribArray(h_aTexCoord_surface);
+    glDisableVertexAttribArray(h_aPosition);
+    glDisableVertexAttribArray(h_aColorTexCoord);
 
     glBindTexture(GL_TEXTURE_2D, 0);
 

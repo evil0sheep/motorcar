@@ -61,13 +61,16 @@ private:
     //attribute buffers
     GLuint m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
 
-protected:
-    glm::mat4 m_surfaceTransform;
+    //shader variable handles
+    GLint h_aPosition_surface, h_aTexCoord_surface, h_uMVPMatrix_surface;
 
     OpenGLShader *m_surfaceShader;
 
-    //shader variable handles
-    GLint h_aPosition_surface, h_aTexCoord_surface, h_uMVPMatrix_surface;
+protected:
+    glm::mat4 m_surfaceTransform;
+
+
+
 
 
 };

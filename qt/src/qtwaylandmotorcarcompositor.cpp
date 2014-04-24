@@ -126,6 +126,11 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
     QRect screenGeometry = screen->availableGeometry();
 
     QSurfaceFormat format;
+//    std::cout << "color buffer size: " << format.redBufferSize() << std::endl;
+//    format.setRedBufferSize(8);
+//    format.setGreenBufferSize(8);
+//    format.setBlueBufferSize(8);
+//    format.setAlphaBufferSize(8);
     format.setDepthBufferSize(16);
     format.setStencilBufferSize(8);
     format.setSwapInterval(1);

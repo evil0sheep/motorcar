@@ -169,11 +169,12 @@ OTHER_FILES += \
     src/motorcar/shaders/motorcarsurface.frag \
     motorcar/src/shaders/motorcarsurface.vert \
     motorcar/src/shaders/motorcarsurface.frag \
-    motorcar/src/device/foo \
     motorcar/src/shaders/motorcarbarreldistortion.frag \
     motorcar/src/shaders/motorcarbarreldistortion.vert \
     motorcar/src/shaders/motorcarline.vert \
-    motorcar/src/shaders/motorcarline.frag
+    motorcar/src/shaders/motorcarline.frag \
+    motorcar/src/shaders/depthcompositedsurface.vert \
+    motorcar/src/shaders/depthcompositedsurface.frag
 
 
 

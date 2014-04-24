@@ -20,8 +20,9 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
 
     glGenRenderbuffers(1, &m_scratchColorBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, m_scratchColorBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA32F, res.x, res.y);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, res.x, res.y);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_scratchColorBuffer);
+
 
 
     glGenRenderbuffers(1, &m_scratchDepthBuffer);
