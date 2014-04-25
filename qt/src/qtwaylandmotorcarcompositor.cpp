@@ -475,7 +475,7 @@ void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int
 
 
     if ((m_cursorSurface != surface) && surface){
-        connect(surface, SIGNAL(damaged(QRect)), this, SLOT(updateCursor()));
+        connect(surface, SIGNAL(committed()), this, SLOT(updateCursor()));
     }
 
     m_cursorSurface = surface;

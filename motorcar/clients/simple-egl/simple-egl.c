@@ -119,7 +119,7 @@ struct window {
 		GLuint vertices, colors, indices;
 		GLuint frameBuffer, depthBuffer;
 		GLuint colorBufferTexture, depthBufferTexture;
-		GLuint drawProgram, textureBlitProgram;
+		GLuint drawProgram, colorBlitProgram, depthBlitProgram;
 		GLuint textureBlitVertices, textureBlitTextureCoords;
 		GLuint h_aPosition, h_aTexCoord;
 	} gl;
@@ -168,6 +168,24 @@ static const char *blit_frag_shader_text =
 	"uniform sampler2D uTexSampler;\n"
 	"void main() {\n"
 	"  gl_FragColor = texture2D(uTexSampler, vTexCoord);\n"
+	"}\n";
+
+
+
+static const char *blit_depth_frag_shader_text =
+	"precision highp float;\n"
+	"varying vec2 vTexCoord;\n"
+	"uniform sampler2D uTexSampler;\n"
+	"vec4 pack_depth(const in float depth)"
+	"{"
+    	"const vec4 bit_shift = vec4(256.0*256.0*256.0, 256.0*256.0, 256.0, 1.0);"
+    	"const vec4 bit_mask  = vec4(0.0, 1.0/256.0, 1.0/256.0, 1.0/256.0);"
+    	"vec4 res = fract(depth * bit_shift);"
+    	"res -= res.xxyz * bit_mask;"
+    	"return res;"
+	"}"
+	"void main() {\n"
+	"  gl_FragColor =  pack_depth(texture2D(uTexSampler, vTexCoord).r);\n"
 	"}\n";
 
 static int running = 1;
@@ -337,23 +355,23 @@ init_gl(struct window *window)
 	frag = create_shader(window, blit_frag_shader_text, GL_FRAGMENT_SHADER);
 	vert = create_shader(window, blit_vert_shader_text, GL_VERTEX_SHADER);
 
-	window->gl.textureBlitProgram = glCreateProgram();
-	glAttachShader(window->gl.textureBlitProgram, frag);
-	glAttachShader(window->gl.textureBlitProgram, vert);
-	glLinkProgram(window->gl.textureBlitProgram);
+	window->gl.colorBlitProgram = glCreateProgram();
+	glAttachShader(window->gl.colorBlitProgram, frag);
+	glAttachShader(window->gl.colorBlitProgram, vert);
+	glLinkProgram(window->gl.colorBlitProgram);
 
-	glGetProgramiv(window->gl.textureBlitProgram, GL_LINK_STATUS, &status);
+	glGetProgramiv(window->gl.colorBlitProgram, GL_LINK_STATUS, &status);
 	if (!status) {
 		char log[1000];
 		GLsizei len;
-		glGetProgramInfoLog(window->gl.textureBlitProgram, 1000, &len, log);
+		glGetProgramInfoLog(window->gl.colorBlitProgram, 1000, &len, log);
 		fprintf(stderr, "Error: linking:\n%*s\n", len, log);
 		exit(1);
 	}
 
 
-	window->gl.h_aPosition =  glGetAttribLocation(window->gl.textureBlitProgram, "aPosition");
-	window->gl.h_aTexCoord =  glGetAttribLocation(window->gl.textureBlitProgram, "aTexCoord");
+	window->gl.h_aPosition =  glGetAttribLocation(window->gl.colorBlitProgram, "aPosition");
+	window->gl.h_aTexCoord =  glGetAttribLocation(window->gl.colorBlitProgram, "aTexCoord");
 
 	
 	if(window->gl.h_aPosition < 0 || window->gl.h_aTexCoord < 0){
@@ -362,6 +380,24 @@ init_gl(struct window *window)
                  << ", "<< window->gl.h_aTexCoord
                  << std::endl;
     }
+
+
+	frag = create_shader(window, blit_depth_frag_shader_text, GL_FRAGMENT_SHADER);
+	
+
+    window->gl.depthBlitProgram = glCreateProgram();
+	glAttachShader(window->gl.depthBlitProgram, frag);
+	glAttachShader(window->gl.depthBlitProgram, vert);
+	glLinkProgram(window->gl.depthBlitProgram);
+
+	glGetProgramiv(window->gl.depthBlitProgram, GL_LINK_STATUS, &status);
+	if (!status) {
+		char log[1000];
+		GLsizei len;
+		glGetProgramInfoLog(window->gl.depthBlitProgram, 1000, &len, log);
+		fprintf(stderr, "Error: linking:\n%*s\n", len, log);
+		exit(1);
+	}
 	
 
 
@@ -376,28 +412,28 @@ init_gl(struct window *window)
 		{ -0.5, -0.5 , -0.5}
 	};
 
-	// static const GLfloat colors[8][3] = {
-	//  	{ 0, 0, 0 },
-	//  	{ 0, 0, 1 },
-	//  	{ 0, 1, 0 },
-	//  	{ 0, 1, 1 },
-	//  	{ 1, 0, 0 },
-	//  	{ 1, 0, 1 },
-	//  	{ 1, 1, 0 },
-	//  	{ 1, 1, 1 },
-	// };
-
 	static const GLfloat colors[8][3] = {
-	 	{ 0.0, 1, 0 },
-	 	{ 0.0, 1, 0 },
-	 	{ 0.0, 1, 0 },
-	 	{ 0.0, 1, 0 },
-	 	{ 0.0, 1, 0 },
-	 	{ 0.0, 1, 0 },
-	 	{ 0.0, 1, 0 },
-	 	{ 0.0, 1, 0 },
-
+	 	{ 0, 0, 0 },
+	 	{ 0, 0, 1 },
+	 	{ 0, 1, 0 },
+	 	{ 0, 1, 1 },
+	 	{ 1, 0, 0 },
+	 	{ 1, 0, 1 },
+	 	{ 1, 1, 0 },
+	 	{ 1, 1, 1 },
 	};
+
+	// static const GLfloat colors[8][3] = {
+	//  	{ 0.0, 1, 0 },
+	//  	{ 0.0, 1, 0 },
+	//  	{ 0.0, 1, 0 },
+	//  	{ 0.0, 1, 0 },
+	//  	{ 0.0, 1, 0 },
+	//  	{ 0.0, 1, 0 },
+	//  	{ 0.0, 1, 0 },
+	//  	{ 0.0, 1, 0 },
+
+	// };
 	static const GLuint indices[12][3] = {
 	 	{ 0, 1, 2 },
 	 	{ 1, 2, 3 },
@@ -463,7 +499,7 @@ init_gl(struct window *window)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, window->geometry.width, window->geometry.height / 2, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_SHORT, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, window->geometry.width, window->geometry.height / 2, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, window->gl.depthBufferTexture, 0);
 
 
@@ -765,7 +801,7 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	//---- blit framebuffer contents ----
 
 
-	glUseProgram(window->gl.textureBlitProgram);
+	glUseProgram(window->gl.colorBlitProgram);
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -778,11 +814,13 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
     GLfloat texCoords [8];
 
     GLuint textures[] = {window->gl.colorBufferTexture, window->gl.depthBufferTexture};
+    GLuint programs[] = {window->gl.colorBlitProgram, window->gl.depthBlitProgram};
 
 
     for(struct viewpoint *vp : display->viewpoints){
     	struct viewport textureViewports[] = {vp->colorViewport, vp->depthViewport};
     	for(int i = 0; i < 2; i++){
+    		glUseProgram(programs[i]);
     		glBindTexture(GL_TEXTURE_2D, textures[i]);
     		
 	    	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

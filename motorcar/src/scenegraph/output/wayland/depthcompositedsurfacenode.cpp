@@ -93,7 +93,7 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
     //glBindTexture(GL_TEXTURE_2D, m_colorBufferTexture);
 
 
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, display->scratchFrameBuffer());
+//    glBindFramebuffer(GL_READ_FRAMEBUFFER, display->scratchFrameBuffer());
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->activeFrameBuffer());
 //    glm::ivec2 res = display->size();
     //glBlitFramebuffer(0, 0, res.x - 1, res.y - 1, 0, 0, res.x - 1 , res.y - 1, GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT, GL_NEAREST);
