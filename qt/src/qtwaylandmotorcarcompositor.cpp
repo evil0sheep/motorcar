@@ -131,7 +131,7 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
 //    format.setGreenBufferSize(8);
 //    format.setBlueBufferSize(8);
 //    format.setAlphaBufferSize(8);
-    format.setDepthBufferSize(16);
+    format.setDepthBufferSize(8);
     format.setStencilBufferSize(8);
     format.setSwapInterval(1);
 

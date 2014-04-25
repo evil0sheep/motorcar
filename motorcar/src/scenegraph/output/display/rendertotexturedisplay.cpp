@@ -55,22 +55,29 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     glGenFramebuffers(1, &m_frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 
-    glGenTextures(1, &m_frameBufferTexture);
-    glBindTexture(GL_TEXTURE_2D, m_frameBufferTexture);
+    glGenTextures(1, &m_colorBufferTexture);
+    glBindTexture(GL_TEXTURE_2D, m_colorBufferTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    // Allocate space for the texture
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, res.x, res.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colorBufferTexture, 0);
 
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_frameBufferTexture, 0);
+    glGenTextures(1, &m_depthBufferTexture);
+    glBindTexture(GL_TEXTURE_2D, m_depthBufferTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, res.x, res.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthBufferTexture, 0);
 
 
-    glGenRenderbuffers(1, &m_depthBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, m_depthBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, res.x, res.y);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthBuffer);
+    //    glGenRenderbuffers(1, &m_depthBufferTexture);
+    //    glBindRenderbuffer(GL_RENDERBUFFER, m_depthBufferTexture);
+    //    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, res.x, res.y);
+    //    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthBufferTexture);
 
     std::cout << "Checking Distortion Framebuffer:" << std::endl;
     switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
@@ -95,16 +102,31 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     //generate new renderbuffers of correct size
     glBindFramebuffer(GL_FRAMEBUFFER, m_scratchFrameBuffer);
 
-    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchColorBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, res.x, res.y);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_scratchColorBuffer);
+    glGenTextures(1, &m_scratchColorBufferTexture);
+    glBindTexture(GL_TEXTURE_2D, m_scratchColorBufferTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, res.x, res.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_scratchColorBufferTexture, 0);
 
+    glGenTextures(1, &m_scratchDepthBufferTexture);
+    glBindTexture(GL_TEXTURE_2D, m_scratchDepthBufferTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, res.x, res.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_scratchDepthBufferTexture, 0);
 
+//    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchColorBuffer);
+//    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, res.x, res.y);
+//    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_scratchColorBuffer);
 
-
-    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchDepthBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, res.x, res.y);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_scratchDepthBuffer);
+//    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchDepthBuffer);
+//    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, res.x, res.y);
+//    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_scratchDepthBuffer);
 
     std::cout << "Checking Modified Scratch Framebuffer:" << std::endl;
     switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
@@ -163,7 +185,7 @@ void RenderToTextureDisplay::finishDraw()
     glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
     glVertexAttribPointer(h_aPosition_distortion, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glBindTexture(GL_TEXTURE_2D, m_frameBufferTexture);
+    glBindTexture(GL_TEXTURE_2D, m_colorBufferTexture);
 //    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 //    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -215,7 +237,12 @@ glm::vec2 RenderToTextureDisplay::dimensions() const
     return m_scale * Display::dimensions();
 }
 
-GLuint RenderToTextureDisplay::activeFrameBuffer()
+GLuint RenderToTextureDisplay::activeFrameBuffer() const
 {
     return m_frameBuffer;
+}
+
+GLuint RenderToTextureDisplay::depthBufferTexture() const
+{
+    return m_depthBufferTexture;
 }

@@ -14,6 +14,8 @@ using namespace motorcar;
 DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform)
     :WaylandSurfaceNode(surface, parent, transform)
     ,m_depthCompositedSurfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/depthcompositedsurface.vert"), std::string("../motorcar/src/shaders/depthcompositedsurface.frag")))
+    ,m_depthCompositedSurfaceBlitter(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/depthcompositedsurfaceblitter.vert"), std::string("../motorcar/src/shaders/depthcompositedsurfaceblitter.frag")))
+
 {
 //    static const GLfloat vertexCoordinates[] ={
 //        -1, -1, 0,
@@ -21,6 +23,7 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
 //        1, 3, 0,
 //        1, -1, 0
 //    };
+
 
     const GLfloat vertexCoordinates[] ={
        -1.0f, -1.0f, 0.0f,
@@ -47,9 +50,27 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
     h_aDepthTexCoord =  glGetAttribLocation(m_depthCompositedSurfaceShader->handle(), "aDepthTexCoord");
 
     if(h_aPosition < 0 || h_aColorTexCoord < 0 || h_aDepthTexCoord < 0 ){
-       std::cout << "problem with surface shader handles: " << h_aPosition << ", "<< h_aColorTexCoord << ", " << h_aDepthTexCoord << std::endl;
+       std::cout << "problem with depth compositing shader handles: " << h_aPosition << ", "<< h_aColorTexCoord << ", " << h_aDepthTexCoord << std::endl;
     }
 
+
+    h_aPosition_blit =  glGetAttribLocation(m_depthCompositedSurfaceBlitter->handle(), "aPosition");
+    h_aTexCoord_blit =  glGetAttribLocation(m_depthCompositedSurfaceBlitter->handle(), "aTexCoord");
+    h_uColorSampler_blit = glGetUniformLocation(m_depthCompositedSurfaceBlitter->handle(), "uColorSampler");
+    h_uDepthSampler_blit = glGetUniformLocation(m_depthCompositedSurfaceBlitter->handle(), "uDepthSampler");
+
+    if(h_aPosition_blit < 0 || h_aTexCoord_blit < 0 || h_uColorSampler_blit < 0 || h_uDepthSampler_blit < 0 ){
+       std::cout << "problem with depth blitting shader handles: " <<
+                    h_aPosition_blit << ", "<< h_aTexCoord_blit << ", " << h_uColorSampler_blit << h_uDepthSampler_blit << std::endl;
+    }
+
+
+    glUseProgram(m_depthCompositedSurfaceBlitter->handle());
+
+    glUniform1i(h_uColorSampler_blit, 0); //Texture unit 0 is for color maps.
+    glUniform1i(h_uDepthSampler_blit, 1); //Texture unit 1 is for depth maps.
+
+    glUseProgram(0);
 
 
 }
@@ -66,20 +87,60 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 {
 
 
+
+//    glDepthFunc(GL_GREATER);
+//    glEnable(GL_DEPTH_TEST);
     //glBindTexture(GL_TEXTURE_2D, m_colorBufferTexture);
 
 
     glBindFramebuffer(GL_READ_FRAMEBUFFER, display->scratchFrameBuffer());
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->activeFrameBuffer());
-
-    glm::ivec2 res = display->size();
-    glBlitFramebuffer(0, 0, res.x - 1, res.y - 1, 0, 0, res.x - 1 , res.y - 1, GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+//    glm::ivec2 res = display->size();
+    //glBlitFramebuffer(0, 0, res.x - 1, res.y - 1, 0, 0, res.x - 1 , res.y - 1, GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
     //only for default display
     //glGetError();
 
+    glUseProgram(m_depthCompositedSurfaceBlitter->handle());
 
-    //std::cout << glGetError() <<std::endl <<std::endl;
+    glActiveTexture(GL_TEXTURE0);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, display->scratchColorBufferTexture());
+
+    glActiveTexture(GL_TEXTURE1);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, display->scratchDepthBufferTexture());
+
+    glEnableVertexAttribArray(h_aPosition_blit);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
+    glVertexAttribPointer(h_aPosition_blit, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glEnableVertexAttribArray(h_aTexCoord_blit);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+    for(ViewPoint *viewpoint : display->viewpoints()){
+
+        viewpoint->viewport()->set();
+
+        glm::vec4 vp = viewpoint->viewport()->viewportParams();
+
+        const GLfloat textureBlitCoordinates[] = {
+            vp.x, vp.y,
+            vp.x + vp.z,  vp.y,
+            vp.x + vp.z,  (vp.y + vp.w),
+            vp.x, (vp.y + vp.w),
+        };
+
+
+        glVertexAttribPointer(h_aTexCoord_blit, 2, GL_FLOAT, GL_FALSE, 0, textureBlitCoordinates);
+
+
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    }
+
+
 
 
 
@@ -173,9 +234,15 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
     glDisableVertexAttribArray(h_aPosition);
     glDisableVertexAttribArray(h_aColorTexCoord);
 
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glUseProgram(0);
+
+
 
 
 }

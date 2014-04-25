@@ -376,15 +376,27 @@ init_gl(struct window *window)
 		{ -0.5, -0.5 , -0.5}
 	};
 
+	// static const GLfloat colors[8][3] = {
+	//  	{ 0, 0, 0 },
+	//  	{ 0, 0, 1 },
+	//  	{ 0, 1, 0 },
+	//  	{ 0, 1, 1 },
+	//  	{ 1, 0, 0 },
+	//  	{ 1, 0, 1 },
+	//  	{ 1, 1, 0 },
+	//  	{ 1, 1, 1 },
+	// };
+
 	static const GLfloat colors[8][3] = {
-	 	{ 0, 0, 0 },
-	 	{ 0, 0, 1 },
-	 	{ 0, 1, 0 },
-	 	{ 0, 1, 1 },
-	 	{ 1, 0, 0 },
-	 	{ 1, 0, 1 },
-	 	{ 1, 1, 0 },
-	 	{ 1, 1, 1 },
+	 	{ 0.0, 1, 0 },
+	 	{ 0.0, 1, 0 },
+	 	{ 0.0, 1, 0 },
+	 	{ 0.0, 1, 0 },
+	 	{ 0.0, 1, 0 },
+	 	{ 0.0, 1, 0 },
+	 	{ 0.0, 1, 0 },
+	 	{ 0.0, 1, 0 },
+
 	};
 	static const GLuint indices[12][3] = {
 	 	{ 0, 1, 2 },
@@ -451,7 +463,7 @@ init_gl(struct window *window)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, window->geometry.width, window->geometry.height / 2, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, window->geometry.width, window->geometry.height / 2, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_SHORT, 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, window->gl.depthBufferTexture, 0);
 
 
@@ -1187,7 +1199,7 @@ main(int argc, char **argv)
 	window.display = &display;
 	display.window = &window;
 	window.window_size.width  = 2194;
-	window.window_size.height = 2742;
+	window.window_size.height = 2650;
 	window.buffer_size = 32;
 	window.frame_sync = 1;
 

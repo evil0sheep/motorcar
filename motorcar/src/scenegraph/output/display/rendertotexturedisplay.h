@@ -20,11 +20,12 @@ public:
     virtual glm::ivec2 size() override;
     virtual glm::vec2 dimensions() const override;
 
-    virtual GLuint activeFrameBuffer() override;
+    virtual GLuint activeFrameBuffer() const override;
+    virtual GLuint depthBufferTexture() const override;
 private:
     float m_scale;
     glm::vec4 m_distortionK;
-    GLuint m_frameBuffer, m_frameBufferTexture, m_depthBuffer, m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
+    GLuint m_frameBuffer, m_colorBufferTexture, m_depthBufferTexture, m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
     //shaders
     OpenGLShader *m_distortionShader;
 

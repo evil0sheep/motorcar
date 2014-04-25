@@ -174,7 +174,9 @@ OTHER_FILES += \
     motorcar/src/shaders/motorcarline.vert \
     motorcar/src/shaders/motorcarline.frag \
     motorcar/src/shaders/depthcompositedsurface.vert \
-    motorcar/src/shaders/depthcompositedsurface.frag
+    motorcar/src/shaders/depthcompositedsurface.frag \
+    motorcar/src/shaders/depthcompositedsurfaceblitter.frag \
+    motorcar/src/shaders/depthcompositedsurfaceblitter.vert
 
 
 

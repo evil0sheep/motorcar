@@ -18,17 +18,23 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
     glGenFramebuffers(1, &m_scratchFrameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, m_scratchFrameBuffer);
 
-    glGenRenderbuffers(1, &m_scratchColorBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchColorBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, res.x, res.y);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_scratchColorBuffer);
+    glGenTextures(1, &m_scratchColorBufferTexture);
+    glBindTexture(GL_TEXTURE_2D, m_scratchColorBufferTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, res.x, res.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_scratchColorBufferTexture, 0);
 
-
-
-    glGenRenderbuffers(1, &m_scratchDepthBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchDepthBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, res.x, res.y);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_scratchDepthBuffer);
+    glGenTextures(1, &m_scratchDepthBufferTexture);
+    glBindTexture(GL_TEXTURE_2D, m_scratchDepthBufferTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, res.x, res.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_scratchDepthBufferTexture, 0);
 
     std::cout << "Checking Scratch Framebuffer:" << std::endl;
     switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
@@ -144,6 +150,21 @@ GLuint Display::scratchFrameBuffer() const
 {
     return m_scratchFrameBuffer;
 }
+GLuint Display::scratchColorBufferTexture() const
+{
+    return m_scratchColorBufferTexture;
+}
+GLuint Display::scratchDepthBufferTexture() const
+{
+    return m_scratchDepthBufferTexture;
+}
+
+
+
+
+
+
+
 
 
 

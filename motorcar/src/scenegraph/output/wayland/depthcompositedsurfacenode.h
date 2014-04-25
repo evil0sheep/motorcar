@@ -23,7 +23,7 @@ public:
 
 
 private:
-    OpenGLShader *m_depthCompositedSurfaceShader;
+    OpenGLShader *m_depthCompositedSurfaceShader, *m_depthCompositedSurfaceBlitter;
     void drawFrameBufferContents(Display * display);
 
 
@@ -32,6 +32,8 @@ private:
 
     //shader variable handles
     GLint h_aPosition, h_aColorTexCoord, h_aDepthTexCoord;
+
+    GLint h_aPosition_blit, h_aTexCoord_blit, h_uColorSampler_blit, h_uDepthSampler_blit;
 
 };
 }

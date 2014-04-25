@@ -44,9 +44,12 @@ public:
     OpenGLContext *glContext() const;
     void setGlContext(OpenGLContext *glContext);
 
-    virtual GLuint activeFrameBuffer() {return 0;}
+    virtual GLuint activeFrameBuffer() const {return 0;}
+    virtual GLuint depthBufferTexture() const {return 0;}
 
     GLuint scratchFrameBuffer() const;
+    GLuint scratchColorBufferTexture() const;
+    GLuint scratchDepthBufferTexture() const;
 
 
 private:
@@ -55,7 +58,7 @@ private:
     OpenGLContext *m_glContext;
 
 protected:
-    GLuint m_scratchFrameBuffer, m_scratchColorBuffer, m_scratchDepthBuffer;
+    GLuint m_scratchFrameBuffer, m_scratchColorBufferTexture, m_scratchDepthBufferTexture;
 
 
 
