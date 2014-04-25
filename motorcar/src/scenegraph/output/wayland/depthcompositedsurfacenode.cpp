@@ -88,13 +88,15 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 
 
 
-//    glDepthFunc(GL_GREATER);
-//    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_DEPTH_TEST);
     //glBindTexture(GL_TEXTURE_2D, m_colorBufferTexture);
 
 
 //    glBindFramebuffer(GL_READ_FRAMEBUFFER, display->scratchFrameBuffer());
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->activeFrameBuffer());
+
+
 //    glm::ivec2 res = display->size();
     //glBlitFramebuffer(0, 0, res.x - 1, res.y - 1, 0, 0, res.x - 1 , res.y - 1, GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
@@ -106,10 +108,14 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
     glActiveTexture(GL_TEXTURE0);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, display->scratchColorBufferTexture());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glActiveTexture(GL_TEXTURE1);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, display->scratchDepthBufferTexture());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glEnableVertexAttribArray(h_aPosition_blit);
     glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
@@ -170,11 +176,14 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->scratchFrameBuffer());
 
     glClearColor(0.0, 0.0, 0.0, 0.0);
+        glClearDepth(1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 
     glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 
     glm::vec4 vp;
