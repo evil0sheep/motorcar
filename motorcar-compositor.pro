@@ -11,7 +11,7 @@ INCLUDEPATH +=
 
 LIBOVRPATH=$$PWD/../thirdPartySource/Oculus/OculusSDK/LibOVR
 SIXENSEPATH=$$PWD/../thirdPartySource/sixenseSDK_linux_OSX
-INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include" ./motorcar/protocol
+INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include" /opt/softkinetic/DepthSenseSDK/include ./motorcar/protocol
 
 
 RELEASETYPE=Release
@@ -22,6 +22,8 @@ LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr
 LIBS += -L$$SIXENSEPATH/lib/linux_x64/release -lsixense_x64 -lsixense_utils_x64
 
 LIBS += -L$$PWD/motorcar/protocol -lmotorcar -lwayland-server -lwayland-client
+
+LIBS += -L/opt/softkinetic/DepthSenseSDK/lib -lDepthSense
 
 LIBS +=  -ludev -lpthread -lGL -lX11 -lXinerama
 
@@ -87,7 +89,8 @@ HEADERS += \
     motorcar/src/shell.h \
     motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.h \
     motorcar/src/scenegraph/output/viewpoint.h \
-    motorcar/src/gl/viewport.h
+    motorcar/src/gl/viewport.h \
+    motorcar/src/device/softkineticdepthcamera.h
 
 
 
@@ -138,7 +141,8 @@ SOURCES += \
     motorcar/src/shell.cpp \
     motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.cpp \
     motorcar/src/scenegraph/output/viewpoint.cpp \
-    motorcar/src/gl/viewport.cpp
+    motorcar/src/gl/viewport.cpp \
+    motorcar/src/device/softkineticdepthcamera.cpp
 
 
 
@@ -176,7 +180,9 @@ OTHER_FILES += \
     motorcar/src/shaders/depthcompositedsurface.vert \
     motorcar/src/shaders/depthcompositedsurface.frag \
     motorcar/src/shaders/depthcompositedsurfaceblitter.frag \
-    motorcar/src/shaders/depthcompositedsurfaceblitter.vert
+    motorcar/src/shaders/depthcompositedsurfaceblitter.vert \
+    motorcar/src/shaders/softkineticdepthcam.vert \
+    motorcar/src/shaders/softkineticdepthcam.frag
 
 
 

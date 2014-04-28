@@ -80,7 +80,8 @@ int main(int argc, char *argv[])
     scene->addDisplay(compositor->display());
 
 
-
+    glm::mat4 cameraTransform = glm::rotate(glm::mat4(), 180.f, glm::vec3(0,1, 0)) * glm::scale(glm::mat4(), glm::vec3(-1, 1, 1));
+    motorcar::SoftKineticDepthCamera *ds325 = new motorcar::SoftKineticDepthCamera(scene, cameraTransform);
 
 
     motorcar::SixenseMotionSensingSystem *sixense = new motorcar::SixenseMotionSensingSystem(scene);
@@ -90,6 +91,9 @@ int main(int argc, char *argv[])
 
         motorcar::SixenseControllerNode *headController = baseNode->controllers().front(),
                                         *handController = baseNode->controllers().back();
+
+        //ds325->setParentNode(handController);
+        ds325->setParentNode(compositor->display());
 
         baseNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0.5,0.25,.25)));
 
@@ -107,8 +111,14 @@ int main(int argc, char *argv[])
           glm::mat4 displayTransform = glm::translate(glm::mat4(), displayPosition);
 
           compositor->display()->setTransform(displayTransform);
+
+
     }
 
+
+
+
+    std::cout << "Starting Compositor "<<std::endl;
 
     int result = compositor->start();
 

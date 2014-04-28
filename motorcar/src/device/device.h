@@ -4,5 +4,6 @@
 #include "oculushmd.h"
 #include "sixensecontrollernode.h"
 #include "sixensemotionsensingsystem.h"
+#include "softkineticdepthcamera.h"
 
 #endif // DEVICE_H
