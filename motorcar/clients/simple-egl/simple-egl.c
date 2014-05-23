@@ -178,11 +178,10 @@ static const char *blit_depth_frag_shader_text =
 	"uniform sampler2D uTexSampler;\n"
 	"vec4 pack_depth(const in float depth)"
 	"{"
-    	"const vec4 bit_shift = vec4(256.0*256.0*256.0, 256.0*256.0, 256.0, 1.0);"
-    	"const vec4 bit_mask  = vec4(0.0, 1.0/256.0, 1.0/256.0, 1.0/256.0);"
-    	"vec4 res = fract(depth * bit_shift);"
-    	"res -= res.xxyz * bit_mask;"
-    	"return res;"
+    	"vec4 enc = vec4(1.0, 255.0, 65025.0, 160581375.0) * depth;"
+    	"enc = fract(enc);"
+    	"enc -= enc.yzww * vec4(1.0/255.0,1.0/255.0,1.0/255.0,0.0);"
+    	"return enc;"
 	"}"
 	"void main() {\n"
 	"  gl_FragColor =  pack_depth(texture2D(uTexSampler, vTexCoord).r);\n"
@@ -756,7 +755,7 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	glBindFramebuffer(GL_FRAMEBUFFER, window->gl.frameBuffer);
 	glUseProgram(window->gl.drawProgram);
 
-
+	glDepthFunc(GL_LESS);
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -1236,8 +1235,8 @@ main(int argc, char **argv)
 
 	window.display = &display;
 	display.window = &window;
-	window.window_size.width  = 2194;
-	window.window_size.height = 2650;
+	window.window_size.width  = 800;//2194;
+	window.window_size.height = 800;//2650;
 	window.buffer_size = 32;
 	window.frame_sync = 1;
 

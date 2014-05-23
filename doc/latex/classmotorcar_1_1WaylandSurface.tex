@@ -12,17 +12,7 @@ Inheritance diagram for motorcar\-:\-:Wayland\-Surface\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=550pt]{classmotorcar_1_1WaylandSurface__inherit__graph}
-\end{center}
-\end{figure}
-
-
-Collaboration diagram for motorcar\-:\-:Wayland\-Surface\-:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[height=550pt]{classmotorcar_1_1WaylandSurface__coll__graph}
+\includegraphics[width=236pt]{classmotorcar_1_1WaylandSurface__inherit__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Types}
@@ -34,18 +24,8 @@ enum \hyperlink{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a
 \hyperlink{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5a91f194806c8b59a53b1ea5ee47d567dc}{P\-O\-P\-U\-P}, 
 \hyperlink{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5a23d1dd5df19bc211c5835e285ec08a46}{C\-U\-R\-S\-O\-R}, 
 \\*
+\hyperlink{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5af7f2e96cc840c2259c93e4f9701b2038}{D\-E\-P\-T\-H\-\_\-\-C\-O\-M\-P\-O\-S\-I\-T\-E\-D}, 
 \hyperlink{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5a6577b08859e961558d1960bc03de1d51}{N\-A}
- \}
-\item 
-enum \hyperlink{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390}{Mouse\-Event} \{ \hyperlink{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390ad271c246771fd2ace94bae1c78cfd0fc}{B\-U\-T\-T\-O\-N\-\_\-\-P\-R\-E\-S\-S}, 
-\hyperlink{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390a666df2ca8a94a88d17a2a3a1688352f0}{B\-U\-T\-T\-O\-N\-\_\-\-R\-E\-L\-E\-A\-S\-E}, 
-\hyperlink{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390ae86c6b1b32d3bba9cb74fb995e254e89}{M\-O\-V\-E}
- \}
-\item 
-enum \hyperlink{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960}{Mouse\-Button} \{ \hyperlink{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a98d8446141615444198f1509a4121085}{L\-E\-F\-T}, 
-\hyperlink{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a22c84d5e3ce9171b6f3685acfb52dcc2}{R\-I\-G\-H\-T}, 
-\hyperlink{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a09075c181e0e1b5e8ad499e495e82fa3}{M\-I\-D\-D\-L\-E}, 
-\hyperlink{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a313e451685f55c86a28a58749d17f65a}{N\-O\-N\-E}
  \}
 \end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
@@ -56,16 +36,18 @@ enum \hyperlink{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f796
 virtual \hyperlink{classmotorcar_1_1WaylandSurface_a9b6ec8218ecc975308ddb38ddf3dd965}{$\sim$\-Wayland\-Surface} ()
 \item 
 virtual G\-Luint \hyperlink{classmotorcar_1_1WaylandSurface_aa8ae13d97dae8dfbb610ca6f4ab2b745}{texture} ()=0
-\item 
+\begin{DoxyCompactList}\small\item\em Get the texture handle for this surface. \end{DoxyCompactList}\item 
 virtual glm\-::ivec2 \hyperlink{classmotorcar_1_1WaylandSurface_a06182d612aaf0d07780e498066aaca1b}{size} ()=0
-\item 
+\begin{DoxyCompactList}\small\item\em Get the size of this surface in pixels. \end{DoxyCompactList}\item 
+virtual glm\-::ivec2 \hyperlink{classmotorcar_1_1WaylandSurface_a22f62be59ac9b8b76a2b2f467f0b1277}{position} ()=0
+\begin{DoxyCompactList}\small\item\em Get the position of this surface in parent surface-\/local coordinates. \end{DoxyCompactList}\item 
+virtual \hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$ \hyperlink{classmotorcar_1_1WaylandSurface_a94b48df54c92d9046f786d4d7f5d4ff2}{parent\-Surface} ()=0
+\begin{DoxyCompactList}\small\item\em return the parent surface \end{DoxyCompactList}\item 
 virtual void \hyperlink{classmotorcar_1_1WaylandSurface_a63669771c03ce580fec8a0099dbd294e}{prepare} ()=0
-\item 
+\begin{DoxyCompactList}\small\item\em do any per-\/frame setup required for drawing \end{DoxyCompactList}\item 
 virtual bool \hyperlink{classmotorcar_1_1WaylandSurface_af2f54076ec690f4d478771183c9b0db5}{valid} ()=0
-\item 
-virtual void \hyperlink{classmotorcar_1_1WaylandSurface_a47d13cf428555400ca7db005f3ea7360}{send\-Mouse\-Event} (\hyperlink{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390}{Mouse\-Event} event\-Type, \hyperlink{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960}{Mouse\-Button} button, glm\-::vec2 local\-Postion)=0
-\item 
-glm\-::vec2 \hyperlink{classmotorcar_1_1WaylandSurface_a3b11157b840db9d8b230d9e8eefd9f30}{latest\-Mouse\-Event\-Pos} () const 
+\begin{DoxyCompactList}\small\item\em returns whether or not the surface is ready to draw \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmotorcar_1_1WaylandSurface_a8d709e7d02ee7f7b8b3343590e518993}{send\-Event} (const \hyperlink{classmotorcar_1_1Event}{Event} \&event)=0
 \item 
 \hyperlink{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5}{Surface\-Type} \hyperlink{classmotorcar_1_1WaylandSurface_a0e6e5e2455666f607a8ddb2479ba8e88}{type} () const 
 \item 
@@ -74,43 +56,11 @@ void \hyperlink{classmotorcar_1_1WaylandSurface_a8806b03b3c4007578f26c1b90730333
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-glm\-::vec2 \hyperlink{classmotorcar_1_1WaylandSurface_a9a0fa2f9278e18b7fb53276cf32d000d}{m\-\_\-latest\-Mouse\-Event\-Pos}
-\item 
 \hyperlink{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5}{Surface\-Type} \hyperlink{classmotorcar_1_1WaylandSurface_a73fc5c245e98a08a551c7f412fd95966}{m\-\_\-type}
 \end{DoxyCompactItemize}
 
 
 \subsection{Member Enumeration Documentation}
-\hypertarget{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!Mouse\-Button@{Mouse\-Button}}
-\index{Mouse\-Button@{Mouse\-Button}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
-\subsubsection[{Mouse\-Button}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf motorcar\-::\-Wayland\-Surface\-::\-Mouse\-Button}}}\label{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960}
-\begin{Desc}
-\item[Enumerator]\par
-\begin{description}
-\index{L\-E\-F\-T@{L\-E\-F\-T}!motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}}\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!L\-E\-F\-T@{L\-E\-F\-T}}\item[{\em 
-\hypertarget{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a98d8446141615444198f1509a4121085}{L\-E\-F\-T}\label{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a98d8446141615444198f1509a4121085}
-}]\index{R\-I\-G\-H\-T@{R\-I\-G\-H\-T}!motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}}\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!R\-I\-G\-H\-T@{R\-I\-G\-H\-T}}\item[{\em 
-\hypertarget{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a22c84d5e3ce9171b6f3685acfb52dcc2}{R\-I\-G\-H\-T}\label{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a22c84d5e3ce9171b6f3685acfb52dcc2}
-}]\index{M\-I\-D\-D\-L\-E@{M\-I\-D\-D\-L\-E}!motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}}\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!M\-I\-D\-D\-L\-E@{M\-I\-D\-D\-L\-E}}\item[{\em 
-\hypertarget{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a09075c181e0e1b5e8ad499e495e82fa3}{M\-I\-D\-D\-L\-E}\label{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a09075c181e0e1b5e8ad499e495e82fa3}
-}]\index{N\-O\-N\-E@{N\-O\-N\-E}!motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}}\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!N\-O\-N\-E@{N\-O\-N\-E}}\item[{\em 
-\hypertarget{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a313e451685f55c86a28a58749d17f65a}{N\-O\-N\-E}\label{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960a313e451685f55c86a28a58749d17f65a}
-}]\end{description}
-\end{Desc}
-\hypertarget{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!Mouse\-Event@{Mouse\-Event}}
-\index{Mouse\-Event@{Mouse\-Event}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
-\subsubsection[{Mouse\-Event}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf motorcar\-::\-Wayland\-Surface\-::\-Mouse\-Event}}}\label{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390}
-\begin{Desc}
-\item[Enumerator]\par
-\begin{description}
-\index{B\-U\-T\-T\-O\-N\-\_\-\-P\-R\-E\-S\-S@{B\-U\-T\-T\-O\-N\-\_\-\-P\-R\-E\-S\-S}!motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}}\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!B\-U\-T\-T\-O\-N\-\_\-\-P\-R\-E\-S\-S@{B\-U\-T\-T\-O\-N\-\_\-\-P\-R\-E\-S\-S}}\item[{\em 
-\hypertarget{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390ad271c246771fd2ace94bae1c78cfd0fc}{B\-U\-T\-T\-O\-N\-\_\-\-P\-R\-E\-S\-S}\label{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390ad271c246771fd2ace94bae1c78cfd0fc}
-}]\index{B\-U\-T\-T\-O\-N\-\_\-\-R\-E\-L\-E\-A\-S\-E@{B\-U\-T\-T\-O\-N\-\_\-\-R\-E\-L\-E\-A\-S\-E}!motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}}\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!B\-U\-T\-T\-O\-N\-\_\-\-R\-E\-L\-E\-A\-S\-E@{B\-U\-T\-T\-O\-N\-\_\-\-R\-E\-L\-E\-A\-S\-E}}\item[{\em 
-\hypertarget{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390a666df2ca8a94a88d17a2a3a1688352f0}{B\-U\-T\-T\-O\-N\-\_\-\-R\-E\-L\-E\-A\-S\-E}\label{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390a666df2ca8a94a88d17a2a3a1688352f0}
-}]\index{M\-O\-V\-E@{M\-O\-V\-E}!motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}}\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!M\-O\-V\-E@{M\-O\-V\-E}}\item[{\em 
-\hypertarget{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390ae86c6b1b32d3bba9cb74fb995e254e89}{M\-O\-V\-E}\label{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390ae86c6b1b32d3bba9cb74fb995e254e89}
-}]\end{description}
-\end{Desc}
 \hypertarget{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!Surface\-Type@{Surface\-Type}}
 \index{Surface\-Type@{Surface\-Type}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
 \subsubsection[{Surface\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf motorcar\-::\-Wayland\-Surface\-::\-Surface\-Type}}}\label{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5}
@@ -125,6 +75,8 @@ glm\-::vec2 \hyperlink{classmotorcar_1_1WaylandSurface_a9a0fa2f9278e18b7fb53276c
 \hypertarget{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5a91f194806c8b59a53b1ea5ee47d567dc}{P\-O\-P\-U\-P}\label{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5a91f194806c8b59a53b1ea5ee47d567dc}
 }]\index{C\-U\-R\-S\-O\-R@{C\-U\-R\-S\-O\-R}!motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}}\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!C\-U\-R\-S\-O\-R@{C\-U\-R\-S\-O\-R}}\item[{\em 
 \hypertarget{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5a23d1dd5df19bc211c5835e285ec08a46}{C\-U\-R\-S\-O\-R}\label{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5a23d1dd5df19bc211c5835e285ec08a46}
+}]\index{D\-E\-P\-T\-H\-\_\-\-C\-O\-M\-P\-O\-S\-I\-T\-E\-D@{D\-E\-P\-T\-H\-\_\-\-C\-O\-M\-P\-O\-S\-I\-T\-E\-D}!motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}}\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!D\-E\-P\-T\-H\-\_\-\-C\-O\-M\-P\-O\-S\-I\-T\-E\-D@{D\-E\-P\-T\-H\-\_\-\-C\-O\-M\-P\-O\-S\-I\-T\-E\-D}}\item[{\em 
+\hypertarget{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5af7f2e96cc840c2259c93e4f9701b2038}{D\-E\-P\-T\-H\-\_\-\-C\-O\-M\-P\-O\-S\-I\-T\-E\-D}\label{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5af7f2e96cc840c2259c93e4f9701b2038}
 }]\index{N\-A@{N\-A}!motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}}\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!N\-A@{N\-A}}\item[{\em 
 \hypertarget{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5a6577b08859e961558d1960bc03de1d51}{N\-A}\label{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5a6577b08859e961558d1960bc03de1d51}
 }]\end{description}
@@ -149,13 +101,36 @@ glm\-::vec2 \hyperlink{classmotorcar_1_1WaylandSurface_a9a0fa2f9278e18b7fb53276c
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classmotorcar_1_1WaylandSurface_a3b11157b840db9d8b230d9e8eefd9f30}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!latest\-Mouse\-Event\-Pos@{latest\-Mouse\-Event\-Pos}}
-\index{latest\-Mouse\-Event\-Pos@{latest\-Mouse\-Event\-Pos}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
-\subsubsection[{latest\-Mouse\-Event\-Pos}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec2 Wayland\-Surface\-::latest\-Mouse\-Event\-Pos (
+\hypertarget{classmotorcar_1_1WaylandSurface_a94b48df54c92d9046f786d4d7f5d4ff2}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!parent\-Surface@{parent\-Surface}}
+\index{parent\-Surface@{parent\-Surface}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
+\subsubsection[{parent\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Wayland\-Surface}$\ast$ motorcar\-::\-Wayland\-Surface\-::parent\-Surface (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const}}\label{classmotorcar_1_1WaylandSurface_a3b11157b840db9d8b230d9e8eefd9f30}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmotorcar_1_1WaylandSurface_a94b48df54c92d9046f786d4d7f5d4ff2}
+
+
+return the parent surface 
+
+
+
+Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a3b0aed06d7ed9287497bc342f9fc787b}{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}.
+
+\hypertarget{classmotorcar_1_1WaylandSurface_a22f62be59ac9b8b76a2b2f467f0b1277}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!position@{position}}
+\index{position@{position}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
+\subsubsection[{position}]{\setlength{\rightskip}{0pt plus 5cm}virtual glm\-::ivec2 motorcar\-::\-Wayland\-Surface\-::position (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmotorcar_1_1WaylandSurface_a22f62be59ac9b8b76a2b2f467f0b1277}
+
+
+Get the position of this surface in parent surface-\/local coordinates. 
+
+
+
+Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_ad405b91565405e6a08d86ac5d59f3f08}{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}.
+
 \hypertarget{classmotorcar_1_1WaylandSurface_a63669771c03ce580fec8a0099dbd294e}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!prepare@{prepare}}
 \index{prepare@{prepare}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
 \subsubsection[{prepare}]{\setlength{\rightskip}{0pt plus 5cm}virtual void motorcar\-::\-Wayland\-Surface\-::prepare (
@@ -165,20 +140,22 @@ glm\-::vec2 \hyperlink{classmotorcar_1_1WaylandSurface_a9a0fa2f9278e18b7fb53276c
 )\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmotorcar_1_1WaylandSurface_a63669771c03ce580fec8a0099dbd294e}
 
 
+do any per-\/frame setup required for drawing 
+
+
+
 Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_ae898706dcf80a2f00ed2477c570dcebe}{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}.
 
-\hypertarget{classmotorcar_1_1WaylandSurface_a47d13cf428555400ca7db005f3ea7360}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!send\-Mouse\-Event@{send\-Mouse\-Event}}
-\index{send\-Mouse\-Event@{send\-Mouse\-Event}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
-\subsubsection[{send\-Mouse\-Event}]{\setlength{\rightskip}{0pt plus 5cm}virtual void motorcar\-::\-Wayland\-Surface\-::send\-Mouse\-Event (
+\hypertarget{classmotorcar_1_1WaylandSurface_a8d709e7d02ee7f7b8b3343590e518993}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!send\-Event@{send\-Event}}
+\index{send\-Event@{send\-Event}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
+\subsubsection[{send\-Event}]{\setlength{\rightskip}{0pt plus 5cm}virtual void motorcar\-::\-Wayland\-Surface\-::send\-Event (
 \begin{DoxyParamCaption}
-\item[{{\bf Mouse\-Event}}]{event\-Type, }
-\item[{{\bf Mouse\-Button}}]{button, }
-\item[{glm\-::vec2}]{local\-Postion}
+\item[{const {\bf Event} \&}]{event}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmotorcar_1_1WaylandSurface_a47d13cf428555400ca7db005f3ea7360}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmotorcar_1_1WaylandSurface_a8d709e7d02ee7f7b8b3343590e518993}
 
 
-Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a25fff83e1cda809c210b1b73609396a2}{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}.
+Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a7deebcf58954f82c8d5741af054414a7}{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}.
 
 \hypertarget{classmotorcar_1_1WaylandSurface_a8806b03b3c4007578f26c1b907303336}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!set\-Type@{set\-Type}}
 \index{set\-Type@{set\-Type}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
@@ -196,6 +173,10 @@ Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a25fff83e1
 )\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmotorcar_1_1WaylandSurface_a06182d612aaf0d07780e498066aaca1b}
 
 
+Get the size of this surface in pixels. 
+
+
+
 Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_ad5e6f75c146a2952652deaf866ee22a7}{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}.
 
 \hypertarget{classmotorcar_1_1WaylandSurface_aa8ae13d97dae8dfbb610ca6f4ab2b745}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!texture@{texture}}
@@ -205,6 +186,10 @@ Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_ad5e6f75c1
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmotorcar_1_1WaylandSurface_aa8ae13d97dae8dfbb610ca6f4ab2b745}
+
+
+Get the texture handle for this surface. 
+
 
 
 Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a573c52cdacb8f16c06ecd111bddabef6}{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}.
@@ -225,14 +210,15 @@ Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a573c52cda
 )\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmotorcar_1_1WaylandSurface_af2f54076ec690f4d478771183c9b0db5}
 
 
+returns whether or not the surface is ready to draw 
+
+
+
 Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a3bea85a2a6a3079e60c3b37dd08aebc6}{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}.
 
 
 
 \subsection{Member Data Documentation}
-\hypertarget{classmotorcar_1_1WaylandSurface_a9a0fa2f9278e18b7fb53276cf32d000d}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!m\-\_\-latest\-Mouse\-Event\-Pos@{m\-\_\-latest\-Mouse\-Event\-Pos}}
-\index{m\-\_\-latest\-Mouse\-Event\-Pos@{m\-\_\-latest\-Mouse\-Event\-Pos}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
-\subsubsection[{m\-\_\-latest\-Mouse\-Event\-Pos}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec2 motorcar\-::\-Wayland\-Surface\-::m\-\_\-latest\-Mouse\-Event\-Pos\hspace{0.3cm}{\ttfamily [protected]}}}\label{classmotorcar_1_1WaylandSurface_a9a0fa2f9278e18b7fb53276cf32d000d}
 \hypertarget{classmotorcar_1_1WaylandSurface_a73fc5c245e98a08a551c7f412fd95966}{\index{motorcar\-::\-Wayland\-Surface@{motorcar\-::\-Wayland\-Surface}!m\-\_\-type@{m\-\_\-type}}
 \index{m\-\_\-type@{m\-\_\-type}!motorcar::WaylandSurface@{motorcar\-::\-Wayland\-Surface}}
 \subsubsection[{m\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Surface\-Type} motorcar\-::\-Wayland\-Surface\-::m\-\_\-type\hspace{0.3cm}{\ttfamily [protected]}}}\label{classmotorcar_1_1WaylandSurface_a73fc5c245e98a08a551c7f412fd95966}
@@ -240,5 +226,5 @@ Implemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a3bea85a2a
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/wayland/\hyperlink{waylandsurface_8h}{waylandsurface.\-h}\item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/wayland/\hyperlink{waylandsurface_8cpp}{waylandsurface.\-cpp}\end{DoxyCompactItemize}
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/wayland/output/\hyperlink{waylandsurface_8h}{waylandsurface.\-h}\item 
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/wayland/output/\hyperlink{waylandsurface_8cpp}{waylandsurface.\-cpp}\end{DoxyCompactItemize}

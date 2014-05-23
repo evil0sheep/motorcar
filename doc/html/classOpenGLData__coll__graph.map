@@ -1,4 +1,4 @@
 <map id="OpenGLData" name="OpenGLData">
-<area shape="rect" id="node2" href="$classQOpenGLWindow.html" title="{QOpenGLWindow\n||+ QOpenGLWindow()\l+ context()\l+ makeCurrent()\l+ swapBuffers()\l# touchEvent()\l}" alt="" coords="5,141,152,296"/>
-<area shape="rect" id="node6" href="$classTextureBlitter.html" title="{TextureBlitter\n||+ TextureBlitter()\l+ ~TextureBlitter()\l+ bind()\l+ release()\l+ drawTexture()\l}" alt="" coords="176,141,304,296"/>
+<area shape="rect" id="node2" href="$classQOpenGLWindow.html" title="QOpenGLWindow" alt="" coords="5,83,131,109"/>
+<area shape="rect" id="node4" href="$classTextureBlitter.html" title="TextureBlitter" alt="" coords="155,83,255,109"/>
 </map>

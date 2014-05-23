@@ -1,3 +1,24 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classQtwaylandSurfaceNode.html" title="QtwaylandSurfaceNode" alt="" coords="5,5,165,35"/>
+<area shape="rect" id="node1" href="$structmotorcar_1_1Geometry_1_1Rectangle.html" title="motorcar::Geometry\l::Rectangle" alt="" coords="249,23,388,65"/>
+<area shape="rect" id="node2" href="$classmotorcar_1_1Display.html" title="motorcar::Display" alt="" coords="493,56,619,83"/>
+<area shape="rect" id="node5" href="$classmotorcar_1_1ViewPort.html" title="motorcar::ViewPort" alt="" coords="489,5,623,32"/>
+<area shape="rect" id="node3" href="$classmotorcar_1_1RenderToTextureDisplay.html" title="motorcar::RenderToTexture\lDisplay" alt="" coords="725,49,907,90"/>
+<area shape="rect" id="node4" href="$classmotorcar_1_1OculusHMD.html" title="motorcar::OculusHMD" alt="" coords="985,56,1138,83"/>
+<area shape="rect" id="node6" href="$classmotorcar_1_1SceneGraphNode.html" title="motorcar::SceneGraphNode" alt="" coords="5,368,189,395"/>
+<area shape="rect" id="node7" href="$classmotorcar_1_1PhysicalNode.html" title="motorcar::PhysicalNode" alt="" coords="237,259,400,285"/>
+<area shape="rect" id="node16" href="$classmotorcar_1_1VirtualNode.html" title="motorcar::VirtualNode" alt="" coords="244,477,393,504"/>
+<area shape="rect" id="node8" href="$classmotorcar_1_1Bone.html" title="motorcar::Bone" alt="" coords="501,107,611,133"/>
+<area shape="rect" id="node9" href="$classmotorcar_1_1BoneSensor.html" title="motorcar::BoneSensor" alt="" coords="480,157,632,184"/>
+<area shape="rect" id="node11" href="$classmotorcar_1_1Scene.html" title="motorcar::Scene" alt="" coords="497,208,615,235"/>
+<area shape="rect" id="node12" href="$classmotorcar_1_1SixenseBaseNode.html" title="motorcar::SixenseBaseNode" alt="" coords="461,259,651,285"/>
+<area shape="rect" id="node13" href="$classmotorcar_1_1SixenseControllerNode.html" title="motorcar::SixenseControllerNode" alt="" coords="449,309,663,336"/>
+<area shape="rect" id="node14" href="$classmotorcar_1_1Skeleton.html" title="motorcar::Skeleton" alt="" coords="490,360,622,387"/>
+<area shape="rect" id="node15" href="$classmotorcar_1_1SpatialPointingDevice.html" title="motorcar::SpatialPointing\lDevice" alt="" coords="472,411,640,453"/>
+<area shape="rect" id="node10" href="$classmotorcar_1_1SingleBoneTracker.html" title="motorcar::SingleBoneTracker" alt="" coords="721,157,911,184"/>
+<area shape="rect" id="node17" href="$classmotorcar_1_1Drawable.html" title="motorcar::Drawable" alt="" coords="488,477,624,504"/>
+<area shape="rect" id="node22" href="$classmotorcar_1_1ViewPoint.html" title="motorcar::ViewPoint" alt="" coords="486,528,626,555"/>
+<area shape="rect" id="node18" href="$classmotorcar_1_1SoftKineticDepthCamera.html" title="motorcar::SoftKineticDepth\lCamera" alt="" coords="726,411,906,453"/>
+<area shape="rect" id="node19" href="$classmotorcar_1_1WaylandSurfaceNode.html" title="motorcar::WaylandSurfaceNode" alt="" coords="712,477,920,504"/>
+<area shape="rect" id="node21" href="$classmotorcar_1_1WireframeNode.html" title="motorcar::WireframeNode" alt="" coords="730,528,902,555"/>
+<area shape="rect" id="node20" href="$classmotorcar_1_1DepthCompositedSurfaceNode.html" title="motorcar::DepthComposited\lSurfaceNode" alt="" coords="968,470,1155,511"/>
 </map>

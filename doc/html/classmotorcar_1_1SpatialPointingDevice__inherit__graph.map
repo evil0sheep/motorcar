@@ -1,7 +1,4 @@
 <map id="motorcar::SpatialPointingDevice" name="motorcar::SpatialPointingDevice">
-<area shape="rect" id="node2" href="$classmotorcar_1_1InputElement.html" title="{motorcar::InputElement\n||+ InputElement()\l+ ~InputElement()\l+ isInputElement()\l}" alt="" coords="5,489,163,609"/>
-<area shape="rect" id="node4" href="$classmotorcar_1_1IOElement.html" title="{motorcar::IOElement\n||+ IOElement()\l+ ~IOElement()\l+ isInputElement()\l+ isOutputElement()\l}" alt="" coords="13,217,155,354"/>
-<area shape="rect" id="node6" href="$classFoo.html" title="{Foo\n||}" alt="" coords="156,5,199,91"/>
-<area shape="rect" id="node10" href="$classmotorcar_1_1SceneGraphNode.html" title="{motorcar::SceneGraphNode\n||+ SceneGraphNode()\l+ ~SceneGraphNode()\l+ traverseNode()\l+ traverseSceneGraph()\l+ parentNode()\l+ scene()\l+ subtreeContains()\l+ transform()\l+ inverseTransform()\l+ setTransform()\land 6 more...\l# SceneGraphNode()\l# setParentNode()\l}" alt="" coords="179,139,363,432"/>
-<area shape="rect" id="node8" href="$classmotorcar_1_1PhysicalNode.html" title="{motorcar::PhysicalNode\n||+ PhysicalNode()\l+ ~PhysicalNode()\l+ setParentNode()\l# PhysicalNode()\l}" alt="" coords="188,481,351,618"/>
+<area shape="rect" id="node2" href="$classmotorcar_1_1PhysicalNode.html" title="motorcar::PhysicalNode" alt="" coords="16,80,179,107"/>
+<area shape="rect" id="node3" href="$classmotorcar_1_1SceneGraphNode.html" title="motorcar::SceneGraphNode" alt="" coords="5,5,189,32"/>
 </map>

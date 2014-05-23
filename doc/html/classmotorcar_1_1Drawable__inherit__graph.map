@@ -1,10 +1,8 @@
 <map id="motorcar::Drawable" name="motorcar::Drawable">
-<area shape="rect" id="node14" href="$classmotorcar_1_1WaylandDrawable.html" title="{motorcar::WaylandDrawable\n||+ WaylandDrawable()\l+ ~WaylandDrawable()\l}" alt="" coords="29,939,216,1042"/>
-<area shape="rect" id="node18" href="$classmotorcar_1_1WireframeNode.html" title="{motorcar::WireframeNode\n||+ WireframeNode()\l+ drawViewpoint()\l+ lineColor()\l+ setLineColor()\l+ numSegments()\l+ segments()\l}" alt="" coords="240,905,411,1077"/>
-<area shape="rect" id="node2" href="$classmotorcar_1_1OutputElement.html" title="{motorcar::OutputElement\n||+ OutputElement()\l+ isInputElement()\l}" alt="" coords="49,506,217,609"/>
-<area shape="rect" id="node4" href="$classmotorcar_1_1IOElement.html" title="{motorcar::IOElement\n||+ IOElement()\l+ ~IOElement()\l+ isInputElement()\l+ isOutputElement()\l}" alt="" coords="61,217,203,354"/>
-<area shape="rect" id="node6" href="$classFoo.html" title="{Foo\n||}" alt="" coords="204,5,247,91"/>
-<area shape="rect" id="node10" href="$classmotorcar_1_1SceneGraphNode.html" title="{motorcar::SceneGraphNode\n||+ SceneGraphNode()\l+ ~SceneGraphNode()\l+ traverseNode()\l+ traverseSceneGraph()\l+ parentNode()\l+ scene()\l+ subtreeContains()\l+ transform()\l+ inverseTransform()\l+ setTransform()\land 6 more...\l# SceneGraphNode()\l# setParentNode()\l}" alt="" coords="227,139,411,432"/>
-<area shape="rect" id="node8" href="$classmotorcar_1_1VirtualNode.html" title="{motorcar::VirtualNode\n||+ VirtualNode()\l+ ~VirtualNode()\l+ animate()\l+ traverseNode()\l+ setParentNode()\l}" alt="" coords="243,480,392,635"/>
-<area shape="rect" id="node16" href="$classmotorcar_1_1WaylandSurfaceNode.html" title="{motorcar::WaylandSurfaceNode\n||+ WaylandSurfaceNode()\l+ ~WaylandSurfaceNode()\l+ surface()\l+ setSurface()\l+ surfaceTransform()\l+ computeSurfaceTransform()\l+ computeLocalSurfaceIntersection()\l+ intersectWithSurfaces()\l+ drawViewpoint()\l}" alt="" coords="5,1125,240,1349"/>
+<area shape="rect" id="node4" href="$classmotorcar_1_1SoftKineticDepthCamera.html" title="motorcar::SoftKineticDepth\lCamera" alt="" coords="633,5,813,46"/>
+<area shape="rect" id="node5" href="$classmotorcar_1_1WaylandSurfaceNode.html" title="motorcar::WaylandSurfaceNode" alt="" coords="619,71,827,97"/>
+<area shape="rect" id="node7" href="$classmotorcar_1_1WireframeNode.html" title="motorcar::WireframeNode" alt="" coords="637,121,809,148"/>
+<area shape="rect" id="node2" href="$classmotorcar_1_1VirtualNode.html" title="motorcar::VirtualNode" alt="" coords="237,71,387,97"/>
+<area shape="rect" id="node3" href="$classmotorcar_1_1SceneGraphNode.html" title="motorcar::SceneGraphNode" alt="" coords="5,71,189,97"/>
+<area shape="rect" id="node6" href="$classmotorcar_1_1DepthCompositedSurfaceNode.html" title="motorcar::DepthComposited\lSurfaceNode" alt="" coords="875,63,1061,105"/>
 </map>

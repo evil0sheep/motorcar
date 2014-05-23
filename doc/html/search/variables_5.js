@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['g_5faframes',['g_aFrames',['../softkineticdepthcamera_8cpp.html#a889cd2a0748f1e32ba7e956a23fe344a',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fanode',['g_anode',['../softkineticdepthcamera_8cpp.html#acc110d41eebaa7c53f4abddd93611464',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fbdevicefound',['g_bDeviceFound',['../softkineticdepthcamera_8cpp.html#a50de7dafce08525e1fd9fc16d2541d69',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fcframes',['g_cFrames',['../softkineticdepthcamera_8cpp.html#ad8dbaf6148c7e2f28a01017c677181b2',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fcnode',['g_cnode',['../softkineticdepthcamera_8cpp.html#aeff9dc738765f73897ce2e17e6fcff27',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fcolordata',['g_colorData',['../softkineticdepthcamera_8cpp.html#a9bdc89a0a3b15f1e4f01d1af0d5269e9',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fconfidencedata',['g_confidenceData',['../softkineticdepthcamera_8cpp.html#aab02df63c3af967c280bc3f2e49374e6',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fcontext',['g_context',['../softkineticdepthcamera_8cpp.html#a239bd0119ee562a88194f5218b50c94c',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fdepthmapsize',['g_depthMapSize',['../softkineticdepthcamera_8cpp.html#affc31522a29ba1e63b2abe03b8556ac2',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fdepthupdated',['g_depthUpdated',['../softkineticdepthcamera_8cpp.html#a226cdcdfde14a917ab6653d6d29778a2',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fdframes',['g_dFrames',['../softkineticdepthcamera_8cpp.html#a020e84f111fe3c71bdb9be7ab86c2517',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fdnode',['g_dnode',['../softkineticdepthcamera_8cpp.html#a4ae467f6445e404f04219ddc89eacb62',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fpprojhelper',['g_pProjHelper',['../softkineticdepthcamera_8cpp.html#a5e2233fcbcdf9b8ca5afed79258ff2b0',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fscp',['g_scp',['../softkineticdepthcamera_8cpp.html#af4db86d954c4ce1fca0123db7a6995a4',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fuvdata',['g_uvData',['../softkineticdepthcamera_8cpp.html#a87944d5880bbc0c28d2b7eb32b9ad67f',1,'softkineticdepthcamera.cpp']]],
+  ['g_5fvertexdata',['g_vertexData',['../softkineticdepthcamera_8cpp.html#ad3d15a2ebad4f83ba4b701f69f67bc0a',1,'softkineticdepthcamera.cpp']]],
+  ['get_5fmotorcar_5fsurface',['get_motorcar_surface',['../structmotorcar__shell__interface.html#a48c566c33704d3f369f3768bae578f19',1,'motorcar_shell_interface']]],
+  ['gl',['gl',['../structwindow.html#a6975a930e9a3c166f8201fc4ef5e7728',1,'window']]]
+];

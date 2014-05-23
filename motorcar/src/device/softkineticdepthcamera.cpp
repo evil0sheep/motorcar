@@ -80,10 +80,13 @@ void onNewDepthSample(DepthNode node, DepthNode::NewSampleReceivedData data)
 
     for(int i=0; i < data.verticesFloatingPoint.size(); i++){
         DepthSense::FPVertex v = data.verticesFloatingPoint[i];
-        //Geometry::printVector(glm::vec3(v.x, v.y, v.z));
         g_vertexData[i * 3 + 0] = v.x;
         g_vertexData[i * 3 + 1] = v.y;
         g_vertexData[i * 3 + 2] = v.z;
+        if(v.z > 0 && v.z < 0.01){
+//            Geometry::printVector(glm::vec3(v.x, v.y, v.z));
+//            std::cout << data.confidenceMap[i] << std::endl;
+        }
         g_confidenceData[i] = data.confidenceMap[i];
         DepthSense::UV t = data.uvMap[i];
         g_uvData[i *2 + 0] = t.u;
@@ -371,13 +374,16 @@ SoftKineticDepthCamera::SoftKineticDepthCamera(SceneGraphNode *parent, const glm
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-    GLushort indices[(m_colorWidth - 1)][(m_colorHeight - 1)][6];
-    for(int i = 0; i < m_colorWidth - 1; i++){
-        for(int j=0; j< m_colorHeight - 1; j++){
-            int tl = j * m_colorWidth + i;
-            int tr = j * m_colorWidth + i + 1;
-            int bl = (j + 1) * m_colorWidth + i;
-            int br = (j + 1) * m_colorWidth + i + 1;
+    int w = m_colorWidth - 1;
+    int h =m_colorHeight - 1;
+    int rowOffset = m_colorWidth;
+    GLushort indices[w][h][6];
+    for(int i = 0; i < w; i++){
+        for(int j=0; j< h; j++){
+            int tl = j * rowOffset + i;
+            int tr = j * rowOffset + i + 1;
+            int bl = (j + 1) * rowOffset + i;
+            int br = (j + 1) * rowOffset + i + 1;
 
             indices[i][j][0] = tl;
             indices[i][j][1] = bl;
@@ -410,7 +416,7 @@ void SoftKineticDepthCamera::draw(Scene *scene, Display *display)
 {
 
 
-    glPointSize( 2.0 );
+    glPointSize( 4.0 );
 
     //std::cout << g_depthData.verticesFloatingPoint.size() <<std::endl;
 
@@ -446,7 +452,7 @@ void SoftKineticDepthCamera::draw(Scene *scene, Display *display)
         //glDrawArrays(GL_POINTS, 0, g_depthMapSize);
 
         //glDrawElements(GL_TRIANGLES, (m_colorWidth - 1)*(m_colorHeight - 1)* 6, GL_UNSIGNED_INT, (GLvoid*)0);
-        glDrawElements(GL_TRIANGLES, m_colorWidth*m_colorHeight, GL_UNSIGNED_SHORT, (GLvoid*)0);
+        glDrawElements(GL_TRIANGLES, (m_colorWidth - 1)*(m_colorHeight - 1), GL_UNSIGNED_SHORT, (GLvoid*)0);
 
 
 

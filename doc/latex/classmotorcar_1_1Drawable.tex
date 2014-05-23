@@ -12,7 +12,7 @@ Inheritance diagram for motorcar\-:\-:Drawable\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=550pt]{classmotorcar_1_1Drawable__inherit__graph}
+\includegraphics[width=350pt]{classmotorcar_1_1Drawable__inherit__graph}
 \end{center}
 \end{figure}
 
@@ -22,7 +22,7 @@ Collaboration diagram for motorcar\-:\-:Drawable\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=550pt]{classmotorcar_1_1Drawable__coll__graph}
+\includegraphics[width=218pt]{classmotorcar_1_1Drawable__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -32,13 +32,13 @@ Collaboration diagram for motorcar\-:\-:Drawable\-:
 \item 
 virtual \hyperlink{classmotorcar_1_1Drawable_ab638464364b93a00bdeacc64cc85ba41}{$\sim$\-Drawable} ()
 \item 
-virtual void \hyperlink{classmotorcar_1_1Drawable_a931cb72d30d280d0e63f22c2e1ac39c6}{traverse\-Node} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}, long delta\-Millis) override
+virtual void \hyperlink{classmotorcar_1_1Drawable_a8d0afa524298ae7f4ced15f6a80f253d}{draw} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}, \hyperlink{classmotorcar_1_1Display}{Display} $\ast$\hyperlink{structdisplay}{display})=0
+\begin{DoxyCompactList}\small\item\em Draw this node for the current display. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmotorcar_1_1Drawable_a8dce7e2370f9fdc5394cf661effc865a}{handle\-Frame\-Draw} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}) override
+\begin{DoxyCompactList}\small\item\em Gets the active display from the scene and calls draw on it. \end{DoxyCompactList}\item 
+bool \hyperlink{classmotorcar_1_1Drawable_ae76952e4af87589dbb7a4c9f17f2fdfa}{visible} () const 
 \item 
-virtual void \hyperlink{classmotorcar_1_1Drawable_aa991a852cb0421ecef23669df01b5b62}{draw\-Viewpoint} (\hyperlink{classmotorcar_1_1GLCamera}{G\-L\-Camera} $\ast$viewpoint)=0
-\item 
-bool \hyperlink{classmotorcar_1_1Drawable_ae7222a86680cf622f5bcf3be09027e59}{valid} () const 
-\item 
-void \hyperlink{classmotorcar_1_1Drawable_abc7eb95fa89843f57c4d93bad3e2c4db}{set\-Valid} (bool \hyperlink{classmotorcar_1_1Drawable_ae7222a86680cf622f5bcf3be09027e59}{valid})
+void \hyperlink{classmotorcar_1_1Drawable_a3aa8dfd1f526d0cf744313e8e102cea4}{set\-Visible} (bool \hyperlink{classmotorcar_1_1Drawable_ae76952e4af87589dbb7a4c9f17f2fdfa}{visible})
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
@@ -62,46 +62,54 @@ void \hyperlink{classmotorcar_1_1Drawable_abc7eb95fa89843f57c4d93bad3e2c4db}{set
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classmotorcar_1_1Drawable_aa991a852cb0421ecef23669df01b5b62}{\index{motorcar\-::\-Drawable@{motorcar\-::\-Drawable}!draw\-Viewpoint@{draw\-Viewpoint}}
-\index{draw\-Viewpoint@{draw\-Viewpoint}!motorcar::Drawable@{motorcar\-::\-Drawable}}
-\subsubsection[{draw\-Viewpoint}]{\setlength{\rightskip}{0pt plus 5cm}virtual void motorcar\-::\-Drawable\-::draw\-Viewpoint (
-\begin{DoxyParamCaption}
-\item[{{\bf G\-L\-Camera} $\ast$}]{viewpoint}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmotorcar_1_1Drawable_aa991a852cb0421ecef23669df01b5b62}
-
-
-Implemented in \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a74d79ca15a4d7983a29752fad8db574c}{motorcar\-::\-Wayland\-Surface\-Node}, and \hyperlink{classmotorcar_1_1WireframeNode_a9256807100fb8d169d7f4e1c657463d7}{motorcar\-::\-Wireframe\-Node}.
-
-\hypertarget{classmotorcar_1_1Drawable_abc7eb95fa89843f57c4d93bad3e2c4db}{\index{motorcar\-::\-Drawable@{motorcar\-::\-Drawable}!set\-Valid@{set\-Valid}}
-\index{set\-Valid@{set\-Valid}!motorcar::Drawable@{motorcar\-::\-Drawable}}
-\subsubsection[{set\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}void Drawable\-::set\-Valid (
-\begin{DoxyParamCaption}
-\item[{bool}]{valid}
-\end{DoxyParamCaption}
-)}}\label{classmotorcar_1_1Drawable_abc7eb95fa89843f57c4d93bad3e2c4db}
-\hypertarget{classmotorcar_1_1Drawable_a931cb72d30d280d0e63f22c2e1ac39c6}{\index{motorcar\-::\-Drawable@{motorcar\-::\-Drawable}!traverse\-Node@{traverse\-Node}}
-\index{traverse\-Node@{traverse\-Node}!motorcar::Drawable@{motorcar\-::\-Drawable}}
-\subsubsection[{traverse\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Drawable\-::traverse\-Node (
+\hypertarget{classmotorcar_1_1Drawable_a8d0afa524298ae7f4ced15f6a80f253d}{\index{motorcar\-::\-Drawable@{motorcar\-::\-Drawable}!draw@{draw}}
+\index{draw@{draw}!motorcar::Drawable@{motorcar\-::\-Drawable}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}virtual void motorcar\-::\-Drawable\-::draw (
 \begin{DoxyParamCaption}
 \item[{{\bf Scene} $\ast$}]{scene, }
-\item[{long}]{delta\-Millis}
+\item[{{\bf Display} $\ast$}]{display}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1Drawable_a931cb72d30d280d0e63f22c2e1ac39c6}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmotorcar_1_1Drawable_a8d0afa524298ae7f4ced15f6a80f253d}
 
 
-Reimplemented from \hyperlink{classmotorcar_1_1VirtualNode_ad0eda301331d02d5bf03d13432e62d17}{motorcar\-::\-Virtual\-Node}.
+Draw this node for the current display. 
 
-\hypertarget{classmotorcar_1_1Drawable_ae7222a86680cf622f5bcf3be09027e59}{\index{motorcar\-::\-Drawable@{motorcar\-::\-Drawable}!valid@{valid}}
-\index{valid@{valid}!motorcar::Drawable@{motorcar\-::\-Drawable}}
-\subsubsection[{valid}]{\setlength{\rightskip}{0pt plus 5cm}bool Drawable\-::valid (
+
+
+Implemented in \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a1afe3178777574dd1b3c66d7d19d871b}{motorcar\-::\-Wayland\-Surface\-Node}, \hyperlink{classmotorcar_1_1SoftKineticDepthCamera_a2752b6bf323e019a4cec43b61d78bcff}{motorcar\-::\-Soft\-Kinetic\-Depth\-Camera}, \hyperlink{classmotorcar_1_1DepthCompositedSurfaceNode_a2108d586ac8641beec9f6d048e3ea562}{motorcar\-::\-Depth\-Composited\-Surface\-Node}, and \hyperlink{classmotorcar_1_1WireframeNode_a8be77469b6c99cfb05c2096b6d064c2e}{motorcar\-::\-Wireframe\-Node}.
+
+\hypertarget{classmotorcar_1_1Drawable_a8dce7e2370f9fdc5394cf661effc865a}{\index{motorcar\-::\-Drawable@{motorcar\-::\-Drawable}!handle\-Frame\-Draw@{handle\-Frame\-Draw}}
+\index{handle\-Frame\-Draw@{handle\-Frame\-Draw}!motorcar::Drawable@{motorcar\-::\-Drawable}}
+\subsubsection[{handle\-Frame\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}void Drawable\-::handle\-Frame\-Draw (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1Drawable_a8dce7e2370f9fdc5394cf661effc865a}
+
+
+Gets the active display from the scene and calls draw on it. 
+
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1SceneGraphNode_a06f85abeee71ebe2b21ca9d6d20d7e67}{motorcar\-::\-Scene\-Graph\-Node}.
+
+\hypertarget{classmotorcar_1_1Drawable_a3aa8dfd1f526d0cf744313e8e102cea4}{\index{motorcar\-::\-Drawable@{motorcar\-::\-Drawable}!set\-Visible@{set\-Visible}}
+\index{set\-Visible@{set\-Visible}!motorcar::Drawable@{motorcar\-::\-Drawable}}
+\subsubsection[{set\-Visible}]{\setlength{\rightskip}{0pt plus 5cm}void Drawable\-::set\-Visible (
+\begin{DoxyParamCaption}
+\item[{bool}]{visible}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Drawable_a3aa8dfd1f526d0cf744313e8e102cea4}
+\hypertarget{classmotorcar_1_1Drawable_ae76952e4af87589dbb7a4c9f17f2fdfa}{\index{motorcar\-::\-Drawable@{motorcar\-::\-Drawable}!visible@{visible}}
+\index{visible@{visible}!motorcar::Drawable@{motorcar\-::\-Drawable}}
+\subsubsection[{visible}]{\setlength{\rightskip}{0pt plus 5cm}bool Drawable\-::visible (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const}}\label{classmotorcar_1_1Drawable_ae7222a86680cf622f5bcf3be09027e59}
+) const}}\label{classmotorcar_1_1Drawable_ae76952e4af87589dbb7a4c9f17f2fdfa}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/\hyperlink{drawable_8h}{drawable.\-h}\item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/\hyperlink{drawable_8cpp}{drawable.\-cpp}\end{DoxyCompactItemize}
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/\hyperlink{drawable_8h}{drawable.\-h}\item 
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/\hyperlink{drawable_8cpp}{drawable.\-cpp}\end{DoxyCompactItemize}

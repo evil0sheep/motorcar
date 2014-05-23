@@ -1,0 +1,52 @@
+\hypertarget{structmotorcar__viewpoint__listener}{\section{motorcar\-\_\-viewpoint\-\_\-listener Struct Reference}
+\label{structmotorcar__viewpoint__listener}\index{motorcar\-\_\-viewpoint\-\_\-listener@{motorcar\-\_\-viewpoint\-\_\-listener}}
+}
+
+
+{\ttfamily \#include $<$motorcar-\/client-\/protocol.\-h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$ \hyperlink{structmotorcar__viewpoint__listener_a62bcafc2fde2470d81ea8bce70855af5}{view\-\_\-matrix} )(void $\ast$data, struct motorcar\-\_\-viewpoint $\ast$motorcar\-\_\-viewpoint, struct wl\-\_\-array $\ast$view)
+\item 
+void($\ast$ \hyperlink{structmotorcar__viewpoint__listener_ac3811e768cf181e5c3c4377fd11816d8}{projection\-\_\-matrix} )(void $\ast$data, struct motorcar\-\_\-viewpoint $\ast$motorcar\-\_\-viewpoint, struct wl\-\_\-array $\ast$projection)
+\item 
+void($\ast$ \hyperlink{structmotorcar__viewpoint__listener_a0b3a306b14550df2000169a8984d925f}{view\-\_\-port} )(void $\ast$data, struct motorcar\-\_\-viewpoint $\ast$motorcar\-\_\-viewpoint, int32\-\_\-t color\-\_\-x, int32\-\_\-t color\-\_\-y, uint32\-\_\-t color\-\_\-width, uint32\-\_\-t color\-\_\-height, int32\-\_\-t depth\-\_\-x, int32\-\_\-t depth\-\_\-y, uint32\-\_\-t depth\-\_\-width, uint32\-\_\-t depth\-\_\-height)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+motorcar\-\_\-viewpoint -\/ represents a single viewpoint in the compositor, essentially a view and projection matrix \-: sets the view matrix of this viewpoint for the next frame \-: change the projection matrix of this viewpoint \-: sets the view ports of this viewpoint to be used when rendering into motorcar surface buffers
+
+This interface represents a viewpoint (essentially a virtual camera) in the compositor's 3\-D compositing space, and the events it contains are designed to keep the compositor and client viewpoints synced so that the viewpoints in the client and compositor space stay consistent; 
+
+\subsection{Member Data Documentation}
+\hypertarget{structmotorcar__viewpoint__listener_ac3811e768cf181e5c3c4377fd11816d8}{\index{motorcar\-\_\-viewpoint\-\_\-listener@{motorcar\-\_\-viewpoint\-\_\-listener}!projection\-\_\-matrix@{projection\-\_\-matrix}}
+\index{projection\-\_\-matrix@{projection\-\_\-matrix}!motorcar_viewpoint_listener@{motorcar\-\_\-viewpoint\-\_\-listener}}
+\subsubsection[{projection\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ motorcar\-\_\-viewpoint\-\_\-listener\-::projection\-\_\-matrix)(void $\ast$data, struct motorcar\-\_\-viewpoint $\ast$motorcar\-\_\-viewpoint, struct wl\-\_\-array $\ast$projection)}}\label{structmotorcar__viewpoint__listener_ac3811e768cf181e5c3c4377fd11816d8}
+projection\-\_\-matrix -\/ change the projection matrix of this viewpoint \-: the new projection matrix for this viewpoint
+
+This event is sent immediately after the viewpoint global is bound by the client, and is only resent if the projection matrix for this viewpoint changes in the compoisitor (which would be unusual but is certainly possible)
+
+This matrix is in the form of the projection matrices used by Open\-G\-L, which (with the help of a homogeneous divide done in hardware) brings vectors from view space into uniform device coordinate space in which vertices are projected from 3\-D to 2\-D.
+
+It is represented here as a column-\/major 4x4 matrix of 32 bit floats, with all values are specified in meters. \hypertarget{structmotorcar__viewpoint__listener_a62bcafc2fde2470d81ea8bce70855af5}{\index{motorcar\-\_\-viewpoint\-\_\-listener@{motorcar\-\_\-viewpoint\-\_\-listener}!view\-\_\-matrix@{view\-\_\-matrix}}
+\index{view\-\_\-matrix@{view\-\_\-matrix}!motorcar_viewpoint_listener@{motorcar\-\_\-viewpoint\-\_\-listener}}
+\subsubsection[{view\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ motorcar\-\_\-viewpoint\-\_\-listener\-::view\-\_\-matrix)(void $\ast$data, struct motorcar\-\_\-viewpoint $\ast$motorcar\-\_\-viewpoint, struct wl\-\_\-array $\ast$view)}}\label{structmotorcar__viewpoint__listener_a62bcafc2fde2470d81ea8bce70855af5}
+view\-\_\-matrix -\/ sets the view matrix of this viewpoint for the next frame \-: the view matrix for this frame
+
+This event is sent (ideally) at the beginning of each frame to give the client the view matrix it needs to draw its content to 2\-D in the same manner as the compositor.
+
+This matrix is the view matrix, which brings vectors from world space into view (or camera) space, which is the inverse of the camera transform. \hypertarget{structmotorcar__viewpoint__listener_a0b3a306b14550df2000169a8984d925f}{\index{motorcar\-\_\-viewpoint\-\_\-listener@{motorcar\-\_\-viewpoint\-\_\-listener}!view\-\_\-port@{view\-\_\-port}}
+\index{view\-\_\-port@{view\-\_\-port}!motorcar_viewpoint_listener@{motorcar\-\_\-viewpoint\-\_\-listener}}
+\subsubsection[{view\-\_\-port}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ motorcar\-\_\-viewpoint\-\_\-listener\-::view\-\_\-port)(void $\ast$data, struct motorcar\-\_\-viewpoint $\ast$motorcar\-\_\-viewpoint, int32\-\_\-t color\-\_\-x, int32\-\_\-t color\-\_\-y, uint32\-\_\-t color\-\_\-width, uint32\-\_\-t color\-\_\-height, int32\-\_\-t depth\-\_\-x, int32\-\_\-t depth\-\_\-y, uint32\-\_\-t depth\-\_\-width, uint32\-\_\-t depth\-\_\-height)}}\label{structmotorcar__viewpoint__listener_a0b3a306b14550df2000169a8984d925f}
+view\-\_\-port -\/ sets the view ports of this viewpoint to be used when rendering into motorcar surface buffers \-: x position of the color viewport, in pixels \-: y position of the color viewport, in pixels \-: width of the color viewport, in pixels \-: height of the color viewport, in pixels \-: x position of the depth viewport, in pixels \-: y position of the depth viewport, in pixels \-: width of the depth viewport, in pixels \-: height of the depth viewport, in pixels
+
+This event tells the client where in its surface buffer it needs to draw the output associated with this viewpoint, which allows the compositor to extract the correct output for each viewpoint. Like the projection matrix, this event is sent immediately after the client binds this viewpoint global and is only sent again if the viewport changes on the compositor side.
+
+Viewport consists of a position and a size in surface local coordinates. Each viewpoint has two viewports associated with it, one to hold the color buffer from the client, and one to hold the depth buffer contents (which is encoded in the color buffer since E\-G\-L does not support a color mode that includes depth). If an E\-G\-L extension was written which creates a format that includes the depth buffer, then the depth viewport could hypothetically be ignored when that extension was present. 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/clients/simple-\/egl/\hyperlink{clients_2simple-egl_2motorcar-client-protocol_8h}{motorcar-\/client-\/protocol.\-h}\end{DoxyCompactItemize}

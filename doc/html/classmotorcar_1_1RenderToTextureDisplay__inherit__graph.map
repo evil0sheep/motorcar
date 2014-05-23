@@ -1,9 +1,7 @@
 <map id="motorcar::RenderToTextureDisplay" name="motorcar::RenderToTextureDisplay">
-<area shape="rect" id="node16" href="$classmotorcar_1_1OculusHMD.html" title="{motorcar::OculusHMD\n||+ ~OculusHMD()\l+ prepareForDraw()\l+ OculusHMD()\l+ create()\l}" alt="" coords="108,1315,260,1453"/>
-<area shape="rect" id="node2" href="$classmotorcar_1_1Display.html" title="{motorcar::Display\n||+ Display()\l+ ~Display()\l+ prepareForDraw()\l+ finishDraw()\l+ renderDrawable()\l+ renderSurfaceNode()\l+ renderWireframeNode()\l+ worldRayAtDisplayPosition()\l+ worldPositionAtDisplayPosition()\l+ resolution()\l+ size()\l+ addViewpoint()\l+ viewpoints()\l+ glContext()\l+ setGlContext()\l}" alt="" coords="72,667,296,995"/>
-<area shape="rect" id="node4" href="$classmotorcar_1_1OutputElement.html" title="{motorcar::OutputElement\n||+ OutputElement()\l+ isInputElement()\l}" alt="" coords="5,498,173,601"/>
-<area shape="rect" id="node6" href="$classmotorcar_1_1IOElement.html" title="{motorcar::IOElement\n||+ IOElement()\l+ ~IOElement()\l+ isInputElement()\l+ isOutputElement()\l}" alt="" coords="20,217,161,354"/>
-<area shape="rect" id="node8" href="$classFoo.html" title="{Foo\n||}" alt="" coords="163,5,205,91"/>
-<area shape="rect" id="node12" href="$classmotorcar_1_1SceneGraphNode.html" title="{motorcar::SceneGraphNode\n||+ SceneGraphNode()\l+ ~SceneGraphNode()\l+ traverseNode()\l+ traverseSceneGraph()\l+ parentNode()\l+ scene()\l+ subtreeContains()\l+ transform()\l+ inverseTransform()\l+ setTransform()\land 6 more...\l# SceneGraphNode()\l# setParentNode()\l}" alt="" coords="185,139,369,432"/>
-<area shape="rect" id="node10" href="$classmotorcar_1_1PhysicalNode.html" title="{motorcar::PhysicalNode\n||+ PhysicalNode()\l+ ~PhysicalNode()\l+ setParentNode()\l# PhysicalNode()\l}" alt="" coords="197,481,360,618"/>
+<area shape="rect" id="node6" href="$classmotorcar_1_1OculusHMD.html" title="motorcar::OculusHMD" alt="" coords="107,336,260,363"/>
+<area shape="rect" id="node2" href="$classmotorcar_1_1Display.html" title="motorcar::Display" alt="" coords="121,171,247,197"/>
+<area shape="rect" id="node3" href="$classmotorcar_1_1PhysicalNode.html" title="motorcar::PhysicalNode" alt="" coords="16,88,179,115"/>
+<area shape="rect" id="node4" href="$classmotorcar_1_1SceneGraphNode.html" title="motorcar::SceneGraphNode" alt="" coords="5,5,189,32"/>
+<area shape="rect" id="node5" href="$structmotorcar_1_1Geometry_1_1Rectangle.html" title="motorcar::Geometry\l::Rectangle" alt="" coords="203,81,341,122"/>
 </map>

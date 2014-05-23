@@ -12,7 +12,7 @@ Inheritance diagram for qtmotorcar\-:\-:Qt\-Wayland\-Motorcar\-Surface\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=550pt]{classqtmotorcar_1_1QtWaylandMotorcarSurface__inherit__graph}
+\includegraphics[width=236pt]{classqtmotorcar_1_1QtWaylandMotorcarSurface__inherit__graph}
 \end{center}
 \end{figure}
 
@@ -22,29 +22,33 @@ Collaboration diagram for qtmotorcar\-:\-:Qt\-Wayland\-Motorcar\-Surface\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=550pt]{classqtmotorcar_1_1QtWaylandMotorcarSurface__coll__graph}
+\includegraphics[width=236pt]{classqtmotorcar_1_1QtWaylandMotorcarSurface__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a054d4981e7da338c72e4fa6572869b60}{Qt\-Wayland\-Motorcar\-Surface} (Q\-Wayland\-Surface $\ast$\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_aeac2b36246941755d0bedaf1c9fe773b}{surface}, \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor}{Qt\-Wayland\-Motorcar\-Compositor} $\ast$compositor, \hyperlink{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5}{motorcar\-::\-Wayland\-Surface\-::\-Surface\-Type} \hyperlink{classmotorcar_1_1WaylandSurface_a0e6e5e2455666f607a8ddb2479ba8e88}{type})
+\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a054d4981e7da338c72e4fa6572869b60}{Qt\-Wayland\-Motorcar\-Surface} (Q\-Wayland\-Surface $\ast$\hyperlink{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{surface}, \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor}{Qt\-Wayland\-Motorcar\-Compositor} $\ast$compositor, \hyperlink{classmotorcar_1_1WaylandSurface_a7715a41b6776800656722407ec01e0a5}{motorcar\-::\-Wayland\-Surface\-::\-Surface\-Type} \hyperlink{classmotorcar_1_1WaylandSurface_a0e6e5e2455666f607a8ddb2479ba8e88}{type})
 \item 
 \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a0d9d57d75c14c209484174e47308f72f}{$\sim$\-Qt\-Wayland\-Motorcar\-Surface} ()
 \item 
 G\-Luint \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a573c52cdacb8f16c06ecd111bddabef6}{texture} () override
-\item 
+\begin{DoxyCompactList}\small\item\em Get the texture handle for this surface. \end{DoxyCompactList}\item 
 glm\-::ivec2 \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_ad5e6f75c146a2952652deaf866ee22a7}{size} () override
-\item 
+\begin{DoxyCompactList}\small\item\em Get the size of this surface in pixels. \end{DoxyCompactList}\item 
+glm\-::ivec2 \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_ad405b91565405e6a08d86ac5d59f3f08}{position} () override
+\begin{DoxyCompactList}\small\item\em Get the position of this surface in parent surface-\/local coordinates. \end{DoxyCompactList}\item 
+\hyperlink{classmotorcar_1_1WaylandSurface_a3d89131a3967483a4b8e31abae122059}{Wayland\-Surface} $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a3b0aed06d7ed9287497bc342f9fc787b}{parent\-Surface} () override
+\begin{DoxyCompactList}\small\item\em return the parent surface \end{DoxyCompactList}\item 
 void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_ae898706dcf80a2f00ed2477c570dcebe}{prepare} () override
-\item 
-void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a25fff83e1cda809c210b1b73609396a2}{send\-Mouse\-Event} (\hyperlink{classmotorcar_1_1WaylandSurface_a062651eb16900ed15467b7ce6ccea390}{Mouse\-Event} event\-Type, \hyperlink{classmotorcar_1_1WaylandSurface_a263f154a6a2ac03d747ec61f667f7960}{Mouse\-Button} button\-Id, glm\-::vec2 local\-Postion) override
+\begin{DoxyCompactList}\small\item\em do any per-\/frame setup required for drawing \end{DoxyCompactList}\item 
+void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a7deebcf58954f82c8d5741af054414a7}{send\-Event} (const \hyperlink{classmotorcar_1_1Event}{motorcar\-::\-Event} \&event) override
 \item 
 bool \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_a3bea85a2a6a3079e60c3b37dd08aebc6}{valid} () override
-\item 
+\begin{DoxyCompactList}\small\item\em returns whether or not the surface is ready to draw \end{DoxyCompactList}\item 
 Q\-Wayland\-Surface $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_aeac2b36246941755d0bedaf1c9fe773b}{surface} () const 
 \item 
-void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_aa7921de176d4d39fe076f145dd382e75}{set\-Surface} (Q\-Wayland\-Surface $\ast$\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_aeac2b36246941755d0bedaf1c9fe773b}{surface})
+void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_aa7921de176d4d39fe076f145dd382e75}{set\-Surface} (Q\-Wayland\-Surface $\ast$\hyperlink{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{surface})
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
@@ -69,6 +73,36 @@ void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_aa7921de176d4d39fe07
 
 
 \subsection{Member Function Documentation}
+\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarSurface_a3b0aed06d7ed9287497bc342f9fc787b}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}!parent\-Surface@{parent\-Surface}}
+\index{parent\-Surface@{parent\-Surface}!qtmotorcar::QtWaylandMotorcarSurface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}}
+\subsubsection[{parent\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}{\bf motorcar\-::\-Wayland\-Surface} $\ast$ Qt\-Wayland\-Motorcar\-Surface\-::parent\-Surface (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarSurface_a3b0aed06d7ed9287497bc342f9fc787b}
+
+
+return the parent surface 
+
+
+
+Implements \hyperlink{classmotorcar_1_1WaylandSurface_a94b48df54c92d9046f786d4d7f5d4ff2}{motorcar\-::\-Wayland\-Surface}.
+
+\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarSurface_ad405b91565405e6a08d86ac5d59f3f08}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}!position@{position}}
+\index{position@{position}!qtmotorcar::QtWaylandMotorcarSurface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}}
+\subsubsection[{position}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::ivec2 Qt\-Wayland\-Motorcar\-Surface\-::position (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarSurface_ad405b91565405e6a08d86ac5d59f3f08}
+
+
+Get the position of this surface in parent surface-\/local coordinates. 
+
+
+
+Implements \hyperlink{classmotorcar_1_1WaylandSurface_a22f62be59ac9b8b76a2b2f467f0b1277}{motorcar\-::\-Wayland\-Surface}.
+
 \hypertarget{classqtmotorcar_1_1QtWaylandMotorcarSurface_ae898706dcf80a2f00ed2477c570dcebe}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}!prepare@{prepare}}
 \index{prepare@{prepare}!qtmotorcar::QtWaylandMotorcarSurface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}}
 \subsubsection[{prepare}]{\setlength{\rightskip}{0pt plus 5cm}void Qt\-Wayland\-Motorcar\-Surface\-::prepare (
@@ -78,20 +112,22 @@ void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface_aa7921de176d4d39fe07
 )\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarSurface_ae898706dcf80a2f00ed2477c570dcebe}
 
 
+do any per-\/frame setup required for drawing 
+
+
+
 Implements \hyperlink{classmotorcar_1_1WaylandSurface_a63669771c03ce580fec8a0099dbd294e}{motorcar\-::\-Wayland\-Surface}.
 
-\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarSurface_a25fff83e1cda809c210b1b73609396a2}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}!send\-Mouse\-Event@{send\-Mouse\-Event}}
-\index{send\-Mouse\-Event@{send\-Mouse\-Event}!qtmotorcar::QtWaylandMotorcarSurface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}}
-\subsubsection[{send\-Mouse\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void Qt\-Wayland\-Motorcar\-Surface\-::send\-Mouse\-Event (
+\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarSurface_a7deebcf58954f82c8d5741af054414a7}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}!send\-Event@{send\-Event}}
+\index{send\-Event@{send\-Event}!qtmotorcar::QtWaylandMotorcarSurface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}}
+\subsubsection[{send\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void Qt\-Wayland\-Motorcar\-Surface\-::send\-Event (
 \begin{DoxyParamCaption}
-\item[{{\bf Mouse\-Event}}]{event\-Type, }
-\item[{{\bf Mouse\-Button}}]{button\-Id, }
-\item[{glm\-::vec2}]{local\-Postion}
+\item[{const {\bf motorcar\-::\-Event} \&}]{event}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarSurface_a25fff83e1cda809c210b1b73609396a2}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarSurface_a7deebcf58954f82c8d5741af054414a7}
 
 
-Implements \hyperlink{classmotorcar_1_1WaylandSurface_a47d13cf428555400ca7db005f3ea7360}{motorcar\-::\-Wayland\-Surface}.
+Implements \hyperlink{classmotorcar_1_1WaylandSurface_a8d709e7d02ee7f7b8b3343590e518993}{motorcar\-::\-Wayland\-Surface}.
 
 \hypertarget{classqtmotorcar_1_1QtWaylandMotorcarSurface_aa7921de176d4d39fe076f145dd382e75}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}!set\-Surface@{set\-Surface}}
 \index{set\-Surface@{set\-Surface}!qtmotorcar::QtWaylandMotorcarSurface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}}
@@ -107,6 +143,10 @@ Implements \hyperlink{classmotorcar_1_1WaylandSurface_a47d13cf428555400ca7db005f
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarSurface_ad5e6f75c146a2952652deaf866ee22a7}
+
+
+Get the size of this surface in pixels. 
+
 
 
 Implements \hyperlink{classmotorcar_1_1WaylandSurface_a06182d612aaf0d07780e498066aaca1b}{motorcar\-::\-Wayland\-Surface}.
@@ -127,6 +167,10 @@ Implements \hyperlink{classmotorcar_1_1WaylandSurface_a06182d612aaf0d07780e49806
 )\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarSurface_a573c52cdacb8f16c06ecd111bddabef6}
 
 
+Get the texture handle for this surface. 
+
+
+
 Implements \hyperlink{classmotorcar_1_1WaylandSurface_aa8ae13d97dae8dfbb610ca6f4ab2b745}{motorcar\-::\-Wayland\-Surface}.
 
 \hypertarget{classqtmotorcar_1_1QtWaylandMotorcarSurface_a3bea85a2a6a3079e60c3b37dd08aebc6}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Surface}!valid@{valid}}
@@ -138,11 +182,15 @@ Implements \hyperlink{classmotorcar_1_1WaylandSurface_aa8ae13d97dae8dfbb610ca6f4
 )\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarSurface_a3bea85a2a6a3079e60c3b37dd08aebc6}
 
 
+returns whether or not the surface is ready to draw 
+
+
+
 Implements \hyperlink{classmotorcar_1_1WaylandSurface_af2f54076ec690f4d478771183c9b0db5}{motorcar\-::\-Wayland\-Surface}.
 
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/qt/src/\hyperlink{qtwaylandmotorcarsurface_8h}{qtwaylandmotorcarsurface.\-h}\item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/qt/src/\hyperlink{qtwaylandmotorcarsurface_8cpp}{qtwaylandmotorcarsurface.\-cpp}\end{DoxyCompactItemize}
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/qt/src/\hyperlink{qtwaylandmotorcarsurface_8h}{qtwaylandmotorcarsurface.\-h}\item 
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/qt/src/\hyperlink{qtwaylandmotorcarsurface_8cpp}{qtwaylandmotorcarsurface.\-cpp}\end{DoxyCompactItemize}

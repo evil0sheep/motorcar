@@ -1,0 +1,63 @@
+\hypertarget{clients_2simple-egl_2motorcar-wayland-extensions_8c}{\section{/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/clients/simple-\/egl/motorcar-\/wayland-\/extensions.c File Reference}
+\label{clients_2simple-egl_2motorcar-wayland-extensions_8c}\index{/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c@{/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c}}
+}
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$stdint.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}wayland-\/util.\-h\char`\"{}}\\*
+Include dependency graph for motorcar-\/wayland-\/extensions.c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=290pt]{clients_2simple-egl_2motorcar-wayland-extensions_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const struct wl\-\_\-interface \hyperlink{clients_2simple-egl_2motorcar-wayland-extensions_8c_a56acb8594d0103b3705453e8ea77915b}{motorcar\-\_\-surface\-\_\-interface}
+\item 
+const struct wl\-\_\-interface \hyperlink{clients_2simple-egl_2motorcar-wayland-extensions_8c_ab5b94bcc25b21d2fdd945533016d0e33}{wl\-\_\-surface\-\_\-interface}
+\item 
+W\-L\-\_\-\-E\-X\-P\-O\-R\-T const struct wl\-\_\-interface \hyperlink{clients_2simple-egl_2motorcar-wayland-extensions_8c_af93f16d847b10210463edbe6017b9517}{motorcar\-\_\-shell\-\_\-interface}
+\item 
+W\-L\-\_\-\-E\-X\-P\-O\-R\-T const struct wl\-\_\-interface \hyperlink{clients_2simple-egl_2motorcar-wayland-extensions_8c_a75e24dc8eb5259b6e2ec9ac54c4a201b}{motorcar\-\_\-viewpoint\-\_\-interface}
+\end{DoxyCompactItemize}
+
+
+\subsection{Variable Documentation}
+\hypertarget{clients_2simple-egl_2motorcar-wayland-extensions_8c_af93f16d847b10210463edbe6017b9517}{\index{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c@{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c}!motorcar\-\_\-shell\-\_\-interface@{motorcar\-\_\-shell\-\_\-interface}}
+\index{motorcar\-\_\-shell\-\_\-interface@{motorcar\-\_\-shell\-\_\-interface}!clients/simple-egl/motorcar-wayland-extensions.c@{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c}}
+\subsubsection[{motorcar\-\_\-shell\-\_\-interface}]{\setlength{\rightskip}{0pt plus 5cm}W\-L\-\_\-\-E\-X\-P\-O\-R\-T const struct wl\-\_\-interface {\bf motorcar\-\_\-shell\-\_\-interface}}}\label{clients_2simple-egl_2motorcar-wayland-extensions_8c_af93f16d847b10210463edbe6017b9517}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+    \textcolor{stringliteral}{"motorcar\_shell"}, 1,
+    1, motorcar\_shell\_requests,
+    0, NULL,
+\}
+\end{DoxyCode}
+\hypertarget{clients_2simple-egl_2motorcar-wayland-extensions_8c_a56acb8594d0103b3705453e8ea77915b}{\index{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c@{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c}!motorcar\-\_\-surface\-\_\-interface@{motorcar\-\_\-surface\-\_\-interface}}
+\index{motorcar\-\_\-surface\-\_\-interface@{motorcar\-\_\-surface\-\_\-interface}!clients/simple-egl/motorcar-wayland-extensions.c@{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c}}
+\subsubsection[{motorcar\-\_\-surface\-\_\-interface}]{\setlength{\rightskip}{0pt plus 5cm}W\-L\-\_\-\-E\-X\-P\-O\-R\-T const struct wl\-\_\-interface motorcar\-\_\-surface\-\_\-interface}}\label{clients_2simple-egl_2motorcar-wayland-extensions_8c_a56acb8594d0103b3705453e8ea77915b}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+    \textcolor{stringliteral}{"motorcar\_surface"}, 1,
+    0, NULL,
+    0, NULL,
+\}
+\end{DoxyCode}
+\hypertarget{clients_2simple-egl_2motorcar-wayland-extensions_8c_a75e24dc8eb5259b6e2ec9ac54c4a201b}{\index{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c@{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c}!motorcar\-\_\-viewpoint\-\_\-interface@{motorcar\-\_\-viewpoint\-\_\-interface}}
+\index{motorcar\-\_\-viewpoint\-\_\-interface@{motorcar\-\_\-viewpoint\-\_\-interface}!clients/simple-egl/motorcar-wayland-extensions.c@{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c}}
+\subsubsection[{motorcar\-\_\-viewpoint\-\_\-interface}]{\setlength{\rightskip}{0pt plus 5cm}W\-L\-\_\-\-E\-X\-P\-O\-R\-T const struct wl\-\_\-interface motorcar\-\_\-viewpoint\-\_\-interface}}\label{clients_2simple-egl_2motorcar-wayland-extensions_8c_a75e24dc8eb5259b6e2ec9ac54c4a201b}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+    \textcolor{stringliteral}{"motorcar\_viewpoint"}, 1,
+    0, NULL,
+    3, motorcar\_viewpoint\_events,
+\}
+\end{DoxyCode}
+\hypertarget{clients_2simple-egl_2motorcar-wayland-extensions_8c_ab5b94bcc25b21d2fdd945533016d0e33}{\index{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c@{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c}!wl\-\_\-surface\-\_\-interface@{wl\-\_\-surface\-\_\-interface}}
+\index{wl\-\_\-surface\-\_\-interface@{wl\-\_\-surface\-\_\-interface}!clients/simple-egl/motorcar-wayland-extensions.c@{clients/simple-\/egl/motorcar-\/wayland-\/extensions.\-c}}
+\subsubsection[{wl\-\_\-surface\-\_\-interface}]{\setlength{\rightskip}{0pt plus 5cm}const struct wl\-\_\-interface wl\-\_\-surface\-\_\-interface}}\label{clients_2simple-egl_2motorcar-wayland-extensions_8c_ab5b94bcc25b21d2fdd945533016d0e33}

@@ -28,13 +28,17 @@ Collaboration diagram for qtmotorcar\-:\-:Qt\-Wayland\-Motorcar\-Compositor\-:
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a0de2ac0cbe6d725a501375a84573c470}{Qt\-Wayland\-Motorcar\-Compositor} (\hyperlink{classQOpenGLWindow}{Q\-Open\-G\-L\-Window} $\ast$window, Q\-Gui\-Application $\ast$app, \hyperlink{classmotorcar_1_1Scene}{motorcar\-::\-Scene} $\ast$\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a8bb6c8e6a7acad99b814b192534f3ee2}{scene})
+\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a0de2ac0cbe6d725a501375a84573c470}{Qt\-Wayland\-Motorcar\-Compositor} (\hyperlink{classQOpenGLWindow}{Q\-Open\-G\-L\-Window} $\ast$\hyperlink{structwindow}{window}, Q\-Gui\-Application $\ast$app, \hyperlink{classmotorcar_1_1Scene}{motorcar\-::\-Scene} $\ast$\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a8bb6c8e6a7acad99b814b192534f3ee2}{scene})
 \item 
 \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a8d0178c57bdbe03ef7e4db6e13900950}{$\sim$\-Qt\-Wayland\-Motorcar\-Compositor} ()
 \item 
 virtual int \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a34cd3f4acc535584eb066d3fe32ed9bf}{start} () override
-\item 
+\begin{DoxyCompactList}\small\item\em starts the compositor main draw loop \end{DoxyCompactList}\item 
 virtual \hyperlink{classmotorcar_1_1OpenGLContext}{motorcar\-::\-Open\-G\-L\-Context} $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a1fb6e9d59011be2912bc9cf51496b191}{get\-Context} () override
+\begin{DoxyCompactList}\small\item\em gets the Open\-G\-L context in which the compositing is taking place \end{DoxyCompactList}\item 
+struct wl\-\_\-display $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a9e29a67d95d6aa74a08b2a3deed19dfe}{wl\-Display} () override
+\item 
+\hyperlink{classmotorcar_1_1WaylandSurface}{motorcar\-::\-Wayland\-Surface} $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_ad4262e2dce170d25080e5c205fecc5ca}{get\-Surface\-From\-Resource} (struct wl\-\_\-resource $\ast$resource) override
 \item 
 \hyperlink{classOpenGLData}{Open\-G\-L\-Data} $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a50bc0b510d20d0298b9e164804543f81}{gl\-Data} () const 
 \item 
@@ -44,27 +48,32 @@ void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a0122a32ec769e719
 \item 
 void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a2a896748e415515de155c22ef70adeb0}{set\-Scene} (\hyperlink{classmotorcar_1_1Scene}{motorcar\-::\-Scene} $\ast$\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a8bb6c8e6a7acad99b814b192534f3ee2}{scene})
 \item 
-\hyperlink{classmotorcar_1_1WaylandSurfaceNode}{motorcar\-::\-Wayland\-Surface\-Node} $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a29fad56194eb849e901be554a09a6769}{get\-Surface\-Node} (Q\-Wayland\-Surface $\ast$surface=N\-U\-L\-L) const 
+\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSurface}{Qt\-Wayland\-Motorcar\-Surface} $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a97c4d656c14bd2b6877405d5003fb741}{get\-Motorcar\-Surface} (Q\-Wayland\-Surface $\ast$\hyperlink{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{surface}=N\-U\-L\-L) const 
+\item 
+\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSeat}{Qt\-Wayland\-Motorcar\-Seat} $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a6104791cebeec6529ec784db17096a38}{default\-Seat} () const 
+\item 
+void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a6ea6591a5e3999156f7418f8a61db992}{set\-Default\-Seat} (\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSeat}{Qt\-Wayland\-Motorcar\-Seat} $\ast$\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a6104791cebeec6529ec784db17096a38}{default\-Seat})
 \end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \hyperlink{classmotorcar_1_1Compositor}{motorcar\-::\-Compositor} $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_ae15d45cc47f9be40a9e5f357e91599da}{create} (int argc, char $\ast$$\ast$argv, \hyperlink{classmotorcar_1_1Scene}{motorcar\-::\-Scene} $\ast$\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a8bb6c8e6a7acad99b814b192534f3ee2}{scene})
+static \\*
+\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor}{Qt\-Wayland\-Motorcar\-Compositor} $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a169e428e534906108290bb5c4512ca13}{create} (int argc, char $\ast$$\ast$argv, \hyperlink{classmotorcar_1_1Scene}{motorcar\-::\-Scene} $\ast$\hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a8bb6c8e6a7acad99b814b192534f3ee2}{scene})
 \end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a32dbac4ee805821e74660dea97b05aa6}{surface\-Damaged} (Q\-Wayland\-Surface $\ast$surface, const Q\-Rect \&rect)
+void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a12ce718691bc19318acd23b981a72cb8}{surface\-Damaged} (Q\-Wayland\-Surface $\ast$\hyperlink{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{surface})
 \item 
-void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a4bda9a0989cb8c22e7b5d1a687763b61}{surface\-Created} (Q\-Wayland\-Surface $\ast$surface)
+void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a4bda9a0989cb8c22e7b5d1a687763b61}{surface\-Created} (Q\-Wayland\-Surface $\ast$\hyperlink{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{surface})
 \item 
 Q\-Wayland\-Surface $\ast$ \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_adcc9307301b665c9d5ccea73fef01453}{surface\-At} (const Q\-Point\-F \&point, Q\-Point\-F $\ast$local=0)
 \item 
 bool \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a1d5c76d5c4dfd029d90803d889c07206}{event\-Filter} (Q\-Object $\ast$obj, Q\-Event $\ast$event)
 \item 
-Q\-Point\-F \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_af3c3c2e2dbfd18427c8b38f83f0fa01f}{to\-Surface} (Q\-Wayland\-Surface $\ast$surface, const Q\-Point\-F \&point) const 
+Q\-Point\-F \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_af3c3c2e2dbfd18427c8b38f83f0fa01f}{to\-Surface} (Q\-Wayland\-Surface $\ast$\hyperlink{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{surface}, const Q\-Point\-F \&point) const 
 \item 
-void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a4555fa6ed0c867668fe735d9192331c7}{set\-Cursor\-Surface} (Q\-Wayland\-Surface $\ast$surface, int hotspot\-X, int hotspot\-Y)
+void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a4555fa6ed0c867668fe735d9192331c7}{set\-Cursor\-Surface} (Q\-Wayland\-Surface $\ast$\hyperlink{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{surface}, int hotspot\-X, int hotspot\-Y)
 \item 
 void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_ac2210c9eaefdc154eac4111807232eb0}{ensure\-Keyboard\-Focus\-Surface} (Q\-Wayland\-Surface $\ast$old\-Surface)
 \end{DoxyCompactItemize}
@@ -90,15 +99,22 @@ void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_ac2210c9eaefdc154
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_ae15d45cc47f9be40a9e5f357e91599da}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!create@{create}}
+\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a169e428e534906108290bb5c4512ca13}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!create@{create}}
 \index{create@{create}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
-\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf motorcar\-::\-Compositor} $\ast$ Qt\-Wayland\-Motorcar\-Compositor\-::create (
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qt\-Wayland\-Motorcar\-Compositor} $\ast$ Qt\-Wayland\-Motorcar\-Compositor\-::create (
 \begin{DoxyParamCaption}
 \item[{int}]{argc, }
 \item[{char $\ast$$\ast$}]{argv, }
 \item[{{\bf motorcar\-::\-Scene} $\ast$}]{scene}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_ae15d45cc47f9be40a9e5f357e91599da}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a169e428e534906108290bb5c4512ca13}
+\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a6104791cebeec6529ec784db17096a38}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!default\-Seat@{default\-Seat}}
+\index{default\-Seat@{default\-Seat}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
+\subsubsection[{default\-Seat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qt\-Wayland\-Motorcar\-Seat} $\ast$ Qt\-Wayland\-Motorcar\-Compositor\-::default\-Seat (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a6104791cebeec6529ec784db17096a38}
 \hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_ac2210c9eaefdc154eac4111807232eb0}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!ensure\-Keyboard\-Focus\-Surface@{ensure\-Keyboard\-Focus\-Surface}}
 \index{ensure\-Keyboard\-Focus\-Surface@{ensure\-Keyboard\-Focus\-Surface}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
 \subsubsection[{ensure\-Keyboard\-Focus\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}void Qt\-Wayland\-Motorcar\-Compositor\-::ensure\-Keyboard\-Focus\-Surface (
@@ -123,15 +139,30 @@ void \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarCompositor_ac2210c9eaefdc154
 )\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a1fb6e9d59011be2912bc9cf51496b191}
 
 
+gets the Open\-G\-L context in which the compositing is taking place 
+
+
+
 Implements \hyperlink{classmotorcar_1_1Compositor_afb0a16529f65b5e2ecf8f15524680c57}{motorcar\-::\-Compositor}.
 
-\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a29fad56194eb849e901be554a09a6769}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!get\-Surface\-Node@{get\-Surface\-Node}}
-\index{get\-Surface\-Node@{get\-Surface\-Node}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
-\subsubsection[{get\-Surface\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf motorcar\-::\-Wayland\-Surface\-Node} $\ast$ Qt\-Wayland\-Motorcar\-Compositor\-::get\-Surface\-Node (
+\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a97c4d656c14bd2b6877405d5003fb741}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!get\-Motorcar\-Surface@{get\-Motorcar\-Surface}}
+\index{get\-Motorcar\-Surface@{get\-Motorcar\-Surface}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
+\subsubsection[{get\-Motorcar\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qt\-Wayland\-Motorcar\-Surface} $\ast$ Qt\-Wayland\-Motorcar\-Compositor\-::get\-Motorcar\-Surface (
 \begin{DoxyParamCaption}
 \item[{Q\-Wayland\-Surface $\ast$}]{surface = {\ttfamily NULL}}
 \end{DoxyParamCaption}
-) const}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a29fad56194eb849e901be554a09a6769}
+) const}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a97c4d656c14bd2b6877405d5003fb741}
+\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_ad4262e2dce170d25080e5c205fecc5ca}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!get\-Surface\-From\-Resource@{get\-Surface\-From\-Resource}}
+\index{get\-Surface\-From\-Resource@{get\-Surface\-From\-Resource}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
+\subsubsection[{get\-Surface\-From\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}{\bf motorcar\-::\-Wayland\-Surface} $\ast$ Qt\-Wayland\-Motorcar\-Compositor\-::get\-Surface\-From\-Resource (
+\begin{DoxyParamCaption}
+\item[{struct wl\-\_\-resource $\ast$}]{resource}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_ad4262e2dce170d25080e5c205fecc5ca}
+
+
+Implements \hyperlink{classmotorcar_1_1Compositor_abc7e49b58794334e99a0433389a39929}{motorcar\-::\-Compositor}.
+
 \hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a50bc0b510d20d0298b9e164804543f81}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!gl\-Data@{gl\-Data}}
 \index{gl\-Data@{gl\-Data}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
 \subsubsection[{gl\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\-G\-L\-Data} $\ast$ Qt\-Wayland\-Motorcar\-Compositor\-::gl\-Data (
@@ -155,6 +186,13 @@ Implements \hyperlink{classmotorcar_1_1Compositor_afb0a16529f65b5e2ecf8f15524680
 \item[{int}]{hotspot\-Y}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [protected]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a4555fa6ed0c867668fe735d9192331c7}
+\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a6ea6591a5e3999156f7418f8a61db992}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!set\-Default\-Seat@{set\-Default\-Seat}}
+\index{set\-Default\-Seat@{set\-Default\-Seat}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
+\subsubsection[{set\-Default\-Seat}]{\setlength{\rightskip}{0pt plus 5cm}void Qt\-Wayland\-Motorcar\-Compositor\-::set\-Default\-Seat (
+\begin{DoxyParamCaption}
+\item[{{\bf Qt\-Wayland\-Motorcar\-Seat} $\ast$}]{default\-Seat}
+\end{DoxyParamCaption}
+)}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a6ea6591a5e3999156f7418f8a61db992}
 \hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a0122a32ec769e7190b3a2e0a838f0053}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!set\-Gl\-Data@{set\-Gl\-Data}}
 \index{set\-Gl\-Data@{set\-Gl\-Data}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
 \subsubsection[{set\-Gl\-Data}]{\setlength{\rightskip}{0pt plus 5cm}void Qt\-Wayland\-Motorcar\-Compositor\-::set\-Gl\-Data (
@@ -178,6 +216,10 @@ Implements \hyperlink{classmotorcar_1_1Compositor_afb0a16529f65b5e2ecf8f15524680
 )\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a34cd3f4acc535584eb066d3fe32ed9bf}
 
 
+starts the compositor main draw loop 
+
+
+
 Implements \hyperlink{classmotorcar_1_1Compositor_a9d4b703e99386360996087a1100fae52}{motorcar\-::\-Compositor}.
 
 \hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_adcc9307301b665c9d5ccea73fef01453}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!surface\-At@{surface\-At}}
@@ -195,14 +237,13 @@ Implements \hyperlink{classmotorcar_1_1Compositor_a9d4b703e99386360996087a1100fa
 \item[{Q\-Wayland\-Surface $\ast$}]{surface}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [protected]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a4bda9a0989cb8c22e7b5d1a687763b61}
-\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a32dbac4ee805821e74660dea97b05aa6}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!surface\-Damaged@{surface\-Damaged}}
+\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a12ce718691bc19318acd23b981a72cb8}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!surface\-Damaged@{surface\-Damaged}}
 \index{surface\-Damaged@{surface\-Damaged}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
 \subsubsection[{surface\-Damaged}]{\setlength{\rightskip}{0pt plus 5cm}void Qt\-Wayland\-Motorcar\-Compositor\-::surface\-Damaged (
 \begin{DoxyParamCaption}
-\item[{Q\-Wayland\-Surface $\ast$}]{surface, }
-\item[{const Q\-Rect \&}]{rect}
+\item[{Q\-Wayland\-Surface $\ast$}]{surface}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a32dbac4ee805821e74660dea97b05aa6}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a12ce718691bc19318acd23b981a72cb8}
 \hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_af3c3c2e2dbfd18427c8b38f83f0fa01f}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!to\-Surface@{to\-Surface}}
 \index{to\-Surface@{to\-Surface}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
 \subsubsection[{to\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Point\-F Qt\-Wayland\-Motorcar\-Compositor\-::to\-Surface (
@@ -211,9 +252,20 @@ Implements \hyperlink{classmotorcar_1_1Compositor_a9d4b703e99386360996087a1100fa
 \item[{const Q\-Point\-F \&}]{point}
 \end{DoxyParamCaption}
 ) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_af3c3c2e2dbfd18427c8b38f83f0fa01f}
+\hypertarget{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a9e29a67d95d6aa74a08b2a3deed19dfe}{\index{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}!wl\-Display@{wl\-Display}}
+\index{wl\-Display@{wl\-Display}!qtmotorcar::QtWaylandMotorcarCompositor@{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Compositor}}
+\subsubsection[{wl\-Display}]{\setlength{\rightskip}{0pt plus 5cm}wl\-\_\-display $\ast$ Qt\-Wayland\-Motorcar\-Compositor\-::wl\-Display (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classqtmotorcar_1_1QtWaylandMotorcarCompositor_a9e29a67d95d6aa74a08b2a3deed19dfe}
+
+
+Implements \hyperlink{classmotorcar_1_1Compositor_a19115510ba397b13d439eac5323ea998}{motorcar\-::\-Compositor}.
+
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/qt/src/\hyperlink{qtwaylandmotorcarcompositor_8h}{qtwaylandmotorcarcompositor.\-h}\item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/qt/src/\hyperlink{qtwaylandmotorcarcompositor_8cpp}{qtwaylandmotorcarcompositor.\-cpp}\end{DoxyCompactItemize}
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/qt/src/\hyperlink{qtwaylandmotorcarcompositor_8h}{qtwaylandmotorcarcompositor.\-h}\item 
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/qt/src/\hyperlink{qtwaylandmotorcarcompositor_8cpp}{qtwaylandmotorcarcompositor.\-cpp}\end{DoxyCompactItemize}

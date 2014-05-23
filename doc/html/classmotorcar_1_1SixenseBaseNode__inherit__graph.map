@@ -1,5 +1,4 @@
 <map id="motorcar::SixenseBaseNode" name="motorcar::SixenseBaseNode">
-<area shape="rect" id="node2" href="$classmotorcar_1_1PhysicalNode.html" title="{motorcar::PhysicalNode\n||+ PhysicalNode()\l+ ~PhysicalNode()\l+ setParentNode()\l# PhysicalNode()\l}" alt="" coords="19,481,181,618"/>
-<area shape="rect" id="node4" href="$classmotorcar_1_1SceneGraphNode.html" title="{motorcar::SceneGraphNode\n||+ SceneGraphNode()\l+ ~SceneGraphNode()\l+ traverseNode()\l+ traverseSceneGraph()\l+ parentNode()\l+ scene()\l+ subtreeContains()\l+ transform()\l+ inverseTransform()\l+ setTransform()\land 6 more...\l# SceneGraphNode()\l# setParentNode()\l}" alt="" coords="8,139,192,432"/>
-<area shape="rect" id="node6" href="$classFoo.html" title="{Foo\n||}" alt="" coords="79,5,121,91"/>
+<area shape="rect" id="node2" href="$classmotorcar_1_1PhysicalNode.html" title="motorcar::PhysicalNode" alt="" coords="19,80,181,107"/>
+<area shape="rect" id="node3" href="$classmotorcar_1_1SceneGraphNode.html" title="motorcar::SceneGraphNode" alt="" coords="8,5,192,32"/>
 </map>

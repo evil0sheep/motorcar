@@ -1,0 +1,220 @@
+\hypertarget{softkineticdepthcamera_8cpp}{\section{/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/device/softkineticdepthcamera.cpp File Reference}
+\label{softkineticdepthcamera_8cpp}\index{/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/device/softkineticdepthcamera.\-cpp@{/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/device/softkineticdepthcamera.\-cpp}}
+}
+{\ttfamily \#include \char`\"{}softkineticdepthcamera.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../scenegraph/output/viewpoint.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../scenegraph/output/display/display.\-h\char`\"{}}\\*
+Include dependency graph for softkineticdepthcamera.\-cpp\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{softkineticdepthcamera_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_a133f7d840cde7495e5aa35372b7703f2}{on\-New\-Audio\-Sample} (Audio\-Node node, Audio\-Node\-::\-New\-Sample\-Received\-Data data)
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_a4fea2e4dcaefcec2908512d1911db430}{on\-New\-Color\-Sample} (Color\-Node node, Color\-Node\-::\-New\-Sample\-Received\-Data data)
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_a90d9eb69e1b62d093e101b99122c1507}{on\-New\-Depth\-Sample} (Depth\-Node node, Depth\-Node\-::\-New\-Sample\-Received\-Data data)
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_a49639a22b820d2f838c9476cd02392f8}{configure\-Audio\-Node} ()
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_affd78e7ab5154ec990c4d17fb92bb49b}{configure\-Depth\-Node} ()
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_a1f82f0f6dbd33eaa843419f59a1526d9}{configure\-Color\-Node} ()
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_a7c1bf53766f2914595c63abd8d14f433}{configure\-Node} (Node node)
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_a5733adbe912d1dab8eba1726e84d9c80}{on\-Node\-Connected} (Device device, Device\-::\-Node\-Added\-Data data)
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_abb4ddfc72cd711c04d6342908b5fe406}{on\-Node\-Disconnected} (Device device, Device\-::\-Node\-Removed\-Data data)
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_af522825ab0020231cda84f6bd7857f09}{on\-Device\-Connected} (Context context, Context\-::\-Device\-Added\-Data data)
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_a0a2ef38fda55280892290e08598ccd69}{on\-Device\-Disconnected} (Context context, Context\-::\-Device\-Removed\-Data data)
+\item 
+void \hyperlink{softkineticdepthcamera_8cpp_a267bff827c18e6fe200c6556a56faea3}{camera\-Event\-Loop} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+Context \hyperlink{softkineticdepthcamera_8cpp_a239bd0119ee562a88194f5218b50c94c}{g\-\_\-context}
+\item 
+Depth\-Node \hyperlink{softkineticdepthcamera_8cpp_a4ae467f6445e404f04219ddc89eacb62}{g\-\_\-dnode}
+\item 
+Color\-Node \hyperlink{softkineticdepthcamera_8cpp_aeff9dc738765f73897ce2e17e6fcff27}{g\-\_\-cnode}
+\item 
+Audio\-Node \hyperlink{softkineticdepthcamera_8cpp_acc110d41eebaa7c53f4abddd93611464}{g\-\_\-anode}
+\item 
+uint32\-\_\-t \hyperlink{softkineticdepthcamera_8cpp_a889cd2a0748f1e32ba7e956a23fe344a}{g\-\_\-a\-Frames} = 0
+\item 
+uint32\-\_\-t \hyperlink{softkineticdepthcamera_8cpp_ad8dbaf6148c7e2f28a01017c677181b2}{g\-\_\-c\-Frames} = 0
+\item 
+uint32\-\_\-t \hyperlink{softkineticdepthcamera_8cpp_a020e84f111fe3c71bdb9be7ab86c2517}{g\-\_\-d\-Frames} = 0
+\item 
+bool \hyperlink{softkineticdepthcamera_8cpp_a50de7dafce08525e1fd9fc16d2541d69}{g\-\_\-b\-Device\-Found} = false
+\item 
+Projection\-Helper $\ast$ \hyperlink{softkineticdepthcamera_8cpp_a5e2233fcbcdf9b8ca5afed79258ff2b0}{g\-\_\-p\-Proj\-Helper} = N\-U\-L\-L
+\item 
+Stereo\-Camera\-Parameters \hyperlink{softkineticdepthcamera_8cpp_af4db86d954c4ce1fca0123db7a6995a4}{g\-\_\-scp}
+\item 
+float $\ast$ \hyperlink{softkineticdepthcamera_8cpp_ad3d15a2ebad4f83ba4b701f69f67bc0a}{g\-\_\-vertex\-Data} = 0
+\item 
+float $\ast$ \hyperlink{softkineticdepthcamera_8cpp_aab02df63c3af967c280bc3f2e49374e6}{g\-\_\-confidence\-Data} = 0
+\item 
+float $\ast$ \hyperlink{softkineticdepthcamera_8cpp_a87944d5880bbc0c28d2b7eb32b9ad67f}{g\-\_\-uv\-Data} = 0
+\item 
+int \hyperlink{softkineticdepthcamera_8cpp_affc31522a29ba1e63b2abe03b8556ac2}{g\-\_\-depth\-Map\-Size} = 0
+\item 
+bool \hyperlink{softkineticdepthcamera_8cpp_a226cdcdfde14a917ab6653d6d29778a2}{g\-\_\-depth\-Updated}
+\item 
+Color\-Node\-::\-New\-Sample\-Received\-Data \hyperlink{softkineticdepthcamera_8cpp_a9bdc89a0a3b15f1e4f01d1af0d5269e9}{g\-\_\-color\-Data}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{softkineticdepthcamera_8cpp_a267bff827c18e6fe200c6556a56faea3}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!camera\-Event\-Loop@{camera\-Event\-Loop}}
+\index{camera\-Event\-Loop@{camera\-Event\-Loop}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{camera\-Event\-Loop}]{\setlength{\rightskip}{0pt plus 5cm}void camera\-Event\-Loop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_a267bff827c18e6fe200c6556a56faea3}
+\hypertarget{softkineticdepthcamera_8cpp_a49639a22b820d2f838c9476cd02392f8}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!configure\-Audio\-Node@{configure\-Audio\-Node}}
+\index{configure\-Audio\-Node@{configure\-Audio\-Node}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{configure\-Audio\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void configure\-Audio\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_a49639a22b820d2f838c9476cd02392f8}
+\hypertarget{softkineticdepthcamera_8cpp_a1f82f0f6dbd33eaa843419f59a1526d9}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!configure\-Color\-Node@{configure\-Color\-Node}}
+\index{configure\-Color\-Node@{configure\-Color\-Node}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{configure\-Color\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void configure\-Color\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_a1f82f0f6dbd33eaa843419f59a1526d9}
+\hypertarget{softkineticdepthcamera_8cpp_affd78e7ab5154ec990c4d17fb92bb49b}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!configure\-Depth\-Node@{configure\-Depth\-Node}}
+\index{configure\-Depth\-Node@{configure\-Depth\-Node}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{configure\-Depth\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void configure\-Depth\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_affd78e7ab5154ec990c4d17fb92bb49b}
+\hypertarget{softkineticdepthcamera_8cpp_a7c1bf53766f2914595c63abd8d14f433}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!configure\-Node@{configure\-Node}}
+\index{configure\-Node@{configure\-Node}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{configure\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void configure\-Node (
+\begin{DoxyParamCaption}
+\item[{Node}]{node}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_a7c1bf53766f2914595c63abd8d14f433}
+\hypertarget{softkineticdepthcamera_8cpp_af522825ab0020231cda84f6bd7857f09}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!on\-Device\-Connected@{on\-Device\-Connected}}
+\index{on\-Device\-Connected@{on\-Device\-Connected}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{on\-Device\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}void on\-Device\-Connected (
+\begin{DoxyParamCaption}
+\item[{Context}]{context, }
+\item[{Context\-::\-Device\-Added\-Data}]{data}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_af522825ab0020231cda84f6bd7857f09}
+\hypertarget{softkineticdepthcamera_8cpp_a0a2ef38fda55280892290e08598ccd69}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!on\-Device\-Disconnected@{on\-Device\-Disconnected}}
+\index{on\-Device\-Disconnected@{on\-Device\-Disconnected}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{on\-Device\-Disconnected}]{\setlength{\rightskip}{0pt plus 5cm}void on\-Device\-Disconnected (
+\begin{DoxyParamCaption}
+\item[{Context}]{context, }
+\item[{Context\-::\-Device\-Removed\-Data}]{data}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_a0a2ef38fda55280892290e08598ccd69}
+\hypertarget{softkineticdepthcamera_8cpp_a133f7d840cde7495e5aa35372b7703f2}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!on\-New\-Audio\-Sample@{on\-New\-Audio\-Sample}}
+\index{on\-New\-Audio\-Sample@{on\-New\-Audio\-Sample}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{on\-New\-Audio\-Sample}]{\setlength{\rightskip}{0pt plus 5cm}void on\-New\-Audio\-Sample (
+\begin{DoxyParamCaption}
+\item[{Audio\-Node}]{node, }
+\item[{Audio\-Node\-::\-New\-Sample\-Received\-Data}]{data}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_a133f7d840cde7495e5aa35372b7703f2}
+\hypertarget{softkineticdepthcamera_8cpp_a4fea2e4dcaefcec2908512d1911db430}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!on\-New\-Color\-Sample@{on\-New\-Color\-Sample}}
+\index{on\-New\-Color\-Sample@{on\-New\-Color\-Sample}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{on\-New\-Color\-Sample}]{\setlength{\rightskip}{0pt plus 5cm}void on\-New\-Color\-Sample (
+\begin{DoxyParamCaption}
+\item[{Color\-Node}]{node, }
+\item[{Color\-Node\-::\-New\-Sample\-Received\-Data}]{data}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_a4fea2e4dcaefcec2908512d1911db430}
+\hypertarget{softkineticdepthcamera_8cpp_a90d9eb69e1b62d093e101b99122c1507}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!on\-New\-Depth\-Sample@{on\-New\-Depth\-Sample}}
+\index{on\-New\-Depth\-Sample@{on\-New\-Depth\-Sample}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{on\-New\-Depth\-Sample}]{\setlength{\rightskip}{0pt plus 5cm}void on\-New\-Depth\-Sample (
+\begin{DoxyParamCaption}
+\item[{Depth\-Node}]{node, }
+\item[{Depth\-Node\-::\-New\-Sample\-Received\-Data}]{data}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_a90d9eb69e1b62d093e101b99122c1507}
+\hypertarget{softkineticdepthcamera_8cpp_a5733adbe912d1dab8eba1726e84d9c80}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!on\-Node\-Connected@{on\-Node\-Connected}}
+\index{on\-Node\-Connected@{on\-Node\-Connected}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{on\-Node\-Connected}]{\setlength{\rightskip}{0pt plus 5cm}void on\-Node\-Connected (
+\begin{DoxyParamCaption}
+\item[{Device}]{device, }
+\item[{Device\-::\-Node\-Added\-Data}]{data}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_a5733adbe912d1dab8eba1726e84d9c80}
+\hypertarget{softkineticdepthcamera_8cpp_abb4ddfc72cd711c04d6342908b5fe406}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!on\-Node\-Disconnected@{on\-Node\-Disconnected}}
+\index{on\-Node\-Disconnected@{on\-Node\-Disconnected}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{on\-Node\-Disconnected}]{\setlength{\rightskip}{0pt plus 5cm}void on\-Node\-Disconnected (
+\begin{DoxyParamCaption}
+\item[{Device}]{device, }
+\item[{Device\-::\-Node\-Removed\-Data}]{data}
+\end{DoxyParamCaption}
+)}}\label{softkineticdepthcamera_8cpp_abb4ddfc72cd711c04d6342908b5fe406}
+
+
+\subsection{Variable Documentation}
+\hypertarget{softkineticdepthcamera_8cpp_a889cd2a0748f1e32ba7e956a23fe344a}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-a\-Frames@{g\-\_\-a\-Frames}}
+\index{g\-\_\-a\-Frames@{g\-\_\-a\-Frames}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-a\-Frames}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t g\-\_\-a\-Frames = 0}}\label{softkineticdepthcamera_8cpp_a889cd2a0748f1e32ba7e956a23fe344a}
+\hypertarget{softkineticdepthcamera_8cpp_acc110d41eebaa7c53f4abddd93611464}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-anode@{g\-\_\-anode}}
+\index{g\-\_\-anode@{g\-\_\-anode}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-anode}]{\setlength{\rightskip}{0pt plus 5cm}Audio\-Node g\-\_\-anode}}\label{softkineticdepthcamera_8cpp_acc110d41eebaa7c53f4abddd93611464}
+\hypertarget{softkineticdepthcamera_8cpp_a50de7dafce08525e1fd9fc16d2541d69}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-b\-Device\-Found@{g\-\_\-b\-Device\-Found}}
+\index{g\-\_\-b\-Device\-Found@{g\-\_\-b\-Device\-Found}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-b\-Device\-Found}]{\setlength{\rightskip}{0pt plus 5cm}bool g\-\_\-b\-Device\-Found = false}}\label{softkineticdepthcamera_8cpp_a50de7dafce08525e1fd9fc16d2541d69}
+\hypertarget{softkineticdepthcamera_8cpp_ad8dbaf6148c7e2f28a01017c677181b2}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-c\-Frames@{g\-\_\-c\-Frames}}
+\index{g\-\_\-c\-Frames@{g\-\_\-c\-Frames}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-c\-Frames}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t g\-\_\-c\-Frames = 0}}\label{softkineticdepthcamera_8cpp_ad8dbaf6148c7e2f28a01017c677181b2}
+\hypertarget{softkineticdepthcamera_8cpp_aeff9dc738765f73897ce2e17e6fcff27}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-cnode@{g\-\_\-cnode}}
+\index{g\-\_\-cnode@{g\-\_\-cnode}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-cnode}]{\setlength{\rightskip}{0pt plus 5cm}Color\-Node g\-\_\-cnode}}\label{softkineticdepthcamera_8cpp_aeff9dc738765f73897ce2e17e6fcff27}
+\hypertarget{softkineticdepthcamera_8cpp_a9bdc89a0a3b15f1e4f01d1af0d5269e9}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-color\-Data@{g\-\_\-color\-Data}}
+\index{g\-\_\-color\-Data@{g\-\_\-color\-Data}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-color\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Color\-Node\-::\-New\-Sample\-Received\-Data g\-\_\-color\-Data}}\label{softkineticdepthcamera_8cpp_a9bdc89a0a3b15f1e4f01d1af0d5269e9}
+\hypertarget{softkineticdepthcamera_8cpp_aab02df63c3af967c280bc3f2e49374e6}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-confidence\-Data@{g\-\_\-confidence\-Data}}
+\index{g\-\_\-confidence\-Data@{g\-\_\-confidence\-Data}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-confidence\-Data}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ g\-\_\-confidence\-Data = 0}}\label{softkineticdepthcamera_8cpp_aab02df63c3af967c280bc3f2e49374e6}
+\hypertarget{softkineticdepthcamera_8cpp_a239bd0119ee562a88194f5218b50c94c}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-context@{g\-\_\-context}}
+\index{g\-\_\-context@{g\-\_\-context}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}Context g\-\_\-context}}\label{softkineticdepthcamera_8cpp_a239bd0119ee562a88194f5218b50c94c}
+\hypertarget{softkineticdepthcamera_8cpp_affc31522a29ba1e63b2abe03b8556ac2}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-depth\-Map\-Size@{g\-\_\-depth\-Map\-Size}}
+\index{g\-\_\-depth\-Map\-Size@{g\-\_\-depth\-Map\-Size}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-depth\-Map\-Size}]{\setlength{\rightskip}{0pt plus 5cm}int g\-\_\-depth\-Map\-Size = 0}}\label{softkineticdepthcamera_8cpp_affc31522a29ba1e63b2abe03b8556ac2}
+\hypertarget{softkineticdepthcamera_8cpp_a226cdcdfde14a917ab6653d6d29778a2}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-depth\-Updated@{g\-\_\-depth\-Updated}}
+\index{g\-\_\-depth\-Updated@{g\-\_\-depth\-Updated}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-depth\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}bool g\-\_\-depth\-Updated}}\label{softkineticdepthcamera_8cpp_a226cdcdfde14a917ab6653d6d29778a2}
+\hypertarget{softkineticdepthcamera_8cpp_a020e84f111fe3c71bdb9be7ab86c2517}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-d\-Frames@{g\-\_\-d\-Frames}}
+\index{g\-\_\-d\-Frames@{g\-\_\-d\-Frames}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-d\-Frames}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t g\-\_\-d\-Frames = 0}}\label{softkineticdepthcamera_8cpp_a020e84f111fe3c71bdb9be7ab86c2517}
+\hypertarget{softkineticdepthcamera_8cpp_a4ae467f6445e404f04219ddc89eacb62}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-dnode@{g\-\_\-dnode}}
+\index{g\-\_\-dnode@{g\-\_\-dnode}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-dnode}]{\setlength{\rightskip}{0pt plus 5cm}Depth\-Node g\-\_\-dnode}}\label{softkineticdepthcamera_8cpp_a4ae467f6445e404f04219ddc89eacb62}
+\hypertarget{softkineticdepthcamera_8cpp_a5e2233fcbcdf9b8ca5afed79258ff2b0}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-p\-Proj\-Helper@{g\-\_\-p\-Proj\-Helper}}
+\index{g\-\_\-p\-Proj\-Helper@{g\-\_\-p\-Proj\-Helper}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-p\-Proj\-Helper}]{\setlength{\rightskip}{0pt plus 5cm}Projection\-Helper$\ast$ g\-\_\-p\-Proj\-Helper = N\-U\-L\-L}}\label{softkineticdepthcamera_8cpp_a5e2233fcbcdf9b8ca5afed79258ff2b0}
+\hypertarget{softkineticdepthcamera_8cpp_af4db86d954c4ce1fca0123db7a6995a4}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-scp@{g\-\_\-scp}}
+\index{g\-\_\-scp@{g\-\_\-scp}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-scp}]{\setlength{\rightskip}{0pt plus 5cm}Stereo\-Camera\-Parameters g\-\_\-scp}}\label{softkineticdepthcamera_8cpp_af4db86d954c4ce1fca0123db7a6995a4}
+\hypertarget{softkineticdepthcamera_8cpp_a87944d5880bbc0c28d2b7eb32b9ad67f}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-uv\-Data@{g\-\_\-uv\-Data}}
+\index{g\-\_\-uv\-Data@{g\-\_\-uv\-Data}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-uv\-Data}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ g\-\_\-uv\-Data = 0}}\label{softkineticdepthcamera_8cpp_a87944d5880bbc0c28d2b7eb32b9ad67f}
+\hypertarget{softkineticdepthcamera_8cpp_ad3d15a2ebad4f83ba4b701f69f67bc0a}{\index{softkineticdepthcamera.\-cpp@{softkineticdepthcamera.\-cpp}!g\-\_\-vertex\-Data@{g\-\_\-vertex\-Data}}
+\index{g\-\_\-vertex\-Data@{g\-\_\-vertex\-Data}!softkineticdepthcamera.cpp@{softkineticdepthcamera.\-cpp}}
+\subsubsection[{g\-\_\-vertex\-Data}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ g\-\_\-vertex\-Data = 0}}\label{softkineticdepthcamera_8cpp_ad3d15a2ebad4f83ba4b701f69f67bc0a}

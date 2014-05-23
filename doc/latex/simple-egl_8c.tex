@@ -1,0 +1,132 @@
+\hypertarget{simple-egl_8c}{\section{/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/clients/simple-\/egl/simple-\/egl.c File Reference}
+\label{simple-egl_8c}\index{/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/clients/simple-\/egl/simple-\/egl.\-c@{/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/clients/simple-\/egl/simple-\/egl.\-c}}
+}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$stdbool.\-h$>$}\\*
+{\ttfamily \#include $<$math.\-h$>$}\\*
+{\ttfamily \#include $<$assert.\-h$>$}\\*
+{\ttfamily \#include $<$signal.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$linux/input.\-h$>$}\\*
+{\ttfamily \#include $<$wayland-\/client.\-h$>$}\\*
+{\ttfamily \#include $<$wayland-\/egl.\-h$>$}\\*
+{\ttfamily \#include $<$wayland-\/cursor.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}motorcar-\/client-\/protocol.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$G\-L\-E\-S2/gl2.\-h$>$}\\*
+{\ttfamily \#include $<$E\-G\-L/egl.\-h$>$}\\*
+{\ttfamily \#include $<$E\-G\-L/eglext.\-h$>$}\\*
+{\ttfamily \#include $<$glm/glm.\-hpp$>$}\\*
+{\ttfamily \#include $<$glm/gtc/type\-\_\-ptr.\-hpp$>$}\\*
+{\ttfamily \#include $<$glm/gtc/matrix\-\_\-transform.\-hpp$>$}\\*
+{\ttfamily \#include \char`\"{}glm/gtc/matrix\-\_\-access.\-hpp\char`\"{}}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+Include dependency graph for simple-\/egl.c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{simple-egl_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structviewport}{viewport}
+\item 
+struct \hyperlink{structviewpoint}{viewpoint}
+\item 
+struct \hyperlink{structdisplay}{display}
+\item 
+struct \hyperlink{structgeometry}{geometry}
+\item 
+struct \hyperlink{structwindow}{window}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{simple-egl_8c_a083d37f289b99270e0391419178d458f}{E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage}~1
+\item 
+\#define \hyperlink{simple-egl_8c_a0792e3d8b2bc978f95917a234b0c81df}{E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age}~1
+\item 
+\#define \hyperlink{simple-egl_8c_a7045d8a6b4857f268a62fab2de2021fd}{E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T}~0x313\-D
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef E\-G\-L\-Surface \hyperlink{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{surface}
+\item 
+typedef E\-G\-L\-Surface E\-G\-Lint $\ast$ \hyperlink{simple-egl_8c_a56616f7ca3fc53c0da41d05de9330b11}{rects}
+\item 
+typedef E\-G\-L\-Surface E\-G\-Lint E\-G\-Lint \hyperlink{simple-egl_8c_aa6a11810244355f89e6c4961b9dd3b53}{n\-\_\-rects}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{simple-egl_8c_ab4ad070d3bf82abe5e70330578f67893}{E\-G\-L\-Boolean} (E\-G\-L\-A\-P\-I\-E\-N\-T\-R\-Y\-P P\-F\-N\-E\-G\-L\-S\-W\-A\-P\-B\-U\-F\-F\-E\-R\-S\-W\-I\-T\-H\-D\-A\-M\-A\-G\-E\-E\-X\-T\-P\-R\-O\-C)(E\-G\-L\-Display dpy
+\item 
+int \hyperlink{simple-egl_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmotorcar__viewpoint__listener}{motorcar\-\_\-viewpoint\-\_\-listener} \hyperlink{simple-egl_8c_accee8e06dd6487760ee71ac0c347a035}{viewpoint\-\_\-listener}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{simple-egl_8c_a7045d8a6b4857f268a62fab2de2021fd}{\index{simple-\/egl.\-c@{simple-\/egl.\-c}!E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T@{E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T}}
+\index{E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T@{E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T}!simple-egl.c@{simple-\/egl.\-c}}
+\subsubsection[{E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T~0x313\-D}}\label{simple-egl_8c_a7045d8a6b4857f268a62fab2de2021fd}
+\hypertarget{simple-egl_8c_a0792e3d8b2bc978f95917a234b0c81df}{\index{simple-\/egl.\-c@{simple-\/egl.\-c}!E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age@{E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age}}
+\index{E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age@{E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age}!simple-egl.c@{simple-\/egl.\-c}}
+\subsubsection[{E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age~1}}\label{simple-egl_8c_a0792e3d8b2bc978f95917a234b0c81df}
+\hypertarget{simple-egl_8c_a083d37f289b99270e0391419178d458f}{\index{simple-\/egl.\-c@{simple-\/egl.\-c}!E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage@{E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage}}
+\index{E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage@{E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage}!simple-egl.c@{simple-\/egl.\-c}}
+\subsubsection[{E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage~1}}\label{simple-egl_8c_a083d37f289b99270e0391419178d458f}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{simple-egl_8c_aa6a11810244355f89e6c4961b9dd3b53}{\index{simple-\/egl.\-c@{simple-\/egl.\-c}!n\-\_\-rects@{n\-\_\-rects}}
+\index{n\-\_\-rects@{n\-\_\-rects}!simple-egl.c@{simple-\/egl.\-c}}
+\subsubsection[{n\-\_\-rects}]{\setlength{\rightskip}{0pt plus 5cm}typedef E\-G\-L\-Surface E\-G\-Lint E\-G\-Lint {\bf n\-\_\-rects}}}\label{simple-egl_8c_aa6a11810244355f89e6c4961b9dd3b53}
+\hypertarget{simple-egl_8c_a56616f7ca3fc53c0da41d05de9330b11}{\index{simple-\/egl.\-c@{simple-\/egl.\-c}!rects@{rects}}
+\index{rects@{rects}!simple-egl.c@{simple-\/egl.\-c}}
+\subsubsection[{rects}]{\setlength{\rightskip}{0pt plus 5cm}typedef E\-G\-L\-Surface E\-G\-Lint$\ast$ {\bf rects}}}\label{simple-egl_8c_a56616f7ca3fc53c0da41d05de9330b11}
+\hypertarget{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{\index{simple-\/egl.\-c@{simple-\/egl.\-c}!surface@{surface}}
+\index{surface@{surface}!simple-egl.c@{simple-\/egl.\-c}}
+\subsubsection[{surface}]{\setlength{\rightskip}{0pt plus 5cm}typedef E\-G\-L\-Surface {\bf surface}}}\label{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}
+
+
+\subsection{Function Documentation}
+\hypertarget{simple-egl_8c_ab4ad070d3bf82abe5e70330578f67893}{\index{simple-\/egl.\-c@{simple-\/egl.\-c}!E\-G\-L\-Boolean@{E\-G\-L\-Boolean}}
+\index{E\-G\-L\-Boolean@{E\-G\-L\-Boolean}!simple-egl.c@{simple-\/egl.\-c}}
+\subsubsection[{E\-G\-L\-Boolean}]{\setlength{\rightskip}{0pt plus 5cm}typedef E\-G\-L\-Boolean (
+\begin{DoxyParamCaption}
+\item[{E\-G\-L\-A\-P\-I\-E\-N\-T\-R\-Y\-P}]{P\-F\-N\-E\-G\-L\-S\-W\-A\-P\-B\-U\-F\-F\-E\-R\-S\-W\-I\-T\-H\-D\-A\-M\-A\-G\-E\-E\-X\-T\-P\-R\-O\-C}
+\end{DoxyParamCaption}
+)}}\label{simple-egl_8c_ab4ad070d3bf82abe5e70330578f67893}
+\hypertarget{simple-egl_8c_a3c04138a5bfe5d72780bb7e82a18e627}{\index{simple-\/egl.\-c@{simple-\/egl.\-c}!main@{main}}
+\index{main@{main}!simple-egl.c@{simple-\/egl.\-c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{simple-egl_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+\subsection{Variable Documentation}
+\hypertarget{simple-egl_8c_accee8e06dd6487760ee71ac0c347a035}{\index{simple-\/egl.\-c@{simple-\/egl.\-c}!viewpoint\-\_\-listener@{viewpoint\-\_\-listener}}
+\index{viewpoint\-\_\-listener@{viewpoint\-\_\-listener}!simple-egl.c@{simple-\/egl.\-c}}
+\subsubsection[{viewpoint\-\_\-listener}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf motorcar\-\_\-viewpoint\-\_\-listener} viewpoint\-\_\-listener}}\label{simple-egl_8c_accee8e06dd6487760ee71ac0c347a035}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+    motorcar\_viewpoint\_handle\_view\_matrix,
+    motorcar\_viewpoint\_handle\_projection\_matrix,
+    motorcar\_viewpoint\_handle\_view\_port
+
+\}
+\end{DoxyCode}

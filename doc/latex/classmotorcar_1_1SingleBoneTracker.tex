@@ -1,0 +1,134 @@
+\hypertarget{classmotorcar_1_1SingleBoneTracker}{\section{motorcar\-:\-:Single\-Bone\-Tracker Class Reference}
+\label{classmotorcar_1_1SingleBoneTracker}\index{motorcar\-::\-Single\-Bone\-Tracker@{motorcar\-::\-Single\-Bone\-Tracker}}
+}
+
+
+{\ttfamily \#include $<$singlebonetracker.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Single\-Bone\-Tracker\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{classmotorcar_1_1SingleBoneTracker__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:Single\-Bone\-Tracker\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{classmotorcar_1_1SingleBoneTracker__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1SingleBoneTracker_a8e95dd11e004f2b2610d2f92c86d1b60}{Single\-Bone\-Tracker} (\hyperlink{classmotorcar_1_1Bone}{Bone} $\ast$\hyperlink{classmotorcar_1_1SingleBoneTracker_abb942351d9129aca1307bedd3da54a13}{tracked\-Bone}, glm\-::mat4 \hyperlink{classmotorcar_1_1SingleBoneTracker_a2e4fa7ee58217a38f001091f1d3f8d8f}{bone\-Track\-Transform}, \hyperlink{classmotorcar_1_1Skeleton}{Skeleton} $\ast$\hyperlink{classmotorcar_1_1BoneSensor_a71f19e3ae5fac133a9f359c5ba4cef00}{skeleton}, \hyperlink{classmotorcar_1_1PhysicalNode}{Physical\-Node} $\ast$parent, const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4())
+\item 
+void \hyperlink{classmotorcar_1_1SingleBoneTracker_a66f25aca80c6c03d882369b3d1b40f77}{set\-Position} (const glm\-::vec3 \&position)
+\begin{DoxyCompactList}\small\item\em Set the position of the tracker in parent space. \end{DoxyCompactList}\item 
+void \hyperlink{classmotorcar_1_1SingleBoneTracker_a2ea129b1f4f2caec8bbb71c48108b794}{set\-Orientation} (const glm\-::mat3 \&orientation)
+\begin{DoxyCompactList}\small\item\em Set the orientation of the tracker in parent space. \end{DoxyCompactList}\item 
+\hyperlink{classmotorcar_1_1Bone}{Bone} $\ast$ \hyperlink{classmotorcar_1_1SingleBoneTracker_abb942351d9129aca1307bedd3da54a13}{tracked\-Bone} () const 
+\begin{DoxyCompactList}\small\item\em Gets the bone that this tracker is attached to. \end{DoxyCompactList}\item 
+void \hyperlink{classmotorcar_1_1SingleBoneTracker_a5d508397b62585d59a702fbe37db94ef}{set\-Tracked\-Bone} (\hyperlink{classmotorcar_1_1Bone}{Bone} $\ast$\hyperlink{classmotorcar_1_1SingleBoneTracker_abb942351d9129aca1307bedd3da54a13}{tracked\-Bone})
+\begin{DoxyCompactList}\small\item\em Sets the bone that this tracker is attached to. \end{DoxyCompactList}\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1SingleBoneTracker_a2e4fa7ee58217a38f001091f1d3f8d8f}{bone\-Track\-Transform} () const 
+\begin{DoxyCompactList}\small\item\em Gets the transform that describes how this tracker is attached to the bone it tracks. \end{DoxyCompactList}\item 
+void \hyperlink{classmotorcar_1_1SingleBoneTracker_a20fb4b211211d7d1e9d2659031377482}{set\-Bone\-Track\-Transform} (const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SingleBoneTracker_a2e4fa7ee58217a38f001091f1d3f8d8f}{bone\-Track\-Transform})
+\begin{DoxyCompactList}\small\item\em Sets the transform that describes how this tracker is attached to the bone it tracks. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1SingleBoneTracker_a8e95dd11e004f2b2610d2f92c86d1b60}{\index{motorcar\-::\-Single\-Bone\-Tracker@{motorcar\-::\-Single\-Bone\-Tracker}!Single\-Bone\-Tracker@{Single\-Bone\-Tracker}}
+\index{Single\-Bone\-Tracker@{Single\-Bone\-Tracker}!motorcar::SingleBoneTracker@{motorcar\-::\-Single\-Bone\-Tracker}}
+\subsubsection[{Single\-Bone\-Tracker}]{\setlength{\rightskip}{0pt plus 5cm}Single\-Bone\-Tracker\-::\-Single\-Bone\-Tracker (
+\begin{DoxyParamCaption}
+\item[{{\bf Bone} $\ast$}]{tracked\-Bone, }
+\item[{glm\-::mat4}]{bone\-Track\-Transform, }
+\item[{{\bf Skeleton} $\ast$}]{skeleton, }
+\item[{{\bf Physical\-Node} $\ast$}]{parent, }
+\item[{const glm\-::mat4 \&}]{transform = {\ttfamily glm\-:\-:mat4()}}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SingleBoneTracker_a8e95dd11e004f2b2610d2f92c86d1b60}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1SingleBoneTracker_a2e4fa7ee58217a38f001091f1d3f8d8f}{\index{motorcar\-::\-Single\-Bone\-Tracker@{motorcar\-::\-Single\-Bone\-Tracker}!bone\-Track\-Transform@{bone\-Track\-Transform}}
+\index{bone\-Track\-Transform@{bone\-Track\-Transform}!motorcar::SingleBoneTracker@{motorcar\-::\-Single\-Bone\-Tracker}}
+\subsubsection[{bone\-Track\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 Single\-Bone\-Tracker\-::bone\-Track\-Transform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SingleBoneTracker_a2e4fa7ee58217a38f001091f1d3f8d8f}
+
+
+Gets the transform that describes how this tracker is attached to the bone it tracks. 
+
+\hypertarget{classmotorcar_1_1SingleBoneTracker_a20fb4b211211d7d1e9d2659031377482}{\index{motorcar\-::\-Single\-Bone\-Tracker@{motorcar\-::\-Single\-Bone\-Tracker}!set\-Bone\-Track\-Transform@{set\-Bone\-Track\-Transform}}
+\index{set\-Bone\-Track\-Transform@{set\-Bone\-Track\-Transform}!motorcar::SingleBoneTracker@{motorcar\-::\-Single\-Bone\-Tracker}}
+\subsubsection[{set\-Bone\-Track\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}void Single\-Bone\-Tracker\-::set\-Bone\-Track\-Transform (
+\begin{DoxyParamCaption}
+\item[{const glm\-::mat4 \&}]{bone\-Track\-Transform}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SingleBoneTracker_a20fb4b211211d7d1e9d2659031377482}
+
+
+Sets the transform that describes how this tracker is attached to the bone it tracks. 
+
+\hypertarget{classmotorcar_1_1SingleBoneTracker_a2ea129b1f4f2caec8bbb71c48108b794}{\index{motorcar\-::\-Single\-Bone\-Tracker@{motorcar\-::\-Single\-Bone\-Tracker}!set\-Orientation@{set\-Orientation}}
+\index{set\-Orientation@{set\-Orientation}!motorcar::SingleBoneTracker@{motorcar\-::\-Single\-Bone\-Tracker}}
+\subsubsection[{set\-Orientation}]{\setlength{\rightskip}{0pt plus 5cm}void Single\-Bone\-Tracker\-::set\-Orientation (
+\begin{DoxyParamCaption}
+\item[{const glm\-::mat3 \&}]{orientation}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SingleBoneTracker_a2ea129b1f4f2caec8bbb71c48108b794}
+
+
+Set the orientation of the tracker in parent space. 
+
+\hypertarget{classmotorcar_1_1SingleBoneTracker_a66f25aca80c6c03d882369b3d1b40f77}{\index{motorcar\-::\-Single\-Bone\-Tracker@{motorcar\-::\-Single\-Bone\-Tracker}!set\-Position@{set\-Position}}
+\index{set\-Position@{set\-Position}!motorcar::SingleBoneTracker@{motorcar\-::\-Single\-Bone\-Tracker}}
+\subsubsection[{set\-Position}]{\setlength{\rightskip}{0pt plus 5cm}void Single\-Bone\-Tracker\-::set\-Position (
+\begin{DoxyParamCaption}
+\item[{const glm\-::vec3 \&}]{position}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SingleBoneTracker_a66f25aca80c6c03d882369b3d1b40f77}
+
+
+Set the position of the tracker in parent space. 
+
+\hypertarget{classmotorcar_1_1SingleBoneTracker_a5d508397b62585d59a702fbe37db94ef}{\index{motorcar\-::\-Single\-Bone\-Tracker@{motorcar\-::\-Single\-Bone\-Tracker}!set\-Tracked\-Bone@{set\-Tracked\-Bone}}
+\index{set\-Tracked\-Bone@{set\-Tracked\-Bone}!motorcar::SingleBoneTracker@{motorcar\-::\-Single\-Bone\-Tracker}}
+\subsubsection[{set\-Tracked\-Bone}]{\setlength{\rightskip}{0pt plus 5cm}void Single\-Bone\-Tracker\-::set\-Tracked\-Bone (
+\begin{DoxyParamCaption}
+\item[{{\bf Bone} $\ast$}]{tracked\-Bone}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SingleBoneTracker_a5d508397b62585d59a702fbe37db94ef}
+
+
+Sets the bone that this tracker is attached to. 
+
+\hypertarget{classmotorcar_1_1SingleBoneTracker_abb942351d9129aca1307bedd3da54a13}{\index{motorcar\-::\-Single\-Bone\-Tracker@{motorcar\-::\-Single\-Bone\-Tracker}!tracked\-Bone@{tracked\-Bone}}
+\index{tracked\-Bone@{tracked\-Bone}!motorcar::SingleBoneTracker@{motorcar\-::\-Single\-Bone\-Tracker}}
+\subsubsection[{tracked\-Bone}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Bone} $\ast$ Single\-Bone\-Tracker\-::tracked\-Bone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SingleBoneTracker_abb942351d9129aca1307bedd3da54a13}
+
+
+Gets the bone that this tracker is attached to. 
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/input/\hyperlink{singlebonetracker_8h}{singlebonetracker.\-h}\item 
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/input/\hyperlink{singlebonetracker_8cpp}{singlebonetracker.\-cpp}\end{DoxyCompactItemize}

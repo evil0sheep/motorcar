@@ -8,7 +8,7 @@ varying float vIsValid;
 
 void main(void)
 {
-    if(aConfidence < 500.f || aPosition == vec3(-2.0f)){
+    if(aConfidence < 500.f || aPosition.z < 0.01f){
 
         vIsValid = 0.f;
     }else{

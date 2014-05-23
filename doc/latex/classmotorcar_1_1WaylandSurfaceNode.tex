@@ -12,7 +12,7 @@ Inheritance diagram for motorcar\-:\-:Wayland\-Surface\-Node\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=550pt]{classmotorcar_1_1WaylandSurfaceNode__inherit__graph}
+\includegraphics[width=236pt]{classmotorcar_1_1WaylandSurfaceNode__inherit__graph}
 \end{center}
 \end{figure}
 
@@ -22,30 +22,45 @@ Collaboration diagram for motorcar\-:\-:Wayland\-Surface\-Node\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=550pt]{classmotorcar_1_1WaylandSurfaceNode__coll__graph}
+\includegraphics[width=236pt]{classmotorcar_1_1WaylandSurfaceNode__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classmotorcar_1_1WaylandSurfaceNode_ad7d045ae80caac6164e293ba5c7e9307}{Wayland\-Surface\-Node} (\hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$\hyperlink{classmotorcar_1_1WaylandSurfaceNode_a2f888be4621ed73d815ce006246f50ca}{surface}, \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent, const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4(1))
+\hyperlink{classmotorcar_1_1WaylandSurfaceNode_ad7d045ae80caac6164e293ba5c7e9307}{Wayland\-Surface\-Node} (\hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$\hyperlink{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{surface}, \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent, const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4(1))
 \item 
 virtual \hyperlink{classmotorcar_1_1WaylandSurfaceNode_aa5b4593dd0f4834a4d8e1416f322ac8f}{$\sim$\-Wayland\-Surface\-Node} ()
 \item 
+void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a0dfac06ca2855e41613b6e663c76c97e}{compute\-Surface\-Transform} (float ppcm)
+\begin{DoxyCompactList}\small\item\em computes surface transform \end{DoxyCompactList}\item 
+virtual \\*
+\hyperlink{structmotorcar_1_1Geometry_1_1RaySurfaceIntersection}{Geometry\-::\-Ray\-Surface\-Intersection} $\ast$ \hyperlink{classmotorcar_1_1WaylandSurfaceNode_adf71a714d07bb262405a361504a77ea4}{intersect\-With\-Surfaces} (const \hyperlink{structmotorcar_1_1Geometry_1_1Ray}{Geometry\-::\-Ray} \&ray) override
+\begin{DoxyCompactList}\small\item\em inhereted from \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a1afe3178777574dd1b3c66d7d19d871b}{draw} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}, \hyperlink{classmotorcar_1_1Display}{Display} $\ast$\hyperlink{structdisplay}{display}) override
+\begin{DoxyCompactList}\small\item\em inhereted from \hyperlink{classmotorcar_1_1Drawable}{Drawable} \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a7005bcd9c0944cec3b558344602c783e}{handle\-Frame\-Begin} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}) override
+\begin{DoxyCompactList}\small\item\em prepares the surface and computes the surface transform \end{DoxyCompactList}\item 
 \hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$ \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a2f888be4621ed73d815ce006246f50ca}{surface} () const 
 \item 
-void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_ae073a9e9f05bd5d62f09d24f9a86a31a}{set\-Surface} (\hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$\hyperlink{classmotorcar_1_1WaylandSurfaceNode_a2f888be4621ed73d815ce006246f50ca}{surface})
+void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_ae073a9e9f05bd5d62f09d24f9a86a31a}{set\-Surface} (\hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$\hyperlink{simple-egl_8c_a0720952aa1caded45b5bcdce589663a9}{surface})
 \item 
 glm\-::mat4 \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a3910d8ccc764aed402074f21c25a89e8}{surface\-Transform} () const 
 \item 
-void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a0dfac06ca2855e41613b6e663c76c97e}{compute\-Surface\-Transform} (float ppcm)
+bool \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a35b01820957837d5b3a4625cca82776d}{is\-Surface\-Node} () override
 \item 
-bool \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a7830bc430977685b9d22732171f30dcf}{compute\-Local\-Surface\-Intersection} (const \hyperlink{structmotorcar_1_1Geometry_1_1Ray}{Geometry\-::\-Ray} \&local\-Ray, glm\-::vec2 \&local\-Intersection, float \&t)
+bool \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a0beab8d65060cff08f645b070a2b1dae}{mapped} () const 
 \item 
-virtual \\*
-\hyperlink{structmotorcar_1_1Geometry_1_1RaySurfaceIntersection}{Geometry\-::\-Ray\-Surface\-Intersection} $\ast$ \hyperlink{classmotorcar_1_1WaylandSurfaceNode_adf71a714d07bb262405a361504a77ea4}{intersect\-With\-Surfaces} (const \hyperlink{structmotorcar_1_1Geometry_1_1Ray}{Geometry\-::\-Ray} \&ray) override
+void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_ac8fa09a02baab4d465a482b5ee361806}{set\-Mapped} (bool \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a0beab8d65060cff08f645b070a2b1dae}{mapped})
 \item 
-void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a74d79ca15a4d7983a29752fad8db574c}{draw\-Viewpoint} (\hyperlink{classmotorcar_1_1GLCamera}{G\-L\-Camera} $\ast$viewpoint) override
+bool \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a49d09e0f0cd3b47c6d67765961da2bf3}{damaged} () const 
+\item 
+void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a7acc51a9df01468554691b5e9b681974}{set\-Damaged} (bool \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a49d09e0f0cd3b47c6d67765961da2bf3}{damaged})
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a70da528843079f3bf566086bc4688ad4}{m\-\_\-surface\-Transform}
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
@@ -70,15 +85,6 @@ void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a74d79ca15a4d7983a29752fad8d
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classmotorcar_1_1WaylandSurfaceNode_a7830bc430977685b9d22732171f30dcf}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!compute\-Local\-Surface\-Intersection@{compute\-Local\-Surface\-Intersection}}
-\index{compute\-Local\-Surface\-Intersection@{compute\-Local\-Surface\-Intersection}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
-\subsubsection[{compute\-Local\-Surface\-Intersection}]{\setlength{\rightskip}{0pt plus 5cm}bool Wayland\-Surface\-Node\-::compute\-Local\-Surface\-Intersection (
-\begin{DoxyParamCaption}
-\item[{const {\bf Geometry\-::\-Ray} \&}]{local\-Ray, }
-\item[{glm\-::vec2 \&}]{local\-Intersection, }
-\item[{float \&}]{t}
-\end{DoxyParamCaption}
-)}}\label{classmotorcar_1_1WaylandSurfaceNode_a7830bc430977685b9d22732171f30dcf}
 \hypertarget{classmotorcar_1_1WaylandSurfaceNode_a0dfac06ca2855e41613b6e663c76c97e}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!compute\-Surface\-Transform@{compute\-Surface\-Transform}}
 \index{compute\-Surface\-Transform@{compute\-Surface\-Transform}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
 \subsubsection[{compute\-Surface\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}void Wayland\-Surface\-Node\-::compute\-Surface\-Transform (
@@ -86,16 +92,51 @@ void \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a74d79ca15a4d7983a29752fad8d
 \item[{float}]{ppcm}
 \end{DoxyParamCaption}
 )}}\label{classmotorcar_1_1WaylandSurfaceNode_a0dfac06ca2855e41613b6e663c76c97e}
-\hypertarget{classmotorcar_1_1WaylandSurfaceNode_a74d79ca15a4d7983a29752fad8db574c}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!draw\-Viewpoint@{draw\-Viewpoint}}
-\index{draw\-Viewpoint@{draw\-Viewpoint}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
-\subsubsection[{draw\-Viewpoint}]{\setlength{\rightskip}{0pt plus 5cm}void Wayland\-Surface\-Node\-::draw\-Viewpoint (
+
+
+computes surface transform 
+
+\hypertarget{classmotorcar_1_1WaylandSurfaceNode_a49d09e0f0cd3b47c6d67765961da2bf3}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!damaged@{damaged}}
+\index{damaged@{damaged}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
+\subsubsection[{damaged}]{\setlength{\rightskip}{0pt plus 5cm}bool Wayland\-Surface\-Node\-::damaged (
 \begin{DoxyParamCaption}
-\item[{{\bf G\-L\-Camera} $\ast$}]{viewpoint}
+{}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1WaylandSurfaceNode_a74d79ca15a4d7983a29752fad8db574c}
+) const}}\label{classmotorcar_1_1WaylandSurfaceNode_a49d09e0f0cd3b47c6d67765961da2bf3}
+\hypertarget{classmotorcar_1_1WaylandSurfaceNode_a1afe3178777574dd1b3c66d7d19d871b}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!draw@{draw}}
+\index{draw@{draw}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}void Wayland\-Surface\-Node\-::draw (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene, }
+\item[{{\bf Display} $\ast$}]{display}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1WaylandSurfaceNode_a1afe3178777574dd1b3c66d7d19d871b}
 
 
-Implements \hyperlink{classmotorcar_1_1Drawable_aa991a852cb0421ecef23669df01b5b62}{motorcar\-::\-Drawable}.
+inhereted from \hyperlink{classmotorcar_1_1Drawable}{Drawable} 
+
+
+
+Implements \hyperlink{classmotorcar_1_1Drawable_a8d0afa524298ae7f4ced15f6a80f253d}{motorcar\-::\-Drawable}.
+
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1DepthCompositedSurfaceNode_a2108d586ac8641beec9f6d048e3ea562}{motorcar\-::\-Depth\-Composited\-Surface\-Node}.
+
+\hypertarget{classmotorcar_1_1WaylandSurfaceNode_a7005bcd9c0944cec3b558344602c783e}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!handle\-Frame\-Begin@{handle\-Frame\-Begin}}
+\index{handle\-Frame\-Begin@{handle\-Frame\-Begin}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
+\subsubsection[{handle\-Frame\-Begin}]{\setlength{\rightskip}{0pt plus 5cm}void Wayland\-Surface\-Node\-::handle\-Frame\-Begin (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1WaylandSurfaceNode_a7005bcd9c0944cec3b558344602c783e}
+
+
+prepares the surface and computes the surface transform 
+
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1VirtualNode_aae6c8f3752b46e84c65eb9fcab542f60}{motorcar\-::\-Virtual\-Node}.
 
 \hypertarget{classmotorcar_1_1WaylandSurfaceNode_adf71a714d07bb262405a361504a77ea4}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!intersect\-With\-Surfaces@{intersect\-With\-Surfaces}}
 \index{intersect\-With\-Surfaces@{intersect\-With\-Surfaces}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
@@ -106,8 +147,48 @@ Implements \hyperlink{classmotorcar_1_1Drawable_aa991a852cb0421ecef23669df01b5b6
 )\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1WaylandSurfaceNode_adf71a714d07bb262405a361504a77ea4}
 
 
+inhereted from \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} 
+
+
+
 Reimplemented from \hyperlink{classmotorcar_1_1SceneGraphNode_ac268b171317430368fcc7733eab05ae6}{motorcar\-::\-Scene\-Graph\-Node}.
 
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1DepthCompositedSurfaceNode_a83366f22b28b7028cf38ae86692d720a}{motorcar\-::\-Depth\-Composited\-Surface\-Node}.
+
+\hypertarget{classmotorcar_1_1WaylandSurfaceNode_a35b01820957837d5b3a4625cca82776d}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!is\-Surface\-Node@{is\-Surface\-Node}}
+\index{is\-Surface\-Node@{is\-Surface\-Node}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
+\subsubsection[{is\-Surface\-Node}]{\setlength{\rightskip}{0pt plus 5cm}bool motorcar\-::\-Wayland\-Surface\-Node\-::is\-Surface\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1WaylandSurfaceNode_a35b01820957837d5b3a4625cca82776d}
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1SceneGraphNode_a161d962f2594172ea0f58a9e6167703b}{motorcar\-::\-Scene\-Graph\-Node}.
+
+\hypertarget{classmotorcar_1_1WaylandSurfaceNode_a0beab8d65060cff08f645b070a2b1dae}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!mapped@{mapped}}
+\index{mapped@{mapped}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
+\subsubsection[{mapped}]{\setlength{\rightskip}{0pt plus 5cm}bool Wayland\-Surface\-Node\-::mapped (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1WaylandSurfaceNode_a0beab8d65060cff08f645b070a2b1dae}
+\hypertarget{classmotorcar_1_1WaylandSurfaceNode_a7acc51a9df01468554691b5e9b681974}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!set\-Damaged@{set\-Damaged}}
+\index{set\-Damaged@{set\-Damaged}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
+\subsubsection[{set\-Damaged}]{\setlength{\rightskip}{0pt plus 5cm}void Wayland\-Surface\-Node\-::set\-Damaged (
+\begin{DoxyParamCaption}
+\item[{bool}]{damaged}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1WaylandSurfaceNode_a7acc51a9df01468554691b5e9b681974}
+\hypertarget{classmotorcar_1_1WaylandSurfaceNode_ac8fa09a02baab4d465a482b5ee361806}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!set\-Mapped@{set\-Mapped}}
+\index{set\-Mapped@{set\-Mapped}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
+\subsubsection[{set\-Mapped}]{\setlength{\rightskip}{0pt plus 5cm}void Wayland\-Surface\-Node\-::set\-Mapped (
+\begin{DoxyParamCaption}
+\item[{bool}]{mapped}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1WaylandSurfaceNode_ac8fa09a02baab4d465a482b5ee361806}
 \hypertarget{classmotorcar_1_1WaylandSurfaceNode_ae073a9e9f05bd5d62f09d24f9a86a31a}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!set\-Surface@{set\-Surface}}
 \index{set\-Surface@{set\-Surface}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
 \subsubsection[{set\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}void Wayland\-Surface\-Node\-::set\-Surface (
@@ -131,7 +212,13 @@ Reimplemented from \hyperlink{classmotorcar_1_1SceneGraphNode_ac268b171317430368
 ) const}}\label{classmotorcar_1_1WaylandSurfaceNode_a3910d8ccc764aed402074f21c25a89e8}
 
 
+\subsection{Member Data Documentation}
+\hypertarget{classmotorcar_1_1WaylandSurfaceNode_a70da528843079f3bf566086bc4688ad4}{\index{motorcar\-::\-Wayland\-Surface\-Node@{motorcar\-::\-Wayland\-Surface\-Node}!m\-\_\-surface\-Transform@{m\-\_\-surface\-Transform}}
+\index{m\-\_\-surface\-Transform@{m\-\_\-surface\-Transform}!motorcar::WaylandSurfaceNode@{motorcar\-::\-Wayland\-Surface\-Node}}
+\subsubsection[{m\-\_\-surface\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 motorcar\-::\-Wayland\-Surface\-Node\-::m\-\_\-surface\-Transform\hspace{0.3cm}{\ttfamily [protected]}}}\label{classmotorcar_1_1WaylandSurfaceNode_a70da528843079f3bf566086bc4688ad4}
+
+
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/wayland/\hyperlink{waylandsurfacenode_8h}{waylandsurfacenode.\-h}\item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/wayland/\hyperlink{waylandsurfacenode_8cpp}{waylandsurfacenode.\-cpp}\end{DoxyCompactItemize}
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/wayland/\hyperlink{waylandsurfacenode_8h}{waylandsurfacenode.\-h}\item 
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/wayland/\hyperlink{waylandsurfacenode_8cpp}{waylandsurfacenode.\-cpp}\end{DoxyCompactItemize}

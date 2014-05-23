@@ -93,7 +93,7 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, Skeleton *
         std::cout << "IPD " << InterpupillaryDistance << std::endl;
 
 
-        float near = .01, far = 100;
+        float near = .01, far = 10;
 
         float h_meters = HScreenSize / 4 - LensSeparationDistance / 2;
         float h = (4 * h_meters) / HScreenSize ;

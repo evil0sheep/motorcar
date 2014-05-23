@@ -1,5 +1,0 @@
-<map id="motorcar::InputElement" name="motorcar::InputElement">
-<area shape="rect" id="node7" href="$classmotorcar_1_1SpatialPointingDevice.html" title="{motorcar::SpatialPointing\lDevice\n||+ SpatialPointingDevice()\l+ ~SpatialPointingDevice()\l+ traverseNode()\l+ leftMouseDown()\l+ setLeftMouseDown()\l+ rightMouseDown()\l+ setRightMouseDown()\l+ middleMouseDown()\l+ setMiddleMouseDown()\l+ grabSurfaceUnderCursor()\l+ releaseGrabbedSurface()\l}" alt="" coords="5,494,192,770"/>
-<area shape="rect" id="node2" href="$classmotorcar_1_1IOElement.html" title="{motorcar::IOElement\n||+ IOElement()\l+ ~IOElement()\l+ isInputElement()\l+ isOutputElement()\l}" alt="" coords="28,139,169,277"/>
-<area shape="rect" id="node4" href="$classFoo.html" title="{Foo\n||}" alt="" coords="77,5,120,91"/>
-</map>

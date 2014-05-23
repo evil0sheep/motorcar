@@ -50,7 +50,7 @@ OpenGLData::OpenGLData(QOpenGLWindow *window)
     functions->glGenFramebuffers(1, &m_surface_fbo);
 
    // glClearDepth(1.0f);
-    glDepthFunc(GL_LEQUAL);
+    glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
 
    // glDisable(GL_CULL_FACE);

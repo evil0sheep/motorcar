@@ -12,7 +12,7 @@ Inheritance diagram for motorcar\-:\-:Wireframe\-Node\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=550pt]{classmotorcar_1_1WireframeNode__inherit__graph}
+\includegraphics[width=218pt]{classmotorcar_1_1WireframeNode__inherit__graph}
 \end{center}
 \end{figure}
 
@@ -22,7 +22,7 @@ Collaboration diagram for motorcar\-:\-:Wireframe\-Node\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=550pt]{classmotorcar_1_1WireframeNode__coll__graph}
+\includegraphics[width=218pt]{classmotorcar_1_1WireframeNode__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -30,8 +30,8 @@ Collaboration diagram for motorcar\-:\-:Wireframe\-Node\-:
 \item 
 \hyperlink{classmotorcar_1_1WireframeNode_aa20d4f27da8395ba0d12f8fb0aa3631b}{Wireframe\-Node} (float $\ast$\hyperlink{classmotorcar_1_1WireframeNode_aedf65e6feb6cebaa7cf0e95819386a72}{segments}, int \hyperlink{classmotorcar_1_1WireframeNode_aeffe078a56d3a162de14e26a96bc474d}{num\-Segments}, glm\-::vec3 \hyperlink{classmotorcar_1_1WireframeNode_a70dd1214503a3650d6a919cb6b7c5313}{line\-Color}, \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent, const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4())
 \item 
-void \hyperlink{classmotorcar_1_1WireframeNode_a9256807100fb8d169d7f4e1c657463d7}{draw\-Viewpoint} (\hyperlink{classmotorcar_1_1GLCamera}{G\-L\-Camera} $\ast$viewpoint) override
-\item 
+virtual void \hyperlink{classmotorcar_1_1WireframeNode_a8be77469b6c99cfb05c2096b6d064c2e}{draw} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}, \hyperlink{classmotorcar_1_1Display}{Display} $\ast$\hyperlink{structdisplay}{display}) override
+\begin{DoxyCompactList}\small\item\em Draw this node for the current display. \end{DoxyCompactList}\item 
 glm\-::vec3 \hyperlink{classmotorcar_1_1WireframeNode_a70dd1214503a3650d6a919cb6b7c5313}{line\-Color} () const 
 \item 
 void \hyperlink{classmotorcar_1_1WireframeNode_a915a448da09b9cb24ecdeec38ee8a8a9}{set\-Line\-Color} (const glm\-::vec3 \&\hyperlink{classmotorcar_1_1WireframeNode_a70dd1214503a3650d6a919cb6b7c5313}{line\-Color})
@@ -58,16 +58,21 @@ float $\ast$ \hyperlink{classmotorcar_1_1WireframeNode_aedf65e6feb6cebaa7cf0e958
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classmotorcar_1_1WireframeNode_a9256807100fb8d169d7f4e1c657463d7}{\index{motorcar\-::\-Wireframe\-Node@{motorcar\-::\-Wireframe\-Node}!draw\-Viewpoint@{draw\-Viewpoint}}
-\index{draw\-Viewpoint@{draw\-Viewpoint}!motorcar::WireframeNode@{motorcar\-::\-Wireframe\-Node}}
-\subsubsection[{draw\-Viewpoint}]{\setlength{\rightskip}{0pt plus 5cm}void Wireframe\-Node\-::draw\-Viewpoint (
+\hypertarget{classmotorcar_1_1WireframeNode_a8be77469b6c99cfb05c2096b6d064c2e}{\index{motorcar\-::\-Wireframe\-Node@{motorcar\-::\-Wireframe\-Node}!draw@{draw}}
+\index{draw@{draw}!motorcar::WireframeNode@{motorcar\-::\-Wireframe\-Node}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}void Wireframe\-Node\-::draw (
 \begin{DoxyParamCaption}
-\item[{{\bf G\-L\-Camera} $\ast$}]{viewpoint}
+\item[{{\bf Scene} $\ast$}]{scene, }
+\item[{{\bf Display} $\ast$}]{display}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1WireframeNode_a9256807100fb8d169d7f4e1c657463d7}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1WireframeNode_a8be77469b6c99cfb05c2096b6d064c2e}
 
 
-Implements \hyperlink{classmotorcar_1_1Drawable_aa991a852cb0421ecef23669df01b5b62}{motorcar\-::\-Drawable}.
+Draw this node for the current display. 
+
+
+
+Implements \hyperlink{classmotorcar_1_1Drawable_a8d0afa524298ae7f4ced15f6a80f253d}{motorcar\-::\-Drawable}.
 
 \hypertarget{classmotorcar_1_1WireframeNode_a70dd1214503a3650d6a919cb6b7c5313}{\index{motorcar\-::\-Wireframe\-Node@{motorcar\-::\-Wireframe\-Node}!line\-Color@{line\-Color}}
 \index{line\-Color@{line\-Color}!motorcar::WireframeNode@{motorcar\-::\-Wireframe\-Node}}
@@ -101,5 +106,5 @@ Implements \hyperlink{classmotorcar_1_1Drawable_aa991a852cb0421ecef23669df01b5b6
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/\hyperlink{wireframenode_8h}{wireframenode.\-h}\item 
-/home/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/\hyperlink{wireframenode_8cpp}{wireframenode.\-cpp}\end{DoxyCompactItemize}
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/\hyperlink{wireframenode_8h}{wireframenode.\-h}\item 
+/media/dave/e89b5eb4-\/4b10-\/4edf-\/8ad5-\/0d046a46b978/dave/thesis/qtwayland-\/motorcar-\/compositor/motorcar/src/scenegraph/output/\hyperlink{wireframenode_8cpp}{wireframenode.\-cpp}\end{DoxyCompactItemize}
