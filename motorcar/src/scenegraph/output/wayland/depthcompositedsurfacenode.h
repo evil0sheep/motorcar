@@ -4,6 +4,7 @@
 
 
 namespace motorcar {
+class WireframeNode;
 class DepthCompositedSurfaceNode : public WaylandSurfaceNode
 {
 public:
@@ -11,8 +12,7 @@ public:
 
 
 
-    ///inhereted from SceneGraphNode
-    virtual Geometry::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray) override;
+
 
     ///extracts the depth and color information from the client surface, clips them against the surface boundaries, and composites with the scene
     virtual void draw(Scene *scene, Display *display) override;
@@ -35,12 +35,13 @@ public:
     void configureResource(struct wl_client *client, uint32_t id);
 
 private:
+    bool computeLocalSurfaceIntersection(const Geometry::Ray &localRay, glm::vec2 &localIntersection,  float &t) override;
+
     void sendTransformToClient();
     void setDimensions(const glm::vec3 &dimensions);
 
     OpenGLShader *m_depthCompositedSurfaceShader, *m_depthCompositedSurfaceBlitter;
     void drawFrameBufferContents(Display * display);
-
 
     //attribute buffers
     GLuint m_colorTextureCoordinates, m_depthTextureCoordinates,  m_surfaceVertexCoordinates;
@@ -53,6 +54,8 @@ private:
     struct wl_resource *m_resource;
     struct wl_array m_dimensionsArray, m_transformArray;
     glm::vec3 m_dimensions;
+
+    WireframeNode *m_decorationsNode;
 
 };
 }

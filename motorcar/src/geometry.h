@@ -73,6 +73,14 @@ public:
         float intersect(Ray r);
     };
 
+    //represents an axis aligned box centered at the origin, whos full extend in each axis is stored in dimensions
+    struct AxisAlignedBox
+    {
+        AxisAlignedBox(glm::vec3 dimensions);
+        glm::vec3 dimensions;
+        float intersect(Ray r, float t0, float t1);
+    };
+
     struct Rectangle
     {
         Rectangle(glm::ivec2 size);

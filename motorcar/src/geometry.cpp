@@ -141,3 +141,65 @@ Geometry::Rectangle::Rectangle()
 {
 
 }
+
+
+Geometry::AxisAlignedBox::AxisAlignedBox(glm::vec3 dimensions)
+    :dimensions(dimensions)
+{
+
+}
+
+//Box intersection adapted from "An Efficient and Robust Ray–Box Intersection Algorithm" by Amy Williams, Steve Barrus, R. Keith Morley, and Peter Shirley
+//Code was adapted for integration with glm, but is otherwise unchanged where possible
+
+float Geometry::AxisAlignedBox::intersect(Geometry::Ray r, float t0, float t1)
+{
+    glm::vec3 minVertex(dimensions * -0.5f), maxVertex(dimensions * 0.5f);
+
+
+    float tmin, tmax, tymin, tymax, tzmin, tzmax;
+    if (r.d.x >= 0) {
+        tmin = (minVertex.x - r.p.x) / r.d.x;
+        tmax = (maxVertex.x - r.p.x) / r.d.x;
+    }
+    else {
+        tmin = (maxVertex.x - r.p.x) / r.d.x;
+        tmax = (minVertex.x - r.p.x) / r.d.x;
+    }
+    if (r.d.y >= 0) {
+        tymin = (minVertex.y - r.p.y) / r.d.y;
+        tymax = (maxVertex.y - r.p.y) / r.d.y;
+    }
+    else {
+        tymin = (maxVertex.y - r.p.y) / r.d.y;
+        tymax = (minVertex.y - r.p.y) / r.d.y;
+    }
+    if ( (tmin > tymax) || (tymin > tmax) )
+        return -1;
+    if (tymin > tmin)
+        tmin = tymin;
+    if (tymax < tmax)
+        tmax = tymax;
+    if (r.d.z >= 0) {
+        tzmin = (minVertex.z - r.p.z) / r.d.z;
+        tzmax = (maxVertex.z - r.p.z) / r.d.z;
+    }
+    else {
+        tzmin = (maxVertex.z - r.p.z) / r.d.z;
+        tzmax = (minVertex.z - r.p.z) / r.d.z;
+    }
+    if ( (tmin > tzmax) || (tzmin > tmax) )
+        return -1;
+    if (tzmin > tmin)
+        tmin = tzmin;
+    if (tzmax < tmax)
+        tmax = tzmax;
+
+    if((tmin < t1) && (tmax > t0)){
+        return tmin;
+    }else{
+        return -1;
+    }
+}
+
+

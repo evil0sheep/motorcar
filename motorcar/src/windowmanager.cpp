@@ -70,8 +70,11 @@ void WindowManager::destroySurface(WaylandSurface *surface)
 
 WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface, WaylandSurface::SurfaceType surfaceType)
 {
-    glm::mat4 transform;
-    SceneGraphNode *parentNode;
+
+    surface->setType(surfaceType);
+
+    WaylandSurfaceNode *surfaceNode = createSurface(surface);
+
 
     int type = static_cast<int>(surfaceType);
     float popupZOffset = 0.05;
@@ -79,14 +82,15 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 
     if(type == WaylandSurface::SurfaceType::TOPLEVEL){
          std::cout << "mapping top level surface" << std::endl;
-        parentNode = this->scene();
-        transform = glm::mat4(1)
+        surfaceNode->setParentNode(this->scene());
+        surfaceNode->setTransform(glm::mat4(1)
                       //  * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
                         * glm::translate(glm::mat4(1), glm::vec3(0, 0 ,1.25f))
                        // * glm::rotate(glm::mat4(1), (-1 +  m_numSurfacesMapped % 3) * 30.f, glm::vec3(0, -1, 0))
                     //* glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
                     * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
-                    * glm::mat4(1);
+                    * glm::mat4(1));
+        this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
         m_numSurfacesMapped ++;
     }else if(type == WaylandSurface::SurfaceType::POPUP ||
              type == WaylandSurface::SurfaceType::TRANSIENT){
@@ -109,19 +113,26 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
                                                        glm::vec2(parentSurfaceNode->surface()->size()), popupZOffset, 1));
            std::cout << "creating popup/transient window with parent " << parentSurfaceNode << " at position:" << std::endl;
            motorcar::Geometry::printVector(position);
-           transform = glm::translate(glm::mat4(), position);
-           parentNode = parentSurfaceNode;
+           surfaceNode->setTransform(glm::translate(glm::mat4(), position));
+           surfaceNode->setParentNode(parentSurfaceNode);
         }else{
             std::cout << "WARNING: creating popup/transient window with no parent " << std::endl;
-             parentNode = this->scene();
-             transform = glm::mat4();
+             surfaceNode->setParentNode(this->scene());
+             surfaceNode->setTransform(glm::mat4());
+        }
+
+        if(type == WaylandSurface::SurfaceType::POPUP ){
+            this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
         }
 
 
     }else if(type == WaylandSurface::SurfaceType::DEPTH_COMPOSITED){
         std::cout << "mapping depth composited surface" << std::endl;
-        transform = glm::mat4();
-        parentNode = this->scene();
+        surfaceNode->setTransform(glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,0)));
+        surfaceNode->setParentNode(this->scene());
+        //surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
+        DepthCompositedSurfaceNode *dcsn = static_cast<DepthCompositedSurfaceNode *>(surfaceNode);
+        dcsn->requestSize3D(glm::vec3(0.5));
     }else{
 
     }
@@ -129,22 +140,12 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
     //WaylandSurfaceNode *surfaceNode = new WaylandSurfaceNode(surface, parentNode, transform);
 
     //this creates a new surface if needed but otherwise gives us the associated surface
-    surface->setType(surfaceType);
 
-    WaylandSurfaceNode *surfaceNode = createSurface(surface);
-
-    surfaceNode->setParentNode(parentNode);
-    surfaceNode->setTransform(transform);
 
     std::cout << "mapped surfaceNode " << surfaceNode << std::endl;
 
-    if(type == WaylandSurface::SurfaceType::DEPTH_COMPOSITED){
-        surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
-    }
 
-    if(type == WaylandSurface::SurfaceType::POPUP || type == WaylandSurface::SurfaceType::TOPLEVEL){
-        this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
-    }
+
 
     surfaceNode->setMapped(true);
     //ensureKeyboardFocusIsValid(surface);

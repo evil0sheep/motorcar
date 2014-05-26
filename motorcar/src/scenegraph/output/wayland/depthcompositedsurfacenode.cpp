@@ -1,5 +1,6 @@
 #include "depthcompositedsurfacenode.h"
 #include "../display/display.h"
+#include "../wireframenode.h"
 
 using namespace motorcar;
 
@@ -73,15 +74,44 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
     wl_array_add(&m_dimensionsArray, sizeof(glm::vec3));
     wl_array_add(&m_transformArray, sizeof(glm::mat4));
 
+    std::vector<float> decorationVertices;
+    //iterate over corners of box
+    for(int i = -1; i <= 1; i += 2){
+        for(int j = -1; j <= 1; j += 2){
+            for(int k  = -1; k <= 1; k+=2){
+                glm::vec3 cornerVertex = glm::vec3(i,j,k) * 0.5f;
+                //iterate over corner segments
+                for(int l = 0; l<3; l++){
+                    decorationVertices.push_back(cornerVertex.x);
+                    decorationVertices.push_back(cornerVertex.y);
+                    decorationVertices.push_back(cornerVertex.z);
+                    glm::vec3 secondVertex(cornerVertex);
+                    glm::vec3 directions(i,j,k);
+                    secondVertex[l] = secondVertex[l] - 0.25 * directions[l];
+                    decorationVertices.push_back(secondVertex.x);
+                    decorationVertices.push_back(secondVertex.y);
+                    decorationVertices.push_back(secondVertex.z);
+                }
+            }
+        }
+    }
 
+    glm::vec3 decorationColor(0.5);
+
+    m_decorationsNode = new WireframeNode(&(decorationVertices[0]), decorationVertices.size() / 6, decorationColor, this, glm::scale(glm::mat4(), m_dimensions));
 
 }
 
-
-Geometry::RaySurfaceIntersection *DepthCompositedSurfaceNode::intersectWithSurfaces(const Geometry::Ray &ray)
+bool DepthCompositedSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &localRay, glm::vec2 &localIntersection, float &t)
 {
-    return SceneGraphNode::intersectWithSurfaces(ray);
+
+    Geometry::AxisAlignedBox box = Geometry::AxisAlignedBox(this->dimensions());
+    localIntersection = glm::ivec2(0);
+    t = box.intersect(localRay, 0, 100);
+//    std::cout << "ray intersects box at " << t << std::endl;
+    return t >= 0;
 }
+
 
 
 
@@ -318,6 +348,8 @@ void DepthCompositedSurfaceNode::requestSize3D(const glm::vec3 &dimensions)
         std::memcpy(m_dimensionsArray.data, glm::value_ptr(m_dimensions), m_dimensionsArray.size);
 
         motorcar_surface_send_request_size_3d(m_resource, &m_dimensionsArray);
+    }else{
+        setDimensions(dimensions);
     }
 
 }
@@ -328,6 +360,7 @@ void DepthCompositedSurfaceNode::requestSize3D(const glm::vec3 &dimensions)
 void DepthCompositedSurfaceNode::setDimensions(const glm::vec3 &dimensions)
 {
     m_dimensions = dimensions;
+    m_decorationsNode->setTransform(glm::scale(glm::mat4(1), dimensions));
 }
 
 
@@ -345,6 +378,7 @@ void DepthCompositedSurfaceNode::configureResource(wl_client *client, uint32_t i
     sendTransformToClient();
     requestSize3D(m_dimensions);
 }
+
 
 
 
