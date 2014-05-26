@@ -626,8 +626,9 @@ void motorcar_surface_handle_transform_matrix(void *data,
 {
 	if(transform->size != 16 * sizeof(float)){
 		fprintf(stderr, "array from compositor is wrong size: %lu\n", transform->size);
+		exit(-1);
 	}
-	printf("compositor sent new 3D window transform\n");
+	//printf("compositor sent new 3D window transform\n");
 	struct window *window = (struct window *) data;
 	window->transformMatrix = glm::make_mat4((float *)transform->data);
 }
@@ -823,8 +824,8 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 
 
 	glm::mat4 model =  window->transformMatrix
-						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) 
-						* glm::scale(glm::mat4(), glm::vec3(0.2));
+						// * glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) 
+						* glm::scale(glm::mat4(), glm::vec3(0.45));
 
 	int i = 0;
 	for(struct viewpoint *vp : display->viewpoints){
@@ -1293,7 +1294,7 @@ main(int argc, char **argv)
 	window.display = &display;
 	display.window = &window;
 	window.window_size.width  = 2194;
-	window.window_size.height = 2650;
+	window.window_size.height = 2742;//2650;
 	window.buffer_size = 32;
 	window.frame_sync = 1;
 
