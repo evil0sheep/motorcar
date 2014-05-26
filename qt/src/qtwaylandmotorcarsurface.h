@@ -20,7 +20,10 @@ namespace qtmotorcar{
 
         //inherited from WaylandSurface
         GLuint texture() override;
+        ///Get the size of this surface in surface local coordinates
         glm::ivec2 size() override;
+        ///Set the size of this surface in surface local coordinates
+        void setSize(glm::ivec2 newSize) override;
         ///Get the position of this surface in parent surface-local coordinates
         glm::ivec2 position() override;
         ///return the parent surface

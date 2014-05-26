@@ -21,6 +21,11 @@ glm::ivec2 QtWaylandMotorcarSurface::size()
     return glm::ivec2(m_surface->size().width(), m_surface->size().height());
 }
 
+void QtWaylandMotorcarSurface::setSize(glm::ivec2 newSize)
+{
+    this->surface()->requestSize(QSize(newSize.x, newSize.y));
+}
+
 glm::ivec2 QtWaylandMotorcarSurface::position()
 {
     return glm::ivec2(m_surface->pos().x(), m_surface->pos().y());

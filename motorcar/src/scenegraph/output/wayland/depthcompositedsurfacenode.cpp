@@ -3,19 +3,12 @@
 
 using namespace motorcar;
 
-
-//static const GLfloat defaultTextureCoordinates[] = {
-//    0, 1,
-//    1, 1,
-//    1, 0,
-//    0, 0,
-//};
-
-DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform)
-    :WaylandSurfaceNode(surface, parent, transform)
+DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform, glm::vec3 dimensions)
+    :m_resource (NULL)
+    ,WaylandSurfaceNode(surface, parent, transform)
     ,m_depthCompositedSurfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/depthcompositedsurface.vert"), std::string("../motorcar/src/shaders/depthcompositedsurface.frag")))
     ,m_depthCompositedSurfaceBlitter(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/depthcompositedsurfaceblitter.vert"), std::string("../motorcar/src/shaders/depthcompositedsurfaceblitter.frag")))
-
+    ,m_dimensions(dimensions)
 {
 //    static const GLfloat vertexCoordinates[] ={
 //        -1, -1, 0,
@@ -71,6 +64,15 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
     glUniform1i(h_uDepthSampler_blit, 1); //Texture unit 1 is for depth maps.
 
     glUseProgram(0);
+
+
+
+    wl_array_init(&m_dimensionsArray);
+    wl_array_init(&m_transformArray);
+
+    wl_array_add(&m_dimensionsArray, sizeof(glm::vec3));
+    wl_array_add(&m_transformArray, sizeof(glm::mat4));
+
 
 
 }
@@ -146,11 +148,11 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 
     }
 
-
-
-
-
 }
+
+
+
+
 
 void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 {
@@ -255,6 +257,95 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 
 
 }
+
+
+
+
+
+void DepthCompositedSurfaceNode::handle_set_size_3d(struct wl_client *client,
+                struct wl_resource *resource,
+                struct wl_array *dimensions){
+    DepthCompositedSurfaceNode *surfaceNode = static_cast<DepthCompositedSurfaceNode *> (resource->data);
+    if(dimensions->size != 3 * sizeof(float)){
+        //error conditions
+        std::cerr << "Error: Dimensions array has wrong size: " << dimensions->size << std::endl;
+
+    }else{
+        glm::vec3 dims = glm::make_vec3((float *)(dimensions->data));
+        std::cout << "Client resized 3D window to: ";
+        Geometry::printVector(dims);
+        surfaceNode->setDimensions(dims);
+    }
+}
+
+
+
+const static struct motorcar_surface_interface motorcarSurfaceInterface = {
+    DepthCompositedSurfaceNode::handle_set_size_3d
+};
+
+glm::vec3 DepthCompositedSurfaceNode::dimensions() const
+{
+    return m_dimensions;
+}
+
+void DepthCompositedSurfaceNode::sendTransformToClient()
+{
+
+    if(m_resource != NULL){
+        glm::mat4 transform = this->worldTransform();
+        std::cout << "sending new tranform to client :" <<std::endl;
+        Geometry::printMatrix(transform);
+        std::memcpy(m_transformArray.data, glm::value_ptr(transform), m_transformArray.size);
+        motorcar_surface_send_transform_matrix(m_resource, &m_transformArray);
+    }
+
+
+}
+
+void DepthCompositedSurfaceNode::handleWorldTransformChange(Scene *scene)
+{
+    sendTransformToClient();
+}
+
+
+void DepthCompositedSurfaceNode::requestSize3D(const glm::vec3 &dimensions)
+{
+    if(m_resource != NULL){
+        std::cout << "Requesting client resize 3D window to: ";
+        Geometry::printVector(dimensions);
+
+        std::memcpy(m_dimensionsArray.data, glm::value_ptr(m_dimensions), m_dimensionsArray.size);
+
+        motorcar_surface_send_request_size_3d(m_resource, &m_dimensionsArray);
+    }
+
+}
+
+
+
+
+void DepthCompositedSurfaceNode::setDimensions(const glm::vec3 &dimensions)
+{
+    m_dimensions = dimensions;
+}
+
+
+
+
+wl_resource *DepthCompositedSurfaceNode::resource() const
+{
+    return m_resource;
+}
+
+void DepthCompositedSurfaceNode::configureResource(wl_client *client, uint32_t id)
+{
+    m_resource = wl_resource_create(client, &motorcar_surface_interface, motorcar_surface_interface.version, id);
+    wl_resource_set_implementation(m_resource, &motorcarSurfaceInterface, this, 0);
+    sendTransformToClient();
+    requestSize3D(m_dimensions);
+}
+
 
 
 

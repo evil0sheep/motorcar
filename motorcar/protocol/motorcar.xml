@@ -33,8 +33,41 @@
 
 	      A motorcar_surface can be created from an exisitng surface, and provides the client
 	      with the information needed to draw its content in a way that can be depth composited by
-	      a motorcar compliant compositor
+	      a motorcar compliant compositor.
+
+	      A motorcar surface is handled in the compositor as a 3D analog of a traditional window. Rather than the window being a 2 dimensional region of a 2 dimensional interface space, the window represents a 3 dimensional region of a 3 dimensional interface space, essentially a 3D box in which the client can draw 3D geometry
+
+	      The 3D window has its own 3D space whose origin is at the center of the window. The window's position refers to the location of this origin in the world space, and its rotation is around this point. The window also has a 3D size, which is defined in its local space. Each component of the size indicates one dimension of the window bounds, so the window extends for one half this distance on each side of the origin in its local space.
 	    </description>
+
+	   	<event name="transform_matrix">
+	      <description summary="sets the tranformation of the 3D window">
+			This event is sent to indicate a change in the transform of the client's 3D window
+
+			This matrix can be though of as the model matrix for the client's 3D window, which brings vectors from the window local space into world space. 
+
+			It is represented here as a column-major 4x4 matrix of 32 bit floats, with all values are specified in meters.
+	      </description>
+	      <arg name="transform" type="array" summary="the new transform matrix"/>
+	    </event>
+
+	   	<event name="request_size_3d">
+	      <description summary="requests that the client resize the 3D window to the given scale">
+			Allows the compositor to request the window take a new size. Much like the traditional 2D size mechanisms, the compositor cannot set this explicitly, rather, it can only request that the client take a certain dimension, and the client then chooses any size which fits completely within the requested size and sends a resize event back to the compositor.
+
+			The size is represented here as a vector of three 32-bit floats, representing the size of the 3D window along each of the cardinal axes in the window's local space.	
+	      </description>
+	      <arg name="dimensions" type="array" summary="the requested size vector"/>
+	    </event>
+
+	    <request name="set_size_3d">
+	      <description summary="requests that the client resize the 3D window to the given scale">
+			Sets the new size of the 3D window. If this size is larger than the size most recently requested by the compositor the compositor is free to clip the window to a new size, provided that it immediatly requests the client resize to those dimensions.
+
+			The size is represented here as a vector of three 32-bit floats, representing the size of the 3D window along each of the cardinal axes in the window's local space.	
+	      </description>
+	      <arg name="dimensions" type="array" summary="the new size vector"/>
+	    </request>
 
 
 	</interface>
@@ -52,7 +85,9 @@
 			This event is sent (ideally) at the beginning of each frame to give the client the view
 			matrix it needs to draw its content to 2D in the same manner as the compositor.
 
-			This matrix is the view matrix, which brings vectors from world space into view (or camera) space, which is the inverse of the camera transform. 	
+			This matrix is the view matrix, which brings vectors from world space into view (or camera) space, which is the inverse of the camera transform. 
+
+			It is represented here as a column-major 4x4 matrix of 32 bit floats, with all values are specified in meters.	
 	      </description>
 	      <arg name="view" type="array" summary="the view matrix for this frame"/>
 	    </event>

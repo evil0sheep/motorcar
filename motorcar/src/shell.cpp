@@ -5,6 +5,8 @@
 
 using namespace motorcar;
 
+
+
 void get_motorcar_surface(struct wl_client *client,
                            struct wl_resource *resource,
                            uint32_t id,
@@ -14,8 +16,13 @@ void get_motorcar_surface(struct wl_client *client,
 
     WaylandSurface *surface = shell->scene()->compositor()->getSurfaceFromResource(surface_resource);
 
-    shell->scene()->windowManager()->mapSurface(surface, WaylandSurface::SurfaceType::DEPTH_COMPOSITED);
-    //new ShellSurface(shell, client, id, surface);
+    WaylandSurfaceNode * surfaceNode = shell->scene()->windowManager()->mapSurface(surface, WaylandSurface::SurfaceType::DEPTH_COMPOSITED);
+
+    DepthCompositedSurfaceNode *dcsn = static_cast<DepthCompositedSurfaceNode *> (surfaceNode);
+
+    dcsn->configureResource(client, id);
+
+
 }
 
 

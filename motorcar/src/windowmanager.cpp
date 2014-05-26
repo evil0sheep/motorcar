@@ -138,6 +138,10 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 
     std::cout << "mapped surfaceNode " << surfaceNode << std::endl;
 
+    if(type == WaylandSurface::SurfaceType::DEPTH_COMPOSITED){
+        surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
+    }
+
     if(type == WaylandSurface::SurfaceType::POPUP || type == WaylandSurface::SurfaceType::TOPLEVEL){
         this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
     }

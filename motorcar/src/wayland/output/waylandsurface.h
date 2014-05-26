@@ -25,6 +25,8 @@ public:
     virtual GLuint texture() = 0;
     ///Get the size of this surface in pixels
     virtual glm::ivec2 size() = 0;
+    ///Set the size of this surface in pixels
+    virtual void setSize(glm::ivec2 newSize) = 0;
     ///Get the position of this surface in parent surface-local coordinates
     virtual glm::ivec2 position() = 0;
     ///return the parent surface

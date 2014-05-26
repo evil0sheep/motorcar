@@ -7,8 +7,6 @@ using namespace motorcar;
 SceneGraphNode::SceneGraphNode(SceneGraphNode *parent, glm::mat4 transform)
     :m_parentNode(NULL)
 {
-
-
     this->setParentNode(parent);
     this->setTransform(transform);
 }
@@ -150,6 +148,7 @@ void SceneGraphNode::setTransform(const glm::mat4 &transform)
 {
     m_transform = transform;
     m_inverseTransform = glm::inverse(m_transform);
+    this->mapOntoSubTree(&SceneGraphNode::handleWorldTransformChange,this->scene());
 }
 
 void SceneGraphNode::setWorldTransform(const glm::mat4 &transform)

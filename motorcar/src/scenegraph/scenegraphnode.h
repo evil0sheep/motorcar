@@ -38,7 +38,10 @@ public:
     /* this function is called once per frame on every node in the scenegraph, it should be used to clean up graphics resources to be ready for the
      * next frame. If a display does a second rendering pass it should be applied here*/
     virtual void handleFrameEnd(Scene *scene){}
-
+    ///react to changes in the node's worldtransform
+    /*this is called whenever the node's world transform changes, including changes to the transform of this node,
+     *its parent, or any of its parent's parents etc*/
+    virtual void handleWorldTransformChange(Scene *scene){}
 
     ///gets this node's parent in the scenegraph
     SceneGraphNode *parentNode() const;
@@ -55,7 +58,7 @@ public:
     ///(inverse transform is cached whenever transform is set)
     glm::mat4 inverseTransform() const;
     ///sets this node's transform relative to its parent
-    virtual void setTransform(const glm::mat4 &transform);
+    void setTransform(const glm::mat4 &transform);
 
     ///returns this node's transform relative to the world
     glm::mat4 worldTransform() const;

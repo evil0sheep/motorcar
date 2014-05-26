@@ -78,6 +78,7 @@ struct viewpoint{
 
 };
 
+
 struct display {
 	struct wl_display *display;
 	struct wl_registry *registry;
@@ -133,6 +134,9 @@ struct window {
 	int fullscreen, configured, opaque, buffer_size, frame_sync;
 
 	struct motorcar_surface *motorcar_surface;
+	glm::vec3 dimensions;
+	glm::mat4 transformMatrix;
+	wl_array dimensions_array;
 
 };
 
@@ -550,6 +554,8 @@ handle_configure(void *data, struct wl_shell_surface *shell_surface,
 	window->geometry.width = width;
 	window->geometry.height = height;
 
+	printf("handle configure : %d %d\n", width, height);
+
 	if (!window->fullscreen)
 		window->window_size = window->geometry;
 }
@@ -605,6 +611,44 @@ set_fullscreen(struct window *window, int fullscreen)
 	}
 }
 
+
+void set_window_dimensions(struct window *window, const glm::vec3 &new_dimensions){
+	   
+	window->dimensions = new_dimensions;
+
+	std::memcpy(window->dimensions_array.data, glm::value_ptr(new_dimensions), window->dimensions_array.size);
+	motorcar_surface_set_size_3d(window->motorcar_surface, &window->dimensions_array);
+}
+
+void motorcar_surface_handle_transform_matrix(void *data,
+				 struct motorcar_surface *motorcar_surface,
+				 struct wl_array *transform)
+{
+	if(transform->size != 16 * sizeof(float)){
+		fprintf(stderr, "array from compositor is wrong size: %lu\n", transform->size);
+	}
+	printf("compositor sent new 3D window transform\n");
+	struct window *window = (struct window *) data;
+	window->transformMatrix = glm::make_mat4((float *)transform->data);
+}
+	
+	 
+void motorcar_surface_handle_request_size_3d(void *data,
+				struct motorcar_surface *motorcar_surface,
+				struct wl_array *dimensions)
+{
+	glm::vec3 dims = glm::make_vec3((float *)(dimensions->data));
+	printf("compositor requested new 3D window dimesnsions <%f %f %f>\n", dims.x, dims.y, dims.z );
+	struct window *window = (struct window *) data;
+
+	set_window_dimensions(window, dims);
+}
+
+struct motorcar_surface_listener motorsurface_listener{
+	motorcar_surface_handle_transform_matrix,
+	motorcar_surface_handle_request_size_3d
+};
+
 static void
 create_surface(struct window *window)
 {
@@ -639,8 +683,15 @@ create_surface(struct window *window)
 
 	set_fullscreen(window, window->fullscreen);
 
+	wl_array_init(&window->dimensions_array);
+    wl_array_add(&window->dimensions_array, sizeof(glm::vec3));
+
 	window->motorcar_surface =
 		motorcar_shell_get_motorcar_surface(display->motorshell, window->surface);
+
+
+
+	motorcar_surface_add_listener(window->motorcar_surface, &motorsurface_listener, window);
 
 }
 
@@ -868,7 +919,8 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
     glUseProgram(0);
 
 
-
+    //printf("geometry: %d, %d\n", window->geometry.width, window->geometry.height);
+    //printf("window_size: %d, %d\n", window->window_size.width, window->window_size.height);
 
 
 
@@ -1119,6 +1171,11 @@ struct motorcar_viewpoint_listener viewpoint_listener= {
 
 };
 
+
+
+
+
+
 static void
 seat_handle_capabilities(void *data, struct wl_seat *seat,
 			 uint32_t caps)
@@ -1235,10 +1292,11 @@ main(int argc, char **argv)
 
 	window.display = &display;
 	display.window = &window;
-	window.window_size.width  = 800;//2194;
-	window.window_size.height = 800;//2650;
+	window.window_size.width  = 2194;
+	window.window_size.height = 2650;
 	window.buffer_size = 32;
 	window.frame_sync = 1;
+
 
 	for (i = 1; i < argc; i++) {
 		if (strcmp("-f", argv[i]) == 0)
