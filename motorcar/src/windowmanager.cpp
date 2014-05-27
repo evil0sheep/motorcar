@@ -131,6 +131,8 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
         surfaceNode->setTransform(glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,0)));
         surfaceNode->setParentNode(this->scene());
         //surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
+        glm::ivec2 size = this->scene()->compositor()->display()->size();
+        std::cout << size.x << ", " <<size.y <<std::endl;
         DepthCompositedSurfaceNode *dcsn = static_cast<DepthCompositedSurfaceNode *>(surfaceNode);
         dcsn->requestSize3D(glm::vec3(0.5));
     }else{

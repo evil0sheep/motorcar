@@ -120,6 +120,7 @@ int main(int argc, char *argv[])
 
     std::cout << "Starting Compositor "<<std::endl;
 
+
     int result = compositor->start();
 
     delete sixense;

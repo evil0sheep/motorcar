@@ -324,8 +324,8 @@ void DepthCompositedSurfaceNode::sendTransformToClient()
 
     if(m_resource != NULL){
         glm::mat4 transform = this->worldTransform();
-        std::cout << "sending new tranform to client :" <<std::endl;
-        Geometry::printMatrix(transform);
+//        std::cout << "sending new tranform to client :" <<std::endl;
+//        Geometry::printMatrix(transform);
         std::memcpy(m_transformArray.data, glm::value_ptr(transform), m_transformArray.size);
         motorcar_surface_send_transform_matrix(m_resource, &m_transformArray);
     }

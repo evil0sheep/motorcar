@@ -123,7 +123,8 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
     //screen = QGuiApplication::primaryScreen();
     screen = QGuiApplication::screens().back();
 
-    QRect screenGeometry = screen->availableGeometry();
+    QRect screenGeometry = screen->geometry();
+
 
     QSurfaceFormat format;
 //    std::cout << "color buffer size: " << format.redBufferSize() << std::endl;
@@ -515,25 +516,6 @@ void QtWaylandMotorcarCompositor::render()
     frameStarted();
     cleanupGraphicsResources();
 
-    //   m_glData->m_backgroundTexture = m_glData->m_textureCache->bindTexture(QOpenGLContext::currentContext(),m_glData->m_backgroundImage);
-
-    //    m_glData->m_textureBlitter->bind();
-    //    // Draw the background image texture
-    //    m_glData->m_textureBlitter->drawTexture(m_glData->m_backgroundTexture,
-    //                                  QRect(QPoint(0, 0), m_glData->m_backgroundImage.size()),
-    //                                  m_glData->m_window->size(),
-    //                                  0, false, true);
-    //    m_glData->m_textureBlitter->release();
-
-
-
-//    scene()->draw(this->handle()->currentTimeMsecs());
-
-//    for(motorcar::Display *display : scene()->displays()){
-//        for(motorcar::ViewPoint *viewpoint : display->viewpoints()){
-//            viewpoint->updateViewMatrix();
-//        }
-//    }
 
     scene()->drawFrame();
     scene()->finishFrame();
