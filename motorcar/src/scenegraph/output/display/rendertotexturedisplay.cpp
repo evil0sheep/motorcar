@@ -76,8 +76,8 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
 
         glGenRenderbuffers(1, &m_depthBufferTexture);
         glBindRenderbuffer(GL_RENDERBUFFER, m_depthBufferTexture);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, res.x, res.y);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthBufferTexture);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, res.x, res.y);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_depthBufferTexture);
 
     std::cout << "Checking Distortion Framebuffer:" << std::endl;
     switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){

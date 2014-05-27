@@ -140,15 +140,15 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 
     glBindFramebuffer(GL_READ_FRAMEBUFFER, display->scratchFrameBuffer());
 
-    //glBindTexture(GL_TEXTURE_2D, m_colorBufferTexture);
     glStencilMask(0xFF);
-    glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 
 
 
     glm::ivec2 res = display->size();
     glBlitFramebuffer(0, 0, res.x - 1, res.y - 1, 0, 0, res.x - 1 , res.y - 1, GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 
+    glStencilMask(0x00);
+    glStencilFunc(GL_EQUAL, 1, 0xFF);
 
     glUseProgram(m_depthCompositedSurfaceBlitter->handle());
 
