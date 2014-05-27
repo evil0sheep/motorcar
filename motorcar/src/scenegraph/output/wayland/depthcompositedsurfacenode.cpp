@@ -82,18 +82,18 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
     };
 
     const GLuint cuboidClippingIndices[12][3] = {
-        { 0, 1, 2 },
+        { 0, 2, 1 },
         { 1, 2, 3 },
         { 4, 5, 6 },
-        { 5, 6, 7 },
+        { 5, 7, 6 },
         { 0, 1, 4 },
-        { 1, 4, 5 },
-        { 2, 3, 6 },
+        { 1, 5, 4 },
+        { 2, 6, 3 },
         { 3, 6, 7 },
-        { 0, 2, 4 },
+        { 0, 4, 2 },
         { 2, 4, 6 },
         { 1, 3, 5 },
-        { 3, 5, 7 }
+        { 3, 7, 5 }
     };
 
     glGenBuffers(1, &m_cuboidClippingVertices);
@@ -198,10 +198,11 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 
 void DepthCompositedSurfaceNode::drawWindowBoundsStencil(Display *display)
 {
-//    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-//    glDepthMask(GL_FALSE);
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    glDepthMask(GL_FALSE);
     glStencilFunc(GL_NEVER, 1, 0xFF);
     glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
+
 
 
     glUseProgram(m_clippingShader->handle());
@@ -239,6 +240,11 @@ void DepthCompositedSurfaceNode::drawWindowBoundsStencil(Display *display)
     glStencilFunc(GL_EQUAL, 1, 0xFF);
 }
 
+void DepthCompositedSurfaceNode::clipWindowBounds(Display *display)
+{
+
+}
+
 
 
 
@@ -247,6 +253,7 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 {
 
     glEnable(GL_STENCIL_TEST);
+    //glDisable(GL_STENCIL_TEST);
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->scratchFrameBuffer());
     glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -270,17 +277,11 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-
-
-
     GLuint texture = this->surface()->texture();
 
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-
-
 
 
     glm::vec4 vp;
@@ -297,13 +298,6 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
             vp.x, 1 - (vp.y + vp.w),
         };
 
-
-
-//        glEnableVertexAttribArray(h_aColorTexCoord);
-//        glBindBuffer(GL_ARRAY_BUFFER, 0);
-//        glBindBuffer(GL_ARRAY_BUFFER, m_colorTextureCoordinates);
-//        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), clientColorTextureCoordinates, GL_STATIC_DRAW);
-//        glVertexAttribPointer(h_aColorTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
         glVertexAttribPointer(h_aColorTexCoord, 2, GL_FLOAT, GL_FALSE, 0, clientColorTextureCoordinates);
 
         vp = viewpoint->clientDepthViewport()->viewportParams();
@@ -316,20 +310,13 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
         };
 
 
-//        glEnableVertexAttribArray(h_aDepthTexCoord);
-//        glBindBuffer(GL_ARRAY_BUFFER, 0);
-//        glBindBuffer(GL_ARRAY_BUFFER, m_depthTextureCoordinates);
-//        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), clientDepthTextureCoordinates, GL_STATIC_DRAW);
-//        glVertexAttribPointer(h_aDepthTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
         glVertexAttribPointer(h_aDepthTexCoord, 2, GL_FLOAT, GL_FALSE, 0, clientDepthTextureCoordinates);
 
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
-//        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-//        glDrawPixels(viewpoint->clientDepthViewport()->size().x, viewpoint->clientDepthViewport()->size().y, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, texture);
-//        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }
 
+    clipWindowBounds(display);
 
     this->drawFrameBufferContents(display);
 

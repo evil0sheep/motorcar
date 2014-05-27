@@ -43,6 +43,7 @@ private:
     OpenGLShader *m_depthCompositedSurfaceShader, *m_depthCompositedSurfaceBlitter, *m_clippingShader;
     void drawFrameBufferContents(Display * display);
     void drawWindowBoundsStencil(Display * display);
+    void clipWindowBounds(Display * display);
 
     //attribute buffers
     GLuint m_colorTextureCoordinates, m_depthTextureCoordinates,  m_surfaceVertexCoordinates;
