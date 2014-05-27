@@ -198,8 +198,8 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 
 void DepthCompositedSurfaceNode::drawWindowBoundsStencil(Display *display)
 {
-    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-    glDepthMask(GL_FALSE);
+//    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+//    glDepthMask(GL_FALSE);
     glStencilFunc(GL_NEVER, 1, 0xFF);
     glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
 
@@ -217,7 +217,7 @@ void DepthCompositedSurfaceNode::drawWindowBoundsStencil(Display *display)
     glm::mat4 modelMatrix = this->worldTransform() * glm::scale(glm::mat4(), this->dimensions());
 
     int numElements = 36;
-    glDisable(GL_CULL_FACE);
+
     for(ViewPoint *viewpoint : display->viewpoints()){
         viewpoint->viewport()->set();
 
@@ -225,7 +225,7 @@ void DepthCompositedSurfaceNode::drawWindowBoundsStencil(Display *display)
         glUniformMatrix4fv(h_uMVPMatrix_clipping, 1, GL_FALSE, glm::value_ptr(mvp));
         glDrawElements(GL_TRIANGLES, numElements,GL_UNSIGNED_INT, 0);
     }
-    glEnable(GL_CULL_FACE);
+
     glDisableVertexAttribArray(h_aPosition_clipping);
 
     glUseProgram(0);
