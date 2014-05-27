@@ -33,8 +33,10 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, res.x, res.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_scratchDepthBufferTexture, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, res.x, res.y, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_scratchDepthBufferTexture, 0);
+
+
 
     std::cout << "Checking Scratch Framebuffer:" << std::endl;
     switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
@@ -72,7 +74,8 @@ void Display::prepareForDraw()
 //        viewpoint->updateViewMatrix();
 //    }
     glContext()->makeCurrent();
-    glClearColor(.7f, .85f, 1.f, 1.0f);
+    //glClearColor(.7f, .85f, 1.f, 1.0f);
+    glClearColor(1.f, 1.f, 1.f, 1.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_BLEND);
     glBlendFunc (GL_ONE,GL_ONE_MINUS_SRC_ALPHA);

@@ -128,7 +128,7 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 
     }else if(type == WaylandSurface::SurfaceType::DEPTH_COMPOSITED){
         std::cout << "mapping depth composited surface" << std::endl;
-        surfaceNode->setTransform(glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,0)));
+        surfaceNode->setTransform(glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,-0.5)));
         surfaceNode->setParentNode(this->scene());
         //surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
         glm::ivec2 size = this->scene()->compositor()->display()->size();

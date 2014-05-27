@@ -4,7 +4,7 @@
 
 
 namespace motorcar {
-class WireframeNode;
+
 class DepthCompositedSurfaceNode : public WaylandSurfaceNode
 {
 public:
@@ -16,7 +16,7 @@ public:
 
     ///extracts the depth and color information from the client surface, clips them against the surface boundaries, and composites with the scene
     virtual void draw(Scene *scene, Display *display) override;
-
+    virtual void computeSurfaceTransform(float ppcm) override;
 
     void handleWorldTransformChange(Scene *scene) override;
 
@@ -40,22 +40,25 @@ private:
     void sendTransformToClient();
     void setDimensions(const glm::vec3 &dimensions);
 
-    OpenGLShader *m_depthCompositedSurfaceShader, *m_depthCompositedSurfaceBlitter;
+    OpenGLShader *m_depthCompositedSurfaceShader, *m_depthCompositedSurfaceBlitter, *m_clippingShader;
     void drawFrameBufferContents(Display * display);
+    void drawWindowBoundsStencil(Display * display);
 
     //attribute buffers
     GLuint m_colorTextureCoordinates, m_depthTextureCoordinates,  m_surfaceVertexCoordinates;
+    GLuint m_cuboidClippingVertices, m_cuboidClippingIndices;
 
     //shader variable handles
     GLint h_aPosition, h_aColorTexCoord, h_aDepthTexCoord;
 
     GLint h_aPosition_blit, h_aTexCoord_blit, h_uColorSampler_blit, h_uDepthSampler_blit;
 
+    GLint h_aPosition_clipping, h_uMVPMatrix_clipping, h_uColor_clipping;
+
+
     struct wl_resource *m_resource;
     struct wl_array m_dimensionsArray, m_transformArray;
     glm::vec3 m_dimensions;
-
-    WireframeNode *m_decorationsNode;
 
 };
 }

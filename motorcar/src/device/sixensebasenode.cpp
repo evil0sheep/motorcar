@@ -51,7 +51,7 @@ SixenseBaseNode::SixenseBaseNode(int baseIndex, PhysicalNode *parent, const glm:
 
 
     };
-    new WireframeNode(vertices, 3, glm::vec3(1,0,1), this);
+    new WireframeNode(vertices, 3, glm::vec3(0.25), this);
 
 }
 

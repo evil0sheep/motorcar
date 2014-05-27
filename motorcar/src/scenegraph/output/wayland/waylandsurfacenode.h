@@ -7,6 +7,7 @@
 
 
 namespace motorcar {
+class WireframeNode;
 class WaylandSurfaceNode : public Drawable
 {
 public:
@@ -16,7 +17,7 @@ public:
     virtual ~WaylandSurfaceNode();
 
     ///computes surface transform
-    void computeSurfaceTransform(float ppcm);
+    virtual void computeSurfaceTransform(float ppcm);
 
     ///inhereted from SceneGraphNode
     virtual Geometry::RaySurfaceIntersection *intersectWithSurfaces(const Geometry::Ray &ray) override;
@@ -58,6 +59,7 @@ private:
     bool m_mapped;
     bool m_damaged;
 
+
     //attribute buffers
     GLuint m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
 
@@ -66,8 +68,14 @@ private:
 
     OpenGLShader *m_surfaceShader;
 
+
+
 protected:
+
+
+
     glm::mat4 m_surfaceTransform;
+    WireframeNode *m_decorationsNode;
 
 
 

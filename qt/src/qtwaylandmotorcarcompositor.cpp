@@ -135,6 +135,7 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
     format.setDepthBufferSize(8);
     format.setStencilBufferSize(8);
     format.setSwapInterval(1);
+    format.setStencilBufferSize(8);
 
     QRect geom = screenGeometry;
 //    if (QCoreApplication::arguments().contains(QLatin1String("-nofullscreen")))

@@ -22,7 +22,7 @@ SpatialPointingDevice::SpatialPointingDevice(Seat *seat, PhysicalNode *parent, c
 
 
     };
-    new WireframeNode(vertices, 3, glm::vec3(1,0,0), this);
+    new WireframeNode(vertices, 3, glm::vec3(0.25), this);
 
     //new WireframeNode(vertices, 3, glm::vec3(0,1,0), this, glm::rotate(glm::mat4(), -45.f, glm::vec3(1,0,0)));
 

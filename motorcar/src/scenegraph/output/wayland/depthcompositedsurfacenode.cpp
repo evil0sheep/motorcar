@@ -9,14 +9,9 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
     ,WaylandSurfaceNode(surface, parent, transform)
     ,m_depthCompositedSurfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/depthcompositedsurface.vert"), std::string("../motorcar/src/shaders/depthcompositedsurface.frag")))
     ,m_depthCompositedSurfaceBlitter(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/depthcompositedsurfaceblitter.vert"), std::string("../motorcar/src/shaders/depthcompositedsurfaceblitter.frag")))
+    ,m_clippingShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/motorcarline.vert"), std::string("../motorcar/src/shaders/motorcarline.frag")))
     ,m_dimensions(dimensions)
 {
-//    static const GLfloat vertexCoordinates[] ={
-//        -1, -1, 0,
-//        -1, 3, 0,
-//        1, 3, 0,
-//        1, -1, 0
-//    };
 
 
     const GLfloat vertexCoordinates[] ={
@@ -66,6 +61,49 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
 
     glUseProgram(0);
 
+    h_aPosition_clipping =  glGetAttribLocation(m_clippingShader->handle(), "aPosition");
+    h_uColor_clipping =  glGetUniformLocation(m_clippingShader->handle(), "uColor");
+    h_uMVPMatrix_clipping  = glGetUniformLocation(m_clippingShader->handle(), "uMVPMatrix");
+
+    if(h_aPosition_clipping < 0 || h_uColor_clipping < 0 || h_uMVPMatrix_clipping < 0 ){
+         std::cout << "problem with clipping shader handles: " << h_aPosition_clipping << ", "<< h_uColor_clipping << ", " << h_uMVPMatrix_clipping << std::endl;
+    }
+
+
+    const GLfloat cuboidClippingVerts[8][3]= {
+        { 0.5, 0.5 , 0.5},
+        { 0.5, 0.5 , -0.5},
+        { 0.5, -0.5 , 0.5},
+        { 0.5, -0.5 , -0.5},
+        { -0.5, 0.5 , 0.5},
+        { -0.5, 0.5 , -0.5},
+        { -0.5, -0.5 , 0.5},
+        { -0.5, -0.5 , -0.5}
+    };
+
+    const GLuint cuboidClippingIndices[12][3] = {
+        { 0, 1, 2 },
+        { 1, 2, 3 },
+        { 4, 5, 6 },
+        { 5, 6, 7 },
+        { 0, 1, 4 },
+        { 1, 4, 5 },
+        { 2, 3, 6 },
+        { 3, 6, 7 },
+        { 0, 2, 4 },
+        { 2, 4, 6 },
+        { 1, 3, 5 },
+        { 3, 5, 7 }
+    };
+
+    glGenBuffers(1, &m_cuboidClippingVertices);
+    glBindBuffer(GL_ARRAY_BUFFER, m_cuboidClippingVertices);
+    glBufferData(GL_ARRAY_BUFFER, 8 * 3 * sizeof(float), cuboidClippingVerts, GL_STATIC_DRAW);
+
+
+    glGenBuffers(1, &m_cuboidClippingIndices);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_cuboidClippingIndices);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 12 * 3 * sizeof(unsigned int), cuboidClippingIndices, GL_STATIC_DRAW);
 
 
     wl_array_init(&m_dimensionsArray);
@@ -74,31 +112,9 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
     wl_array_add(&m_dimensionsArray, sizeof(glm::vec3));
     wl_array_add(&m_transformArray, sizeof(glm::mat4));
 
-    std::vector<float> decorationVertices;
-    //iterate over corners of box
-    for(int i = -1; i <= 1; i += 2){
-        for(int j = -1; j <= 1; j += 2){
-            for(int k  = -1; k <= 1; k+=2){
-                glm::vec3 cornerVertex = glm::vec3(i,j,k) * 0.5f;
-                //iterate over corner segments
-                for(int l = 0; l<3; l++){
-                    decorationVertices.push_back(cornerVertex.x);
-                    decorationVertices.push_back(cornerVertex.y);
-                    decorationVertices.push_back(cornerVertex.z);
-                    glm::vec3 secondVertex(cornerVertex);
-                    glm::vec3 directions(i,j,k);
-                    secondVertex[l] = secondVertex[l] - 0.25 * directions[l];
-                    decorationVertices.push_back(secondVertex.x);
-                    decorationVertices.push_back(secondVertex.y);
-                    decorationVertices.push_back(secondVertex.z);
-                }
-            }
-        }
-    }
+    m_decorationsNode->setTransform(glm::scale(glm::mat4(), m_dimensions));
 
-    glm::vec3 decorationColor(0.5);
 
-    m_decorationsNode = new WireframeNode(&(decorationVertices[0]), decorationVertices.size() / 6, decorationColor, this, glm::scale(glm::mat4(), m_dimensions));
 
 }
 
@@ -118,22 +134,21 @@ bool DepthCompositedSurfaceNode::computeLocalSurfaceIntersection(const Geometry:
 void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 {
 
-
-
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
-    //glBindTexture(GL_TEXTURE_2D, m_colorBufferTexture);
-
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->activeFrameBuffer());
 
 //    glBindFramebuffer(GL_READ_FRAMEBUFFER, display->scratchFrameBuffer());
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->activeFrameBuffer());
+
+//    //glBindTexture(GL_TEXTURE_2D, m_colorBufferTexture);
+//    glStencilMask(0xFF);
+//    glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+
 
 
 //    glm::ivec2 res = display->size();
-    //glBlitFramebuffer(0, 0, res.x - 1, res.y - 1, 0, 0, res.x - 1 , res.y - 1, GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+//    glBlitFramebuffer(0, 0, res.x - 1, res.y - 1, 0, 0, res.x - 1 , res.y - 1, GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 
-    //only for default display
-    //glGetError();
 
     glUseProgram(m_depthCompositedSurfaceBlitter->handle());
 
@@ -155,6 +170,7 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 
     glEnableVertexAttribArray(h_aTexCoord_blit);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 
 
     for(ViewPoint *viewpoint : display->viewpoints()){
@@ -180,6 +196,49 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 
 }
 
+void DepthCompositedSurfaceNode::drawWindowBoundsStencil(Display *display)
+{
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    glDepthMask(GL_FALSE);
+    glStencilFunc(GL_NEVER, 1, 0xFF);
+    glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
+
+
+    glUseProgram(m_clippingShader->handle());
+
+    glEnableVertexAttribArray(h_aPosition_clipping);
+    glBindBuffer(GL_ARRAY_BUFFER, m_cuboidClippingVertices);
+    glVertexAttribPointer(h_aPosition_clipping, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glUniform3f(h_uColor_clipping, 1.f, 0.f, 0.f);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_cuboidClippingIndices);
+
+    glm::mat4 modelMatrix = this->worldTransform() * glm::scale(glm::mat4(), this->dimensions());
+
+    int numElements = 36;
+    glDisable(GL_CULL_FACE);
+    for(ViewPoint *viewpoint : display->viewpoints()){
+        viewpoint->viewport()->set();
+
+        glm::mat4 mvp = viewpoint->projectionMatrix() * viewpoint->viewMatrix() * modelMatrix;
+        glUniformMatrix4fv(h_uMVPMatrix_clipping, 1, GL_FALSE, glm::value_ptr(mvp));
+        glDrawElements(GL_TRIANGLES, numElements,GL_UNSIGNED_INT, 0);
+    }
+    glEnable(GL_CULL_FACE);
+    glDisableVertexAttribArray(h_aPosition_clipping);
+
+    glUseProgram(0);
+
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glDepthMask(GL_TRUE);
+
+
+    glStencilMask(0x00);
+
+    glStencilFunc(GL_EQUAL, 1, 0xFF);
+}
+
 
 
 
@@ -187,11 +246,17 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 {
 
+    glEnable(GL_STENCIL_TEST);
+
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->scratchFrameBuffer());
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClearDepth(1.0);
+    glClearStencil(0.0);
+    glStencilMask(0xFF);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 
-
-    GLuint texture = this->surface()->texture();
-
+    this->drawWindowBoundsStencil(display);
 
     glUseProgram(m_depthCompositedSurfaceShader->handle());
 
@@ -205,17 +270,17 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->scratchFrameBuffer());
-
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    glClearDepth(1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
+
+    GLuint texture = this->surface()->texture();
 
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+
+
 
 
     glm::vec4 vp;
@@ -283,9 +348,14 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 
     glUseProgram(0);
 
+    glDisable(GL_STENCIL_TEST);
 
 
+}
 
+void DepthCompositedSurfaceNode::computeSurfaceTransform(float ppcm)
+{
+    m_surfaceTransform=glm::mat4();
 }
 
 
