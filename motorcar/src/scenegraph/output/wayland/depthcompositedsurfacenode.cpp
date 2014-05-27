@@ -242,7 +242,62 @@ void DepthCompositedSurfaceNode::drawWindowBoundsStencil(Display *display)
 
 void DepthCompositedSurfaceNode::clipWindowBounds(Display *display)
 {
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    glDepthMask(GL_FALSE);
+    glStencilMask(0xFF);
+    glStencilFunc(GL_ALWAYS, 0, 0xFF);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
+
+
+    glUseProgram(m_clippingShader->handle());
+
+    glEnableVertexAttribArray(h_aPosition_clipping);
+    glBindBuffer(GL_ARRAY_BUFFER, m_cuboidClippingVertices);
+    glVertexAttribPointer(h_aPosition_clipping, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glUniform3f(h_uColor_clipping, 1.f, 0.f, 0.f);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_cuboidClippingIndices);
+
+    glm::mat4 modelMatrix = this->worldTransform() * glm::scale(glm::mat4(), this->dimensions());
+
+    int numElements = 36;
+
+    glCullFace(GL_FRONT);
+
+    for(ViewPoint *viewpoint : display->viewpoints()){
+        viewpoint->viewport()->set();
+
+        glm::mat4 mvp = viewpoint->projectionMatrix() * viewpoint->viewMatrix() * modelMatrix;
+        glUniformMatrix4fv(h_uMVPMatrix_clipping, 1, GL_FALSE, glm::value_ptr(mvp));
+        glDrawElements(GL_TRIANGLES, numElements,GL_UNSIGNED_INT, 0);
+    }
+
+    glCullFace(GL_BACK);
+
+    glDepthFunc(GL_GREATER);
+    for(ViewPoint *viewpoint : display->viewpoints()){
+        viewpoint->viewport()->set();
+
+        glm::mat4 mvp = viewpoint->projectionMatrix() * viewpoint->viewMatrix() * modelMatrix;
+        glUniformMatrix4fv(h_uMVPMatrix_clipping, 1, GL_FALSE, glm::value_ptr(mvp));
+        glDrawElements(GL_TRIANGLES, numElements,GL_UNSIGNED_INT, 0);
+    }
+
+    glDepthFunc(GL_LESS);
+
+    glDisableVertexAttribArray(h_aPosition_clipping);
+
+    glUseProgram(0);
+
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glDepthMask(GL_TRUE);
+
+
+    glStencilMask(0x00);
+
+    glStencilFunc(GL_EQUAL, 1, 0xFF);
 }
 
 
