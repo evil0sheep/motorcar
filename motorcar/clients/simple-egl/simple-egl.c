@@ -37,7 +37,9 @@
 #include <wayland-cursor.h>
 #include "motorcar-client-protocol.h"
 
-#include <GLES2/gl2.h>
+//#include <GLES2/gl2.h>
+#include <GL/gl.h>
+
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 
@@ -120,9 +122,10 @@ struct window {
 		GLuint vertices, colors, indices;
 		GLuint frameBuffer, depthBuffer;
 		GLuint colorBufferTexture, depthBufferTexture;
-		GLuint drawProgram, colorBlitProgram, depthBlitProgram;
+		GLuint drawProgram, colorBlitProgram, depthBlitProgram, clipProgram;
 		GLuint textureBlitVertices, textureBlitTextureCoords;
-		GLuint h_aPosition, h_aTexCoord;
+		GLuint h_aPosition, h_aTexCoord, h_aPosition_clipping, h_uMVPMatrix_clipping;
+		GLuint cuboidClippingVertices, cuboidClippingIndices;
 	} gl;
 
 	uint32_t benchmark_time, frames;
@@ -151,7 +154,6 @@ static const char *vert_shader_text =
 	"}\n";
 
 static const char *frag_shader_text =
-	"precision mediump float;\n"
 	"varying vec4 v_color;\n"
 	"void main() {\n"
 	"  gl_FragColor = v_color;\n"
@@ -167,7 +169,6 @@ static const char *blit_vert_shader_text =
 	"}\n";
 
 static const char *blit_frag_shader_text =
-	"precision highp float;\n"
 	"varying vec2 vTexCoord;\n"
 	"uniform sampler2D uTexSampler;\n"
 	"void main() {\n"
@@ -175,9 +176,7 @@ static const char *blit_frag_shader_text =
 	"}\n";
 
 
-
 static const char *blit_depth_frag_shader_text =
-	"precision highp float;\n"
 	"varying vec2 vTexCoord;\n"
 	"uniform sampler2D uTexSampler;\n"
 	"vec4 pack_depth(const in float depth)"
@@ -189,6 +188,18 @@ static const char *blit_depth_frag_shader_text =
 	"}"
 	"void main() {\n"
 	"  gl_FragColor =  pack_depth(texture2D(uTexSampler, vTexCoord).r);\n"
+	"}\n";
+
+static const char *clip_vert_shader_text =
+	"attribute vec3 aPosition;\n"
+	"uniform mat4 uMVPMatrix;\n"
+	"void main() {\n"
+	"  gl_Position = uMVPMatrix * vec4(aPosition, 1);\n"
+	"}\n";
+
+static const char *clip_frag_shader_text =
+	"void main() {\n"
+	"  gl_FragColor = vec4(1, 0, 0, 1);\n"
 	"}\n";
 
 static int running = 1;
@@ -208,7 +219,7 @@ init_egl(struct display *display, struct window *window)
 		EGL_GREEN_SIZE, 1,
 		EGL_BLUE_SIZE, 1,
 		EGL_DEPTH_SIZE, 1,
-		EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+		EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
 		EGL_NONE
 	};
 
@@ -224,7 +235,7 @@ init_egl(struct display *display, struct window *window)
 
 	ret = eglInitialize(display->egl.dpy, &major, &minor);
 	assert(ret == EGL_TRUE);
-	ret = eglBindAPI(EGL_OPENGL_ES_API);
+	ret = eglBindAPI(EGL_OPENGL_API);
 	assert(ret == EGL_TRUE);
 
 	if (!eglGetConfigs(display->egl.dpy, NULL, 0, &count) || count < 1)
@@ -401,6 +412,37 @@ init_gl(struct window *window)
 		fprintf(stderr, "Error: linking:\n%*s\n", len, log);
 		exit(1);
 	}
+
+
+	//clipping shader
+
+	frag = create_shader(window, clip_frag_shader_text, GL_FRAGMENT_SHADER);
+	vert = create_shader(window, clip_vert_shader_text, GL_VERTEX_SHADER);
+
+	window->gl.clipProgram = glCreateProgram();
+	glAttachShader(window->gl.clipProgram, frag);
+	glAttachShader(window->gl.clipProgram, vert);
+	glLinkProgram(window->gl.clipProgram);
+
+	glGetProgramiv(window->gl.clipProgram, GL_LINK_STATUS, &status);
+	if (!status) {
+		char log[1000];
+		GLsizei len;
+		glGetProgramInfoLog(window->gl.clipProgram, 1000, &len, log);
+		fprintf(stderr, "Error: linking:\n%*s\n", len, log);
+		exit(1);
+	}
+
+	window->gl.h_aPosition_clipping =  glGetAttribLocation(window->gl.clipProgram, "aPosition");
+	window->gl.h_uMVPMatrix_clipping = glGetUniformLocation(window->gl.clipProgram, "uMVPMatrix");
+
+	
+	if(window->gl.h_aPosition_clipping < 0 || window->gl.h_uMVPMatrix_clipping < 0){
+       std::cout << "problem with texture blitter shader handles: "
+                 << window->gl.h_aPosition_clipping
+                 << ", "<< window->gl.h_uMVPMatrix_clipping
+                 << std::endl;
+    }
 	
 
 
@@ -475,6 +517,18 @@ init_gl(struct window *window)
 
 
 
+
+ 	glGenBuffers(1, &window->gl.cuboidClippingVertices);
+    glBindBuffer(GL_ARRAY_BUFFER, window->gl.cuboidClippingVertices);
+    glBufferData(GL_ARRAY_BUFFER, 8 * 3 * sizeof(float), verts, GL_STATIC_DRAW);
+
+ 	glGenBuffers(1, &window->gl.cuboidClippingIndices);
+ 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.cuboidClippingIndices);
+ 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 12 * 3 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+
+
+
+
  	glGenBuffers(1, &window->gl.textureBlitVertices);
  	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.textureBlitVertices);
  	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 4 * 3 * sizeof(float), textureBlitVertices, GL_STATIC_DRAW);
@@ -502,8 +556,8 @@ init_gl(struct window *window)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, window->geometry.width, window->geometry.height / 2, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, window->gl.depthBufferTexture, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, window->geometry.width, window->geometry.height / 2, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, window->gl.depthBufferTexture, 0);
 
 
   	switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
@@ -512,9 +566,6 @@ init_gl(struct window *window)
   			break;
   		case(GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT):
   			std::cout << "Framebuffer Attachment Incomplete" << std::endl;
-  			break;
-  		case(GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS):
-  			std::cout << "Framebuffer Dimensions Incomplete" << std::endl;
   			break;
   		case(GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT):
   			std::cout << "Framebuffer Attachment Incomplete/Missing" << std::endl;
@@ -714,6 +765,59 @@ destroy_surface(struct window *window)
 		wl_callback_destroy(window->callback);
 }
 
+
+void drawWindowBoundsStencil(struct window *window, struct display *display)
+{
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    glDepthMask(GL_FALSE);
+    glStencilFunc(GL_NEVER, 1, 0xFF);
+    glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
+
+
+
+    glUseProgram(window->gl.clipProgram);
+
+    glEnableVertexAttribArray(window->gl.h_aPosition_clipping);
+    glBindBuffer(GL_ARRAY_BUFFER, window->gl.cuboidClippingVertices);
+    glVertexAttribPointer(window->gl.h_aPosition_clipping, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.cuboidClippingIndices);
+
+    glm::mat4 modelMatrix = window->transformMatrix * glm::scale(glm::mat4(), window->dimensions);
+
+    int numElements = 36;
+
+
+    for(struct viewpoint *vp : display->viewpoints){
+    	struct viewport textureViewports[] = {vp->colorViewport, vp->depthViewport};
+    	for(int i = 0; i < 2; i++){
+
+	        struct viewport textureViewport = textureViewports[i];
+	        glViewport(textureViewport.x, textureViewport.y, textureViewport.width, textureViewport.height);
+
+	       
+	        glm::mat4 mvp = vp->projectionMatrix * vp->viewMatrix * modelMatrix;
+	        glUniformMatrix4fv(window->gl.h_uMVPMatrix_clipping, 1, GL_FALSE, glm::value_ptr(mvp));
+	        glDrawElements(GL_TRIANGLES, numElements,GL_UNSIGNED_INT, 0);
+    	}
+    	
+
+    }
+
+    glDisableVertexAttribArray(window->gl.h_aPosition_clipping);
+
+    glUseProgram(0);
+
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glDepthMask(GL_TRUE);
+
+
+    glStencilMask(0x00);
+
+    glStencilFunc(GL_EQUAL, 1, 0xFF);
+}
+
+
 static void
 redraw(void *data, struct wl_callback *callback, uint32_t time);
 
@@ -850,11 +954,16 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 
 
 	//---- blit framebuffer contents ----
-
+	glEnable(GL_STENCIL_TEST);
 
 	glUseProgram(window->gl.colorBlitProgram);
 	glClearColor(0.0, 0.0, 0.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearDepth(1.0);
+	glClearStencil(0);
+    glStencilMask(0xFF);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+    drawWindowBoundsStencil(window, display);
 
 	glEnableVertexAttribArray(window->gl.h_aPosition);
     glBindBuffer(GL_ARRAY_BUFFER, window->gl.textureBlitVertices);
@@ -866,7 +975,7 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 
     GLuint textures[] = {window->gl.colorBufferTexture, window->gl.depthBufferTexture};
     GLuint programs[] = {window->gl.colorBlitProgram, window->gl.depthBlitProgram};
-
+    
 
     for(struct viewpoint *vp : display->viewpoints){
     	struct viewport textureViewports[] = {vp->colorViewport, vp->depthViewport};
@@ -912,6 +1021,7 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 
     }
 
+    glDisable(GL_STENCIL_TEST);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glDisableVertexAttribArray(window->gl.h_aPosition);
