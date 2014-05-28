@@ -825,7 +825,7 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 
 	glm::mat4 model =  window->transformMatrix
 						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) 
-						* glm::scale(glm::mat4(), glm::vec3(.6, .3, .6));
+						* glm::scale(glm::mat4(), glm::vec3(.3, .3, .3));
 
 	int i = 0;
 	for(struct viewpoint *vp : display->viewpoints){

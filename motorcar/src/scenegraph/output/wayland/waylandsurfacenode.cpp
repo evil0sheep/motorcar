@@ -11,7 +11,7 @@ WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *
 {
 
      std::cout << std::endl << "constructing surface node " << this << std::endl;
-    this->setSurface(surface);
+
     static const GLfloat textureCoordinates[] = {
         0, 0,
         0, 1,
@@ -68,6 +68,7 @@ WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *
     glm::vec3 decorationColor(0.5);
 
     m_decorationsNode = new WireframeNode(&(decorationVertices[0]), decorationVertices.size() / 6, decorationColor, this);
+    this->setSurface(surface);
 
 }
 
@@ -84,6 +85,12 @@ WaylandSurface *WaylandSurfaceNode::surface() const
 void WaylandSurfaceNode::setSurface(WaylandSurface *surface)
 {
     m_surface = surface;
+    int type = this->surface()->type();
+    if(!(type == WaylandSurface::SurfaceType::TOPLEVEL ||
+         type == WaylandSurface::SurfaceType::DEPTH_COMPOSITED ||
+         type == WaylandSurface::SurfaceType::DEPTH_COMPOSITED )){
+            m_decorationsNode->setVisible(false);
+    }
 }
 
 glm::mat4 WaylandSurfaceNode::surfaceTransform() const
