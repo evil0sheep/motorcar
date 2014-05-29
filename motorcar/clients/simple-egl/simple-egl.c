@@ -140,6 +140,7 @@ struct window {
 	glm::vec3 dimensions;
 	glm::mat4 transformMatrix;
 	wl_array dimensions_array;
+	enum motorcar_surface_clipping_mode clipping_mode;
 
 };
 
@@ -739,7 +740,7 @@ create_surface(struct window *window)
     wl_array_add(&window->dimensions_array, sizeof(glm::vec3));
 
 	window->motorcar_surface =
-		motorcar_shell_get_motorcar_surface(display->motorshell, window->surface);
+		motorcar_shell_get_motorcar_surface(display->motorshell, window->surface, window->clipping_mode);
 
 
 
@@ -912,7 +913,7 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	glUseProgram(window->gl.drawProgram);
 
 	glDepthFunc(GL_LESS);
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClearColor(.7f, .85f, 1.f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -926,8 +927,14 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.indices);
 
+	glm::mat4 window_offset = glm::mat4(1);
+
+	if(window->clipping_mode == MOTORCAR_SURFACE_CLIPPING_MODE_PORTAL){
+		window_offset = glm::translate(glm::mat4(1), glm::vec3(0, 0, -0.25));
+	}
 
 	glm::mat4 model =  window->transformMatrix
+						* window_offset
 						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) 
 						* glm::scale(glm::mat4(), glm::vec3(.3, .3, .3));
 
@@ -1407,6 +1414,7 @@ main(int argc, char **argv)
 	window.window_size.height = 2742;//2650;
 	window.buffer_size = 32;
 	window.frame_sync = 1;
+	window.clipping_mode = MOTORCAR_SURFACE_CLIPPING_MODE_CUBOID;
 
 
 	for (i = 1; i < argc; i++) {
@@ -1418,6 +1426,8 @@ main(int argc, char **argv)
 			window.buffer_size = 16;
 		else if (strcmp("-b", argv[i]) == 0)
 			window.frame_sync = 0;
+		else if (strcmp("-p", argv[i]) == 0)
+			window.clipping_mode = MOTORCAR_SURFACE_CLIPPING_MODE_PORTAL;
 		else if (strcmp("-h", argv[i]) == 0)
 			usage(EXIT_SUCCESS);
 		else

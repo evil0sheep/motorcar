@@ -14,7 +14,8 @@ public:
         TRANSIENT,
         POPUP,
         CURSOR,
-        DEPTH_COMPOSITED,
+        CUBOID,
+        PORTAL,
         NA
     };
 

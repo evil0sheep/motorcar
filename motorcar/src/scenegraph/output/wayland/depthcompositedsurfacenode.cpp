@@ -264,17 +264,21 @@ void DepthCompositedSurfaceNode::clipWindowBounds(Display *display)
 
     int numElements = 36;
 
-    glCullFace(GL_FRONT);
 
-    for(ViewPoint *viewpoint : display->viewpoints()){
-        viewpoint->viewport()->set();
+    if(this->surface()->type() == WaylandSurface::SurfaceType::CUBOID){
+        glCullFace(GL_FRONT);
 
-        glm::mat4 mvp = viewpoint->projectionMatrix() * viewpoint->viewMatrix() * modelMatrix;
-        glUniformMatrix4fv(h_uMVPMatrix_clipping, 1, GL_FALSE, glm::value_ptr(mvp));
-        glDrawElements(GL_TRIANGLES, numElements,GL_UNSIGNED_INT, 0);
+        for(ViewPoint *viewpoint : display->viewpoints()){
+            viewpoint->viewport()->set();
+
+            glm::mat4 mvp = viewpoint->projectionMatrix() * viewpoint->viewMatrix() * modelMatrix;
+            glUniformMatrix4fv(h_uMVPMatrix_clipping, 1, GL_FALSE, glm::value_ptr(mvp));
+            glDrawElements(GL_TRIANGLES, numElements,GL_UNSIGNED_INT, 0);
+        }
+
+        glCullFace(GL_BACK);
     }
 
-    glCullFace(GL_BACK);
 
     glDepthFunc(GL_GREATER);
     for(ViewPoint *viewpoint : display->viewpoints()){
@@ -414,6 +418,9 @@ void DepthCompositedSurfaceNode::handle_set_size_3d(struct wl_client *client,
 
     }else{
         glm::vec3 dims = glm::make_vec3((float *)(dimensions->data));
+        if(surfaceNode->surface()->type() == WaylandSurface::SurfaceType::PORTAL){
+            dims.z = 0;
+        }
         std::cout << "Client resized 3D window to: ";
         Geometry::printVector(dims);
         surfaceNode->setDimensions(dims);
@@ -453,15 +460,19 @@ void DepthCompositedSurfaceNode::handleWorldTransformChange(Scene *scene)
 
 void DepthCompositedSurfaceNode::requestSize3D(const glm::vec3 &dimensions)
 {
+    glm::vec3 dims(dimensions);
+    if(this->surface()->type() == WaylandSurface::SurfaceType::PORTAL){
+        dims.z = 0;
+    }
     if(m_resource != NULL){
         std::cout << "Requesting client resize 3D window to: ";
         Geometry::printVector(dimensions);
 
-        std::memcpy(m_dimensionsArray.data, glm::value_ptr(m_dimensions), m_dimensionsArray.size);
+        std::memcpy(m_dimensionsArray.data, glm::value_ptr(dims), m_dimensionsArray.size);
 
         motorcar_surface_send_request_size_3d(m_resource, &m_dimensionsArray);
     }else{
-        setDimensions(dimensions);
+        setDimensions(dims);
     }
 
 }
@@ -472,7 +483,10 @@ void DepthCompositedSurfaceNode::requestSize3D(const glm::vec3 &dimensions)
 void DepthCompositedSurfaceNode::setDimensions(const glm::vec3 &dimensions)
 {
     m_dimensions = dimensions;
-    m_decorationsNode->setTransform(glm::scale(glm::mat4(1), dimensions));
+    if(this->surface()->type() == WaylandSurface::SurfaceType::PORTAL){
+        m_dimensions.z = 0;
+    }
+    m_decorationsNode->setTransform(glm::scale(glm::mat4(1), m_dimensions));
 }
 
 

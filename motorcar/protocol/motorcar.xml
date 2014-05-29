@@ -12,7 +12,8 @@
       		both tells the compositor to perform 3D compositing on the client surface, and also
       		provides a mechanism for the compositor to give the client the information it needs to draw
       		its content to 2D correctly.
-   		 </description>
+   		</description>
+
 
 	    <request name="get_motorcar_surface">
 	      <description summary="create a motorcar surface from a surface">
@@ -22,6 +23,7 @@
 	      </description>
 	      <arg name="id" type="new_id" interface="motorcar_surface"/>
 	      <arg name="surface" type="object" interface="wl_surface"/>
+	      <arg name="clipping_mode" type="uint"/>
 	    </request>
 	</interface>
 
@@ -39,6 +41,27 @@
 
 	      The 3D window has its own 3D space whose origin is at the center of the window. The window's position refers to the location of this origin in the world space, and its rotation is around this point. The window also has a 3D size, which is defined in its local space. Each component of the size indicates one dimension of the window bounds, so the window extends for one half this distance on each side of the origin in its local space.
 	    </description>
+
+	    
+   		<enum name="clipping_mode">
+	    	<description summary="clipping behavior used by the compositor for a surface">
+	    		The compositor clips the fragments composing the 3D window to lie within its 3D window bounds.
+	    		The behavior of this clipping mechanism depends on the type of 3D window being clipped. This
+	    		compositor supports two clippling modes, called cuboid and portal clippling
+
+	    		Cuboid clipping treats the 3D window as a box shaped region of the space (defined by the motorcar_surface size_3d)
+	    		and clips any fragments which do not lie withing this box.
+
+	    		Portal clipping treats the 3D window as a 2D opening which connects two disjoint 3D spaces, much like a 
+	    		physical window. This drops any fragments which lie outside the projection of the window opening 
+	    		(defined by the first two dimensions of the motorcar_surface size_3d) and any fragments which lie closer 
+	    		to the viewpoint than the window opening 
+	      	</description>
+	      	<entry name="cuboid" value="0"
+		    	summary="Use the cuboid clipping mode"/>
+	     	<entry name="portal" value="1"
+		    	summary="Use the portal clipping mode"/>
+	    </enum>
 
 	   	<event name="transform_matrix">
 	      <description summary="sets the tranformation of the 3D window">

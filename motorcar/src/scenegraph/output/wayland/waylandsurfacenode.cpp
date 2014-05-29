@@ -87,8 +87,8 @@ void WaylandSurfaceNode::setSurface(WaylandSurface *surface)
     m_surface = surface;
     int type = this->surface()->type();
     if(!(type == WaylandSurface::SurfaceType::TOPLEVEL ||
-         type == WaylandSurface::SurfaceType::DEPTH_COMPOSITED ||
-         type == WaylandSurface::SurfaceType::DEPTH_COMPOSITED )){
+         type == WaylandSurface::SurfaceType::CUBOID ||
+         type == WaylandSurface::SurfaceType::PORTAL )){
             m_decorationsNode->setVisible(false);
     }
 }

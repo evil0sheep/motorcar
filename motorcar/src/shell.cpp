@@ -10,13 +10,28 @@ using namespace motorcar;
 void get_motorcar_surface(struct wl_client *client,
                            struct wl_resource *resource,
                            uint32_t id,
-                           struct wl_resource *surface_resource)
+                           struct wl_resource *surface_resource,
+                          uint32_t clipping_mode)
 {
     Shell *shell = static_cast<Shell*>(resource->data);
 
     WaylandSurface *surface = shell->scene()->compositor()->getSurfaceFromResource(surface_resource);
 
-    WaylandSurfaceNode * surfaceNode = shell->scene()->windowManager()->mapSurface(surface, WaylandSurface::SurfaceType::DEPTH_COMPOSITED);
+    motorcar::WaylandSurface::SurfaceType type;
+
+    switch(clipping_mode){
+    case(MOTORCAR_SURFACE_CLIPPING_MODE_CUBOID):
+        type = WaylandSurface::SurfaceType::CUBOID;
+        break;
+    case(MOTORCAR_SURFACE_CLIPPING_MODE_PORTAL):
+        type = WaylandSurface::SurfaceType::PORTAL;
+        break;
+    default:
+        type = WaylandSurface::SurfaceType::CUBOID;
+        break;
+    }
+
+    WaylandSurfaceNode * surfaceNode = shell->scene()->windowManager()->mapSurface(surface, type);
 
     DepthCompositedSurfaceNode *dcsn = static_cast<DepthCompositedSurfaceNode *> (surfaceNode);
 
