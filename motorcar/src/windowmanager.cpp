@@ -82,7 +82,7 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
     float popupZOffset = 0.05;
 
     float zOffset = -1.5;
-    float thetaOffset = 0.0;
+    float thetaOffset = -30.0;
 
 
     if(surface->isMotorcarSurface()){
@@ -109,7 +109,8 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 //                    //* glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
 //                    * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
 //                    * glm::mat4(1));
-        surfaceNode->setTransform(glm::rotate(glm::mat4(1), m_numSurfacesMapped * thetaOffset, glm::vec3(0, 1 ,0)) *
+        surfaceNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0, 0 ,1.0)) *
+                            glm::rotate(glm::mat4(1), (m_numSurfacesMapped - 1) * thetaOffset, glm::vec3(0, 1 ,0)) *
                                     glm::translate(glm::mat4(1), glm::vec3(0, 0 ,zOffset)));
 
         m_numSurfacesMapped ++;

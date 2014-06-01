@@ -87,7 +87,7 @@ void WaylandSurfaceNode::setSurface(WaylandSurface *surface)
     m_surface = surface;
     int type = this->surface()->type();
     if(type == WaylandSurface::SurfaceType::TOPLEVEL){
-            m_decorationsNode->setVisible(true);
+        m_decorationsNode->setVisible(true);
     }else{
         m_decorationsNode->setVisible(false);
     }
