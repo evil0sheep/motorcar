@@ -5,10 +5,10 @@
 
 namespace motorcar {
 
-class DepthCompositedSurfaceNode : public WaylandSurfaceNode
+class MotorcarSurfaceNode : public WaylandSurfaceNode
 {
 public:
-    DepthCompositedSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform = glm::mat4(1), glm::vec3 dimensions = glm::vec3(1));
+    MotorcarSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform = glm::mat4(1), glm::vec3 dimensions = glm::vec3(1));
 
 
 

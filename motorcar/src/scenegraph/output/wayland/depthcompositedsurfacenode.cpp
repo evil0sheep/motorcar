@@ -4,7 +4,7 @@
 
 using namespace motorcar;
 
-DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform, glm::vec3 dimensions)
+MotorcarSurfaceNode::MotorcarSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform, glm::vec3 dimensions)
     :m_resource (NULL)
     ,WaylandSurfaceNode(surface, parent, transform)
     ,m_depthCompositedSurfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/depthcompositedsurface.vert"), std::string("../motorcar/src/shaders/depthcompositedsurface.frag")))
@@ -13,7 +13,7 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
     ,m_dimensions(dimensions)
 {
 
-
+    std::cout << "creating MotorcarSurfaceNode" <<std::endl;
     const GLfloat vertexCoordinates[] ={
        -1.0f, -1.0f, 0.0f,
         1.0f, -1.0f, 0.0f,
@@ -118,7 +118,7 @@ DepthCompositedSurfaceNode::DepthCompositedSurfaceNode(WaylandSurface *surface, 
 
 }
 
-bool DepthCompositedSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &localRay, glm::vec2 &localIntersection, float &t)
+bool MotorcarSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &localRay, glm::vec2 &localIntersection, float &t)
 {
 
     Geometry::AxisAlignedBox box = Geometry::AxisAlignedBox(this->dimensions());
@@ -131,7 +131,7 @@ bool DepthCompositedSurfaceNode::computeLocalSurfaceIntersection(const Geometry:
 
 
 
-void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
+void MotorcarSurfaceNode::drawFrameBufferContents(Display *display)
 {
 
     glDepthFunc(GL_LEQUAL);
@@ -196,7 +196,7 @@ void DepthCompositedSurfaceNode::drawFrameBufferContents(Display *display)
 
 }
 
-void DepthCompositedSurfaceNode::drawWindowBoundsStencil(Display *display)
+void MotorcarSurfaceNode::drawWindowBoundsStencil(Display *display)
 {
     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
     glDepthMask(GL_FALSE);
@@ -240,7 +240,7 @@ void DepthCompositedSurfaceNode::drawWindowBoundsStencil(Display *display)
     glStencilFunc(GL_EQUAL, 1, 0xFF);
 }
 
-void DepthCompositedSurfaceNode::clipWindowBounds(Display *display)
+void MotorcarSurfaceNode::clipWindowBounds(Display *display)
 {
     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
     glDepthMask(GL_FALSE);
@@ -265,7 +265,7 @@ void DepthCompositedSurfaceNode::clipWindowBounds(Display *display)
     int numElements = 36;
 
 
-    if(this->surface()->type() == WaylandSurface::SurfaceType::CUBOID){
+    if(this->surface()->clippingMode() == WaylandSurface::ClippingMode::CUBOID){
         glCullFace(GL_FRONT);
 
         for(ViewPoint *viewpoint : display->viewpoints()){
@@ -308,7 +308,7 @@ void DepthCompositedSurfaceNode::clipWindowBounds(Display *display)
 
 
 
-void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
+void MotorcarSurfaceNode::draw(Scene *scene, Display *display)
 {
 
     glEnable(GL_STENCIL_TEST);
@@ -399,7 +399,7 @@ void DepthCompositedSurfaceNode::draw(Scene *scene, Display *display)
 
 }
 
-void DepthCompositedSurfaceNode::computeSurfaceTransform(float ppcm)
+void MotorcarSurfaceNode::computeSurfaceTransform(float ppcm)
 {
     m_surfaceTransform=glm::mat4();
 }
@@ -408,17 +408,17 @@ void DepthCompositedSurfaceNode::computeSurfaceTransform(float ppcm)
 
 
 
-void DepthCompositedSurfaceNode::handle_set_size_3d(struct wl_client *client,
+void MotorcarSurfaceNode::handle_set_size_3d(struct wl_client *client,
                 struct wl_resource *resource,
                 struct wl_array *dimensions){
-    DepthCompositedSurfaceNode *surfaceNode = static_cast<DepthCompositedSurfaceNode *> (resource->data);
+    MotorcarSurfaceNode *surfaceNode = static_cast<MotorcarSurfaceNode *> (resource->data);
     if(dimensions->size != 3 * sizeof(float)){
         //error conditions
         std::cerr << "Error: Dimensions array has wrong size: " << dimensions->size << std::endl;
 
     }else{
         glm::vec3 dims = glm::make_vec3((float *)(dimensions->data));
-        if(surfaceNode->surface()->type() == WaylandSurface::SurfaceType::PORTAL){
+        if(surfaceNode->surface()->clippingMode() == WaylandSurface::ClippingMode::PORTAL){
             dims.z = 0;
         }
         std::cout << "Client resized 3D window to: ";
@@ -430,15 +430,15 @@ void DepthCompositedSurfaceNode::handle_set_size_3d(struct wl_client *client,
 
 
 const static struct motorcar_surface_interface motorcarSurfaceInterface = {
-    DepthCompositedSurfaceNode::handle_set_size_3d
+    MotorcarSurfaceNode::handle_set_size_3d
 };
 
-glm::vec3 DepthCompositedSurfaceNode::dimensions() const
+glm::vec3 MotorcarSurfaceNode::dimensions() const
 {
     return m_dimensions;
 }
 
-void DepthCompositedSurfaceNode::sendTransformToClient()
+void MotorcarSurfaceNode::sendTransformToClient()
 {
 
     if(m_resource != NULL){
@@ -452,16 +452,16 @@ void DepthCompositedSurfaceNode::sendTransformToClient()
 
 }
 
-void DepthCompositedSurfaceNode::handleWorldTransformChange(Scene *scene)
+void MotorcarSurfaceNode::handleWorldTransformChange(Scene *scene)
 {
     sendTransformToClient();
 }
 
 
-void DepthCompositedSurfaceNode::requestSize3D(const glm::vec3 &dimensions)
+void MotorcarSurfaceNode::requestSize3D(const glm::vec3 &dimensions)
 {
     glm::vec3 dims(dimensions);
-    if(this->surface()->type() == WaylandSurface::SurfaceType::PORTAL){
+    if(this->surface()->clippingMode() == WaylandSurface::ClippingMode::PORTAL){
         dims.z = 0;
     }
     if(m_resource != NULL){
@@ -480,10 +480,10 @@ void DepthCompositedSurfaceNode::requestSize3D(const glm::vec3 &dimensions)
 
 
 
-void DepthCompositedSurfaceNode::setDimensions(const glm::vec3 &dimensions)
+void MotorcarSurfaceNode::setDimensions(const glm::vec3 &dimensions)
 {
     m_dimensions = dimensions;
-    if(this->surface()->type() == WaylandSurface::SurfaceType::PORTAL){
+    if(this->surface()->clippingMode() == WaylandSurface::ClippingMode::PORTAL){
         m_dimensions.z = 0;
     }
     m_decorationsNode->setTransform(glm::scale(glm::mat4(1), m_dimensions));
@@ -492,12 +492,12 @@ void DepthCompositedSurfaceNode::setDimensions(const glm::vec3 &dimensions)
 
 
 
-wl_resource *DepthCompositedSurfaceNode::resource() const
+wl_resource *MotorcarSurfaceNode::resource() const
 {
     return m_resource;
 }
 
-void DepthCompositedSurfaceNode::configureResource(wl_client *client, uint32_t id)
+void MotorcarSurfaceNode::configureResource(wl_client *client, uint32_t id)
 {
     m_resource = wl_resource_create(client, &motorcar_surface_interface, motorcar_surface_interface.version, id);
     wl_resource_set_implementation(m_resource, &motorcarSurfaceInterface, this, 0);

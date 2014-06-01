@@ -18,8 +18,8 @@ WaylandSurfaceNode *WindowManager::createSurface(WaylandSurface *surface)
 
     WaylandSurfaceNode *surfaceNode = this->getSurfaceNode(surface);
     if(surfaceNode==NULL){
-        if(surface->type() == WaylandSurface::SurfaceType::CUBOID || surface->type() == WaylandSurface::SurfaceType::PORTAL){
-            surfaceNode = new DepthCompositedSurfaceNode(surface, this->scene());
+        if(surface->isMotorcarSurface()){
+            surfaceNode = new MotorcarSurfaceNode(surface, this->scene());
         }else{
             surfaceNode = new WaylandSurfaceNode(surface, this->scene());
         }
@@ -27,6 +27,7 @@ WaylandSurfaceNode *WindowManager::createSurface(WaylandSurface *surface)
         m_surfaceMap.insert(std::pair<WaylandSurface *, motorcar::WaylandSurfaceNode *>(surface, surfaceNode));
     }
 
+    surfaceNode->setSurface(surface);
     return surfaceNode;
 }
 
@@ -76,11 +77,27 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
     WaylandSurfaceNode *surfaceNode = createSurface(surface);
 
 
+
     int type = static_cast<int>(surfaceType);
     float popupZOffset = 0.05;
 
-    float zOffset = -1.0;
-    float thetaOffset = -45;
+    float zOffset = -1.5;
+    float thetaOffset = 0.0;
+
+
+    if(surface->isMotorcarSurface()){
+         surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
+         MotorcarSurfaceNode *mcsn = static_cast<MotorcarSurfaceNode *>(surfaceNode);
+         std::cout << "mapping motorcar surface ";
+         if(surface->clippingMode() == WaylandSurface::ClippingMode::CUBOID){
+             std::cout << "with cuboid clipping mode" <<std::endl;
+             mcsn->requestSize3D(glm::vec3(0.5));
+         }else if(surface->clippingMode() == WaylandSurface::ClippingMode::PORTAL){
+              std::cout << "with portal clipping mode" <<std::endl;
+             mcsn->requestSize3D(glm::vec3(0.7, 0.5, 0));
+         }
+    }
+
 
     if(type == WaylandSurface::SurfaceType::TOPLEVEL){
          std::cout << "mapping top level surface" << std::endl;
@@ -92,10 +109,13 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 //                    //* glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
 //                    * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
 //                    * glm::mat4(1));
-        surfaceNode->setTransform(glm::rotate(glm::mat4(1), -thetaOffset, glm::vec3(0, 1 ,0)) *
+        surfaceNode->setTransform(glm::rotate(glm::mat4(1), m_numSurfacesMapped * thetaOffset, glm::vec3(0, 1 ,0)) *
                                     glm::translate(glm::mat4(1), glm::vec3(0, 0 ,zOffset)));
-        this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
+
         m_numSurfacesMapped ++;
+
+        this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
+
     }else if(type == WaylandSurface::SurfaceType::POPUP ||
              type == WaylandSurface::SurfaceType::TRANSIENT){
 
@@ -128,27 +148,6 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
         if(type == WaylandSurface::SurfaceType::POPUP ){
             this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
         }
-
-
-    }else if(type == WaylandSurface::SurfaceType::CUBOID){
-        std::cout << "mapping depth composited surface" << std::endl;
-        //surfaceNode->setTransform(glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,-0.5)));
-        surfaceNode->setTransform(glm::rotate(glm::mat4(1), 0.0f, glm::vec3(0, 1 ,0)) *
-                                    glm::translate(glm::mat4(1), glm::vec3(0, 0 ,zOffset)));
-        surfaceNode->setParentNode(this->scene());
-        surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
-        DepthCompositedSurfaceNode *dcsn = static_cast<DepthCompositedSurfaceNode *>(surfaceNode);
-        dcsn->requestSize3D(glm::vec3(0.5));
-
-    }else if(type == WaylandSurface::SurfaceType::PORTAL){
-        std::cout << "mapping depth composited surface" << std::endl;
-        //surfaceNode->setTransform(glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,-0.5)));
-        surfaceNode->setTransform(glm::rotate(glm::mat4(1), thetaOffset, glm::vec3(0, 1 ,0)) *
-                                    glm::translate(glm::mat4(1), glm::vec3(0, 0 ,zOffset)));
-        surfaceNode->setParentNode(this->scene());
-        surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
-        DepthCompositedSurfaceNode *dcsn = static_cast<DepthCompositedSurfaceNode *>(surfaceNode);
-        dcsn->requestSize3D(glm::vec3(0.7, 0.5, 0));
     }else{
 
     }
@@ -240,9 +239,7 @@ void WindowManager::ensureKeyboardFocusIsValid(WaylandSurface *oldSurface)
     std::map<WaylandSurface *, WaylandSurfaceNode *>::iterator it;
     for(it = m_surfaceMap.begin(); it != m_surfaceMap.end(); it++) {
         WaylandSurface * surface = it->first;
-        if(surface->type() == WaylandSurface::SurfaceType::TOPLEVEL ||
-           surface->type() == WaylandSurface::SurfaceType::CUBOID ||
-            surface->type() == WaylandSurface::SurfaceType::PORTAL){
+        if(surface->type() == WaylandSurface::SurfaceType::TOPLEVEL){
             nextSurface = surface;
             break;
         }

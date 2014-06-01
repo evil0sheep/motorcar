@@ -300,13 +300,13 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
                  m_surfaceMap.insert(std::pair<QWaylandSurface *, QtWaylandMotorcarSurface *>(surface, motorsurface));
 
             }
-            if((motorsurface->type() == motorcar::WaylandSurface::SurfaceType::CUBOID ||
-                motorsurface->type() == motorcar::WaylandSurface::SurfaceType::PORTAL)
-                 && surfaceType == motorcar::WaylandSurface::SurfaceType::TOPLEVEL){
-                std::cout << "Warning: ignoring request to remap a 3D surface to a top level surface " <<std::endl;
-            }else{
+//            if((motorsurface->type() == motorcar::WaylandSurface::SurfaceType::CUBOID ||
+//                motorsurface->type() == motorcar::WaylandSurface::SurfaceType::PORTAL)
+//                 && surfaceType == motorcar::WaylandSurface::SurfaceType::TOPLEVEL){
+//                std::cout << "Warning: ignoring request to remap a 3D surface to a top level surface " <<std::endl;
+//            }else{
                 this->scene()->windowManager()->mapSurface(motorsurface, surfaceType);
-            }
+//            }
 
 
 

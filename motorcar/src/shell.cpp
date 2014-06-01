@@ -11,31 +11,37 @@ void get_motorcar_surface(struct wl_client *client,
                            struct wl_resource *resource,
                            uint32_t id,
                            struct wl_resource *surface_resource,
-                          uint32_t clipping_mode)
+                          uint32_t clipping_mode,
+                          uint32_t enable_depth_compositing)
 {
     Shell *shell = static_cast<Shell*>(resource->data);
 
     WaylandSurface *surface = shell->scene()->compositor()->getSurfaceFromResource(surface_resource);
 
-    motorcar::WaylandSurface::SurfaceType type;
+    WaylandSurface::ClippingMode clippingMode;
 
     switch(clipping_mode){
     case(MOTORCAR_SURFACE_CLIPPING_MODE_CUBOID):
-        type = WaylandSurface::SurfaceType::CUBOID;
+        clippingMode = WaylandSurface::ClippingMode::CUBOID;
         break;
     case(MOTORCAR_SURFACE_CLIPPING_MODE_PORTAL):
-        type = WaylandSurface::SurfaceType::PORTAL;
+        clippingMode = WaylandSurface::ClippingMode::PORTAL;
         break;
     default:
-        type = WaylandSurface::SurfaceType::CUBOID;
+        clippingMode = WaylandSurface::ClippingMode::CUBOID;
         break;
     }
 
-    WaylandSurfaceNode * surfaceNode = shell->scene()->windowManager()->mapSurface(surface, type);
+    //WaylandSurfaceNode * surfaceNode = shell->scene()->windowManager()->mapSurface(surface, type);
 
-    DepthCompositedSurfaceNode *dcsn = static_cast<DepthCompositedSurfaceNode *> (surfaceNode);
+    surface->setClippingMode(clippingMode);
+    surface->setIsMotorcarSurface(true);
+    surface->setDepthCompositingEnabled(enable_depth_compositing!=0);
 
-    dcsn->configureResource(client, id);
+
+    MotorcarSurfaceNode *mcsn = static_cast<MotorcarSurfaceNode *> (shell->scene()->windowManager()->createSurface(surface));
+
+    mcsn->configureResource(client, id);
 
 
 }

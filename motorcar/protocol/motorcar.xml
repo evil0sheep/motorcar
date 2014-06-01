@@ -21,15 +21,16 @@
 
 				Only one motorcar surface can be associated with a given surface.
 	      </description>
-	      <arg name="id" type="new_id" interface="motorcar_surface"/>
-	      <arg name="surface" type="object" interface="wl_surface"/>
-	      <arg name="clipping_mode" type="uint"/>
+	      <arg name="id" type="new_id" interface="motorcar_surface" summary="the id of the new motorcar surface to be created"/>
+	      <arg name="surface" type="object" interface="wl_surface" summary="the wl_surface which the motorcar_surface is to be associated with"/>
+	      <arg name="clipping_mode" type="uint" summary="the clipping mode to be used by the compositor for this  surface"/>
+	      <arg name="enable_depth_compositing" type="uint" summary="boolean value indicating whether to use depth buffer compositing on this surface"/>
 	    </request>
 	</interface>
 
 	<interface name="motorcar_surface" version="1">
 
-	    <description summary="interface for 3D depth composited motorcar surfaces">
+	    <description summary="a 3D, view dependent, depth composited meta-data surface">
 	      An interface that may be implemented by a wl_surface, for
 	      implementations that provide motorcar style depth composited 3D surfaces
 
@@ -42,7 +43,7 @@
 	      The 3D window has its own 3D space whose origin is at the center of the window. The window's position refers to the location of this origin in the world space, and its rotation is around this point. The window also has a 3D size, which is defined in its local space. Each component of the size indicates one dimension of the window bounds, so the window extends for one half this distance on each side of the origin in its local space.
 	    </description>
 
-	    
+
    		<enum name="clipping_mode">
 	    	<description summary="clipping behavior used by the compositor for a surface">
 	    		The compositor clips the fragments composing the 3D window to lie within its 3D window bounds.

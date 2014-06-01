@@ -141,6 +141,7 @@ struct window {
 	glm::mat4 transformMatrix;
 	wl_array dimensions_array;
 	enum motorcar_surface_clipping_mode clipping_mode;
+	bool depthCompositingEnabled;
 
 };
 
@@ -742,20 +743,23 @@ create_surface(struct window *window)
 			     window->egl_surface, window->display->egl.ctx);
 	assert(ret == EGL_TRUE);
 
-	if (!window->frame_sync)
-		eglSwapInterval(display->egl.dpy, 0);
 
-	set_fullscreen(window, window->fullscreen);
 
 	wl_array_init(&window->dimensions_array);
     wl_array_add(&window->dimensions_array, sizeof(glm::vec3));
 
 	window->motorcar_surface =
-		motorcar_shell_get_motorcar_surface(display->motorshell, window->surface, window->clipping_mode);
+		motorcar_shell_get_motorcar_surface(display->motorshell, window->surface, window->clipping_mode, window->depthCompositingEnabled);
 
 
 
 	motorcar_surface_add_listener(window->motorcar_surface, &motorsurface_listener, window);
+
+
+		if (!window->frame_sync)
+		eglSwapInterval(display->egl.dpy, 0);
+
+	set_fullscreen(window, window->fullscreen);
 
 }
 
@@ -1426,7 +1430,7 @@ main(int argc, char **argv)
 	window.buffer_size = 32;
 	window.frame_sync = 1;
 	window.clipping_mode = MOTORCAR_SURFACE_CLIPPING_MODE_CUBOID;
-
+	window.depthCompositingEnabled = true;
 
 	for (i = 1; i < argc; i++) {
 		if (strcmp("-f", argv[i]) == 0)

@@ -14,12 +14,16 @@ public:
         TRANSIENT,
         POPUP,
         CURSOR,
-        CUBOID,
-        PORTAL,
         NA
     };
 
-    WaylandSurface(SurfaceType type);
+    enum ClippingMode{
+        NONE,
+        CUBOID,
+        PORTAL
+    };
+
+    WaylandSurface(SurfaceType type, bool isMotorcarSurface=false, ClippingMode clippingMode = ClippingMode::NONE, bool depthCompositingEnabled = false);
     virtual ~WaylandSurface(){}
 
     ///Get the texture handle for this surface
@@ -50,9 +54,20 @@ public:
     SurfaceType type() const;
     void setType(const SurfaceType &type);
 
+    ClippingMode clippingMode() const;
+    void setClippingMode(const WaylandSurface::ClippingMode &clippingMode);
+
+    bool depthCompositingEnabled() const;
+    void setDepthCompositingEnabled(bool depthCompositingEnabled);
+
+    bool isMotorcarSurface() const;
+    void setIsMotorcarSurface(bool isMotorcarSurface);
+
 protected:
     SurfaceType m_type;
-
+    ClippingMode m_clippingMode;
+    bool m_depthCompositingEnabled;
+    bool m_isMotorcarSurface;
 };
 }
 
