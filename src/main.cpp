@@ -71,8 +71,9 @@ int main(int argc, char *argv[])
     }else{
         std::cout << "Using Default Display" << std::endl;
         float camToDisplayDistance = 0.1;
-        motorcar::Display *display = new motorcar::Display(context, glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0, 0.f)));
-        display->addViewpoint(new motorcar::ViewPoint( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0, camToDisplayDistance))));
+        motorcar::Display *display = new motorcar::Display(context, glm::vec2(0.325, 0.1), scene, glm::translate(glm::mat4(1), glm::vec3(0, 0.7, 0.75))
+                                                                                                 * glm::rotate(glm::mat4(1), -25.f, glm::vec3(1, 0, 0)));
+        display->addViewpoint(new motorcar::ViewPoint( .01, 100, display, display, glm::translate(glm::mat4(1), glm::vec3(0, 0.0, camToDisplayDistance))));
         compositor->setDisplay(display);
     }
 
@@ -106,6 +107,7 @@ int main(int argc, char *argv[])
         compositor->display()->setParentNode(skeleton->headBone());
 
 
+
           glm::vec3 displayPosition = glm::vec3(0, .127, -.165);
 
           glm::mat4 displayTransform = glm::translate(glm::mat4(), displayPosition);
@@ -113,6 +115,8 @@ int main(int argc, char *argv[])
           compositor->display()->setTransform(displayTransform);
 
 
+//          compositor->display()->setParentNode(headController);
+//          compositor->display()->setTransform(glm::mat4(1));
     }
 
 

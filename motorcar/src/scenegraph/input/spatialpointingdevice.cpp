@@ -40,11 +40,13 @@ void SpatialPointingDevice::handleFrameBegin(Scene *scene)
     this->m_latestIntersection = intersection;
 
     if(intersection != NULL){
+        WaylandSurfaceNode *surfaceNode = intersection->surfaceNode;
+
+
         mouseEvent(MouseEvent::Event::MOVE, MouseEvent::Button::NONE);
 
         WaylandSurfaceNode *cursor = m_seat->pointer()->cursorNode();
         if(cursor){
-           WaylandSurfaceNode *surfaceNode = intersection->surfaceNode;
            glm::vec3 position = glm::vec3(surfaceNode->surfaceTransform() *
                                           glm::vec4((intersection->surfaceLocalCoordinates +
                                                      (glm::vec2(cursor->surface()->size())/2.0f) - glm::vec2(m_seat->pointer()->cursorHotspot())) /

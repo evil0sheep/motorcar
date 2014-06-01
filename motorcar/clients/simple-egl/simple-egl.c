@@ -610,7 +610,18 @@ handle_configure(void *data, struct wl_shell_surface *shell_surface,
 
 	if (!window->fullscreen)
 		window->window_size = window->geometry;
+
+	glBindTexture(GL_TEXTURE_2D, window->gl.colorBufferTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, window->geometry.width, window->geometry.height / 2, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, window->gl.colorBufferTexture, 0);
+
+    glBindTexture(GL_TEXTURE_2D, window->gl.depthBufferTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, window->geometry.width, window->geometry.height / 2, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, window->gl.depthBufferTexture, 0);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
+
 
 static void
 handle_popup_done(void *data, struct wl_shell_surface *shell_surface)
@@ -1410,8 +1421,8 @@ main(int argc, char **argv)
 
 	window.display = &display;
 	display.window = &window;
-	window.window_size.width  = 2194;
-	window.window_size.height = 2742;//2650;
+	window.window_size.width  = 400;//2194;
+	window.window_size.height = 400;//2742;//2650;
 	window.buffer_size = 32;
 	window.frame_sync = 1;
 	window.clipping_mode = MOTORCAR_SURFACE_CLIPPING_MODE_CUBOID;

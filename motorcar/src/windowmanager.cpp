@@ -79,17 +79,21 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
     int type = static_cast<int>(surfaceType);
     float popupZOffset = 0.05;
 
+    float zOffset = -1.0;
+    float thetaOffset = -45;
 
     if(type == WaylandSurface::SurfaceType::TOPLEVEL){
          std::cout << "mapping top level surface" << std::endl;
         surfaceNode->setParentNode(this->scene());
-        surfaceNode->setTransform(glm::mat4(1)
-                      //  * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
-                        * glm::translate(glm::mat4(1), glm::vec3(0, 0 ,1.25f))
-                       // * glm::rotate(glm::mat4(1), (-1 +  m_numSurfacesMapped % 3) * 30.f, glm::vec3(0, -1, 0))
-                    //* glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
-                    * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
-                    * glm::mat4(1));
+//        surfaceNode->setTransform(glm::mat4(1)
+//                      //  * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
+//                        * glm::translate(glm::mat4(1), glm::vec3(0, 0 ,1.25f))
+//                       // * glm::rotate(glm::mat4(1), (-1 +  m_numSurfacesMapped % 3) * 30.f, glm::vec3(0, -1, 0))
+//                    //* glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
+//                    * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
+//                    * glm::mat4(1));
+        surfaceNode->setTransform(glm::rotate(glm::mat4(1), -thetaOffset, glm::vec3(0, 1 ,0)) *
+                                    glm::translate(glm::mat4(1), glm::vec3(0, 0 ,zOffset)));
         this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
         m_numSurfacesMapped ++;
     }else if(type == WaylandSurface::SurfaceType::POPUP ||
@@ -128,7 +132,9 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 
     }else if(type == WaylandSurface::SurfaceType::CUBOID){
         std::cout << "mapping depth composited surface" << std::endl;
-        surfaceNode->setTransform(glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,-0.5)));
+        //surfaceNode->setTransform(glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,-0.5)));
+        surfaceNode->setTransform(glm::rotate(glm::mat4(1), 0.0f, glm::vec3(0, 1 ,0)) *
+                                    glm::translate(glm::mat4(1), glm::vec3(0, 0 ,zOffset)));
         surfaceNode->setParentNode(this->scene());
         surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
         DepthCompositedSurfaceNode *dcsn = static_cast<DepthCompositedSurfaceNode *>(surfaceNode);
@@ -136,7 +142,9 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 
     }else if(type == WaylandSurface::SurfaceType::PORTAL){
         std::cout << "mapping depth composited surface" << std::endl;
-        surfaceNode->setTransform(glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,-0.5)));
+        //surfaceNode->setTransform(glm::translate(glm::mat4(), glm::vec3(-0.2,0.25,-0.5)));
+        surfaceNode->setTransform(glm::rotate(glm::mat4(1), thetaOffset, glm::vec3(0, 1 ,0)) *
+                                    glm::translate(glm::mat4(1), glm::vec3(0, 0 ,zOffset)));
         surfaceNode->setParentNode(this->scene());
         surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
         DepthCompositedSurfaceNode *dcsn = static_cast<DepthCompositedSurfaceNode *>(surfaceNode);
