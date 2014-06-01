@@ -34,12 +34,12 @@ MotorcarSurfaceNode::MotorcarSurfaceNode(WaylandSurface *surface, SceneGraphNode
 
 
 
-    h_aPosition =  glGetAttribLocation(m_depthCompositedSurfaceShader->handle(), "aPosition");
-    h_aColorTexCoord =  glGetAttribLocation(m_depthCompositedSurfaceShader->handle(), "aColorTexCoord");
-    h_aDepthTexCoord =  glGetAttribLocation(m_depthCompositedSurfaceShader->handle(), "aDepthTexCoord");
+    h_aPosition_depthcomposite =  glGetAttribLocation(m_depthCompositedSurfaceShader->handle(), "aPosition");
+    h_aColorTexCoord_depthcomposite =  glGetAttribLocation(m_depthCompositedSurfaceShader->handle(), "aColorTexCoord");
+    h_aDepthTexCoord_depthcomposite =  glGetAttribLocation(m_depthCompositedSurfaceShader->handle(), "aDepthTexCoord");
 
-    if(h_aPosition < 0 || h_aColorTexCoord < 0 || h_aDepthTexCoord < 0 ){
-       std::cout << "problem with depth compositing shader handles: " << h_aPosition << ", "<< h_aColorTexCoord << ", " << h_aDepthTexCoord << std::endl;
+    if(h_aPosition_depthcomposite < 0 || h_aColorTexCoord_depthcomposite < 0 || h_aDepthTexCoord_depthcomposite < 0 ){
+       std::cout << "problem with depth compositing shader handles: " << h_aPosition_depthcomposite << ", "<< h_aColorTexCoord_depthcomposite << ", " << h_aDepthTexCoord_depthcomposite << std::endl;
     }
 
 
@@ -265,7 +265,7 @@ void MotorcarSurfaceNode::clipWindowBounds(Display *display)
     int numElements = 36;
 
 
-    if(this->surface()->clippingMode() == WaylandSurface::ClippingMode::CUBOID){
+    if(this->surface()->clippingMode() == WaylandSurface::ClippingMode::CUBOID && this->surface()->depthCompositingEnabled()){
         glCullFace(GL_FRONT);
 
         for(ViewPoint *viewpoint : display->viewpoints()){
@@ -279,8 +279,14 @@ void MotorcarSurfaceNode::clipWindowBounds(Display *display)
         glCullFace(GL_BACK);
     }
 
+    if(!this->surface()->depthCompositingEnabled()){
+        glDepthMask(GL_TRUE);
+        glStencilMask(0x00);
+    }else{
+         glDepthFunc(GL_GREATER);
+    }
 
-    glDepthFunc(GL_GREATER);
+
     for(ViewPoint *viewpoint : display->viewpoints()){
         viewpoint->viewport()->set();
 
@@ -324,16 +330,33 @@ void MotorcarSurfaceNode::draw(Scene *scene, Display *display)
 
     this->drawWindowBoundsStencil(display);
 
-    glUseProgram(m_depthCompositedSurfaceShader->handle());
+    if(surface()->depthCompositingEnabled()){
+        glUseProgram(m_depthCompositedSurfaceShader->handle());
 
-    glEnableVertexAttribArray(h_aPosition);
-    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
-    glVertexAttribPointer(h_aPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
+        glEnableVertexAttribArray(h_aPosition_depthcomposite);
+        glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
+        glVertexAttribPointer(h_aPosition_depthcomposite, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glEnableVertexAttribArray(h_aColorTexCoord);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glEnableVertexAttribArray(h_aDepthTexCoord);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glEnableVertexAttribArray(h_aColorTexCoord_depthcomposite);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glEnableVertexAttribArray(h_aDepthTexCoord_depthcomposite);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }else{
+        glUseProgram(m_surfaceShader->handle());
+
+        glEnableVertexAttribArray(h_aPosition_surface);
+        glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
+        glVertexAttribPointer(h_aPosition_surface, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+        glEnableVertexAttribArray(h_aTexCoord_surface);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        glUniformMatrix4fv(h_uMVPMatrix_surface, 1, GL_FALSE, glm::value_ptr(glm::mat4(1)));
+
+        glDisable(GL_DEPTH_TEST);
+        glDepthMask(GL_FALSE);
+    }
+
 
 
     GLuint texture = this->surface()->texture();
@@ -348,31 +371,43 @@ void MotorcarSurfaceNode::draw(Scene *scene, Display *display)
 
         viewpoint->viewport()->set();
 
-        vp = viewpoint->clientColorViewport()->viewportParams();
+        if(surface()->depthCompositingEnabled()){
+            vp = viewpoint->clientColorViewport()->viewportParams();
+            const GLfloat clientColorTextureCoordinates[] = {
+                vp.x, 1 - vp.y,
+                vp.x + vp.z, 1 - vp.y,
+                vp.x + vp.z, 1 - (vp.y + vp.w),
+                vp.x, 1 - (vp.y + vp.w),
+            };
+            glVertexAttribPointer(h_aColorTexCoord_depthcomposite, 2, GL_FLOAT, GL_FALSE, 0, clientColorTextureCoordinates);
+            vp = viewpoint->clientDepthViewport()->viewportParams();
 
-        const GLfloat clientColorTextureCoordinates[] = {
-            vp.x, 1 - vp.y,
-            vp.x + vp.z, 1 - vp.y,
-            vp.x + vp.z, 1 - (vp.y + vp.w),
-            vp.x, 1 - (vp.y + vp.w),
-        };
+            const GLfloat clientDepthTextureCoordinates[] = {
+                vp.x, 1 - vp.y,
+                vp.x + vp.z, 1 - vp.y,
+                vp.x + vp.z, 1 - (vp.y + vp.w),
+                vp.x, 1 - (vp.y + vp.w),
+            };
+            glVertexAttribPointer(h_aDepthTexCoord_depthcomposite, 2, GL_FLOAT, GL_FALSE, 0, clientDepthTextureCoordinates);
 
-        glVertexAttribPointer(h_aColorTexCoord, 2, GL_FLOAT, GL_FALSE, 0, clientColorTextureCoordinates);
-
-        vp = viewpoint->clientDepthViewport()->viewportParams();
-
-        const GLfloat clientDepthTextureCoordinates[] = {
-            vp.x, 1 - vp.y,
-            vp.x + vp.z, 1 - vp.y,
-            vp.x + vp.z, 1 - (vp.y + vp.w),
-            vp.x, 1 - (vp.y + vp.w),
-        };
-
-
-        glVertexAttribPointer(h_aDepthTexCoord, 2, GL_FLOAT, GL_FALSE, 0, clientDepthTextureCoordinates);
+        }else {
+            vp = viewpoint->viewport()->viewportParams();
+            const GLfloat clientColorTextureCoordinates[] = {
+                vp.x, 1 - vp.y,
+                vp.x + vp.z, 1 - vp.y,
+                vp.x + vp.z, 1 - (vp.y + vp.w),
+                vp.x, 1 - (vp.y + vp.w),
+            };
+            glVertexAttribPointer(h_aTexCoord_surface, 2, GL_FLOAT, GL_FALSE, 0, clientColorTextureCoordinates);
+        }
 
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
+    }
+
+    if(!this->surface()->depthCompositingEnabled()){
+        glEnable(GL_DEPTH_TEST);
+        glDepthMask(GL_TRUE);
     }
 
     clipWindowBounds(display);
@@ -383,8 +418,8 @@ void MotorcarSurfaceNode::draw(Scene *scene, Display *display)
 
     glBindFramebuffer(GL_FRAMEBUFFER, display->activeFrameBuffer());
 
-    glDisableVertexAttribArray(h_aPosition);
-    glDisableVertexAttribArray(h_aColorTexCoord);
+    glDisableVertexAttribArray(h_aPosition_depthcomposite);
+    glDisableVertexAttribArray(h_aColorTexCoord_depthcomposite);
 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, 0);

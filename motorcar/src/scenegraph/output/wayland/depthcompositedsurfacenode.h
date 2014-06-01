@@ -50,7 +50,7 @@ private:
     GLuint m_cuboidClippingVertices, m_cuboidClippingIndices;
 
     //shader variable handles
-    GLint h_aPosition, h_aColorTexCoord, h_aDepthTexCoord;
+    GLint h_aPosition_depthcomposite, h_aColorTexCoord_depthcomposite, h_aDepthTexCoord_depthcomposite;
 
     GLint h_aPosition_blit, h_aTexCoord_blit, h_uColorSampler_blit, h_uDepthSampler_blit;
 

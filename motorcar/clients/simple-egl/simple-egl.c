@@ -834,6 +834,29 @@ void drawWindowBoundsStencil(struct window *window, struct display *display)
 }
 
 
+void blitStencilBuffer(struct window *window, struct display *display){
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, window->gl.frameBuffer);
+
+    for(struct viewpoint *vp : display->viewpoints){
+    	struct viewport readViewport = vp->colorViewport;
+    	struct viewport drawViewports[] = {vp->colorViewport, vp->depthViewport};
+
+    	for(int i = 0; i < 2; i++){
+	        struct viewport drawViewport = drawViewports[i];
+	        glBlitFramebuffer(readViewport.x, readViewport.y, readViewport.x + readViewport.width, readViewport.y + readViewport.height, 
+	        					drawViewport.x, drawViewport.y, drawViewport.x + drawViewport.width, drawViewport.y + drawViewport.height,  GL_STENCIL_BUFFER_BIT, GL_NEAREST);
+	       
+    	}
+    	
+
+    }
+
+    glStencilMask(0x00);
+
+    glStencilFunc(GL_EQUAL, 1, 0xFF);
+}
+
 static void
 redraw(void *data, struct wl_callback *callback, uint32_t time);
 
@@ -923,14 +946,27 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 
 
 	//---- draw geometry ----
+	if(window->depthCompositingEnabled){
+		glBindFramebuffer(GL_FRAMEBUFFER, window->gl.frameBuffer);
+	}else{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+		
 
-	glBindFramebuffer(GL_FRAMEBUFFER, window->gl.frameBuffer);
-	glUseProgram(window->gl.drawProgram);
+
+
+
+
+	//glDisable(GL_STENCIL_TEST);
 
 	glDepthFunc(GL_LESS);
 	glClearColor(.7f, .85f, 1.f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearDepth(1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
+   // drawWindowBoundsStencil(window, display);
+
+	glUseProgram(window->gl.drawProgram);
 
 	glEnableVertexAttribArray(window->gl.pos);
 	glBindBuffer(GL_ARRAY_BUFFER, window->gl.vertices);
@@ -972,84 +1008,88 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	glDisableVertexAttribArray(window->gl.pos);
 	glDisableVertexAttribArray(window->gl.col);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
-	//---- blit framebuffer contents ----
-	glEnable(GL_STENCIL_TEST);
+	if(window->depthCompositingEnabled){
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	glUseProgram(window->gl.colorBlitProgram);
-	glClearColor(0.0, 0.0, 0.0, 0.0);
-	glClearDepth(1.0);
-	glClearStencil(0);
-    glStencilMask(0xFF);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glEnable(GL_STENCIL_TEST);
+		glUseProgram(window->gl.colorBlitProgram);
+		glClearColor(0.0, 0.0, 0.0, 0.0);
+		glClearDepth(1.0);
+		glClearStencil(0);
+	    glStencilMask(0xFF);
+	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    drawWindowBoundsStencil(window, display);
+		//glDisable(GL_STENCIL_TEST);
+	    drawWindowBoundsStencil(window, display);
+	    //blitStencilBuffer(window, display);
 
-	glEnableVertexAttribArray(window->gl.h_aPosition);
-    glBindBuffer(GL_ARRAY_BUFFER, window->gl.textureBlitVertices);
-    glVertexAttribPointer(window->gl.h_aPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(window->gl.h_aPosition);
+	    glBindBuffer(GL_ARRAY_BUFFER, window->gl.textureBlitVertices);
+	    glVertexAttribPointer(window->gl.h_aPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 
 
-    GLfloat texCoords [8];
+	    GLfloat texCoords [8];
 
-    GLuint textures[] = {window->gl.colorBufferTexture, window->gl.depthBufferTexture};
-    GLuint programs[] = {window->gl.colorBlitProgram, window->gl.depthBlitProgram};
-    
+	    GLuint textures[] = {window->gl.colorBufferTexture, window->gl.depthBufferTexture};
+	    GLuint programs[] = {window->gl.colorBlitProgram, window->gl.depthBlitProgram};
+	    
 
-    for(struct viewpoint *vp : display->viewpoints){
-    	struct viewport textureViewports[] = {vp->colorViewport, vp->depthViewport};
-    	for(int i = 0; i < 2; i++){
-    		glUseProgram(programs[i]);
-    		glBindTexture(GL_TEXTURE_2D, textures[i]);
-    		
-	    	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	    	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	    for(struct viewpoint *vp : display->viewpoints){
+	    	struct viewport textureViewports[] = {vp->colorViewport, vp->depthViewport};
+	    	for(int i = 0; i < 2; i++){
+	    		glUseProgram(programs[i]);
+	    		glBindTexture(GL_TEXTURE_2D, textures[i]);
+	    		
+		    	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		    	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	        glm::vec2 textureViewportPos(vp->colorViewport.x, vp->colorViewport.y);
-	        glm::vec2 textureViewportSize(vp->colorViewport.width, vp->colorViewport.height);
-	        glm::vec2 textureSize(window->geometry.width, window->geometry.height / 2);
+		        glm::vec2 textureViewportPos(vp->colorViewport.x, vp->colorViewport.y);
+		        glm::vec2 textureViewportSize(vp->colorViewport.width, vp->colorViewport.height);
+		        glm::vec2 textureSize(window->geometry.width, window->geometry.height / 2);
 
-	        glm::vec2 uvPos(textureViewportPos / textureSize);
-	        glm::vec2 uvSize(textureViewportSize / textureSize);
+		        glm::vec2 uvPos(textureViewportPos / textureSize);
+		        glm::vec2 uvSize(textureViewportSize / textureSize);
 
-	        // const GLfloat textureCoordinates[] = {
-	        //     uvPos.x, uvPos.y + uvSize.y,
-	        //     uvPos.x + uvSize.x, uvPos.y + uvSize.y,
-	        //     uvPos.x + uvSize.x, uvPos.y,
-	        //     uvPos.x, uvPos.y,
-	        // };
+		        // const GLfloat textureCoordinates[] = {
+		        //     uvPos.x, uvPos.y + uvSize.y,
+		        //     uvPos.x + uvSize.x, uvPos.y + uvSize.y,
+		        //     uvPos.x + uvSize.x, uvPos.y,
+		        //     uvPos.x, uvPos.y,
+		        // };
 
-	        const GLfloat textureCoordinates[] = {
-	        	uvPos.x, uvPos.y,
-	            uvPos.x + uvSize.x, uvPos.y,
-	            uvPos.x + uvSize.x, uvPos.y + uvSize.y,
-	            uvPos.x, uvPos.y + uvSize.y,
-	        };
+		        const GLfloat textureCoordinates[] = {
+		        	uvPos.x, uvPos.y,
+		            uvPos.x + uvSize.x, uvPos.y,
+		            uvPos.x + uvSize.x, uvPos.y + uvSize.y,
+		            uvPos.x, uvPos.y + uvSize.y,
+		        };
 
-	        struct viewport textureViewport = textureViewports[i];
-	        glViewport(textureViewport.x, textureViewport.y, textureViewport.width, textureViewport.height);
+		        struct viewport textureViewport = textureViewports[i];
+		        glViewport(textureViewport.x, textureViewport.y, textureViewport.width, textureViewport.height);
 
-	        glEnableVertexAttribArray(window->gl.h_aTexCoord);
-	        glBindBuffer(GL_ARRAY_BUFFER, window->gl.textureBlitTextureCoords);
-	        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
-	        glVertexAttribPointer(window->gl.h_aTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		        glEnableVertexAttribArray(window->gl.h_aTexCoord);
+		        glBindBuffer(GL_ARRAY_BUFFER, window->gl.textureBlitTextureCoords);
+		        glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), textureCoordinates, GL_STATIC_DRAW);
+		        glVertexAttribPointer(window->gl.h_aTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-	        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-    	}
-    	
+		        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	    	}
+	    	
 
-    }
+	    }
 
-    glDisable(GL_STENCIL_TEST);
-    glBindTexture(GL_TEXTURE_2D, 0);
+	    glDisable(GL_STENCIL_TEST);
+	    glBindTexture(GL_TEXTURE_2D, 0);
 
-    glDisableVertexAttribArray(window->gl.h_aPosition);
-    glDisableVertexAttribArray(window->gl.h_aTexCoord);
+	    glDisableVertexAttribArray(window->gl.h_aPosition);
+	    glDisableVertexAttribArray(window->gl.h_aTexCoord);
 
-    glUseProgram(0);
+	    glUseProgram(0);
+	}
+	
 
 
     //printf("geometry: %d, %d\n", window->geometry.width, window->geometry.height);
@@ -1410,6 +1450,8 @@ usage(int error_code)
 		"  -o\tCreate an opaque surface\n"
 		"  -s\tUse a 16 bpp EGL config\n"
 		"  -b\tDon't sync to compositor redraw (eglSwapInterval 0)\n"
+		"  -p\tuse portal clipping mode\n"
+		"  -d\tDisable depth compositing\n"
 		"  -h\tThis help text\n\n");
 
 	exit(error_code);
@@ -1432,6 +1474,7 @@ main(int argc, char **argv)
 	window.clipping_mode = MOTORCAR_SURFACE_CLIPPING_MODE_CUBOID;
 	window.depthCompositingEnabled = true;
 
+
 	for (i = 1; i < argc; i++) {
 		if (strcmp("-f", argv[i]) == 0)
 			window.fullscreen = 1;
@@ -1443,6 +1486,8 @@ main(int argc, char **argv)
 			window.frame_sync = 0;
 		else if (strcmp("-p", argv[i]) == 0)
 			window.clipping_mode = MOTORCAR_SURFACE_CLIPPING_MODE_PORTAL;
+		else if (strcmp("-d", argv[i]) == 0)
+			window.depthCompositingEnabled = false;
 		else if (strcmp("-h", argv[i]) == 0)
 			usage(EXIT_SUCCESS);
 		else

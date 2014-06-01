@@ -38,6 +38,8 @@ void get_motorcar_surface(struct wl_client *client,
     surface->setIsMotorcarSurface(true);
     surface->setDepthCompositingEnabled(enable_depth_compositing!=0);
 
+    std::cout << "depth compositing enabled = " << surface->depthCompositingEnabled() << std::endl;
+
 
     MotorcarSurfaceNode *mcsn = static_cast<MotorcarSurfaceNode *> (shell->scene()->windowManager()->createSurface(surface));
 

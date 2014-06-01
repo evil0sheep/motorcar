@@ -86,7 +86,6 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 
 
     if(surface->isMotorcarSurface()){
-         surfaceNode->surface()->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
          MotorcarSurfaceNode *mcsn = static_cast<MotorcarSurfaceNode *>(surfaceNode);
          std::cout << "mapping motorcar surface ";
          if(surface->clippingMode() == WaylandSurface::ClippingMode::CUBOID){
@@ -95,6 +94,12 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
          }else if(surface->clippingMode() == WaylandSurface::ClippingMode::PORTAL){
               std::cout << "with portal clipping mode" <<std::endl;
              mcsn->requestSize3D(glm::vec3(0.7, 0.5, 0));
+         }
+
+         if(surface->depthCompositingEnabled()){
+             surface->setSize(this->scene()->compositor()->display()->size() * glm::ivec2(1, 2));
+         }else{
+             surface->setSize(this->scene()->compositor()->display()->size());
          }
     }
 
