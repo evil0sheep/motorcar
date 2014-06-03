@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
 
         baseNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0.5,0.25,.25)));
 
-        handController->setPointingDevice(new motorcar::SpatialPointingDevice(compositor->defaultSeat(),handController));
+        handController->setPointingDevice(new motorcar::SixDOFPointingDevice(compositor->defaultSeat(),handController));
 
         headController->setBoneTracker(new motorcar::SingleBoneTracker(skeleton->headBone(), glm::translate(glm::mat4(), glm::vec3(0, .073, .184)),
                                                                        skeleton, baseNode));

@@ -19,14 +19,14 @@ public:
     void setEnabled(bool enabled);
 
 
-    SpatialPointingDevice *pointingDevice() const;
-    void setPointingDevice(SpatialPointingDevice *pointingDevice);
+    SixDOFPointingDevice *pointingDevice() const;
+    void setPointingDevice(SixDOFPointingDevice *pointingDevice);
 
     SingleBoneTracker *boneTracker() const;
     void setBoneTracker(SingleBoneTracker *boneTracker);
 
 private:
-    SpatialPointingDevice *m_pointingDevice;
+    SixDOFPointingDevice *m_pointingDevice;
     SingleBoneTracker *m_boneTracker;
     int m_controllerIndex;
     bool m_enabled;

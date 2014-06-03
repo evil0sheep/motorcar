@@ -1280,6 +1280,56 @@ static const struct wl_keyboard_listener keyboard_listener = {
 	keyboard_handle_modifiers,
 };
 
+glm::mat4 mat4_from_position_and_orientation(struct wl_array *position, struct wl_array *orientation){
+
+}
+
+static void
+motorcar_six_dof_pointer_handle_enter(void *data,
+		      struct motorcar_six_dof_pointer *motorcar_six_dof_pointer,
+		      uint32_t serial,
+		      struct motorcar_surface *surface,
+		      struct wl_array *position,
+		      struct wl_array *orientation){
+
+	printf("6DOF pointer entered surface\n");
+}
+
+static void
+motorcar_six_dof_pointer_handle_leave(void *data,
+		      struct motorcar_six_dof_pointer *motorcar_six_dof_pointer,
+		      uint32_t serial,
+		      struct motorcar_surface *surface){
+	printf("6DOF pointer left surface\n");
+}
+
+static void
+motorcar_six_dof_pointer_handle_motion(void *data,
+		       struct motorcar_six_dof_pointer *motorcar_six_dof_pointer,
+		       uint32_t time,
+		       struct wl_array *position,
+		       struct wl_array *orientation){
+
+	//printf("6DOF pointer motion event\n");
+}
+static void
+motorcar_six_dof_pointer_handle_button(void *data,
+		       struct motorcar_six_dof_pointer *motorcar_six_dof_pointer,
+		       uint32_t serial,
+		       uint32_t time,
+		       uint32_t button,
+		       uint32_t state){
+	printf("6DOF pointer button event, button state = %d\n", state);
+}
+
+struct motorcar_six_dof_pointer_listener motorcar_pointer_listener = {
+	motorcar_six_dof_pointer_handle_enter,
+	motorcar_six_dof_pointer_handle_leave,
+	motorcar_six_dof_pointer_handle_motion,
+	motorcar_six_dof_pointer_handle_button,
+};
+
+
 
 static void
 motorcar_viewpoint_handle_view_matrix(void *data,
@@ -1421,6 +1471,14 @@ registry_handle_global(void *data, struct wl_registry *registry,
 		vp->handle = motorcar_viewpoint_handle;
 		motorcar_viewpoint_add_listener(motorcar_viewpoint_handle, &viewpoint_listener, vp);
 		d->viewpoints.push_back(vp);
+
+	} else if (strcmp(interface, "motorcar_six_dof_pointer") == 0) {
+		struct motorcar_six_dof_pointer *motorcar_pointer_handle =
+		 (motorcar_six_dof_pointer *) wl_registry_bind(registry, name, &motorcar_six_dof_pointer_interface, 1);
+
+		printf("got motorcar six_dof pointer\n");
+
+		motorcar_six_dof_pointer_add_listener(motorcar_pointer_handle, &motorcar_pointer_listener, NULL);
 
 	}
 }

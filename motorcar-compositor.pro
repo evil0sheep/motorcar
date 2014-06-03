@@ -90,7 +90,8 @@ HEADERS += \
     motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.h \
     motorcar/src/scenegraph/output/viewpoint.h \
     motorcar/src/gl/viewport.h \
-    motorcar/src/device/softkineticdepthcamera.h
+    motorcar/src/device/softkineticdepthcamera.h \
+    motorcar/src/events/sixdofevent.h
 
 
 
@@ -142,7 +143,8 @@ SOURCES += \
     motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.cpp \
     motorcar/src/scenegraph/output/viewpoint.cpp \
     motorcar/src/gl/viewport.cpp \
-    motorcar/src/device/softkineticdepthcamera.cpp
+    motorcar/src/device/softkineticdepthcamera.cpp \
+    motorcar/src/events/sixdofevent.cpp
 
 
 

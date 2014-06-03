@@ -15,7 +15,8 @@ public:
     enum EventType{
         MOUSE,
         KEYBOARD,
-        TOUCH
+        TOUCH,
+        SIXDOF
     };
 
     virtual EventType type() const = 0;

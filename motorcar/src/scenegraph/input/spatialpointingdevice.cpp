@@ -1,8 +1,10 @@
 #include "spatialpointingdevice.h"
 #include "../scene.h"
+#include "../../compositor.h"
+#include <stdint.h>
 
 using namespace motorcar;
-SpatialPointingDevice::SpatialPointingDevice(Seat *seat, PhysicalNode *parent, const glm::mat4 &transform)
+SixDOFPointingDevice::SixDOFPointingDevice(Seat *seat, PhysicalNode *parent, const glm::mat4 &transform)
     :PhysicalNode(parent, transform)
     ,m_seat(seat)
     ,m_latestIntersection(NULL)
@@ -27,10 +29,22 @@ SpatialPointingDevice::SpatialPointingDevice(Seat *seat, PhysicalNode *parent, c
     //new WireframeNode(vertices, 3, glm::vec3(0,1,0), this, glm::rotate(glm::mat4(), -45.f, glm::vec3(1,0,0)));
 
 
+    m_global = wl_global_create(scene()->compositor()->wlDisplay(),
+                     &motorcar_six_dof_pointer_interface,
+                      motorcar_six_dof_pointer_interface.version,
+                     this,
+                     SixDOFPointingDevice::bind_func);
+
+    wl_array_init(&m_positionArray);
+    wl_array_init(&m_orientationArray);
+
+    wl_array_add(&m_positionArray, sizeof(glm::vec3));
+    wl_array_add(&m_orientationArray, sizeof(glm::mat3));
+
 }
 
-void SpatialPointingDevice::handleFrameBegin(Scene *scene)
-{
+void SixDOFPointingDevice::handleFrameBegin(Scene *scene)
+{std::map<WaylandSurface *, WaylandSurfaceNode *> m_surfaceMap;
     PhysicalNode::handleFrameBegin(scene);
 
     Geometry::Ray ray = Geometry::Ray(glm::vec3(0,0,0), glm::vec3(0,0,-1)).transform(worldTransform());
@@ -73,7 +87,7 @@ void SpatialPointingDevice::handleFrameBegin(Scene *scene)
 
 
 
-void SpatialPointingDevice::grabSurfaceUnderCursor()
+void SixDOFPointingDevice::grabSurfaceUnderCursor()
 {
     //std::cout << "attempting to grab surface" <<std::endl;
     if(m_grabbedSurfaceNode == NULL && m_latestIntersection != NULL){
@@ -85,7 +99,7 @@ void SpatialPointingDevice::grabSurfaceUnderCursor()
     }
 }
 
-void SpatialPointingDevice::releaseGrabbedSurface()
+void SixDOFPointingDevice::releaseGrabbedSurface()
 {
     //std::cout << "attempting to release grabbed surface" <<std::endl;
     if(m_grabbedSurfaceNode != NULL){
@@ -97,22 +111,81 @@ void SpatialPointingDevice::releaseGrabbedSurface()
 
 
 
-void SpatialPointingDevice::mouseEvent(MouseEvent::Event event, MouseEvent::Button button)
+void SixDOFPointingDevice::mouseEvent(MouseEvent::Event event, MouseEvent::Button button)
 {
     if(m_latestIntersection != NULL){
         //std::cout << "found surface to send mouse event to" << std::endl;
         WaylandSurface *surface = m_latestIntersection->surfaceNode->surface();
         surface->sendEvent(MouseEvent(event, button, m_latestIntersection->surfaceLocalCoordinates, m_seat));
+        if(surface->isMotorcarSurface()){
+            MotorcarSurfaceNode *mcsn = static_cast<MotorcarSurfaceNode *>(m_latestIntersection->surfaceNode);
+            sixDofPointerEvent(mcsn, SixDofEvent(event, button, m_seat, this->worldTransform()));
+        }
     }else{
         //std::cout << "could not find surface to send mouse event to" << std::endl;
     }
 }
-Seat *SpatialPointingDevice::seat() const
+
+
+
+void SixDOFPointingDevice::sixDofPointerEvent(MotorcarSurfaceNode *surfaceNode, SixDofEvent event)
+{
+
+    wl_resource *motorcarSurfaceResource = surfaceNode->resource();
+    wl_resource *sixDofResource = this->resourceForClient(motorcarSurfaceResource->client);
+
+    glm::mat4 trans = event.transform();
+    glm::mat3 orientation = glm::mat3(trans);
+    //normalize orientation basis vectors to eliminate scale component of transform
+    orientation = glm::mat3(glm::normalize(orientation[0]),
+            glm::normalize(orientation[1]),
+            glm::normalize(orientation[2]));
+    glm::vec3 position = glm::vec3(trans[3]); //4th column is position
+
+
+    std::memcpy(m_positionArray.data, glm::value_ptr(position), m_positionArray.size);
+    std::memcpy(m_orientationArray.data, glm::value_ptr(orientation), m_orientationArray.size);
+
+
+    uint32_t time = this->scene()->currentTimestampMillis();
+    uint32_t button;
+    uint32_t button_state;
+    uint32_t serial = 0;
+
+//    motorcar_six_dof_pointer_send_enter(sixDofResource, serial, motorcarSurfaceResource, m_positionArray, m_orientationArray);
+
+//    motorcar_six_dof_pointer_send_leave(sixDofResource, serial, motorcarSurfaceResource);
+
+    switch(event.event()){
+    case(MouseEvent::Event::BUTTON_PRESS):
+    case(MouseEvent::Event::BUTTON_RELEASE):
+        button_state = (event.event() == MouseEvent::Event::BUTTON_PRESS) ? WL_POINTER_BUTTON_STATE_PRESSED : WL_POINTER_BUTTON_STATE_RELEASED;
+        button = event.button();
+        motorcar_six_dof_pointer_send_button(sixDofResource, serial, time, button, button_state);
+        break;
+    case(MouseEvent::Event::MOVE):
+        motorcar_six_dof_pointer_send_motion(sixDofResource, time, &m_positionArray, &m_orientationArray);
+        break;
+    }
+
+
+
+
+
+
+
+
+
+
+}
+
+
+Seat *SixDOFPointingDevice::seat() const
 {
     return m_seat;
 }
 
-void SpatialPointingDevice::setSeat(Seat *seat)
+void SixDOFPointingDevice::setSeat(Seat *seat)
 {
     m_seat = seat;
 }
@@ -120,12 +193,14 @@ void SpatialPointingDevice::setSeat(Seat *seat)
 
 
 
-bool SpatialPointingDevice::rightMouseDown() const
+
+
+bool SixDOFPointingDevice::rightMouseDown() const
 {
     return m_rightMouseDown;
 }
 
-void SpatialPointingDevice::setRightMouseDown(bool rightMouseDown)
+void SixDOFPointingDevice::setRightMouseDown(bool rightMouseDown)
 {
     if(rightMouseDown != m_rightMouseDown){
         if(rightMouseDown){
@@ -138,12 +213,12 @@ void SpatialPointingDevice::setRightMouseDown(bool rightMouseDown)
 
 }
 
-bool SpatialPointingDevice::leftMouseDown() const
+bool SixDOFPointingDevice::leftMouseDown() const
 {
     return m_leftMouseDown;
 }
 
-void SpatialPointingDevice::setLeftMouseDown(bool leftMouseDown)
+void SixDOFPointingDevice::setLeftMouseDown(bool leftMouseDown)
 {
     if(leftMouseDown != m_leftMouseDown){
         if(leftMouseDown){
@@ -155,12 +230,12 @@ void SpatialPointingDevice::setLeftMouseDown(bool leftMouseDown)
     m_leftMouseDown = leftMouseDown;
 }
 
-bool SpatialPointingDevice::middleMouseDown() const
+bool SixDOFPointingDevice::middleMouseDown() const
 {
     return m_middleMouseDown;
 }
 
-void SpatialPointingDevice::setMiddleMouseDown(bool middleMouseDown)
+void SixDOFPointingDevice::setMiddleMouseDown(bool middleMouseDown)
 {
     if(middleMouseDown != m_middleMouseDown){
         if(middleMouseDown){
@@ -172,6 +247,32 @@ void SpatialPointingDevice::setMiddleMouseDown(bool middleMouseDown)
     m_middleMouseDown = middleMouseDown;
 }
 
+
+void SixDOFPointingDevice::destroy_func(wl_resource *resource)
+{
+    SixDOFPointingDevice *device = static_cast<SixDOFPointingDevice *>(resource->data);
+    //viewpoint->m_resources.
+    device->m_resourcesMap.erase (resource->client);
+}
+
+void SixDOFPointingDevice::bind_func(struct wl_client *client, void *data,
+                          uint32_t version, uint32_t id)
+{
+    SixDOFPointingDevice *device = static_cast<SixDOFPointingDevice *>(data);
+    std::cout << "client bound spatial pointing device global: " << device << std::endl;
+    struct wl_resource *resource = wl_resource_create(client, &motorcar_six_dof_pointer_interface, version, id);
+    wl_resource_set_implementation(resource,NULL, data, SixDOFPointingDevice::destroy_func);
+    device->m_resourcesMap.insert(std::pair<struct wl_client *, struct wl_resource *>(client, resource));
+}
+
+wl_resource *SixDOFPointingDevice::resourceForClient(wl_client *client)
+{
+    if(client != NULL && m_resourcesMap.count(client)){
+        return m_resourcesMap.find(client)->second;
+    }else{
+        return NULL;
+    }
+}
 
 
 

@@ -90,12 +90,12 @@ void SixenseControllerNode::setEnabled(bool enabled)
 
 
 
-SpatialPointingDevice *SixenseControllerNode::pointingDevice() const
+SixDOFPointingDevice *SixenseControllerNode::pointingDevice() const
 {
     return m_pointingDevice;
 }
 
-void SixenseControllerNode::setPointingDevice(SpatialPointingDevice *pointingDevice)
+void SixenseControllerNode::setPointingDevice(SixDOFPointingDevice *pointingDevice)
 {
     m_pointingDevice = pointingDevice;
 }

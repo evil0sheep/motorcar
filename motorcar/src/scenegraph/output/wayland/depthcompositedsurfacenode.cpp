@@ -314,12 +314,16 @@ void MotorcarSurfaceNode::clipWindowBounds(Display *display)
 
 
 
+
+
+
+
 void MotorcarSurfaceNode::draw(Scene *scene, Display *display)
 {
-
+    
     glEnable(GL_STENCIL_TEST);
     //glDisable(GL_STENCIL_TEST);
-
+    
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, display->scratchFrameBuffer());
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClearDepth(1.0);

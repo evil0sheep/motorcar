@@ -59,6 +59,8 @@ private:
 
     struct wl_resource *m_resource;
     struct wl_array m_dimensionsArray, m_transformArray;
+
+
     glm::vec3 m_dimensions;
 
 };
