@@ -13,6 +13,7 @@ SixDOFPointingDevice::SixDOFPointingDevice(Seat *seat, PhysicalNode *parent, con
     ,m_middleMouseDown(false)
     ,m_grabbedSurfaceNode(NULL)
     ,m_grabbedSurfaceNodeTransform()
+    ,m_sixDofFocus(NULL)
 { 
     float vertices[]= {
         -0.05, 0, 0,
@@ -75,6 +76,13 @@ void SixDOFPointingDevice::handleFrameBegin(Scene *scene)
         if(cursor){
             cursor->setVisible(false);
         }
+        if(m_sixDofFocus != NULL){
+            sixDofPointerEvent(m_sixDofFocus, SixDofEvent(MouseEvent::Event::LEAVE,
+                                                          MouseEvent::Button::NONE,
+                                                          m_seat, this->worldTransform()));
+            m_sixDofFocus = NULL;
+        }
+
     }
 
     if(m_grabbedSurfaceNode != NULL){
@@ -119,7 +127,27 @@ void SixDOFPointingDevice::mouseEvent(MouseEvent::Event event, MouseEvent::Butto
         surface->sendEvent(MouseEvent(event, button, m_latestIntersection->surfaceLocalCoordinates, m_seat));
         if(surface->isMotorcarSurface()){
             MotorcarSurfaceNode *mcsn = static_cast<MotorcarSurfaceNode *>(m_latestIntersection->surfaceNode);
-            sixDofPointerEvent(mcsn, SixDofEvent(event, button, m_seat, this->worldTransform()));
+
+            if(m_sixDofFocus != mcsn){
+                if(m_sixDofFocus != NULL){
+                    sixDofPointerEvent(m_sixDofFocus, SixDofEvent(MouseEvent::Event::LEAVE,
+                                                                  MouseEvent::Button::NONE,
+                                                                  m_seat, this->worldTransform()));
+                }
+                m_sixDofFocus = mcsn;
+                sixDofPointerEvent(m_sixDofFocus, SixDofEvent(MouseEvent::Event::ENTER,
+                                                              MouseEvent::Button::NONE,
+                                                              m_seat, this->worldTransform()));
+
+            }
+            sixDofPointerEvent(m_sixDofFocus, SixDofEvent(event, button, m_seat, this->worldTransform()));
+        }else{
+            if(m_sixDofFocus != NULL){
+                sixDofPointerEvent(m_sixDofFocus, SixDofEvent(MouseEvent::Event::LEAVE,
+                                                              MouseEvent::Button::NONE,
+                                                              m_seat, this->worldTransform()));
+                m_sixDofFocus = NULL;
+            }
         }
     }else{
         //std::cout << "could not find surface to send mouse event to" << std::endl;
@@ -165,6 +193,12 @@ void SixDOFPointingDevice::sixDofPointerEvent(MotorcarSurfaceNode *surfaceNode, 
         break;
     case(MouseEvent::Event::MOVE):
         motorcar_six_dof_pointer_send_motion(sixDofResource, time, &m_positionArray, &m_orientationArray);
+        break;    
+    case(MouseEvent::Event::ENTER):
+        motorcar_six_dof_pointer_send_enter(sixDofResource, serial, motorcarSurfaceResource, &m_positionArray, &m_orientationArray);
+        break;
+    case(MouseEvent::Event::LEAVE):
+        motorcar_six_dof_pointer_send_leave(sixDofResource, serial, motorcarSurfaceResource);
         break;
     }
 

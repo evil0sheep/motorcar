@@ -156,7 +156,7 @@
 	</interface>
 
 
-	 <interface name="motorcar_six_dof_pointer" version="3">
+	 <interface name="motorcar_six_dof_pointer" version="1">
     <description summary="six degree of freedom pointer input device">
       This interface represents a six degree of freedom pointing device which behaves much like a traditional pointing device except that 
       rather then event being associated with a 2D position they are associated with a 3D position and orientation, 
@@ -169,7 +169,7 @@
       and scrolling.
     </description>
 
-    <request name="release" type="destructor" since="3">
+    <request name="release" type="destructor">
       <description summary="release the six_dof pointer object"/>
     </request>
 

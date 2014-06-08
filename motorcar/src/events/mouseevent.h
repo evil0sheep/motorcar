@@ -10,7 +10,9 @@ public:
     enum Event{
         BUTTON_PRESS,
         BUTTON_RELEASE,
-        MOVE
+        MOVE,
+        ENTER,
+        LEAVE
     };
 
     enum Button{

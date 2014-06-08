@@ -74,6 +74,8 @@ private:
 
     struct wl_array m_positionArray, m_orientationArray;
 
+    MotorcarSurfaceNode *m_sixDofFocus;
+
 };
 }
 

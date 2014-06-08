@@ -75,7 +75,7 @@ void Display::prepareForDraw()
 //    }
     glContext()->makeCurrent();
     //glClearColor(.7f, .85f, 1.f, 1.0f);
-    glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClearStencil(0.0);
     glStencilMask(0xFF);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
