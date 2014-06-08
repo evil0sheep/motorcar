@@ -1,7 +1,0 @@
-<map id="motorcar::OculusHMD" name="motorcar::OculusHMD">
-<area shape="rect" id="node2" href="$classmotorcar_1_1RenderToTextureDisplay.html" title="motorcar::RenderToTexture\lDisplay" alt="" coords="93,246,275,287"/>
-<area shape="rect" id="node3" href="$classmotorcar_1_1Display.html" title="motorcar::Display" alt="" coords="121,171,247,197"/>
-<area shape="rect" id="node4" href="$classmotorcar_1_1PhysicalNode.html" title="motorcar::PhysicalNode" alt="" coords="16,88,179,115"/>
-<area shape="rect" id="node5" href="$classmotorcar_1_1SceneGraphNode.html" title="motorcar::SceneGraphNode" alt="" coords="5,5,189,32"/>
-<area shape="rect" id="node6" href="$structmotorcar_1_1Geometry_1_1Rectangle.html" title="motorcar::Geometry\l::Rectangle" alt="" coords="203,81,341,122"/>
-</map>

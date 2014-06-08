@@ -1,9 +1,0 @@
-<map id="motorcar::VirtualNode" name="motorcar::VirtualNode">
-<area shape="rect" id="node3" href="$classmotorcar_1_1Drawable.html" title="motorcar::Drawable" alt="" coords="437,71,573,97"/>
-<area shape="rect" id="node8" href="$classmotorcar_1_1ViewPoint.html" title="motorcar::ViewPoint" alt="" coords="435,121,575,148"/>
-<area shape="rect" id="node2" href="$classmotorcar_1_1SceneGraphNode.html" title="motorcar::SceneGraphNode" alt="" coords="5,96,189,123"/>
-<area shape="rect" id="node4" href="$classmotorcar_1_1SoftKineticDepthCamera.html" title="motorcar::SoftKineticDepth\lCamera" alt="" coords="638,5,818,46"/>
-<area shape="rect" id="node5" href="$classmotorcar_1_1WaylandSurfaceNode.html" title="motorcar::WaylandSurfaceNode" alt="" coords="624,71,832,97"/>
-<area shape="rect" id="node7" href="$classmotorcar_1_1WireframeNode.html" title="motorcar::WireframeNode" alt="" coords="642,121,814,148"/>
-<area shape="rect" id="node6" href="$classmotorcar_1_1DepthCompositedSurfaceNode.html" title="motorcar::DepthComposited\lSurfaceNode" alt="" coords="880,63,1067,105"/>
-</map>
