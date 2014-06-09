@@ -19,6 +19,7 @@ GLuint QtWaylandMotorcarSurface::texture()
 glm::ivec2 QtWaylandMotorcarSurface::size()
 {
     return glm::ivec2(m_surface->size().width(), m_surface->size().height());
+
 }
 
 void QtWaylandMotorcarSurface::setSize(glm::ivec2 newSize)

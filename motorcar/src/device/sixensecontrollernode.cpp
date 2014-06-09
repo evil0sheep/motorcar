@@ -58,6 +58,7 @@ void SixenseControllerNode::updateState(sixenseControllerData data)
 
     if(m_boneTracker != NULL){
         m_boneTracker->setPosition(m_filteredPos);
+        //m_boneTracker->setOrientation(rotation);
     }
 
 

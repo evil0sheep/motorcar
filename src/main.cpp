@@ -114,9 +114,9 @@ int main(int argc, char *argv[])
 
           compositor->display()->setTransform(displayTransform);
 
-
-//          compositor->display()->setParentNode(headController);
-//          compositor->display()->setTransform(glm::mat4(1));
+//        headController->setBoneTracker(NULL);
+//        compositor->display()->setParentNode(headController);
+//        compositor->display()->setTransform(glm::mat4(1));
     }
 
 

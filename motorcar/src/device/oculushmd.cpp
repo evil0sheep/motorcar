@@ -89,6 +89,11 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, Skeleton *
             DistortionK = glm::make_vec4(TheHMDInfo.DistortionK);
             scaleFactor = SConfig.GetDistortionScale();
 
+            std::cout << "mag yaw calibration enabled: " << SFusion.IsYawCorrectionEnabled() << std::endl;
+
+            SFusion.SetYawCorrectionEnabled(true);
+            std::cout << "mag yaw calibration enabled: " << SFusion.IsYawCorrectionEnabled() << std::endl;
+
         }
         std::cout << "IPD " << InterpupillaryDistance << std::endl;
 

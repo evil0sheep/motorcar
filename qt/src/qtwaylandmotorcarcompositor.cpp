@@ -472,10 +472,14 @@ void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int
         m_defaultSeat->pointer()->setCursorNode(cursorSurfaceNode);
         std::cout << "created cursor surface node " << cursorSurfaceNode << std::endl;
     }
-
-    (static_cast<QtWaylandMotorcarSurface *>(m_defaultSeat->pointer()->cursorNode()->surface()))->setSurface(surface);
-    m_defaultSeat->pointer()->setCursorHotspot(glm::ivec2(hotspotX, hotspotY));
-
+    if(!surface){
+        std::cout << "cursor surface set to NULL" <<std::endl;
+        delete m_defaultSeat->pointer()->cursorNode();
+         m_defaultSeat->pointer()->setCursorNode(NULL);
+    }else{
+        (static_cast<QtWaylandMotorcarSurface *>(m_defaultSeat->pointer()->cursorNode()->surface()))->setSurface(surface);
+        m_defaultSeat->pointer()->setCursorHotspot(glm::ivec2(hotspotX, hotspotY));
+    }
 
     if ((m_cursorSurface != surface) && surface){
         connect(surface, SIGNAL(committed()), this, SLOT(updateCursor()));

@@ -124,7 +124,7 @@ void SixDOFPointingDevice::mouseEvent(MouseEvent::Event event, MouseEvent::Butto
     if(m_latestIntersection != NULL){
         //std::cout << "found surface to send mouse event to" << std::endl;
         WaylandSurface *surface = m_latestIntersection->surfaceNode->surface();
-        surface->sendEvent(MouseEvent(event, button, m_latestIntersection->surfaceLocalCoordinates, m_seat));
+
         if(surface->isMotorcarSurface()){
             MotorcarSurfaceNode *mcsn = static_cast<MotorcarSurfaceNode *>(m_latestIntersection->surfaceNode);
 
@@ -142,6 +142,8 @@ void SixDOFPointingDevice::mouseEvent(MouseEvent::Event event, MouseEvent::Butto
             }
             sixDofPointerEvent(m_sixDofFocus, SixDofEvent(event, button, m_seat, this->worldTransform()));
         }else{
+            surface->sendEvent(MouseEvent(event, button, m_latestIntersection->surfaceLocalCoordinates, m_seat));
+
             if(m_sixDofFocus != NULL){
                 sixDofPointerEvent(m_sixDofFocus, SixDofEvent(MouseEvent::Event::LEAVE,
                                                               MouseEvent::Button::NONE,
