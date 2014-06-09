@@ -112,6 +112,21 @@ struct geometry {
 	int width, height;
 };
 
+class Box {
+public:
+	glm::vec3 size;
+	glm::mat4 transform, grabTransform;
+	bool isGrabbed;
+	void draw(struct window *window, std::vector<struct viewpoint *> &viewpoints, uint32_t time);
+
+
+};
+
+class sixDofPointer{
+public:
+	glm::mat4 transform;
+};
+
 struct window {
 	struct display *display;
 	struct geometry geometry, window_size;
@@ -142,6 +157,9 @@ struct window {
 	wl_array dimensions_array;
 	enum motorcar_surface_clipping_mode clipping_mode;
 	bool depthCompositingEnabled;
+
+	Box m_box;
+	sixDofPointer m_sixDofPointer;
 
 };
 
@@ -864,6 +882,65 @@ static const struct wl_callback_listener frame_listener = {
 	redraw
 };
 
+void Box::draw(struct window *window, std::vector<struct viewpoint *> &viewpoints, uint32_t time){
+	static const int32_t speed_div = 5, benchmark_interval = 5;
+	struct wl_region *region;
+	EGLint rect[4];
+	EGLint buffer_age = 0;
+	struct timeval tv;
+
+	glDepthFunc(GL_LESS);
+	glClearColor(.7f, .85f, 1.f, 1.0f);
+	glClearDepth(1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+   // drawWindowBoundsStencil(window, display);
+
+	glUseProgram(window->gl.drawProgram);
+
+	glEnableVertexAttribArray(window->gl.pos);
+	glBindBuffer(GL_ARRAY_BUFFER, window->gl.vertices);
+	glVertexAttribPointer(window->gl.pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	glEnableVertexAttribArray(window->gl.col);
+	glBindBuffer(GL_ARRAY_BUFFER, window->gl.colors);
+	glVertexAttribPointer(window->gl.col, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.indices);
+
+	glm::mat4 window_offset = glm::mat4(1);
+
+	if(window->clipping_mode == MOTORCAR_SURFACE_CLIPPING_MODE_PORTAL){
+		window_offset = glm::translate(glm::mat4(1), glm::vec3(0, 0, -0.25));
+	}
+
+	glm::mat4 model =  window->transformMatrix
+						* window_offset
+						* this->transform
+						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) 
+						* glm::scale(glm::mat4(), this->size);
+
+	int i = 0;
+	for(struct viewpoint *vp : viewpoints){
+
+		glViewport(vp->colorViewport.x, vp->colorViewport.y, vp->colorViewport.width, vp->colorViewport.height);
+
+		glm::mat4 projection = vp->projectionMatrix;
+		glm::mat4 view = vp->viewMatrix;
+		
+		glUniformMatrix4fv(window->gl.rotation_uniform, 1, GL_FALSE, glm::value_ptr(projection * view * model));
+
+		glDrawElements(GL_TRIANGLES, 36,GL_UNSIGNED_INT, 0);
+
+		i++;
+	}
+
+
+	glDisableVertexAttribArray(window->gl.pos);
+	glDisableVertexAttribArray(window->gl.col);
+
+}
+
 static void
 redraw(void *data, struct wl_callback *callback, uint32_t time)
 {
@@ -876,35 +953,11 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	struct display *display = window->display;
 
 
-
-	// static const GLfloat verts[3][2] = {
-	// 	{ -0.5, -0.5 },
-	// 	{  0.5, -0.5 },
-	// 	{  0,    0.5 }
-	// };
-	// static const GLfloat colors[3][3] = {
-	// 	{ 1, 0, 0 },
-	// 	{ 0, 1, 0 },
-	// 	{ 0, 0, 1 }
-	// };
-
-	
-
-	GLfloat angle;
-	// GLfloat rotation[4][4] = {
-	// 	{ 1, 0, 0, 0 },
-	// 	{ 0, 1, 0, 0 },
-	// 	{ 0, 0, 1, 0 },
-	// 	{ 0, 0, 0, 1 }
-	// };
-	static const int32_t speed_div = 5, benchmark_interval = 5;
+	 static const int32_t speed_div = 5, benchmark_interval = 5;
 	struct wl_region *region;
 	EGLint rect[4];
 	EGLint buffer_age = 0;
-	struct timeval tv;
 
-	//assert(window->callback == callback);
-	//window->callback = NULL;
 
 	 if (callback)
 		wl_callback_destroy(callback);
@@ -918,9 +971,7 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 	if (!window->configured)
 		return;
 
-	//printf("%u\n", time);
-	gettimeofday(&tv, NULL);
-	//time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	
 	if (window->frames == 0)
 		window->benchmark_time = time;
 	if (time - window->benchmark_time > (benchmark_interval * 1000)) {
@@ -959,54 +1010,7 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 
 	//glDisable(GL_STENCIL_TEST);
 
-	glDepthFunc(GL_LESS);
-	glClearColor(.7f, .85f, 1.f, 1.0f);
-	glClearDepth(1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-   // drawWindowBoundsStencil(window, display);
-
-	glUseProgram(window->gl.drawProgram);
-
-	glEnableVertexAttribArray(window->gl.pos);
-	glBindBuffer(GL_ARRAY_BUFFER, window->gl.vertices);
-	glVertexAttribPointer(window->gl.pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glEnableVertexAttribArray(window->gl.col);
-	glBindBuffer(GL_ARRAY_BUFFER, window->gl.colors);
-	glVertexAttribPointer(window->gl.col, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->gl.indices);
-
-	glm::mat4 window_offset = glm::mat4(1);
-
-	if(window->clipping_mode == MOTORCAR_SURFACE_CLIPPING_MODE_PORTAL){
-		window_offset = glm::translate(glm::mat4(1), glm::vec3(0, 0, -0.25));
-	}
-
-	glm::mat4 model =  window->transformMatrix
-						* window_offset
-						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) 
-						* glm::scale(glm::mat4(), glm::vec3(.3, .3, .3));
-
-	int i = 0;
-	for(struct viewpoint *vp : display->viewpoints){
-
-		glViewport(vp->colorViewport.x, vp->colorViewport.y, vp->colorViewport.width, vp->colorViewport.height);
-
-		glm::mat4 projection = vp->projectionMatrix;
-		glm::mat4 view = vp->viewMatrix;
-		
-		glUniformMatrix4fv(window->gl.rotation_uniform, 1, GL_FALSE, glm::value_ptr(projection * view * model));
-
-		glDrawElements(GL_TRIANGLES, 36,GL_UNSIGNED_INT, 0);
-
-		i++;
-	}
-
-
-	glDisableVertexAttribArray(window->gl.pos);
-	glDisableVertexAttribArray(window->gl.col);
+	window->m_box.draw(window, display->viewpoints, time);
 
 
 
@@ -1280,8 +1284,13 @@ static const struct wl_keyboard_listener keyboard_listener = {
 	keyboard_handle_modifiers,
 };
 
-glm::mat4 mat4_from_position_and_orientation(struct wl_array *position, struct wl_array *orientation){
+glm::mat4 mat4_from_position_and_orientation(struct wl_array *positionArray, struct wl_array *orientationArray){
+	glm::vec3 position = glm::make_vec3((float *)(positionArray->data));
+	glm::mat3 orientation = glm::make_mat3((float *)(orientationArray->data));
 
+	glm::mat4 res = glm::mat4(orientation);
+	res[3] = glm::vec4(position, 1);
+	return res;
 }
 
 static void
@@ -1293,6 +1302,8 @@ motorcar_six_dof_pointer_handle_enter(void *data,
 		      struct wl_array *orientation){
 
 	printf("6DOF pointer entered surface\n");
+	struct window *window = (struct window *) data;
+	window->m_sixDofPointer.transform = mat4_from_position_and_orientation(position, orientation);
 }
 
 static void
@@ -1301,6 +1312,9 @@ motorcar_six_dof_pointer_handle_leave(void *data,
 		      uint32_t serial,
 		      struct motorcar_surface *surface){
 	printf("6DOF pointer left surface\n");
+	struct window *window = (struct window *) data;
+	window->m_box.isGrabbed = false;
+	window->m_box.grabTransform = glm::mat4();
 }
 
 static void
@@ -1311,6 +1325,12 @@ motorcar_six_dof_pointer_handle_motion(void *data,
 		       struct wl_array *orientation){
 
 	//printf("6DOF pointer motion event\n");
+	struct window *window = (struct window *) data;
+	window->m_sixDofPointer.transform = mat4_from_position_and_orientation(position, orientation);
+	if(window->m_box.isGrabbed){
+		window->m_box.transform = glm::inverse(window->transformMatrix) * window->m_sixDofPointer.transform  * window->m_box.grabTransform;
+	}
+
 }
 static void
 motorcar_six_dof_pointer_handle_button(void *data,
@@ -1320,6 +1340,17 @@ motorcar_six_dof_pointer_handle_button(void *data,
 		       uint32_t button,
 		       uint32_t state){
 	printf("6DOF pointer button event, button state = %d\n", state);
+	struct window *window = (struct window *) data;
+	switch(state){
+	case WL_POINTER_BUTTON_STATE_PRESSED:
+		window->m_box.isGrabbed = true;
+		window->m_box.grabTransform = glm::inverse(window->m_sixDofPointer.transform) * window->transformMatrix * window->m_box.transform;
+		break;
+	case WL_POINTER_BUTTON_STATE_RELEASED:
+		window->m_box.isGrabbed = false;
+		window->m_box.grabTransform = glm::mat4();
+		break;
+	}
 }
 
 struct motorcar_six_dof_pointer_listener motorcar_pointer_listener = {
@@ -1478,7 +1509,7 @@ registry_handle_global(void *data, struct wl_registry *registry,
 
 		printf("got motorcar six_dof pointer\n");
 
-		motorcar_six_dof_pointer_add_listener(motorcar_pointer_handle, &motorcar_pointer_listener, NULL);
+		motorcar_six_dof_pointer_add_listener(motorcar_pointer_handle, &motorcar_pointer_listener, d->window);
 
 	}
 }
@@ -1522,6 +1553,12 @@ main(int argc, char **argv)
 	struct display display = { 0 };
 	struct window  window  = { 0 };
 	int i, ret = 0;
+
+
+	window.m_box.size = glm::vec3(0.3);
+	window.m_box.transform = glm::mat4(1); 
+	window.m_box.grabTransform = glm::mat4(1); 
+	window.m_box.isGrabbed = false;
 
 	window.display = &display;
 	display.window = &window;
