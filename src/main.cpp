@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
 
 //        headController->setBoneTracker(NULL);
 //        compositor->display()->setParentNode(headController);
-//        compositor->display()->setTransform(glm::mat4(1));
+//        compositor->display()->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,-0.25, 0)));
     }
 
 

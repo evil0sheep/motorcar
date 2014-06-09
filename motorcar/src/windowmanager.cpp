@@ -118,6 +118,7 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
                             glm::rotate(glm::mat4(1), (m_numSurfacesMapped - 1) * thetaOffset, glm::vec3(0, 1 ,0)) *
                                     glm::translate(glm::mat4(1), glm::vec3(0, 0 ,zOffset)));
 
+        surfaceNode->setTransform(glm::mat4());
         m_numSurfacesMapped ++;
 
         this->defaultSeat()->setPointerFocus(surfaceNode->surface(), glm::vec2());
