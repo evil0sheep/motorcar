@@ -1,5 +1,5 @@
 /****************************************************************************
-**This file is part of the MotorCar QtWayland Compositor, derived from the
+**This file is part of the Motorcar QtWayland Compositor, derived from the
 **QtWayland QWindow Reference Compositor
 **
 **

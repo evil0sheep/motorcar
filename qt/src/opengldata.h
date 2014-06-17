@@ -1,8 +1,8 @@
 /****************************************************************************
-**This file is part of the MotorCar QtWayland Compositor
+**This file is part of the Motorcar 3D windowing framework
 **
 **
-**Copyright (C) 2013 Forrest Reiling
+**Copyright (C) 2014 Forrest Reiling
 **
 **
 ** You may use this file under the terms of the BSD license as follows:
