@@ -64,7 +64,6 @@ HEADERS += \
     motorcar/src/device/device.h \
     motorcar/src/device/oculushmd.h \
     motorcar/src/device/sixensemotionsensingsystem.h \
-    motorcar/src/scenegraph/input/spatialpointingdevice.h \
     motorcar/src/device/sixensecontrollernode.h \
     motorcar/src/device/sixensebasenode.h \
     motorcar/src/scenegraph/output/wireframenode.h \
@@ -87,11 +86,12 @@ HEADERS += \
     qt/src/qtwaylandmotorcarseat.h \
     motorcar/src/scenegraph/input/input.h \
     motorcar/src/shell.h \
-    motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.h \
     motorcar/src/scenegraph/output/viewpoint.h \
     motorcar/src/gl/viewport.h \
     motorcar/src/device/softkineticdepthcamera.h \
-    motorcar/src/events/sixdofevent.h
+    motorcar/src/events/sixdofevent.h \
+    motorcar/src/scenegraph/input/sixdofpointingdevice.h \
+    motorcar/src/scenegraph/output/wayland/motorcarsurfacenode.h
 
 
 
@@ -120,7 +120,6 @@ SOURCES += \
     motorcar/src/scenegraph/output/display/rendertotexturedisplay.cpp \
     motorcar/src/device/oculushmd.cpp \
     motorcar/src/device/sixensemotionsensingsystem.cpp \
-    motorcar/src/scenegraph/input/spatialpointingdevice.cpp \
     motorcar/src/device/sixensecontrollernode.cpp \
     motorcar/src/device/sixensebasenode.cpp \
     motorcar/src/scenegraph/output/wireframenode.cpp \
@@ -140,11 +139,12 @@ SOURCES += \
     motorcar/src/wayland/output/waylandsurface.cpp \
     qt/src/qtwaylandmotorcarseat.cpp \
     motorcar/src/shell.cpp \
-    motorcar/src/scenegraph/output/wayland/depthcompositedsurfacenode.cpp \
     motorcar/src/scenegraph/output/viewpoint.cpp \
     motorcar/src/gl/viewport.cpp \
     motorcar/src/device/softkineticdepthcamera.cpp \
-    motorcar/src/events/sixdofevent.cpp
+    motorcar/src/events/sixdofevent.cpp \
+    motorcar/src/scenegraph/input/sixdofpointingdevice.cpp \
+    motorcar/src/scenegraph/output/wayland/motorcarsurfacenode.cpp
 
 
 

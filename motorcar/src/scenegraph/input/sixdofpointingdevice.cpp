@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "spatialpointingdevice.h"
+#include "sixdofpointingdevice.h"
 #include "../scene.h"
 #include "../../compositor.h"
 #include <stdint.h>

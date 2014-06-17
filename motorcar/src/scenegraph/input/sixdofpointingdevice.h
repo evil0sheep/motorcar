@@ -41,7 +41,7 @@
 #include "../physicalnode.h"
 #include "../output/wireframenode.h"
 #include "../output/wayland/waylandsurfacenode.h"
-#include "../output/wayland/depthcompositedsurfacenode.h"
+#include "../output/wayland/motorcarsurfacenode.h"
 #include "../../wayland/input/seat.h"
 #include "../../wayland/input/pointer.h"
 

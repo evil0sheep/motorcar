@@ -40,6 +40,6 @@
 #include "bonesensor.h"
 #include "singlebonetracker.h"
 #include "skeleton.h"
-#include "spatialpointingdevice.h"
+#include "sixdofpointingdevice.h"
 
 #endif // INPUT_H
