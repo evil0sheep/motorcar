@@ -36,6 +36,7 @@
 #define SPATIALMOUSE_H
 
 #include <glm/gtc/type_ptr.hpp>
+#include <map>
 
 
 #include "../physicalnode.h"
@@ -49,6 +50,8 @@
 #include "wayland-server.h"
 #include "wayland-server-protocol.h"
 #include "motorcar-server-protocol.h"
+
+
 
 namespace motorcar {
 class SixDOFPointingDevice : public PhysicalNode

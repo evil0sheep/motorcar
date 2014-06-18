@@ -9,7 +9,6 @@
 
 //#include <GLES2/gl2.h>
 #include <GL/gl.h>
-#include <qopenglfunctions.h>
 
 #include <stdlib.h>
 #include <stdio.h>

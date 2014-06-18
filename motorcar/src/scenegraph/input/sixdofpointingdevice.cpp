@@ -37,6 +37,7 @@
 #include "../../compositor.h"
 #include <stdint.h>
 
+
 using namespace motorcar;
 SixDOFPointingDevice::SixDOFPointingDevice(Seat *seat, PhysicalNode *parent, const glm::mat4 &transform)
     :PhysicalNode(parent, transform)

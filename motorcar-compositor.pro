@@ -1,31 +1,33 @@
 QT += gui widgets gui-private core-private compositor compositor-private
 
-INCLUDEPATH +=
 #QTWAYLANDPATH=$$PWD/../thirdPartySource/qt5_GLES/qtwayland/src/compositor
 
-#include ($$QTWAYLANDPATH/global/global.pri)
-#include ($$QTWAYLANDPATH/wayland_wrapper/wayland_wrapper.pri)
-#include ($$QTWAYLANDPATH/hardware_integration/hardware_integration.pri)
-#include ($$QTWAYLANDPATH/compositor_api/compositor_api.pri)
-#include ($$QTWAYLANDPATH/windowmanagerprotocol/windowmanagerprotocol.pri)
 
 LIBOVRPATH=$$PWD/../thirdPartySource/Oculus/OculusSDK/LibOVR
 SIXENSEPATH=$$PWD/../thirdPartySource/sixenseSDK_linux_OSX
-INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include" /opt/softkinetic/DepthSenseSDK/include ./motorcar/protocol
-
-
 RELEASETYPE=Release
 SYSARCH=x86_64
+INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include" /opt/softkinetic/DepthSenseSDK/include
+
+
+LIBS +=  -lwayland-server -lwayland-client
+
+LIBS += -L/home/dave/thesis/thirdPartySource/sixenseSDK_linux_OSX/lib/linux_x64/release -lsixense_utils_x64 -lsixense_x64
+
+LIBS += -L/opt/softkinetic/DepthSenseSDK/lib/ -lDepthSense
 
 LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr
 
-LIBS += -L$$SIXENSEPATH/lib/linux_x64/release -lsixense_x64 -lsixense_utils_x64
-
-LIBS += -L$$PWD/motorcar/protocol -lmotorcar -lwayland-server -lwayland-client
-
-LIBS += -L/opt/softkinetic/DepthSenseSDK/lib -lDepthSense
-
 LIBS +=  -ludev -lpthread -lGL -lX11 -lXinerama
+
+
+MOTORCAR_PROTOCOL_PATH=$$PWD/motorcar/protocol/
+system(cd $$MOTORCAR_PROTOCOL_PATH; make)
+
+INCLUDEPATH += $$MOTORCAR_PROTOCOL_PATH
+#LIBS +=  -L $$MOTORCAR_PROTOCOL_PATH -lmotorcar-server
+HEADERS += $$MOTORCAR_PROTOCOL_PATH/motorcar-server-protocol.h
+SOURCES += $$MOTORCAR_PROTOCOL_PATH/motorcar-wayland-extensions.c
 
 DESTDIR = bin
 OBJECTS_DIR = bin/.obj
@@ -33,11 +35,24 @@ MOC_DIR = bin/.moc
 RCC_DIR = bin/.rcc
 UI_DIR = bin/.ui
 
-QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES
+QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES 
 
-LIBS += -L ../thirdPartySource/qt5_GL/qtwayland/lib -lGL #-lGLU -lglut
-#include (../../src/qt-compositor/qt-compositor.pri)
-#include(scenegraph/include.pri)
+
+LIBS += -L $$QTWAYLANDSOURCEPATH/lib -lGL 
+INCLUDEPATH += $$QTWAYLANDSOURCEPATH/include
+INCLUDEPATH += $$QTWAYLANDSOURCEPATH/include/QtCompositor/5.3.0/
+
+#  if you want to compile QtCompositor as part of the application
+#  instead of linking to it, remove the QT += compositor and uncomment
+#  the following line
+#include($$PWD/../thirdPartySource/qt5_GLES/qtwayland/src/compositor/compositor.pri)
+
+RESOURCES += motorcar-compositor.qrc
+
+target.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
+sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS motorcar-compositor.pro
+sources.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
+INSTALLS += target sources
 
 HEADERS += \
     qt/src/textureblitter.h \
@@ -94,10 +109,6 @@ HEADERS += \
     motorcar/src/scenegraph/output/wayland/motorcarsurfacenode.h
 
 
-
-
-
-
 SOURCES += \
     src/main.cpp \
     qt/src/textureblitter.cpp \
@@ -147,26 +158,6 @@ SOURCES += \
     motorcar/src/scenegraph/output/wayland/motorcarsurfacenode.cpp
 
 
-
-
-
-
-
-# to make QtCompositor/... style includes working without installing
-INCLUDEPATH += $$PWD/../thirdPartySource/qt5_GL/qtwayland/include
-INCLUDEPATH += $$PWD/../thirdPartySource/qt5_GL/qtwayland/include/QtCompositor/5.3.0/
-
-#  if you want to compile QtCompositor as part of the application
-#  instead of linking to it, remove the QT += compositor and uncomment
-#  the following line
-#include($$PWD/../thirdPartySource/qt5_GLES/qtwayland/src/compositor/compositor.pri)
-
-RESOURCES += motorcar-compositor.qrc
-
-target.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
-sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS motorcar-compositor.pro
-sources.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
-INSTALLS += target sources
 
 OTHER_FILES += \
     src/motorcarsurface.vert \
