@@ -34,14 +34,16 @@
 ****************************************************************************/
 #include <scenegraph/output/display/rendertotexturedisplay.h>
 
-
+#include <gl/GLSLHelper.h>
 using namespace motorcar;
+
+
 
 RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform)
     :Display(glContext, displayDimensions, parent, transform)
     ,m_scale(scale)
     ,m_distortionK(distortionK)
-    ,m_distortionShader(new motorcar::OpenGLShader("../motorcar/src/shaders/motorcarbarreldistortion.vert", "../motorcar/src/shaders/motorcarbarreldistortion.frag"))
+    ,m_distortionShader(new motorcar::OpenGLShader("../src/compositor/compositor/shaders/motorcarbarreldistortion.vert", "../src/compositor/compositor/shaders/motorcarbarreldistortion.frag"))
 {
 
     h_aPosition_distortion =  glGetAttribLocation(m_distortionShader->handle(), "aPosition");

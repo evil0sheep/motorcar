@@ -35,6 +35,7 @@
 #ifndef COMPOSITOR_H
 #define COMPOSITOR_H
 #include <scenegraph/output/display/display.h>
+#include <wayland/input/seat.h>
 #include <gl/openglcontext.h>
 #include <wayland-server.h>
 #include <wayland-server-protocol.h>
@@ -48,15 +49,22 @@ class Compositor
 public:
     virtual ~Compositor();
 
-    ///starts the compositor main draw loop
+    ///Factory method to create compositors with external dependencies
+    /*Currently this method returns a QtWaylandMotorcarCompositor */
+    static Compositor *createCompositor(int argc, char **argv, Scene *scene);
+
+    ///Starts the compositor main draw loop
     /*Starts the compositor and blocks until the compositor (usually another thread) has finished,
      * returning the exit code of the compositor thread*/
     virtual int start() = 0;
 
-    ///gets the OpenGL context in which the compositing is taking place
+    ///Gets the OpenGL context in which the compositing is taking place
     /*this context is used by display classes to allow them to do all of the drawing in the correct context.
      * eventually this should be capable of returning multiple contexts, or perhaps the contexts should be created externally and passed in*/
     virtual OpenGLContext *getContext() = 0;
+
+    ///Gets the Motorcar seat associated with this compositors default input devices
+    virtual Seat *defaultSeat() const = 0 ;
 
 //    void addDisplay(Display *display);
 //    std::vector<Display *> displays() const;

@@ -33,7 +33,7 @@
 **
 ****************************************************************************/
 #include <gl/openglshader.h>
-
+#include <gl/GLSLHelper.h>
 
 using namespace motorcar;
 

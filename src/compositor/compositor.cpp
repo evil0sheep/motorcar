@@ -33,7 +33,7 @@
 **
 ****************************************************************************/
 #include <compositor.h>
-
+#include <qt/qtwaylandmotorcarcompositor.h>
 using namespace motorcar;
 
 
@@ -41,6 +41,12 @@ Compositor::~Compositor()
 {
     //delete m_display;
 }
+
+Compositor *Compositor::createCompositor(int argc, char **argv, Scene *scene)
+{
+    return qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene);
+}
+
 Display *Compositor::display() const
 {
     return m_display;

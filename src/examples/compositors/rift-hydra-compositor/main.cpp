@@ -39,10 +39,8 @@
 ****************************************************************************/
 
 #include <motorcar.h>
-#include "../../../device/device.h"
-#include <qt/qtwaylandmotorcarcompositor.h>
-#include <qt/qtwaylandmotorcarseat.h>
-
+#include <sixensemotionsensingsystem.h>
+#include <oculushmd.h>
 
 
 int main(int argc, char *argv[])
@@ -53,7 +51,7 @@ int main(int argc, char *argv[])
 
     motorcar::Scene *scene = new motorcar::Scene();
 
-    qtmotorcar::QtWaylandMotorcarCompositor *compositor = qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene) ;
+    motorcar::Compositor *compositor = motorcar::Compositor::createCompositor(argc, argv, scene) ;
     scene->setCompositor(compositor);
 
     scene->setWindowManager( new motorcar::WindowManager(scene, compositor->defaultSeat()));

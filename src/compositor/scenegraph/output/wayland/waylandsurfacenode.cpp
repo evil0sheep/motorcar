@@ -41,7 +41,7 @@ using namespace motorcar;
 
 WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform)
     :Drawable(parent, transform)
-    ,m_surfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/motorcarsurface.vert"), std::string("../motorcar/src/shaders/motorcarsurface.frag")))
+    ,m_surfaceShader(new motorcar::OpenGLShader(std::string("../src/compositor/shaders/motorcarsurface.vert"), std::string("../src/compositor/shaders/motorcarsurface.frag")))
 
 {
 

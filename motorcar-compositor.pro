@@ -1,24 +1,23 @@
 QT += gui widgets gui-private core-private compositor compositor-private
 
-#QTWAYLANDPATH=$$PWD/../thirdPartySource/qt5_GLES/qtwayland/src/compositor
+TEMPLATE = lib
 
 
-LIBOVRPATH=$$PWD/../thirdPartySource/Oculus/OculusSDK/LibOVR
-SIXENSEPATH=$$PWD/../thirdPartySource/sixenseSDK_linux_OSX
-RELEASETYPE=Release
-SYSARCH=x86_64
-INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include" /opt/softkinetic/DepthSenseSDK/include
+QTWAYLANDPATH=$$PWD/../thirdPartySource/qt5_GLES/qtwayland/src/compositor
 
 
-LIBS +=  -lwayland-server -lwayland-client
+#LIBOVRPATH=$$PWD/../thirdPartySource/Oculus/OculusSDK/LibOVR
+#SIXENSEPATH=$$PWD/../thirdPartySource/sixenseSDK_linux_OSX
+#RELEASETYPE=Release
+#SYSARCH=x86_64
+#INCLUDEPATH += "$$LIBOVRPATH/Include" "$$LIBOVRPATH/Src" "$$SIXENSEPATH/include" /opt/softkinetic/DepthSenseSDK/include
+#LIBS += -L/home/dave/thesis/thirdPartySource/sixenseSDK_linux_OSX/lib/linux_x64/release -lsixense_utils_x64 -lsixense_x64
+#LIBS += -L/opt/softkinetic/DepthSenseSDK/lib/ -lDepthSense
+#LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr
+#LIBS +=  -ludev -lpthread -lGL -lX11 -lXinerama
+#LIBS +=  -lwayland-server -lwayland-client
 
-LIBS += -L/home/dave/thesis/thirdPartySource/sixenseSDK_linux_OSX/lib/linux_x64/release -lsixense_utils_x64 -lsixense_x64
 
-LIBS += -L/opt/softkinetic/DepthSenseSDK/lib/ -lDepthSense
-
-LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr
-
-LIBS +=  -ludev -lpthread -lGL -lX11 -lXinerama
 
 
 MOTORCAR_PROTOCOL_PATH=$$PWD/src/protocol/
@@ -29,13 +28,13 @@ INCLUDEPATH += $$MOTORCAR_PROTOCOL_PATH
 HEADERS += $$MOTORCAR_PROTOCOL_PATH/motorcar-server-protocol.h
 SOURCES += $$MOTORCAR_PROTOCOL_PATH/motorcar-wayland-extensions.c
 
-DESTDIR = bin
-OBJECTS_DIR = bin/.obj
-MOC_DIR = bin/.moc
-RCC_DIR = bin/.rcc
-UI_DIR = bin/.ui
+DESTDIR = lib
+OBJECTS_DIR = lib/.obj
+MOC_DIR = lib/.moc
+RCC_DIR = lib/.rcc
+UI_DIR = lib/.ui
 
-QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES 
+QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES
 
 
 LIBS += -L $$QTWAYLANDSOURCEPATH/lib -lGL 
@@ -47,7 +46,7 @@ INCLUDEPATH += $$QTWAYLANDSOURCEPATH/include/QtCompositor/5.3.0/
 #  the following line
 #include($$PWD/../thirdPartySource/qt5_GLES/qtwayland/src/compositor/compositor.pri)
 
-RESOURCES += motorcar-compositor.qrc
+#RESOURCES += motorcar-compositor.qrc
 
 target.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
 sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS motorcar-compositor.pro
@@ -103,16 +102,15 @@ HEADERS += \
     src/compositor/events/sixdofevent.h \
     src/compositor/scenegraph/input/sixdofpointingdevice.h \
     src/compositor/scenegraph/output/wayland/motorcarsurfacenode.h\
-    src/device/device.h \
-    src/device/oculushmd.h \
-    src/device/sixensemotionsensingsystem.h \
-    src/device/sixensecontrollernode.h \
-    src/device/sixensebasenode.h \
-    src/device/softkineticdepthcamera.h
+#    src/device/device.h \
+#    src/device/oculushmd.h \
+#    src/device/sixensemotionsensingsystem.h \
+#    src/device/sixensecontrollernode.h \
+#    src/device/sixensebasenode.h \
+#    src/device/softkineticdepthcamera.h
 
 
 SOURCES += \
-    src/examples/compositors/rift-hydra-compositor/main.cpp \
     src/compositor/qt/textureblitter.cpp \
     src/compositor/qt/qtwaylandmotorcarcompositor.cpp \
     src/compositor/qt/qopenglwindow.cpp \
@@ -153,11 +151,12 @@ SOURCES += \
     src/compositor/events/sixdofevent.cpp \
     src/compositor/scenegraph/input/sixdofpointingdevice.cpp \
     src/compositor/scenegraph/output/wayland/motorcarsurfacenode.cpp\
-    src/device/oculushmd.cpp \
-    src/device/sixensemotionsensingsystem.cpp \
-    src/device/sixensecontrollernode.cpp \
-    src/device/sixensebasenode.cpp \
-    src/device/softkineticdepthcamera.cpp
+#    src/device/oculushmd.cpp \
+#    src/device/sixensemotionsensingsystem.cpp \
+#    src/device/sixensecontrollernode.cpp \
+#    src/device/sixensebasenode.cpp \
+#    src/device/softkineticdepthcamera.cpp\
+#    src/examples/compositors/rift-hydra-compositor/main.cpp
 
 
 

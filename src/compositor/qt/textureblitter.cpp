@@ -44,6 +44,7 @@
 #include <QtGui/QOpenGLContext>
 #include <QtGui/QOpenGLFunctions>
 
+
 TextureBlitter::TextureBlitter()
     : m_shaderProgram(new QOpenGLShaderProgram)
 {

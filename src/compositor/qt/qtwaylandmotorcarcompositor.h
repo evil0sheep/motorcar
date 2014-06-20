@@ -86,7 +86,7 @@ public:
 
     QtWaylandMotorcarSurface *getMotorcarSurface(QWaylandSurface *surface = NULL) const;
 
-    QtWaylandMotorcarSeat *defaultSeat() const;
+    motorcar::Seat *defaultSeat() const override;
     void setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat);
 
 private slots:

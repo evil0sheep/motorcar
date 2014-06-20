@@ -41,9 +41,9 @@ using namespace motorcar;
 MotorcarSurfaceNode::MotorcarSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform, glm::vec3 dimensions)
     :m_resource (NULL)
     ,WaylandSurfaceNode(surface, parent, transform)
-    ,m_depthCompositedSurfaceShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/depthcompositedsurface.vert"), std::string("../motorcar/src/shaders/depthcompositedsurface.frag")))
-    ,m_depthCompositedSurfaceBlitter(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/depthcompositedsurfaceblitter.vert"), std::string("../motorcar/src/shaders/depthcompositedsurfaceblitter.frag")))
-    ,m_clippingShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/motorcarline.vert"), std::string("../motorcar/src/shaders/motorcarline.frag")))
+    ,m_depthCompositedSurfaceShader(new motorcar::OpenGLShader(std::string("../src/compositor/shaders/depthcompositedsurface.vert"), std::string("../src/compositor/shaders/depthcompositedsurface.frag")))
+    ,m_depthCompositedSurfaceBlitter(new motorcar::OpenGLShader(std::string("../src/compositor/shaders/depthcompositedsurfaceblitter.vert"), std::string("../src/compositor/shaders/depthcompositedsurfaceblitter.frag")))
+    ,m_clippingShader(new motorcar::OpenGLShader(std::string("../src/compositor/shaders/motorcarline.vert"), std::string("../src/compositor/shaders/motorcarline.frag")))
     ,m_dimensions(dimensions)
 {
 

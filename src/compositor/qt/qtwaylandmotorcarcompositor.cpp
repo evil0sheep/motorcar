@@ -432,7 +432,7 @@ QPointF QtWaylandMotorcarCompositor::toSurface(QWaylandSurface *surface, const Q
     return QPointF();
 }
 
-QtWaylandMotorcarSeat *QtWaylandMotorcarCompositor::defaultSeat() const
+motorcar::Seat *QtWaylandMotorcarCompositor::defaultSeat() const
 {
     return m_defaultSeat;
 }
