@@ -34,10 +34,9 @@
 ****************************************************************************/
 #ifndef DISPLAY_H
 #define DISPLAY_H
-#include "../viewpoint.h"
-#include "../../physicalnode.h"
-#include "../../../gl/openglcontext.h"
-//#include <GLES2/gl2.h>
+#include <scenegraph/output/viewpoint.h>
+#include <scenegraph/physicalnode.h>
+#include <gl/openglcontext.h>
 #include <GL/gl.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>

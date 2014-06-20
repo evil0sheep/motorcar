@@ -32,10 +32,10 @@
 **
 **
 ****************************************************************************/
-#include "viewpoint.h"
-#include "display/display.h"
-#include "../scene.h"
-#include "../../compositor.h"
+#include <scenegraph/output/viewpoint.h>
+#include <scenegraph/output/display/display.h>
+#include <scenegraph/scene.h>
+#include <compositor.h>
 
 
 

@@ -36,10 +36,10 @@
 #ifndef OCULUSHMD_H
 #define OCULUSHMD_H
 
-#include "../scenegraph/output/display/rendertotexturedisplay.h"
-#include "../scenegraph/input/singlebonetracker.h"
-#include "OVR.h"
-#include "glm/gtc/quaternion.hpp"
+#include <scenegraph/output/display/rendertotexturedisplay.h>
+#include <scenegraph/input/singlebonetracker.h>
+#include <OVR.h>
+#include <glm/gtc/quaternion.hpp>
 
 namespace motorcar {
 

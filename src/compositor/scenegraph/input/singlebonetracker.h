@@ -36,7 +36,7 @@
 #ifndef SINGLEBONETRACKER_H
 #define SINGLEBONETRACKER_H
 
-#include "bonesensor.h"
+#include <scenegraph/input/bonesensor.h>
 
 namespace motorcar {
 class SingleBoneTracker : public BoneSensor

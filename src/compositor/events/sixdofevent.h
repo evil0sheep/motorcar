@@ -36,7 +36,8 @@
 #ifndef SIXDOFEVENT_H
 #define SIXDOFEVENT_H
 
-#include "mouseevent.h"
+#include <events/mouseevent.h>
+
 namespace motorcar{
 class SixDofEvent : public MouseEvent
 {

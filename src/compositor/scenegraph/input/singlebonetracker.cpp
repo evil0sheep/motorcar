@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "singlebonetracker.h"
+#include <scenegraph/input/singlebonetracker.h>
 using namespace motorcar;
 
 SingleBoneTracker::SingleBoneTracker(Bone *trackedBone, glm::mat4 boneTrackTransform, Skeleton *skeleton, PhysicalNode *parent, const glm::mat4 &transform)

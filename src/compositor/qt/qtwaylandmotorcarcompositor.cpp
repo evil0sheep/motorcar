@@ -37,9 +37,9 @@
 **
 ****************************************************************************/
 
-#include "qtwaylandmotorcarcompositor.h"
-#include "qtwaylandmotorcarsurface.h"
-#include "qtwaylandmotorcarseat.h"
+#include <qt/qtwaylandmotorcarcompositor.h>
+#include <qt/qtwaylandmotorcarsurface.h>
+#include <qt/qtwaylandmotorcarseat.h>
 #include <sys/time.h>
 
 

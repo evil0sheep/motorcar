@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "mouseevent.h"
+#include <events/mouseevent.h>
 
 using namespace motorcar;
 

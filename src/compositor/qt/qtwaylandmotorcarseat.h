@@ -37,7 +37,7 @@
 #define QTWAYLANDMOTORCARSEAT_H
 
 
-#include "qtwaylandmotorcarcompositor.h"
+#include <qt/qtwaylandmotorcarcompositor.h>
 
 namespace qtmotorcar{
 class QtWaylandMotorcarSeat : public motorcar::Seat

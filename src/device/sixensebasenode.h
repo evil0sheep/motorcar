@@ -36,9 +36,9 @@
 #ifndef SIXENSEBASENODE_H
 #define SIXENSEBASENODE_H
 
-#include "../scenegraph/physicalnode.h"
+#include <scenegraph/physicalnode.h>
 #include "sixensecontrollernode.h"
-#include "../scenegraph/scene.h"
+#include <scenegraph/scene.h>
 
 namespace motorcar {
 class SixenseBaseNode : public PhysicalNode

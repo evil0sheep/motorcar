@@ -35,7 +35,7 @@
 #ifndef DISPLAYSERVER_H
 #define DISPLAYSERVER_H
 
-#include "wayland/output/waylandsurface.h"
+#include <wayland/output/waylandsurface.h>
 
 namespace motorcar{
 ///This class handles client connection/disconnection and most of the direct wayland interactions

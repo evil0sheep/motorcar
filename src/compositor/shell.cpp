@@ -32,10 +32,10 @@
 **
 **
 ****************************************************************************/
-#include "shell.h"
-#include "scenegraph/scene.h"
-#include "compositor.h"
-#include "windowmanager.h"
+#include <shell.h>
+#include <scenegraph/scene.h>
+#include <compositor.h>
+#include <windowmanager.h>
 
 using namespace motorcar;
 

@@ -34,7 +34,7 @@
 ****************************************************************************/
 #ifndef DEPTHCOMPOSITEDSURFACE_H
 #define DEPTHCOMPOSITEDSURFACE_H
-#include "waylandsurfacenode.h"
+#include <scenegraph/output/wayland/waylandsurfacenode.h>
 
 
 namespace motorcar {

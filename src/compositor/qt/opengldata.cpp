@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "opengldata.h"
+#include <qt/opengldata.h>
 
 
 OpenGLData::OpenGLData(QOpenGLWindow *window)

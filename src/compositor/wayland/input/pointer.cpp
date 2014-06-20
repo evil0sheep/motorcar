@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "pointer.h"
+#include <wayland/input/pointer.h>
 
 using namespace motorcar;
 Pointer::Pointer(Seat *seat)

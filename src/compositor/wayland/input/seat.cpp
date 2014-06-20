@@ -32,9 +32,9 @@
 **
 **
 ****************************************************************************/
-#include "seat.h"
-#include "keyboard.h"
-#include "pointer.h"
+#include <wayland/input/seat.h>
+#include <wayland/input/keyboard.h>
+#include <wayland/input/pointer.h>
 
 using namespace motorcar;
 Seat::Seat()

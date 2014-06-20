@@ -34,16 +34,15 @@
 ****************************************************************************/
 #ifndef GLCAMERANODE_H
 #define GLCAMERANODE_H
-#include "../../geometry.h"
-#include "../../gl/viewport.h"
-#include "../virtualnode.h"
+#include <geometry.h>
+#include <gl/viewport.h>
+#include <scenegraph/virtualnode.h>
 struct wl_global;
 
-#include "wayland-server.h"
-#include "wayland-server-protocol.h"
-#include "motorcar-server-protocol.h"
-//#include <GL/gl.h>
-//#include "display.h"
+#include <wayland-server.h>
+#include <wayland-server-protocol.h>
+#include <motorcar-server-protocol.h>
+
 
 
 

@@ -39,11 +39,9 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "glm/gtc/matrix_access.hpp"
-//#include "opengldata.h"
+#include <glm/gtc/matrix_access.hpp>
 #include <stdio.h>
 #include <iostream>
-//#include "scenegraph/scene.h""
 
 namespace motorcar{
 class WaylandSurfaceNode;

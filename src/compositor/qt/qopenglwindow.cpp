@@ -38,7 +38,7 @@
 **
 ****************************************************************************/
 
-#include "qopenglwindow.h"
+#include <qt/qopenglwindow.h>
 #include <QTouchEvent>
 
 QOpenGLWindow::QOpenGLWindow(const QSurfaceFormat &format, const QRect &geometry)

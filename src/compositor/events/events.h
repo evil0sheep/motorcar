@@ -35,9 +35,9 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
-#include "event.h"
-#include "mouseevent.h"
-#include "keyboardevent.h"
-#include "sixdofevent.h"
+#include <events/event.h>
+#include <events/mouseevent.h>
+#include <events/keyboardevent.h>
+#include <events/sixdofevent.h>
 
 #endif // EVENTS_H

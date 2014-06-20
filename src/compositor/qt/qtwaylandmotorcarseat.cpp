@@ -32,8 +32,8 @@
 **
 **
 ****************************************************************************/
-#include "qtwaylandmotorcarseat.h"
-#include "qtwaylandmotorcarsurface.h"
+#include <qt/qtwaylandmotorcarseat.h>
+#include <qt/qtwaylandmotorcarsurface.h>
 #include <QtCompositor/qwaylandinput.h>
 
 using namespace qtmotorcar;

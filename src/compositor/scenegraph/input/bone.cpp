@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "bone.h"
+#include <scenegraph/input/bone.h>
 
 using namespace motorcar;
 

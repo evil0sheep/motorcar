@@ -35,8 +35,7 @@
 #ifndef VIEWPORT_H
 #define VIEWPORT_H
 
-#include "../geometry.h"
-//#include <GLES2/gl2.h>
+#include <geometry.h>
 #include <GL/gl.h>
 namespace motorcar{
 

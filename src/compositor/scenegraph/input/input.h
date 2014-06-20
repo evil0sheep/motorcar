@@ -36,10 +36,10 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "bone.h"
-#include "bonesensor.h"
-#include "singlebonetracker.h"
-#include "skeleton.h"
-#include "sixdofpointingdevice.h"
+#include <scenegraph/input/bone.h>
+#include <scenegraph/input/bonesensor.h>
+#include <scenegraph/input/singlebonetracker.h>
+#include <scenegraph/input/skeleton.h>
+#include <scenegraph/input/sixdofpointingdevice.h>
 
 #endif // INPUT_H

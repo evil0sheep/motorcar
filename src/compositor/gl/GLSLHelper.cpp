@@ -7,7 +7,7 @@
  *
  */
 
-#include "GLSLHelper.h"
+#include <gl/GLSLHelper.h>
 
 int printOglError (const char *file, int line) {
 	/* Returns 1 if an OpenGL error occurred, 0 otherwise. */

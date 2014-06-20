@@ -35,8 +35,8 @@
 #ifndef RENDERTOTEXTUREDISPLAY_H
 #define RENDERTOTEXTUREDISPLAY_H
 
-#include "display.h"
-#include "../../../gl/openglshader.h"
+#include <scenegraph/output/display/display.h>
+#include <gl/openglshader.h>
 
 namespace motorcar{
 class RenderToTextureDisplay : public Display

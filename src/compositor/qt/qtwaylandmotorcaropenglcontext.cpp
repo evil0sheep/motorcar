@@ -1,5 +1,4 @@
-#include "qtwaylandmotorcaropenglcontext.h"
-
+#include <qt/qtwaylandmotorcaropenglcontext.h>
 
 
 qtmotorcar::QtWaylandMotorcarOpenGLContext::QtWaylandMotorcarOpenGLContext(QOpenGLWindow *window)

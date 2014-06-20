@@ -34,7 +34,7 @@
 ****************************************************************************/
 #ifndef VIRTUALNODE_H
 #define VIRTUALNODE_H
-#include "scenegraphnode.h"
+#include <scenegraph/scenegraphnode.h>
 
 namespace motorcar {
 class VirtualNode : public SceneGraphNode

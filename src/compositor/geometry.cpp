@@ -33,9 +33,9 @@
 **
 ****************************************************************************/
 
-#include "geometry.h"
-#include "scenegraph/scene.h"
-#include "scenegraph/output/wireframenode.h"
+#include <geometry.h>
+#include <scenegraph/scene.h>
+#include <scenegraph/output/wireframenode.h>
 #include <glm/gtc/matrix_inverse.hpp>
 
 

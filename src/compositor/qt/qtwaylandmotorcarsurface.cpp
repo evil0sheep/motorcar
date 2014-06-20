@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "qtwaylandmotorcarsurface.h"
+#include <qt/qtwaylandmotorcarsurface.h>
 using namespace qtmotorcar;
 
 QtWaylandMotorcarSurface::QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor, SurfaceType type)

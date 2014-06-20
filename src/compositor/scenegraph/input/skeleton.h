@@ -35,7 +35,7 @@
 #ifndef SKELETON_H
 #define SKELETON_H
 
-#include "bone.h"
+#include <scenegraph/input/bone.h>
 
 namespace motorcar{
 

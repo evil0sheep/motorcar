@@ -35,10 +35,10 @@
 #ifndef WIREFRAMENODE_H
 #define WIREFRAMENODE_H
 
-#include "drawable.h"
+#include <scenegraph/output/drawable.h>
 #include <string.h>
-#include "viewpoint.h"
-#include "../../gl/openglshader.h"
+#include <scenegraph/output/viewpoint.h>
+#include <gl/openglshader.h>
 
 namespace motorcar {
 class WireframeNode : public Drawable

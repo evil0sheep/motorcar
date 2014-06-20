@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "compositor.h"
+#include <compositor.h>
 
 using namespace motorcar;
 

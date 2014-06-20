@@ -35,13 +35,13 @@
 #ifndef WINDOWMANAGER_H
 #define WINDOWMANAGER_H
 
-#include "scenegraph/output/wayland/waylandsurfacenode.h"
-#include "scenegraph/output/wayland/motorcarsurfacenode.h"
-#include "scenegraph/scene.h"
-#include "events/events.h"
-#include "wayland/input/waylandinput.h"
-#include "compositor.h"
-#include "shell.h"
+#include <scenegraph/output/wayland/waylandsurfacenode.h>
+#include <scenegraph/output/wayland/motorcarsurfacenode.h>
+#include <scenegraph/scene.h>
+#include <events/events.h>
+#include <wayland/input/waylandinput.h>
+#include <compositor.h>
+#include <shell.h>
 #include <map>
 
 namespace motorcar{

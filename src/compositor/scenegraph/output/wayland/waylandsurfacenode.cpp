@@ -32,10 +32,11 @@
 **
 **
 ****************************************************************************/
-#include "waylandsurfacenode.h"
-#include "../display/display.h"
-#include "../../../gl/viewport.h"
-#include "../wireframenode.h"
+#include <scenegraph/output/wayland/waylandsurfacenode.h>
+#include <scenegraph/output/display/display.h>
+#include <gl/viewport.h>
+#include <scenegraph/output/wireframenode.h>
+
 using namespace motorcar;
 
 WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *parent, const glm::mat4 &transform)

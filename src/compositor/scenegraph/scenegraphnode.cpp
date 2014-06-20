@@ -32,8 +32,8 @@
 **
 **
 ****************************************************************************/
-#include "scenegraphnode.h"
-#include "scene.h"
+#include <scenegraph/scenegraphnode.h>
+#include <scenegraph/scene.h>
 
 using namespace motorcar;
 

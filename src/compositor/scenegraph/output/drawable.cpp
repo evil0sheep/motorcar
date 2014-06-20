@@ -32,8 +32,8 @@
 **
 **
 ****************************************************************************/
-#include "drawable.h"
-#include "../scene.h"
+#include <scenegraph/output/drawable.h>
+#include <scenegraph/scene.h>
 using namespace motorcar;
 
 Drawable::Drawable(SceneGraphNode *parent, const glm::mat4 &transform)

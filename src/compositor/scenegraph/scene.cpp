@@ -32,8 +32,8 @@
 **
 **
 ****************************************************************************/
-#include "scene.h"
-#include "../windowmanager.h"
+#include <scenegraph/scene.h>
+#include <windowmanager.h>
 
 using namespace motorcar;
 

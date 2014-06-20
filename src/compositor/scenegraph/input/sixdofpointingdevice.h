@@ -39,17 +39,17 @@
 #include <map>
 
 
-#include "../physicalnode.h"
-#include "../output/wireframenode.h"
-#include "../output/wayland/waylandsurfacenode.h"
-#include "../output/wayland/motorcarsurfacenode.h"
-#include "../../wayland/input/seat.h"
-#include "../../wayland/input/pointer.h"
+#include <scenegraph/physicalnode.h>
+#include <scenegraph/output/wireframenode.h>
+#include <scenegraph/output/wayland/waylandsurfacenode.h>
+#include <scenegraph/output/wayland/motorcarsurfacenode.h>
+#include <wayland/input/seat.h>
+#include <wayland/input/pointer.h>
 
 
-#include "wayland-server.h"
-#include "wayland-server-protocol.h"
-#include "motorcar-server-protocol.h"
+#include <wayland-server.h>
+#include <wayland-server-protocol.h>
+#include <motorcar-server-protocol.h>
 
 
 

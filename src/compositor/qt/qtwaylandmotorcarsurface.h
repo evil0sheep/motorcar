@@ -35,12 +35,12 @@
 #ifndef QTWAYLANDMOTORCARSURFACE_H
 #define QTWAYLANDMOTORCARSURFACE_H
 
-#include "../../motorcar/src/motorcar.h"
-#include "opengldata.h"
-#include "qwaylandsurface.h"
-#include "qtwaylandmotorcarcompositor.h"
+#include <motorcar.h>
+#include <qt/opengldata.h>
+#include <qt/qtwaylandmotorcarcompositor.h>
 
 #include <qwaylandinput.h>
+#include <qwaylandsurface.h>
 #include <QtDebug>
 #include <glm/glm.hpp>
 

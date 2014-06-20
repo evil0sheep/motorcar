@@ -35,11 +35,11 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "wayland-server.h"
-#include "wayland-server-protocol.h"
-#include "motorcar-server-protocol.h"
+#include <wayland-server.h>
+#include <wayland-server-protocol.h>
+#include <motorcar-server-protocol.h>
 
-#include "scenegraph/output/viewpoint.h"
+#include <scenegraph/output/viewpoint.h>
 
 
 namespace motorcar {

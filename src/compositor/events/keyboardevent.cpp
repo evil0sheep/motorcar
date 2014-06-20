@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "keyboardevent.h"
+#include <events/keyboardevent.h>
 
 using namespace motorcar;
 

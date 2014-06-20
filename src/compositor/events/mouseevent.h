@@ -35,8 +35,8 @@
 
 #ifndef MOUSEEVENT_H
 #define MOUSEEVENT_H
-#include "event.h"
-#include "glm/glm.hpp"
+#include <events/event.h>
+#include <glm/glm.hpp>
 
 namespace motorcar{
 class MouseEvent : public Event

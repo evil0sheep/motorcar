@@ -35,8 +35,8 @@
 #ifndef BONESENSOR_H
 #define BONESENSOR_H
 
-#include "../physicalnode.h"
-#include "skeleton.h"
+#include <scenegraph/physicalnode.h>
+#include <scenegraph/input/skeleton.h>
 
 namespace motorcar{
 class BoneSensor :  public PhysicalNode

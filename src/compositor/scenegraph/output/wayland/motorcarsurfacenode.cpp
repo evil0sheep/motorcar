@@ -32,9 +32,9 @@
 **
 **
 ****************************************************************************/
-#include "motorcarsurfacenode.h"
-#include "../display/display.h"
-#include "../wireframenode.h"
+#include <scenegraph/output/wayland/motorcarsurfacenode.h>
+#include <scenegraph/output/display/display.h>
+#include <scenegraph/output/wireframenode.h>
 
 using namespace motorcar;
 

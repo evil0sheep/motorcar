@@ -35,7 +35,7 @@
 #ifndef SEAT_H
 #define SEAT_H
 
-#include "../output/waylandsurface.h"
+#include <wayland/output/waylandsurface.h>
 
 namespace motorcar{
 class Keyboard;

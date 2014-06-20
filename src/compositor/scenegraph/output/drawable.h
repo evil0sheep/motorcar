@@ -34,8 +34,8 @@
 ****************************************************************************/
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
-#include "../virtualnode.h"
-#include "viewpoint.h"
+#include <scenegraph/virtualnode.h>
+#include <scenegraph/output/viewpoint.h>
 
 namespace motorcar {
 class Drawable : public VirtualNode

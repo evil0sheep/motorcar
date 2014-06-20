@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "skeleton.h"
+#include <scenegraph/input/skeleton.h>
 
 using namespace motorcar;
 

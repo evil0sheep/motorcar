@@ -33,8 +33,8 @@
 **
 ****************************************************************************/
 
-#include "event.h"
-#include "../wayland/input/seat.h"
+#include <events/event.h>
+#include <wayland/input/seat.h>
 
 using namespace motorcar;
 Event::Event(Seat *seat)

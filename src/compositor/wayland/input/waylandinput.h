@@ -35,8 +35,8 @@
 #ifndef WAYLANDINPUT_H
 #define WAYLANDINPUT_H
 
-#include "seat.h"
-#include "pointer.h"
-#include "keyboard.h"
+#include <wayland/input/seat.h>
+#include <wayland/input/pointer.h>
+#include <wayland/input/keyboard.h>
 
 #endif // WAYLANDINPUT_H

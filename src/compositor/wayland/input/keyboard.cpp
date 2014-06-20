@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "keyboard.h"
+#include <wayland/input/keyboard.h>
 
 using namespace motorcar;
 Keyboard::Keyboard(Seat *seat)

@@ -34,10 +34,10 @@
 ****************************************************************************/
 #ifndef COMPOSITOR_H
 #define COMPOSITOR_H
-#include "scenegraph/output/display/display.h"
-#include "gl/openglcontext.h"
-#include "wayland-server.h"
-#include "wayland-server-protocol.h"
+#include <scenegraph/output/display/display.h>
+#include <gl/openglcontext.h>
+#include <wayland-server.h>
+#include <wayland-server-protocol.h>
 
 namespace motorcar {
 ///This class handles only the invoking the draw calls on the scenegraph needed to display its contents

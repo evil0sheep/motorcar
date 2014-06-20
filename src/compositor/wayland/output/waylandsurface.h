@@ -34,10 +34,9 @@
 ****************************************************************************/
 #ifndef WAYLANDSURFACE_H
 #define WAYLANDSURFACE_H
-#include "glm/glm.hpp"
-//#include <GLES2/gl2.h>
+#include <glm/glm.hpp>
 #include <GL/gl.h>
-#include "../../events/events.h"
+#include <events/events.h>
 
 namespace motorcar{
 class WaylandSurface

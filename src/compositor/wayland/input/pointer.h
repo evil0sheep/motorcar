@@ -36,7 +36,7 @@
 #define POINTER_H
 
 
-#include "seat.h"
+#include <wayland/input/seat.h>
 
 namespace motorcar{
 class WaylandSurfaceNode;

@@ -34,8 +34,8 @@
 ****************************************************************************/
 #ifndef SIXENSECONTROLLERNODE_H
 #define SIXENSECONTROLLERNODE_H
-#include "../scenegraph/input/sixdofpointingdevice.h"
-#include "../scenegraph/input/singlebonetracker.h"
+#include <scenegraph/input/sixdofpointingdevice.h>
+#include <scenegraph/input/singlebonetracker.h>
 #include <sixense.h>
 
 namespace motorcar {

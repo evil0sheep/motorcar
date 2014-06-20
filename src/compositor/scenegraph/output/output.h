@@ -38,12 +38,12 @@
 
 
 
-#include "viewpoint.h"
-#include "drawable.h"
+#include <scenegraph/output/viewpoint.h>
+#include <scenegraph/output/drawable.h>
 
-#include "display/display.h"
-#include "display/rendertotexturedisplay.h"
+#include <scenegraph/output/display/display.h>
+#include <scenegraph/output/display/rendertotexturedisplay.h>
 
-#include "wayland/waylandsurfacenode.h"
+#include <scenegraph/output/wayland/waylandsurfacenode.h>
 
 #endif // OUTPUT_H

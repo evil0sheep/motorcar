@@ -35,8 +35,8 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "physicalnode.h"
-#include "output/display/display.h"
+#include <scenegraph/physicalnode.h>
+#include <scenegraph/output/display/display.h>
 
 namespace motorcar {
 class WindowManager;

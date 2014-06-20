@@ -35,8 +35,8 @@
 #include "sixensecontrollernode.h"
 using namespace motorcar;
 
-#include "../scenegraph/scene.h"
-#include "../compositor.h"
+#include <scenegraph/scene.h>
+#include <compositor.h>
 
 SixenseControllerNode::SixenseControllerNode(int controllerIndex, PhysicalNode *parent, const glm::mat4 &transform )
     :PhysicalNode(parent, transform)

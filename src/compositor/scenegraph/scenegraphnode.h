@@ -38,12 +38,7 @@
 #include <type_traits>
 #include <vector>
 #include <algorithm>
-#include "../geometry.h"
-
-
-
-
-
+#include <geometry.h>
 
 namespace motorcar {
 

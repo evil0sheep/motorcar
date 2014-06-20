@@ -37,11 +37,11 @@
 #define SCENEGRAPH_H
 
 
-#include "scenegraphnode.h"
-#include "physicalnode.h"
-#include "virtualnode.h"
-#include "scene.h"
-#include "output/output.h"
-#include "input/input.h"
+#include <scenegraph/scenegraphnode.h>
+#include <scenegraph/physicalnode.h>
+#include <scenegraph/virtualnode.h>
+#include <scenegraph/scene.h>
+#include <scenegraph/output/output.h>
+#include <scenegraph/input/input.h>
 
 #endif // SCENEGRAPH_H

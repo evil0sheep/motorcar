@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "sixdofevent.h"
+#include <events/sixdofevent.h>
 using namespace motorcar;
 SixDofEvent::SixDofEvent(Event event, Button button, Seat *seat, glm::mat4 transform)
     :MouseEvent(event, button, glm::vec2(0), seat)

@@ -32,6 +32,6 @@
 **
 **
 ****************************************************************************/
-#include "openglcontext.h"
+#include <gl/openglcontext.h>
 
 using namespace motorcar;

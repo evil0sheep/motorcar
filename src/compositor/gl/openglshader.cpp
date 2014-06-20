@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "openglshader.h"
+#include <gl/openglshader.h>
 
 
 using namespace motorcar;

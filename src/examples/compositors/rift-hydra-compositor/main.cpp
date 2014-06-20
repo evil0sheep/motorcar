@@ -38,10 +38,10 @@
 **
 ****************************************************************************/
 
-#include "motorcar/src/motorcar.h"
-#include "motorcar/src/device/device.h"
-#include "../qt/src/qtwaylandmotorcarcompositor.h"
-#include "../qt/src/qtwaylandmotorcarseat.h"
+#include <motorcar.h>
+#include "../../../device/device.h"
+#include <qt/qtwaylandmotorcarcompositor.h>
+#include <qt/qtwaylandmotorcarseat.h>
 
 
 

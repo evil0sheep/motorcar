@@ -34,10 +34,10 @@
 ****************************************************************************/
 #ifndef WAYLANDSURFACENODE_H
 #define WAYLANDSURFACENODE_H
-#include "../drawable.h"
-#include "../../../gl/openglshader.h"
-#include "../../../gl/openglcontext.h"
-#include "../../../wayland/output/waylandsurface.h"
+#include <scenegraph/output/drawable.h>
+#include <gl/openglshader.h>
+#include <gl/openglcontext.h>
+#include <wayland/output/waylandsurface.h>
 
 
 namespace motorcar {

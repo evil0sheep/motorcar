@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "waylandsurface.h"
+#include <wayland/output/waylandsurface.h>
 
 using namespace motorcar;
 WaylandSurface::WaylandSurface(SurfaceType type, bool isMotorcarSurface, ClippingMode clippingMode, bool depthCompositingEnabled)

@@ -34,7 +34,7 @@
 ****************************************************************************/
 #ifndef PHYSICALNODE_H
 #define PHYSICALNODE_H
-#include "scenegraphnode.h"
+#include <scenegraph/scenegraphnode.h>
 
 namespace motorcar {
 class PhysicalNode : public SceneGraphNode

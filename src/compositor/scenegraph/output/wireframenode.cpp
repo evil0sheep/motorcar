@@ -32,8 +32,8 @@
 **
 **
 ****************************************************************************/
-#include "wireframenode.h"
-#include "display/display.h"
+#include <scenegraph/output/wireframenode.h>
+#include <scenegraph/output/display/display.h>
 
 using namespace motorcar;
 

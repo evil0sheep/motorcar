@@ -34,8 +34,8 @@
 ****************************************************************************/
 
 #include "softkineticdepthcamera.h"
-#include "../scenegraph/output/viewpoint.h"
-#include "../scenegraph/output/display/display.h"
+#include <scenegraph/output/viewpoint.h>
+#include <scenegraph/output/display/display.h>
 
 using namespace motorcar;
 using namespace DepthSense;

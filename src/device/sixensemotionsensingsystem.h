@@ -43,7 +43,7 @@
 #include "sixensecontrollernode.h"
 #include "sixensebasenode.h"
 
-#include "../scenegraph/scene.h"
+#include <scenegraph/scene.h>
 
 namespace motorcar {
 class SixenseMotionSensingSystem

@@ -32,9 +32,9 @@
 **
 **
 ****************************************************************************/
-#include "sixdofpointingdevice.h"
-#include "../scene.h"
-#include "../../compositor.h"
+#include <scenegraph/input/sixdofpointingdevice.h>
+#include <scenegraph/scene.h>
+#include <compositor.h>
 #include <stdint.h>
 
 

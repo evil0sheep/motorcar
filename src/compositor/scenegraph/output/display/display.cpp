@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "display.h"
+#include <scenegraph/output/display/display.h>
 
 using namespace motorcar;
 

@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "physicalnode.h"
+#include <scenegraph/physicalnode.h>
 using namespace motorcar;
 
 

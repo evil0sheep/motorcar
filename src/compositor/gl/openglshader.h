@@ -41,7 +41,7 @@
 #include <string>
 #include <fstream>
 #include <streambuf>
-#include "GLSLHelper.h"
+#include <gl/GLSLHelper.h>
 
 
 

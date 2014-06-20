@@ -40,8 +40,8 @@
 #include <vector>
 #include <exception>
 #include <thread>
-#include "../scenegraph/output/drawable.h"
-#include "../gl/openglshader.h"
+#include <scenegraph/output/drawable.h>
+#include <gl/openglshader.h>
 
 namespace motorcar {
 class SoftKineticDepthCamera : public Drawable

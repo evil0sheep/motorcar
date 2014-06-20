@@ -21,7 +21,7 @@ LIBS += -L$$LIBOVRPATH/Lib/Linux/$$RELEASETYPE/$$SYSARCH -lovr
 LIBS +=  -ludev -lpthread -lGL -lX11 -lXinerama
 
 
-MOTORCAR_PROTOCOL_PATH=$$PWD/motorcar/protocol/
+MOTORCAR_PROTOCOL_PATH=$$PWD/src/protocol/
 system(cd $$MOTORCAR_PROTOCOL_PATH; make)
 
 INCLUDEPATH += $$MOTORCAR_PROTOCOL_PATH
@@ -54,108 +54,110 @@ sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS motorcar-compositor.pro
 sources.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
 INSTALLS += target sources
 
+INCLUDEPATH += src/compositor
+
 HEADERS += \
-    qt/src/textureblitter.h \
-    qt/src/qtwaylandmotorcarcompositor.h \
-    qt/src/qopenglwindow.h \
-    qt/src/opengldata.h \
-    motorcar/src/geometry.h \
-    motorcar/src/scenegraph/scenegraphnode.h \
-    motorcar/src/scenegraph/scenegraph.h \
-    motorcar/src/scenegraph/physicalnode.h \
-    motorcar/src/scenegraph/virtualnode.h \
-    motorcar/src/scenegraph/scene.h \
-    motorcar/src/scenegraph/output/drawable.h \
-    motorcar/src/scenegraph/output/wayland/waylandsurfacenode.h \
-    motorcar/src/scenegraph/output/output.h \
-    motorcar/src/motorcar.h \
-    qt/src/qtwaylandmotorcarsurface.h \
-    motorcar/src/gl/openglshader.h \
-    motorcar/src/gl/GLSLHelper.h \
-    motorcar/src/gl/openglcontext.h \
-    qt/src/qtwaylandmotorcaropenglcontext.h \
-    motorcar/src/scenegraph/output/display/display.h \
-    motorcar/src/scenegraph/output/display/rendertotexturedisplay.h \
-    motorcar/src/device/device.h \
-    motorcar/src/device/oculushmd.h \
-    motorcar/src/device/sixensemotionsensingsystem.h \
-    motorcar/src/device/sixensecontrollernode.h \
-    motorcar/src/device/sixensebasenode.h \
-    motorcar/src/scenegraph/output/wireframenode.h \
-    motorcar/src/compositor.h \
-    motorcar/src/scenegraph/input/bone.h \
-    motorcar/src/scenegraph/input/bonesensor.h \
-    motorcar/src/scenegraph/input/skeleton.h \
-    motorcar/src/scenegraph/input/singlebonetracker.h \
-    motorcar/src/displayserver.h \
-    motorcar/src/windowmanager.h \
-    motorcar/src/events/event.h \
-    motorcar/src/events/mouseevent.h \
-    motorcar/src/events/events.h \
-    motorcar/src/events/keyboardevent.h \
-    motorcar/src/wayland/input/seat.h \
-    motorcar/src/wayland/input/pointer.h \
-    motorcar/src/wayland/input/keyboard.h \
-    motorcar/src/wayland/input/waylandinput.h \
-    motorcar/src/wayland/output/waylandsurface.h \
-    qt/src/qtwaylandmotorcarseat.h \
-    motorcar/src/scenegraph/input/input.h \
-    motorcar/src/shell.h \
-    motorcar/src/scenegraph/output/viewpoint.h \
-    motorcar/src/gl/viewport.h \
-    motorcar/src/device/softkineticdepthcamera.h \
-    motorcar/src/events/sixdofevent.h \
-    motorcar/src/scenegraph/input/sixdofpointingdevice.h \
-    motorcar/src/scenegraph/output/wayland/motorcarsurfacenode.h
+    src/compositor/qt/textureblitter.h \
+    src/compositor/qt/qtwaylandmotorcarcompositor.h \
+    src/compositor/qt/qopenglwindow.h \
+    src/compositor/qt/opengldata.h \
+    src/compositor/geometry.h \
+    src/compositor/scenegraph/scenegraphnode.h \
+    src/compositor/scenegraph/scenegraph.h \
+    src/compositor/scenegraph/physicalnode.h \
+    src/compositor/scenegraph/virtualnode.h \
+    src/compositor/scenegraph/scene.h \
+    src/compositor/scenegraph/output/drawable.h \
+    src/compositor/scenegraph/output/wayland/waylandsurfacenode.h \
+    src/compositor/scenegraph/output/output.h \
+    src/compositor/motorcar.h \
+    src/compositor/qt/qtwaylandmotorcarsurface.h \
+    src/compositor/gl/openglshader.h \
+    src/compositor/gl/GLSLHelper.h \
+    src/compositor/gl/openglcontext.h \
+    src/compositor/qt/qtwaylandmotorcaropenglcontext.h \
+    src/compositor/scenegraph/output/display/display.h \
+    src/compositor/scenegraph/output/display/rendertotexturedisplay.h \
+    src/compositor/scenegraph/output/wireframenode.h \
+    src/compositor/compositor.h \
+    src/compositor/scenegraph/input/bone.h \
+    src/compositor/scenegraph/input/bonesensor.h \
+    src/compositor/scenegraph/input/skeleton.h \
+    src/compositor/scenegraph/input/singlebonetracker.h \
+    src/compositor/displayserver.h \
+    src/compositor/windowmanager.h \
+    src/compositor/events/event.h \
+    src/compositor/events/mouseevent.h \
+    src/compositor/events/events.h \
+    src/compositor/events/keyboardevent.h \
+    src/compositor/wayland/input/seat.h \
+    src/compositor/wayland/input/pointer.h \
+    src/compositor/wayland/input/keyboard.h \
+    src/compositor/wayland/input/waylandinput.h \
+    src/compositor/wayland/output/waylandsurface.h \
+    src/compositor/qt/qtwaylandmotorcarseat.h \
+    src/compositor/scenegraph/input/input.h \
+    src/compositor/shell.h \
+    src/compositor/scenegraph/output/viewpoint.h \
+    src/compositor/gl/viewport.h \
+    src/compositor/events/sixdofevent.h \
+    src/compositor/scenegraph/input/sixdofpointingdevice.h \
+    src/compositor/scenegraph/output/wayland/motorcarsurfacenode.h\
+    src/device/device.h \
+    src/device/oculushmd.h \
+    src/device/sixensemotionsensingsystem.h \
+    src/device/sixensecontrollernode.h \
+    src/device/sixensebasenode.h \
+    src/device/softkineticdepthcamera.h
 
 
 SOURCES += \
-    src/main.cpp \
-    qt/src/textureblitter.cpp \
-    qt/src/qtwaylandmotorcarcompositor.cpp \
-    qt/src/qopenglwindow.cpp \
-    qt/src/opengldata.cpp \
-    motorcar/src/geometry.cpp \
-    motorcar/src/scenegraph/scenegraphnode.cpp \
-    motorcar/src/scenegraph/physicalnode.cpp \
-    motorcar/src/scenegraph/virtualnode.cpp \
-    motorcar/src/scenegraph/scene.cpp \
-    motorcar/src/scenegraph/output/drawable.cpp \
-    motorcar/src/scenegraph/output/wayland/waylandsurfacenode.cpp \
-    qt/src/qtwaylandmotorcarsurface.cpp \
-    motorcar/src/gl/openglshader.cpp \
-    motorcar/src/gl/GLSLHelper.cpp \
-    motorcar/src/gl/openglcontext.cpp \
-    qt/src/qtwaylandmotorcaropenglcontext.cpp \
-    motorcar/src/scenegraph/output/display/display.cpp \
-    motorcar/src/scenegraph/output/display/rendertotexturedisplay.cpp \
-    motorcar/src/device/oculushmd.cpp \
-    motorcar/src/device/sixensemotionsensingsystem.cpp \
-    motorcar/src/device/sixensecontrollernode.cpp \
-    motorcar/src/device/sixensebasenode.cpp \
-    motorcar/src/scenegraph/output/wireframenode.cpp \
-    motorcar/src/compositor.cpp \
-    motorcar/src/scenegraph/input/bone.cpp \
-    motorcar/src/scenegraph/input/bonesensor.cpp \
-    motorcar/src/scenegraph/input/skeleton.cpp \
-    motorcar/src/scenegraph/input/singlebonetracker.cpp \
-    motorcar/src/displayserver.cpp \
-    motorcar/src/windowmanager.cpp \
-    motorcar/src/events/event.cpp \
-    motorcar/src/events/mouseevent.cpp \
-    motorcar/src/events/keyboardevent.cpp \
-    motorcar/src/wayland/input/seat.cpp \
-    motorcar/src/wayland/input/pointer.cpp \
-    motorcar/src/wayland/input/keyboard.cpp \
-    motorcar/src/wayland/output/waylandsurface.cpp \
-    qt/src/qtwaylandmotorcarseat.cpp \
-    motorcar/src/shell.cpp \
-    motorcar/src/scenegraph/output/viewpoint.cpp \
-    motorcar/src/gl/viewport.cpp \
-    motorcar/src/device/softkineticdepthcamera.cpp \
-    motorcar/src/events/sixdofevent.cpp \
-    motorcar/src/scenegraph/input/sixdofpointingdevice.cpp \
-    motorcar/src/scenegraph/output/wayland/motorcarsurfacenode.cpp
+    src/examples/compositors/rift-hydra-compositor/main.cpp \
+    src/compositor/qt/textureblitter.cpp \
+    src/compositor/qt/qtwaylandmotorcarcompositor.cpp \
+    src/compositor/qt/qopenglwindow.cpp \
+    src/compositor/qt/opengldata.cpp \
+    src/compositor/geometry.cpp \
+    src/compositor/scenegraph/scenegraphnode.cpp \
+    src/compositor/scenegraph/physicalnode.cpp \
+    src/compositor/scenegraph/virtualnode.cpp \
+    src/compositor/scenegraph/scene.cpp \
+    src/compositor/scenegraph/output/drawable.cpp \
+    src/compositor/scenegraph/output/wayland/waylandsurfacenode.cpp \
+    src/compositor/qt/qtwaylandmotorcarsurface.cpp \
+    src/compositor/gl/openglshader.cpp \
+    src/compositor/gl/GLSLHelper.cpp \
+    src/compositor/gl/openglcontext.cpp \
+    src/compositor/qt/qtwaylandmotorcaropenglcontext.cpp \
+    src/compositor/scenegraph/output/display/display.cpp \
+    src/compositor/scenegraph/output/display/rendertotexturedisplay.cpp \
+    src/compositor/scenegraph/output/wireframenode.cpp \
+    src/compositor/compositor.cpp \
+    src/compositor/scenegraph/input/bone.cpp \
+    src/compositor/scenegraph/input/bonesensor.cpp \
+    src/compositor/scenegraph/input/skeleton.cpp \
+    src/compositor/scenegraph/input/singlebonetracker.cpp \
+    src/compositor/displayserver.cpp \
+    src/compositor/windowmanager.cpp \
+    src/compositor/events/event.cpp \
+    src/compositor/events/mouseevent.cpp \
+    src/compositor/events/keyboardevent.cpp \
+    src/compositor/wayland/input/seat.cpp \
+    src/compositor/wayland/input/pointer.cpp \
+    src/compositor/wayland/input/keyboard.cpp \
+    src/compositor/wayland/output/waylandsurface.cpp \
+    src/compositor/qt/qtwaylandmotorcarseat.cpp \
+    src/compositor/shell.cpp \
+    src/compositor/scenegraph/output/viewpoint.cpp \
+    src/compositor/gl/viewport.cpp \
+    src/compositor/events/sixdofevent.cpp \
+    src/compositor/scenegraph/input/sixdofpointingdevice.cpp \
+    src/compositor/scenegraph/output/wayland/motorcarsurfacenode.cpp\
+    src/device/oculushmd.cpp \
+    src/device/sixensemotionsensingsystem.cpp \
+    src/device/sixensecontrollernode.cpp \
+    src/device/sixensebasenode.cpp \
+    src/device/softkineticdepthcamera.cpp
 
 
 
@@ -164,18 +166,18 @@ OTHER_FILES += \
     src/motorcarsurface.frag \
     src/motorcar/shaders/motorcarsurface.vert \
     src/motorcar/shaders/motorcarsurface.frag \
-    motorcar/src/shaders/motorcarsurface.vert \
-    motorcar/src/shaders/motorcarsurface.frag \
-    motorcar/src/shaders/motorcarbarreldistortion.frag \
-    motorcar/src/shaders/motorcarbarreldistortion.vert \
-    motorcar/src/shaders/motorcarline.vert \
-    motorcar/src/shaders/motorcarline.frag \
-    motorcar/src/shaders/depthcompositedsurface.vert \
-    motorcar/src/shaders/depthcompositedsurface.frag \
-    motorcar/src/shaders/depthcompositedsurfaceblitter.frag \
-    motorcar/src/shaders/depthcompositedsurfaceblitter.vert \
-    motorcar/src/shaders/softkineticdepthcam.vert \
-    motorcar/src/shaders/softkineticdepthcam.frag
+    src/compositor/shaders/motorcarsurface.vert \
+    src/compositor/shaders/motorcarsurface.frag \
+    src/compositor/shaders/motorcarbarreldistortion.frag \
+    src/compositor/shaders/motorcarbarreldistortion.vert \
+    src/compositor/shaders/motorcarline.vert \
+    src/compositor/shaders/motorcarline.frag \
+    src/compositor/shaders/depthcompositedsurface.vert \
+    src/compositor/shaders/depthcompositedsurface.frag \
+    src/compositor/shaders/depthcompositedsurfaceblitter.frag \
+    src/compositor/shaders/depthcompositedsurfaceblitter.vert \
+    src/compositor/shaders/softkineticdepthcam.vert \
+    src/compositor/shaders/softkineticdepthcam.frag
 
 
 

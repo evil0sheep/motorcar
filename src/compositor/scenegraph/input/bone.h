@@ -34,8 +34,8 @@
 ****************************************************************************/
 #ifndef BONE_H
 #define BONE_H
-#include "../physicalnode.h"
-#include "glm/gtc/quaternion.hpp"
+#include <scenegraph/physicalnode.h>
+#include <glm/gtc/quaternion.hpp>
 
 namespace motorcar{
 class Bone : public PhysicalNode

@@ -40,13 +40,13 @@
 #ifndef QWINDOWCOMPOSITOR_H
 #define QWINDOWCOMPOSITOR_H
 
-#include "qwaylandcompositor.h"
+#include <qwaylandcompositor.h>
 
-#include "../../motorcar/src/motorcar.h"
+#include <motorcar.h>
 
 
-#include "qtwaylandmotorcaropenglcontext.h"
-#include "opengldata.h"
+#include <qt/qtwaylandmotorcaropenglcontext.h>
+#include <qt/opengldata.h>
 
 #include <QGuiApplication>
 #include <QDesktopWidget>

@@ -35,7 +35,7 @@
 
 #ifndef KEYBOARDEVENT_H
 #define KEYBOARDEVENT_H
-#include "event.h"
+#include <events/event.h>
 #include <stdint.h>
 
 namespace motorcar{

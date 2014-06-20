@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "rendertotexturedisplay.h"
+#include <scenegraph/output/display/rendertotexturedisplay.h>
 
 
 using namespace motorcar;
