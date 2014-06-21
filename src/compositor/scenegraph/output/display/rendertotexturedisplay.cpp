@@ -43,7 +43,7 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     :Display(glContext, displayDimensions, parent, transform)
     ,m_scale(scale)
     ,m_distortionK(distortionK)
-    ,m_distortionShader(new motorcar::OpenGLShader("../src/compositor/compositor/shaders/motorcarbarreldistortion.vert", "../src/compositor/compositor/shaders/motorcarbarreldistortion.frag"))
+    ,m_distortionShader(new motorcar::OpenGLShader("motorcarbarreldistortion.vert", "motorcarbarreldistortion.frag"))
 {
 
     h_aPosition_distortion =  glGetAttribLocation(m_distortionShader->handle(), "aPosition");

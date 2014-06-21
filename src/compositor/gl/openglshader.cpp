@@ -42,10 +42,19 @@ using namespace motorcar;
 //    compileShaderFromStrings(vertexShader, fragmentShader);
 //}
 
+//static const char* shader_path = MOTORCAR_SHADER_PATH;
+#define STRINGIZE(x) #x
+#define STRINGIZE_VALUE_OF(x) STRINGIZE(x)
+
 OpenGLShader::OpenGLShader(std::string vertexShaderFileName, std::string fragmentShaderFileName)
 {
-    std::ifstream vertexShaderStream(vertexShaderFileName), fragmentShaderStream(fragmentShaderFileName) ;
+    std::string shaderDirPath = STRINGIZE_VALUE_OF(MOTORCAR_SHADER_PATH);
+    shaderDirPath += "/";
+    std::cout << "shader path: " << STRINGIZE_VALUE_OF(MOTORCAR_SHADER_PATH) << std::endl;
+    std::ifstream vertexShaderStream(shaderDirPath + vertexShaderFileName), fragmentShaderStream(shaderDirPath + fragmentShaderFileName) ;
     std::string vertexShader, fragmentShader;
+
+
 
     //intitialize
     vertexShaderStream.seekg(0, std::ios::end);

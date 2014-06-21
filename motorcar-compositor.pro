@@ -34,7 +34,7 @@ MOC_DIR = lib/.moc
 RCC_DIR = lib/.rcc
 UI_DIR = lib/.ui
 
-QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES
+QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES -DMOTORCAR_SHADER_PATH=$$PWD/src/compositor/shaders
 
 
 LIBS += -L $$QTWAYLANDSOURCEPATH/lib -lGL 

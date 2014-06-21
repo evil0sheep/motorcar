@@ -17,7 +17,7 @@ CFLAGS=-std=c++11
 objects=oculushmd.o sixensemotionsensingsystem.o sixensecontrollernode.o sixensebasenode.o 
 
 compositor: main.cpp sixense $(objects) 
-	${CC}  main.cpp $(objects) ${CFLAGS} ${INCLUDES} ${OCULUS_LIBS} ${SIXENSE_LIBS} ${LIBS} -o ../../../../bin/rift-hydra-compositor 
+	${CC}  main.cpp $(objects) ${CFLAGS} ${INCLUDES} ${OCULUS_LIBS} ${SIXENSE_LIBS} ${LIBS} -o rift-hydra-compositor 
 
 oculushmd.o: ${MOTORCAR_DIR}/src/device/oculushmd.cpp ${MOTORCAR_DIR}/src/device/oculushmd.h
 	${CC} -c ${MOTORCAR_DIR}/src/device/oculushmd.cpp ${CFLAGS} ${INCLUDES}  ${OCULUS_LIBS} ${LIBS}

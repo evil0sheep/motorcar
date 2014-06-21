@@ -1,7 +1,7 @@
 MOTORCAR_PROTOCOL_XML=motorcar.xml
 
 
-motorcar-protocol:
+motorcar-protocol: $(MOTORCAR_PROTOCOL_XML)
 	wayland-scanner client-header < $(MOTORCAR_PROTOCOL_XML) > motorcar-client-protocol.h
 	wayland-scanner server-header < $(MOTORCAR_PROTOCOL_XML) > motorcar-server-protocol.h
 	wayland-scanner code < $(MOTORCAR_PROTOCOL_XML) > motorcar-wayland-extensions.c
