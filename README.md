@@ -76,11 +76,11 @@ Building Motorcar Itself
 ------------------------
 Motorcar is separated into several components, which are designed to be able to be used together or independently from one another. The Wayland protocol extensions used for 3D windowing and 3D input are specified in [motorcar.xml](https://github.com/evil0sheep/motorcar/blob/stable/src/protocol/motorcar.xml) and the language bingings used by the compositor and clients are generated when those components are compiled. 
 
-### Building the Motorcar Compositor Library
-
 The compositor is built in two steps. The first step builds the Motorcar compositor library which contains the Wayland backend and Qt dependency, and most of the scenegraph and compositing logic. The second step builds the compositor itself, which is a lightweight program that essentially just uses the compositor library to set up the scene and insert devices into the scenegraph. 
 
 This allows many compositors to be built with the core windowing infrastructure, and allows developers implementing compositors to add support for their devices or to replace components of the windowing logic (like the window manager) with their own classes without those classes needing to be in the core Motorcar code base (though I am very open to pull requests). It also keeps device specific dependencies out of the core compositor code.
+
+### Building the Motorcar Compositor Library
 
 Currently the entire compositor library is built with qmake, but eventually I would like to transition to GNU autotools and only use qmake to build the Qt dependent components (since this is a relatively small portion of the code base). To build the motorcar compositor library:
 	
