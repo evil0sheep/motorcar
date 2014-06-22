@@ -1,0 +1,18 @@
+<map id="/home/dave/thesis/motorcar/src/compositor/scenegraph/output/wayland/motorcarsurfacenode.h" name="/home/dave/thesis/motorcar/src/compositor/scenegraph/output/wayland/motorcarsurfacenode.h">
+<area shape="rect" id="node2" href="$waylandsurfacenode_8h.html" title="scenegraph/output/wayland\l/waylandsurfacenode.h" alt="" coords="699,110,880,151"/>
+<area shape="rect" id="node3" href="$drawable_8h.html" title="scenegraph/output/drawable.h" alt="" coords="329,200,524,227"/>
+<area shape="rect" id="node24" href="$openglshader_8h.html" title="gl/openglshader.h" alt="" coords="651,200,775,227"/>
+<area shape="rect" id="node28" href="$openglcontext_8h.html" title="gl/openglcontext.h" alt="" coords="1011,200,1139,227"/>
+<area shape="rect" id="node29" href="$waylandsurface_8h.html" title="wayland/output/waylandsurface.h" alt="" coords="875,275,1091,301"/>
+<area shape="rect" id="node4" href="$virtualnode_8h.html" title="scenegraph/virtualnode.h" alt="" coords="5,349,171,376"/>
+<area shape="rect" id="node15" href="$viewpoint_8h.html" title="scenegraph/output/viewpoint.h" alt="" coords="327,275,525,301"/>
+<area shape="rect" id="node5" href="$scenegraphnode_8h.html" title="scenegraph/scenegraphnode.h" alt="" coords="294,424,492,451"/>
+<area shape="rect" id="node10" href="$geometry_8h.html" title="geometry.h" alt="" coords="542,499,628,525"/>
+<area shape="rect" id="node16" href="$viewport_8h.html" title="gl/viewport.h" alt="" coords="587,349,683,376"/>
+<area shape="rect" id="node20" href="$motorcar-server-protocol_8h.html" title="motorcar&#45;server&#45;protocol.h" alt="" coords="669,424,843,451"/>
+<area shape="rect" id="node30" href="$events_8h.html" title="events/events.h" alt="" coords="1305,349,1420,376"/>
+<area shape="rect" id="node31" href="$event_8h.html" title="events/event.h" alt="" coords="1309,573,1416,600"/>
+<area shape="rect" id="node32" href="$mouseevent_8h.html" title="events/mouseevent.h" alt="" coords="1289,499,1436,525"/>
+<area shape="rect" id="node33" href="$keyboardevent_8h.html" title="events/keyboardevent.h" alt="" coords="1163,424,1324,451"/>
+<area shape="rect" id="node34" href="$sixdofevent_8h.html" title="events/sixdofevent.h" alt="" coords="1401,424,1543,451"/>
+</map>

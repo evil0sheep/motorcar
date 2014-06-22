@@ -1,0 +1,168 @@
+\hypertarget{classmotorcar_1_1ViewPort}{\section{motorcar\-:\-:View\-Port Class Reference}
+\label{classmotorcar_1_1ViewPort}\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}}
+}
+
+
+{\ttfamily \#include $<$viewport.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:View\-Port\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=184pt]{classmotorcar_1_1ViewPort__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:View\-Port\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=184pt]{classmotorcar_1_1ViewPort__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1ViewPort_a5570e53ae858a60741c158fc2cd06aaf}{View\-Port} (glm\-::vec2 normalized\-Pos, glm\-::vec2 normalized\-Size, \hyperlink{structmotorcar_1_1Geometry_1_1Rectangle_af8ec2dc746ed046045d14d31a4973b2e}{Rectangle} $\ast$\hyperlink{classmotorcar_1_1ViewPort_ac1ad41f301d3b13dfec141e6395ab17f}{buffer\-Geometry})
+\item 
+\hyperlink{classmotorcar_1_1ViewPort_aa348ae944a31ca772ba382929f764fab}{$\sim$\-View\-Port} ()
+\item 
+float \hyperlink{classmotorcar_1_1ViewPort_ae0e423f6dfbb1d61545845212df22218}{offset\-X} () const 
+\item 
+float \hyperlink{classmotorcar_1_1ViewPort_a6fe2deea9150dd656295e0cd64620e3b}{offset\-Y} () const 
+\item 
+float \hyperlink{classmotorcar_1_1ViewPort_ac86ee4251c6ba96a148bf768fa2dec65}{width} () const 
+\item 
+float \hyperlink{classmotorcar_1_1ViewPort_aa9bd5b63fc28eb8fc013dab6e71d6705}{height} () const 
+\item 
+virtual glm\-::ivec2 \hyperlink{classmotorcar_1_1ViewPort_a50e51ee6e264f85f6f0e1c43950e74ce}{size} () override
+\item 
+void \hyperlink{classmotorcar_1_1ViewPort_aea3f9edff1e707048030a458ae7746d8}{set} () const 
+\item 
+glm\-::vec2 \hyperlink{classmotorcar_1_1ViewPort_a78953a63d35d05c96e922683f994d441}{display\-Coords\-To\-Viewport\-Coords} (float pixel\-X, float pixel\-Y) const 
+\item 
+void \hyperlink{classmotorcar_1_1ViewPort_af386def5d599b02e6a15b25d59b922b3}{uv\-Coords} (float $\ast$buf)
+\item 
+glm\-::vec4 \hyperlink{classmotorcar_1_1ViewPort_a49402599a6e6ada465d22b26be597ce5}{viewport\-Params} () const 
+\item 
+\hyperlink{structmotorcar_1_1Geometry_1_1Rectangle_af8ec2dc746ed046045d14d31a4973b2e}{Rectangle} $\ast$ \hyperlink{classmotorcar_1_1ViewPort_ac1ad41f301d3b13dfec141e6395ab17f}{buffer\-Geometry} () const 
+\item 
+void \hyperlink{classmotorcar_1_1ViewPort_a2260865ee7557a1a6245ea77ff876857}{set\-Buffer\-Geometry} (\hyperlink{structmotorcar_1_1Geometry_1_1Rectangle_af8ec2dc746ed046045d14d31a4973b2e}{Rectangle} $\ast$\hyperlink{classmotorcar_1_1ViewPort_ac1ad41f301d3b13dfec141e6395ab17f}{buffer\-Geometry})
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1ViewPort_a5570e53ae858a60741c158fc2cd06aaf}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!View\-Port@{View\-Port}}
+\index{View\-Port@{View\-Port}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{View\-Port}]{\setlength{\rightskip}{0pt plus 5cm}View\-Port\-::\-View\-Port (
+\begin{DoxyParamCaption}
+\item[{glm\-::vec2}]{normalized\-Pos, }
+\item[{glm\-::vec2}]{normalized\-Size, }
+\item[{{\bf Rectangle} $\ast$}]{buffer\-Geometry}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPort_a5570e53ae858a60741c158fc2cd06aaf}
+\hypertarget{classmotorcar_1_1ViewPort_aa348ae944a31ca772ba382929f764fab}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!$\sim$\-View\-Port@{$\sim$\-View\-Port}}
+\index{$\sim$\-View\-Port@{$\sim$\-View\-Port}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{$\sim$\-View\-Port}]{\setlength{\rightskip}{0pt plus 5cm}motorcar\-::\-View\-Port\-::$\sim$\-View\-Port (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classmotorcar_1_1ViewPort_aa348ae944a31ca772ba382929f764fab}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1ViewPort_ac1ad41f301d3b13dfec141e6395ab17f}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!buffer\-Geometry@{buffer\-Geometry}}
+\index{buffer\-Geometry@{buffer\-Geometry}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{buffer\-Geometry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Geometry\-::\-Rectangle} $\ast$ View\-Port\-::buffer\-Geometry (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPort_ac1ad41f301d3b13dfec141e6395ab17f}
+\hypertarget{classmotorcar_1_1ViewPort_a78953a63d35d05c96e922683f994d441}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!display\-Coords\-To\-Viewport\-Coords@{display\-Coords\-To\-Viewport\-Coords}}
+\index{display\-Coords\-To\-Viewport\-Coords@{display\-Coords\-To\-Viewport\-Coords}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{display\-Coords\-To\-Viewport\-Coords}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec2 View\-Port\-::display\-Coords\-To\-Viewport\-Coords (
+\begin{DoxyParamCaption}
+\item[{float}]{pixel\-X, }
+\item[{float}]{pixel\-Y}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPort_a78953a63d35d05c96e922683f994d441}
+\hypertarget{classmotorcar_1_1ViewPort_aa9bd5b63fc28eb8fc013dab6e71d6705}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!height@{height}}
+\index{height@{height}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{height}]{\setlength{\rightskip}{0pt plus 5cm}float View\-Port\-::height (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPort_aa9bd5b63fc28eb8fc013dab6e71d6705}
+\hypertarget{classmotorcar_1_1ViewPort_ae0e423f6dfbb1d61545845212df22218}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!offset\-X@{offset\-X}}
+\index{offset\-X@{offset\-X}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{offset\-X}]{\setlength{\rightskip}{0pt plus 5cm}float View\-Port\-::offset\-X (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPort_ae0e423f6dfbb1d61545845212df22218}
+\hypertarget{classmotorcar_1_1ViewPort_a6fe2deea9150dd656295e0cd64620e3b}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!offset\-Y@{offset\-Y}}
+\index{offset\-Y@{offset\-Y}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{offset\-Y}]{\setlength{\rightskip}{0pt plus 5cm}float View\-Port\-::offset\-Y (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPort_a6fe2deea9150dd656295e0cd64620e3b}
+\hypertarget{classmotorcar_1_1ViewPort_aea3f9edff1e707048030a458ae7746d8}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!set@{set}}
+\index{set@{set}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Port\-::set (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPort_aea3f9edff1e707048030a458ae7746d8}
+\hypertarget{classmotorcar_1_1ViewPort_a2260865ee7557a1a6245ea77ff876857}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!set\-Buffer\-Geometry@{set\-Buffer\-Geometry}}
+\index{set\-Buffer\-Geometry@{set\-Buffer\-Geometry}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{set\-Buffer\-Geometry}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Port\-::set\-Buffer\-Geometry (
+\begin{DoxyParamCaption}
+\item[{{\bf Rectangle} $\ast$}]{buffer\-Geometry}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPort_a2260865ee7557a1a6245ea77ff876857}
+\hypertarget{classmotorcar_1_1ViewPort_a50e51ee6e264f85f6f0e1c43950e74ce}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!size@{size}}
+\index{size@{size}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::ivec2 View\-Port\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1ViewPort_a50e51ee6e264f85f6f0e1c43950e74ce}
+
+
+Reimplemented from \hyperlink{structmotorcar_1_1Geometry_1_1Rectangle_aef0385032dd32c2b2c762c08f1bfacf6}{motorcar\-::\-Geometry\-::\-Rectangle}.
+
+\hypertarget{classmotorcar_1_1ViewPort_af386def5d599b02e6a15b25d59b922b3}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!uv\-Coords@{uv\-Coords}}
+\index{uv\-Coords@{uv\-Coords}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{uv\-Coords}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Port\-::uv\-Coords (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{buf}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPort_af386def5d599b02e6a15b25d59b922b3}
+\hypertarget{classmotorcar_1_1ViewPort_a49402599a6e6ada465d22b26be597ce5}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!viewport\-Params@{viewport\-Params}}
+\index{viewport\-Params@{viewport\-Params}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{viewport\-Params}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec4 View\-Port\-::viewport\-Params (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPort_a49402599a6e6ada465d22b26be597ce5}
+\hypertarget{classmotorcar_1_1ViewPort_ac86ee4251c6ba96a148bf768fa2dec65}{\index{motorcar\-::\-View\-Port@{motorcar\-::\-View\-Port}!width@{width}}
+\index{width@{width}!motorcar::ViewPort@{motorcar\-::\-View\-Port}}
+\subsubsection[{width}]{\setlength{\rightskip}{0pt plus 5cm}float View\-Port\-::width (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPort_ac86ee4251c6ba96a148bf768fa2dec65}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/compositor/gl/\hyperlink{viewport_8h}{viewport.\-h}\item 
+/home/dave/thesis/motorcar/src/compositor/gl/\hyperlink{viewport_8cpp}{viewport.\-cpp}\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/output/\hyperlink{viewpoint_8cpp}{viewpoint.\-cpp}\end{DoxyCompactItemize}

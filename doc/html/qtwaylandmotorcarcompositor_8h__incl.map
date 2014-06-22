@@ -1,0 +1,28 @@
+<map id="/home/dave/thesis/motorcar/src/compositor/qt/qtwaylandmotorcarcompositor.h" name="/home/dave/thesis/motorcar/src/compositor/qt/qtwaylandmotorcarcompositor.h">
+<area shape="rect" id="node3" href="$motorcar_8h.html" title="motorcar.h" alt="" coords="327,171,411,197"/>
+<area shape="rect" id="node36" href="$qtwaylandmotorcaropenglcontext_8h.html" title="qt/qtwaylandmotorcaropenglcontext.h" alt="" coords="579,96,817,123"/>
+<area shape="rect" id="node38" href="$opengldata_8h.html" title="qt/opengldata.h" alt="" coords="1013,96,1123,123"/>
+<area shape="rect" id="node4" href="$geometry_8h.html" title="geometry.h" alt="" coords="1767,651,1853,677"/>
+<area shape="rect" id="node10" href="$compositor_8h.html" title="compositor.h" alt="" coords="446,328,543,355"/>
+<area shape="rect" id="node14" href="$openglcontext_8h.html" title="gl/openglcontext.h" alt="" coords="913,501,1041,528"/>
+<area shape="rect" id="node17" href="$waylandsurface_8h.html" title="wayland/output/waylandsurface.h" alt="" coords="591,501,807,528"/>
+<area shape="rect" id="node18" href="$events_8h.html" title="events/events.h" alt="" coords="25,576,140,603"/>
+<area shape="rect" id="node21" href="$displayserver_8h.html" title="displayserver.h" alt="" coords="118,245,228,272"/>
+<area shape="rect" id="node22" href="$windowmanager_8h.html" title="windowmanager.h" alt="" coords="431,245,557,272"/>
+<area shape="rect" id="node24" href="$openglshader_8h.html" title="gl/openglshader.h" alt="" coords="1173,501,1296,528"/>
+<area shape="rect" id="node29" href="$waylandinput_8h.html" title="wayland/input/waylandinput.h" alt="" coords="145,328,337,355"/>
+<area shape="rect" id="node32" href="$scenegraph_8h.html" title="scenegraph/scenegraph.h" alt="" coords="1361,245,1532,272"/>
+<area shape="rect" id="node11" href="$display_8h.html" title="scenegraph/output/display\l/display.h" alt="" coords="1043,411,1217,453"/>
+<area shape="rect" id="node16" href="$seat_8h.html" title="wayland/input/seat.h" alt="" coords="171,419,313,445"/>
+<area shape="rect" id="node12" href="$physicalnode_8h.html" title="scenegraph/physicalnode.h" alt="" coords="1321,501,1500,528"/>
+<area shape="rect" id="node13" href="$scenegraphnode_8h.html" title="scenegraph/scenegraphnode.h" alt="" coords="1509,576,1707,603"/>
+<area shape="rect" id="node23" href="$waylandsurfacenode_8h.html" title="scenegraph/output/wayland\l/waylandsurfacenode.h" alt="" coords="787,411,968,453"/>
+<area shape="rect" id="node27" href="$motorcarsurfacenode_8h.html" title="scenegraph/output/wayland\l/motorcarsurfacenode.h" alt="" coords="639,321,820,362"/>
+<area shape="rect" id="node28" href="$scene_8h.html" title="scenegraph/scene.h" alt="" coords="1201,328,1340,355"/>
+<area shape="rect" id="node30" href="$shell_8h.html" title="shell.h" alt="" coords="362,328,421,355"/>
+<area shape="rect" id="node33" href="$virtualnode_8h.html" title="scenegraph/virtualnode.h" alt="" coords="1525,501,1691,528"/>
+<area shape="rect" id="node34" href="$output_8h.html" title="scenegraph/output/output.h" alt="" coords="997,328,1176,355"/>
+<area shape="rect" id="node35" href="$input_8h.html" title="scenegraph/input/input.h" alt="" coords="1365,328,1528,355"/>
+<area shape="rect" id="node37" href="$qopenglwindow_8h.html" title="qt/qopenglwindow.h" alt="" coords="435,171,572,197"/>
+<area shape="rect" id="node39" href="$textureblitter_8h.html" title="qt/textureblitter.h" alt="" coords="1915,171,2035,197"/>
+</map>

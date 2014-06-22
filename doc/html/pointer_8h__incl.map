@@ -1,0 +1,9 @@
+<map id="/home/dave/thesis/motorcar/src/compositor/wayland/input/pointer.h" name="/home/dave/thesis/motorcar/src/compositor/wayland/input/pointer.h">
+<area shape="rect" id="node2" href="$seat_8h.html" title="wayland/input/seat.h" alt="" coords="42,109,184,136"/>
+<area shape="rect" id="node3" href="$waylandsurface_8h.html" title="wayland/output/waylandsurface.h" alt="" coords="5,184,221,211"/>
+<area shape="rect" id="node6" href="$events_8h.html" title="events/events.h" alt="" coords="169,259,284,285"/>
+<area shape="rect" id="node7" href="$event_8h.html" title="events/event.h" alt="" coords="265,483,372,509"/>
+<area shape="rect" id="node8" href="$mouseevent_8h.html" title="events/mouseevent.h" alt="" coords="104,408,251,435"/>
+<area shape="rect" id="node9" href="$keyboardevent_8h.html" title="events/keyboardevent.h" alt="" coords="299,333,460,360"/>
+<area shape="rect" id="node11" href="$sixdofevent_8h.html" title="events/sixdofevent.h" alt="" coords="133,333,275,360"/>
+</map>

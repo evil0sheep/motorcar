@@ -1,0 +1,11 @@
+<map id="/home/dave/thesis/motorcar/src/compositor/scenegraph/scene.h" name="/home/dave/thesis/motorcar/src/compositor/scenegraph/scene.h">
+<area shape="rect" id="node2" href="$physicalnode_8h.html" title="scenegraph/physicalnode.h" alt="" coords="5,200,184,227"/>
+<area shape="rect" id="node13" href="$display_8h.html" title="scenegraph/output/display\l/display.h" alt="" coords="853,110,1027,151"/>
+<area shape="rect" id="node3" href="$scenegraphnode_8h.html" title="scenegraph/scenegraphnode.h" alt="" coords="239,349,437,376"/>
+<area shape="rect" id="node8" href="$geometry_8h.html" title="geometry.h" alt="" coords="830,424,916,451"/>
+<area shape="rect" id="node14" href="$viewpoint_8h.html" title="scenegraph/output/viewpoint.h" alt="" coords="741,200,939,227"/>
+<area shape="rect" id="node24" href="$openglcontext_8h.html" title="gl/openglcontext.h" alt="" coords="1079,200,1207,227"/>
+<area shape="rect" id="node15" href="$viewport_8h.html" title="gl/viewport.h" alt="" coords="877,275,973,301"/>
+<area shape="rect" id="node17" href="$virtualnode_8h.html" title="scenegraph/virtualnode.h" alt="" coords="241,275,407,301"/>
+<area shape="rect" id="node20" href="$motorcar-server-protocol_8h.html" title="motorcar&#45;server&#45;protocol.h" alt="" coords="627,275,801,301"/>
+</map>

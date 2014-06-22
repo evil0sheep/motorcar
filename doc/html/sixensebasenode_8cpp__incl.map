@@ -1,0 +1,30 @@
+<map id="/home/dave/thesis/motorcar/src/device/sixensebasenode.cpp" name="/home/dave/thesis/motorcar/src/device/sixensebasenode.cpp">
+<area shape="rect" id="node2" href="$sixensebasenode_8h.html" title="sixensebasenode.h" alt="" coords="1687,96,1821,123"/>
+<area shape="rect" id="node3" href="$physicalnode_8h.html" title="scenegraph/physicalnode.h" alt="" coords="1501,592,1680,619"/>
+<area shape="rect" id="node14" href="$sixensecontrollernode_8h.html" title="sixensecontrollernode.h" alt="" coords="1391,171,1549,197"/>
+<area shape="rect" id="node49" href="$scene_8h.html" title="scenegraph/scene.h" alt="" coords="1685,419,1824,445"/>
+<area shape="rect" id="node4" href="$scenegraphnode_8h.html" title="scenegraph/scenegraphnode.h" alt="" coords="865,741,1063,768"/>
+<area shape="rect" id="node9" href="$geometry_8h.html" title="geometry.h" alt="" coords="421,816,507,843"/>
+<area shape="rect" id="node15" href="$sixdofpointingdevice_8h.html" title="scenegraph/input/sixdofpointingdevice.h" alt="" coords="670,245,924,272"/>
+<area shape="rect" id="node44" href="$singlebonetracker_8h.html" title="scenegraph/input/singlebonetracker.h" alt="" coords="1442,245,1680,272"/>
+<area shape="rect" id="node18" href="$wireframenode_8h.html" title="scenegraph/output/wireframenode.h" alt="" coords="733,419,963,445"/>
+<area shape="rect" id="node26" href="$motorcar-server-protocol_8h.html" title="motorcar&#45;server&#45;protocol.h" alt="" coords="1153,667,1327,693"/>
+<area shape="rect" id="node35" href="$waylandsurfacenode_8h.html" title="scenegraph/output/wayland\l/waylandsurfacenode.h" alt="" coords="477,411,659,453"/>
+<area shape="rect" id="node41" href="$motorcarsurfacenode_8h.html" title="scenegraph/output/wayland\l/motorcarsurfacenode.h" alt="" coords="477,321,659,362"/>
+<area shape="rect" id="node42" href="$seat_8h.html" title="wayland/input/seat.h" alt="" coords="117,419,259,445"/>
+<area shape="rect" id="node43" href="$pointer_8h.html" title="wayland/input/pointer.h" alt="" coords="226,328,381,355"/>
+<area shape="rect" id="node19" href="$drawable_8h.html" title="scenegraph/output/drawable.h" alt="" coords="605,509,800,536"/>
+<area shape="rect" id="node21" href="$viewpoint_8h.html" title="scenegraph/output/viewpoint.h" alt="" coords="669,592,867,619"/>
+<area shape="rect" id="node31" href="$openglshader_8h.html" title="gl/openglshader.h" alt="" coords="377,509,500,536"/>
+<area shape="rect" id="node20" href="$virtualnode_8h.html" title="scenegraph/virtualnode.h" alt="" coords="563,667,729,693"/>
+<area shape="rect" id="node22" href="$viewport_8h.html" title="gl/viewport.h" alt="" coords="443,667,539,693"/>
+<area shape="rect" id="node36" href="$openglcontext_8h.html" title="gl/openglcontext.h" alt="" coords="941,592,1069,619"/>
+<area shape="rect" id="node37" href="$waylandsurface_8h.html" title="wayland/output/waylandsurface.h" alt="" coords="5,667,221,693"/>
+<area shape="rect" id="node38" href="$events_8h.html" title="events/events.h" alt="" coords="56,741,171,768"/>
+<area shape="rect" id="node39" href="$event_8h.html" title="events/event.h" alt="" coords="54,891,161,917"/>
+<area shape="rect" id="node40" href="$mouseevent_8h.html" title="events/mouseevent.h" alt="" coords="145,816,292,843"/>
+<area shape="rect" id="node45" href="$bonesensor_8h.html" title="scenegraph/input/bonesensor.h" alt="" coords="1460,328,1663,355"/>
+<area shape="rect" id="node46" href="$skeleton_8h.html" title="scenegraph/input/skeleton.h" alt="" coords="1425,419,1609,445"/>
+<area shape="rect" id="node47" href="$bone_8h.html" title="scenegraph/input/bone.h" alt="" coords="1446,509,1609,536"/>
+<area shape="rect" id="node50" href="$display_8h.html" title="scenegraph/output/display\l/display.h" alt="" coords="1195,502,1369,543"/>
+</map>

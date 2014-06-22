@@ -1,0 +1,5 @@
+<map id="motorcar::Event" name="motorcar::Event">
+<area shape="rect" id="node2" href="$classmotorcar_1_1KeyboardEvent.html" title="motorcar::KeyboardEvent" alt="" coords="5,80,176,107"/>
+<area shape="rect" id="node3" href="$classmotorcar_1_1MouseEvent.html" title="motorcar::MouseEvent" alt="" coords="200,80,353,107"/>
+<area shape="rect" id="node4" href="$classmotorcar_1_1SixDofEvent.html" title="motorcar::SixDofEvent" alt="" coords="200,155,353,181"/>
+</map>

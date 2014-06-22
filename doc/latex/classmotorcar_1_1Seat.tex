@@ -1,0 +1,145 @@
+\hypertarget{classmotorcar_1_1Seat}{\section{motorcar\-:\-:Seat Class Reference}
+\label{classmotorcar_1_1Seat}\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}}
+}
+
+
+{\ttfamily \#include $<$seat.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Seat\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{classmotorcar_1_1Seat__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1Seat_a7fbd40f66e504cd214797c95dd83c94c}{Seat} ()
+\item 
+virtual \hyperlink{classmotorcar_1_1Seat_a28ee91e80c53d92b8729adf9248dca97}{$\sim$\-Seat} ()
+\item 
+\hyperlink{classmotorcar_1_1Keyboard}{Keyboard} $\ast$ \hyperlink{classmotorcar_1_1Seat_ada346c548a070764bd05b7666b04ba28}{keyboard} () const 
+\item 
+void \hyperlink{classmotorcar_1_1Seat_ac73c8ea32eaffeccbed3fdfe4d115428}{set\-Keyboard} (\hyperlink{classmotorcar_1_1Keyboard}{Keyboard} $\ast$\hyperlink{classmotorcar_1_1Seat_ada346c548a070764bd05b7666b04ba28}{keyboard})
+\item 
+\hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$ \hyperlink{classmotorcar_1_1Seat_a4ac963bf0d54b6e4a77c0594b37d756f}{keyboard\-Focus} () const 
+\item 
+virtual void \hyperlink{classmotorcar_1_1Seat_ab8f8eb12135b5db96238c37653fb54d1}{set\-Keyboard\-Focus} (\hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$\hyperlink{classmotorcar_1_1Seat_a4ac963bf0d54b6e4a77c0594b37d756f}{keyboard\-Focus})
+\item 
+\hyperlink{classmotorcar_1_1Pointer}{Pointer} $\ast$ \hyperlink{classmotorcar_1_1Seat_a98193b334b8a8278b29926f9f97300c6}{pointer} () const 
+\item 
+void \hyperlink{classmotorcar_1_1Seat_ae84831d0c43b89bbeb0ff7c1b0186c5d}{set\-Pointer} (\hyperlink{classmotorcar_1_1Pointer}{Pointer} $\ast$\hyperlink{classmotorcar_1_1Seat_a98193b334b8a8278b29926f9f97300c6}{pointer})
+\item 
+\hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$ \hyperlink{classmotorcar_1_1Seat_a996631e534a7c9424245c03c1781fd2a}{pointer\-Focus} () const 
+\item 
+virtual void \hyperlink{classmotorcar_1_1Seat_a0f7254a717c97aba66b15ca8d437734c}{set\-Pointer\-Focus} (\hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$\hyperlink{classmotorcar_1_1Seat_a996631e534a7c9424245c03c1781fd2a}{pointer\-Focus}, glm\-::vec2 local\-Position)
+\item 
+void \hyperlink{classmotorcar_1_1Seat_a40f9d76a799f70acd1cd3ad5f0360aad}{ensure\-Keyboard\-Focus\-Is\-Valid} (\hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$old\-Surface, \hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$next\-Surface)
+\begin{DoxyCompactList}\small\item\em Guaruntees that the current keyboard focus is as valid possible. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1Seat_a7fbd40f66e504cd214797c95dd83c94c}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!Seat@{Seat}}
+\index{Seat@{Seat}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{Seat}]{\setlength{\rightskip}{0pt plus 5cm}Seat\-::\-Seat (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Seat_a7fbd40f66e504cd214797c95dd83c94c}
+\hypertarget{classmotorcar_1_1Seat_a28ee91e80c53d92b8729adf9248dca97}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!$\sim$\-Seat@{$\sim$\-Seat}}
+\index{$\sim$\-Seat@{$\sim$\-Seat}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{$\sim$\-Seat}]{\setlength{\rightskip}{0pt plus 5cm}Seat\-::$\sim$\-Seat (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1Seat_a28ee91e80c53d92b8729adf9248dca97}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1Seat_a40f9d76a799f70acd1cd3ad5f0360aad}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!ensure\-Keyboard\-Focus\-Is\-Valid@{ensure\-Keyboard\-Focus\-Is\-Valid}}
+\index{ensure\-Keyboard\-Focus\-Is\-Valid@{ensure\-Keyboard\-Focus\-Is\-Valid}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{ensure\-Keyboard\-Focus\-Is\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}void Seat\-::ensure\-Keyboard\-Focus\-Is\-Valid (
+\begin{DoxyParamCaption}
+\item[{{\bf Wayland\-Surface} $\ast$}]{old\-Surface, }
+\item[{{\bf Wayland\-Surface} $\ast$}]{next\-Surface}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Seat_a40f9d76a799f70acd1cd3ad5f0360aad}
+
+
+Guaruntees that the current keyboard focus is as valid possible. 
+
+\hypertarget{classmotorcar_1_1Seat_ada346c548a070764bd05b7666b04ba28}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!keyboard@{keyboard}}
+\index{keyboard@{keyboard}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{keyboard}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Keyboard} $\ast$ Seat\-::keyboard (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Seat_ada346c548a070764bd05b7666b04ba28}
+\hypertarget{classmotorcar_1_1Seat_a4ac963bf0d54b6e4a77c0594b37d756f}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!keyboard\-Focus@{keyboard\-Focus}}
+\index{keyboard\-Focus@{keyboard\-Focus}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{keyboard\-Focus}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Wayland\-Surface} $\ast$ Seat\-::keyboard\-Focus (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Seat_a4ac963bf0d54b6e4a77c0594b37d756f}
+\hypertarget{classmotorcar_1_1Seat_a98193b334b8a8278b29926f9f97300c6}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!pointer@{pointer}}
+\index{pointer@{pointer}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{pointer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pointer} $\ast$ Seat\-::pointer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Seat_a98193b334b8a8278b29926f9f97300c6}
+\hypertarget{classmotorcar_1_1Seat_a996631e534a7c9424245c03c1781fd2a}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!pointer\-Focus@{pointer\-Focus}}
+\index{pointer\-Focus@{pointer\-Focus}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{pointer\-Focus}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Wayland\-Surface} $\ast$ Seat\-::pointer\-Focus (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Seat_a996631e534a7c9424245c03c1781fd2a}
+\hypertarget{classmotorcar_1_1Seat_ac73c8ea32eaffeccbed3fdfe4d115428}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!set\-Keyboard@{set\-Keyboard}}
+\index{set\-Keyboard@{set\-Keyboard}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{set\-Keyboard}]{\setlength{\rightskip}{0pt plus 5cm}void Seat\-::set\-Keyboard (
+\begin{DoxyParamCaption}
+\item[{{\bf Keyboard} $\ast$}]{keyboard}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Seat_ac73c8ea32eaffeccbed3fdfe4d115428}
+\hypertarget{classmotorcar_1_1Seat_ab8f8eb12135b5db96238c37653fb54d1}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!set\-Keyboard\-Focus@{set\-Keyboard\-Focus}}
+\index{set\-Keyboard\-Focus@{set\-Keyboard\-Focus}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{set\-Keyboard\-Focus}]{\setlength{\rightskip}{0pt plus 5cm}void Seat\-::set\-Keyboard\-Focus (
+\begin{DoxyParamCaption}
+\item[{{\bf Wayland\-Surface} $\ast$}]{keyboard\-Focus}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1Seat_ab8f8eb12135b5db96238c37653fb54d1}
+
+
+Reimplemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSeat_a28e6eb540028abe6d70ecd5b7320d6aa}{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Seat}.
+
+\hypertarget{classmotorcar_1_1Seat_ae84831d0c43b89bbeb0ff7c1b0186c5d}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!set\-Pointer@{set\-Pointer}}
+\index{set\-Pointer@{set\-Pointer}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{set\-Pointer}]{\setlength{\rightskip}{0pt plus 5cm}void Seat\-::set\-Pointer (
+\begin{DoxyParamCaption}
+\item[{{\bf Pointer} $\ast$}]{pointer}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Seat_ae84831d0c43b89bbeb0ff7c1b0186c5d}
+\hypertarget{classmotorcar_1_1Seat_a0f7254a717c97aba66b15ca8d437734c}{\index{motorcar\-::\-Seat@{motorcar\-::\-Seat}!set\-Pointer\-Focus@{set\-Pointer\-Focus}}
+\index{set\-Pointer\-Focus@{set\-Pointer\-Focus}!motorcar::Seat@{motorcar\-::\-Seat}}
+\subsubsection[{set\-Pointer\-Focus}]{\setlength{\rightskip}{0pt plus 5cm}void Seat\-::set\-Pointer\-Focus (
+\begin{DoxyParamCaption}
+\item[{{\bf Wayland\-Surface} $\ast$}]{pointer\-Focus, }
+\item[{glm\-::vec2}]{local\-Position}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1Seat_a0f7254a717c97aba66b15ca8d437734c}
+
+
+Reimplemented in \hyperlink{classqtmotorcar_1_1QtWaylandMotorcarSeat_a60932e1f7bd1e626b3427c6b63b80484}{qtmotorcar\-::\-Qt\-Wayland\-Motorcar\-Seat}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/compositor/wayland/input/\hyperlink{seat_8h}{seat.\-h}\item 
+/home/dave/thesis/motorcar/src/compositor/wayland/input/\hyperlink{seat_8cpp}{seat.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,49 @@
+\hypertarget{structmotorcar__surface__listener}{\section{motorcar\-\_\-surface\-\_\-listener Struct Reference}
+\label{structmotorcar__surface__listener}\index{motorcar\-\_\-surface\-\_\-listener@{motorcar\-\_\-surface\-\_\-listener}}
+}
+
+
+{\ttfamily \#include $<$motorcar-\/client-\/protocol.\-h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$ \hyperlink{structmotorcar__surface__listener_af82c86b66c3207618e167315173d757c}{transform\-\_\-matrix} )(void $\ast$data, struct motorcar\-\_\-surface $\ast$motorcar\-\_\-surface, struct wl\-\_\-array $\ast$transform)
+\item 
+void($\ast$ \hyperlink{structmotorcar__surface__listener_aaf93856b0517537beddea51838634496}{request\-\_\-size\-\_\-3d} )(void $\ast$data, struct motorcar\-\_\-surface $\ast$motorcar\-\_\-surface, struct wl\-\_\-array $\ast$dimensions)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+motorcar\-\_\-surface -\/ a 3\-D, view dependent, depth composited meta-\/data surface \-: sets the tranformation of the 3\-D window \-: requests that the client resize the 3\-D window to the given scale
+
+An interface that may be implemented by a wl\-\_\-surface, for implementations that provide motorcar style depth composited 3\-D surfaces
+
+A motorcar\-\_\-surface can be created from an exisitng surface, and provides the client with the information needed to draw its content in a way that can be depth composited by a motorcar compliant compositor.
+
+A motorcar surface is handled in the compositor as a 3\-D analog of a traditional window. Rather than the window being a 2 dimensional region of a 2 dimensional interface space, the window represents a 3 dimensional region of a 3 dimensional interface space, essentially a 3\-D box in which the client can draw 3\-D geometry
+
+The 3\-D window has its own 3\-D space whose origin is at the center of the window. The window's position refers to the location of this origin in the world space, and its rotation is around this point. The window also has a 3\-D size, which is defined in its local space. Each component of the size indicates one dimension of the window bounds, so the window extends for one half this distance on each side of the origin in its local space. 
+
+\subsection{Member Data Documentation}
+\hypertarget{structmotorcar__surface__listener_aaf93856b0517537beddea51838634496}{\index{motorcar\-\_\-surface\-\_\-listener@{motorcar\-\_\-surface\-\_\-listener}!request\-\_\-size\-\_\-3d@{request\-\_\-size\-\_\-3d}}
+\index{request\-\_\-size\-\_\-3d@{request\-\_\-size\-\_\-3d}!motorcar_surface_listener@{motorcar\-\_\-surface\-\_\-listener}}
+\subsubsection[{request\-\_\-size\-\_\-3d}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ motorcar\-\_\-surface\-\_\-listener\-::request\-\_\-size\-\_\-3d)(void $\ast$data, struct motorcar\-\_\-surface $\ast$motorcar\-\_\-surface, struct wl\-\_\-array $\ast$dimensions)}}\label{structmotorcar__surface__listener_aaf93856b0517537beddea51838634496}
+request\-\_\-size\-\_\-3d -\/ requests that the client resize the 3\-D window to the given scale \-: the requested size vector
+
+Allows the compositor to request the window take a new size. Much like the traditional 2\-D size mechanisms, the compositor cannot set this explicitly, rather, it can only request that the client take a certain dimension, and the client then chooses any size which fits completely within the requested size and sends a resize event back to the compositor.
+
+The size is represented here as a vector of three 32-\/bit floats, representing the size of the 3\-D window along each of the cardinal axes in the window's local space. \hypertarget{structmotorcar__surface__listener_af82c86b66c3207618e167315173d757c}{\index{motorcar\-\_\-surface\-\_\-listener@{motorcar\-\_\-surface\-\_\-listener}!transform\-\_\-matrix@{transform\-\_\-matrix}}
+\index{transform\-\_\-matrix@{transform\-\_\-matrix}!motorcar_surface_listener@{motorcar\-\_\-surface\-\_\-listener}}
+\subsubsection[{transform\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ motorcar\-\_\-surface\-\_\-listener\-::transform\-\_\-matrix)(void $\ast$data, struct motorcar\-\_\-surface $\ast$motorcar\-\_\-surface, struct wl\-\_\-array $\ast$transform)}}\label{structmotorcar__surface__listener_af82c86b66c3207618e167315173d757c}
+transform\-\_\-matrix -\/ sets the tranformation of the 3\-D window \-: the new transform matrix
+
+This event is sent to indicate a change in the transform of the client's 3\-D window
+
+This matrix can be though of as the model matrix for the client's 3\-D window, which brings vectors from the window local space into world space.
+
+It is represented here as a column-\/major 4x4 matrix of 32 bit floats, with all values are specified in meters. 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/protocol/\hyperlink{motorcar-client-protocol_8h}{motorcar-\/client-\/protocol.\-h}\end{DoxyCompactItemize}

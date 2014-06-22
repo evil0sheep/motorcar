@@ -1,0 +1,158 @@
+\hypertarget{classmotorcar_1_1MotorcarSurfaceNode}{\section{motorcar\-:\-:Motorcar\-Surface\-Node Class Reference}
+\label{classmotorcar_1_1MotorcarSurfaceNode}\index{motorcar\-::\-Motorcar\-Surface\-Node@{motorcar\-::\-Motorcar\-Surface\-Node}}
+}
+
+
+{\ttfamily \#include $<$motorcarsurfacenode.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Motorcar\-Surface\-Node\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{classmotorcar_1_1MotorcarSurfaceNode__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:Motorcar\-Surface\-Node\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmotorcar_1_1MotorcarSurfaceNode__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1MotorcarSurfaceNode_aab75702ea552e4d9df6edece3dcd5328}{Motorcar\-Surface\-Node} (\hyperlink{classmotorcar_1_1WaylandSurface}{Wayland\-Surface} $\ast$\hyperlink{simple-egl_8cpp_a0720952aa1caded45b5bcdce589663a9}{surface}, \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent, const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4(1), glm\-::vec3 \hyperlink{classmotorcar_1_1MotorcarSurfaceNode_a83b83213c56f85783a948e28fb5b11b0}{dimensions}=glm\-::vec3(1))
+\item 
+virtual void \hyperlink{classmotorcar_1_1MotorcarSurfaceNode_afe8227366d3644d09d13c905ff2d86a8}{draw} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}, \hyperlink{classmotorcar_1_1Display}{Display} $\ast$\hyperlink{structdisplay}{display}) override
+\begin{DoxyCompactList}\small\item\em extracts the depth and color information from the client surface, clips them against the surface boundaries, and composites with the scene \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmotorcar_1_1MotorcarSurfaceNode_ab0c7df201ceb2d73c1077daf90574016}{compute\-Surface\-Transform} (float ppcm) override
+\begin{DoxyCompactList}\small\item\em computes surface transform \end{DoxyCompactList}\item 
+void \hyperlink{classmotorcar_1_1MotorcarSurfaceNode_a21eac7e80d2855fcb822541abc7f1965}{handle\-World\-Transform\-Change} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}) override
+\begin{DoxyCompactList}\small\item\em react to changes in the node's worldtransform \end{DoxyCompactList}\item 
+glm\-::vec3 \hyperlink{classmotorcar_1_1MotorcarSurfaceNode_a83b83213c56f85783a948e28fb5b11b0}{dimensions} () const 
+\item 
+void \hyperlink{classmotorcar_1_1MotorcarSurfaceNode_aa58a458e928fb175ebbddc2c4c501a17}{request\-Size3\-D} (const glm\-::vec3 \&\hyperlink{classmotorcar_1_1MotorcarSurfaceNode_a83b83213c56f85783a948e28fb5b11b0}{dimensions})
+\item 
+wl\-\_\-resource $\ast$ \hyperlink{classmotorcar_1_1MotorcarSurfaceNode_aea6b1f37432c263f4256e87e940018f8}{resource} () const 
+\item 
+void \hyperlink{classmotorcar_1_1MotorcarSurfaceNode_a9bf1d1d9ce0df9e34b3a9410861a6a96}{configure\-Resource} (struct wl\-\_\-client $\ast$client, uint32\-\_\-t id)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classmotorcar_1_1MotorcarSurfaceNode_aa3cd0c916984418ef2a093c1bcb5b29a}{handle\-\_\-set\-\_\-size\-\_\-3d} (struct wl\-\_\-client $\ast$client, struct wl\-\_\-resource $\ast$\hyperlink{classmotorcar_1_1MotorcarSurfaceNode_aea6b1f37432c263f4256e87e940018f8}{resource}, struct wl\-\_\-array $\ast$\hyperlink{classmotorcar_1_1MotorcarSurfaceNode_a83b83213c56f85783a948e28fb5b11b0}{dimensions})
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1MotorcarSurfaceNode_aab75702ea552e4d9df6edece3dcd5328}{\index{motorcar\-::\-Motorcar\-Surface\-Node@{motorcar\-::\-Motorcar\-Surface\-Node}!Motorcar\-Surface\-Node@{Motorcar\-Surface\-Node}}
+\index{Motorcar\-Surface\-Node@{Motorcar\-Surface\-Node}!motorcar::MotorcarSurfaceNode@{motorcar\-::\-Motorcar\-Surface\-Node}}
+\subsubsection[{Motorcar\-Surface\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Motorcar\-Surface\-Node\-::\-Motorcar\-Surface\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Wayland\-Surface} $\ast$}]{surface, }
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{parent, }
+\item[{const glm\-::mat4 \&}]{transform = {\ttfamily glm\-:\-:mat4(1)}, }
+\item[{glm\-::vec3}]{dimensions = {\ttfamily glm\-:\-:vec3(1)}}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1MotorcarSurfaceNode_aab75702ea552e4d9df6edece3dcd5328}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1MotorcarSurfaceNode_ab0c7df201ceb2d73c1077daf90574016}{\index{motorcar\-::\-Motorcar\-Surface\-Node@{motorcar\-::\-Motorcar\-Surface\-Node}!compute\-Surface\-Transform@{compute\-Surface\-Transform}}
+\index{compute\-Surface\-Transform@{compute\-Surface\-Transform}!motorcar::MotorcarSurfaceNode@{motorcar\-::\-Motorcar\-Surface\-Node}}
+\subsubsection[{compute\-Surface\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}void Motorcar\-Surface\-Node\-::compute\-Surface\-Transform (
+\begin{DoxyParamCaption}
+\item[{float}]{ppcm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1MotorcarSurfaceNode_ab0c7df201ceb2d73c1077daf90574016}
+
+
+computes surface transform 
+
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a0dfac06ca2855e41613b6e663c76c97e}{motorcar\-::\-Wayland\-Surface\-Node}.
+
+\hypertarget{classmotorcar_1_1MotorcarSurfaceNode_a9bf1d1d9ce0df9e34b3a9410861a6a96}{\index{motorcar\-::\-Motorcar\-Surface\-Node@{motorcar\-::\-Motorcar\-Surface\-Node}!configure\-Resource@{configure\-Resource}}
+\index{configure\-Resource@{configure\-Resource}!motorcar::MotorcarSurfaceNode@{motorcar\-::\-Motorcar\-Surface\-Node}}
+\subsubsection[{configure\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}void Motorcar\-Surface\-Node\-::configure\-Resource (
+\begin{DoxyParamCaption}
+\item[{struct wl\-\_\-client $\ast$}]{client, }
+\item[{uint32\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1MotorcarSurfaceNode_a9bf1d1d9ce0df9e34b3a9410861a6a96}
+\hypertarget{classmotorcar_1_1MotorcarSurfaceNode_a83b83213c56f85783a948e28fb5b11b0}{\index{motorcar\-::\-Motorcar\-Surface\-Node@{motorcar\-::\-Motorcar\-Surface\-Node}!dimensions@{dimensions}}
+\index{dimensions@{dimensions}!motorcar::MotorcarSurfaceNode@{motorcar\-::\-Motorcar\-Surface\-Node}}
+\subsubsection[{dimensions}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec3 Motorcar\-Surface\-Node\-::dimensions (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1MotorcarSurfaceNode_a83b83213c56f85783a948e28fb5b11b0}
+\hypertarget{classmotorcar_1_1MotorcarSurfaceNode_afe8227366d3644d09d13c905ff2d86a8}{\index{motorcar\-::\-Motorcar\-Surface\-Node@{motorcar\-::\-Motorcar\-Surface\-Node}!draw@{draw}}
+\index{draw@{draw}!motorcar::MotorcarSurfaceNode@{motorcar\-::\-Motorcar\-Surface\-Node}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}void Motorcar\-Surface\-Node\-::draw (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene, }
+\item[{{\bf Display} $\ast$}]{display}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1MotorcarSurfaceNode_afe8227366d3644d09d13c905ff2d86a8}
+
+
+extracts the depth and color information from the client surface, clips them against the surface boundaries, and composites with the scene 
+
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a1afe3178777574dd1b3c66d7d19d871b}{motorcar\-::\-Wayland\-Surface\-Node}.
+
+\hypertarget{classmotorcar_1_1MotorcarSurfaceNode_aa3cd0c916984418ef2a093c1bcb5b29a}{\index{motorcar\-::\-Motorcar\-Surface\-Node@{motorcar\-::\-Motorcar\-Surface\-Node}!handle\-\_\-set\-\_\-size\-\_\-3d@{handle\-\_\-set\-\_\-size\-\_\-3d}}
+\index{handle\-\_\-set\-\_\-size\-\_\-3d@{handle\-\_\-set\-\_\-size\-\_\-3d}!motorcar::MotorcarSurfaceNode@{motorcar\-::\-Motorcar\-Surface\-Node}}
+\subsubsection[{handle\-\_\-set\-\_\-size\-\_\-3d}]{\setlength{\rightskip}{0pt plus 5cm}void Motorcar\-Surface\-Node\-::handle\-\_\-set\-\_\-size\-\_\-3d (
+\begin{DoxyParamCaption}
+\item[{struct wl\-\_\-client $\ast$}]{client, }
+\item[{struct wl\-\_\-resource $\ast$}]{resource, }
+\item[{struct wl\-\_\-array $\ast$}]{dimensions}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classmotorcar_1_1MotorcarSurfaceNode_aa3cd0c916984418ef2a093c1bcb5b29a}
+\hypertarget{classmotorcar_1_1MotorcarSurfaceNode_a21eac7e80d2855fcb822541abc7f1965}{\index{motorcar\-::\-Motorcar\-Surface\-Node@{motorcar\-::\-Motorcar\-Surface\-Node}!handle\-World\-Transform\-Change@{handle\-World\-Transform\-Change}}
+\index{handle\-World\-Transform\-Change@{handle\-World\-Transform\-Change}!motorcar::MotorcarSurfaceNode@{motorcar\-::\-Motorcar\-Surface\-Node}}
+\subsubsection[{handle\-World\-Transform\-Change}]{\setlength{\rightskip}{0pt plus 5cm}void Motorcar\-Surface\-Node\-::handle\-World\-Transform\-Change (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1MotorcarSurfaceNode_a21eac7e80d2855fcb822541abc7f1965}
+
+
+react to changes in the node's worldtransform 
+
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1SceneGraphNode_ad81e5f74bf448c2be1dc9f536d6d98b6}{motorcar\-::\-Scene\-Graph\-Node}.
+
+\hypertarget{classmotorcar_1_1MotorcarSurfaceNode_aa58a458e928fb175ebbddc2c4c501a17}{\index{motorcar\-::\-Motorcar\-Surface\-Node@{motorcar\-::\-Motorcar\-Surface\-Node}!request\-Size3\-D@{request\-Size3\-D}}
+\index{request\-Size3\-D@{request\-Size3\-D}!motorcar::MotorcarSurfaceNode@{motorcar\-::\-Motorcar\-Surface\-Node}}
+\subsubsection[{request\-Size3\-D}]{\setlength{\rightskip}{0pt plus 5cm}void Motorcar\-Surface\-Node\-::request\-Size3\-D (
+\begin{DoxyParamCaption}
+\item[{const glm\-::vec3 \&}]{dimensions}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1MotorcarSurfaceNode_aa58a458e928fb175ebbddc2c4c501a17}
+\hypertarget{classmotorcar_1_1MotorcarSurfaceNode_aea6b1f37432c263f4256e87e940018f8}{\index{motorcar\-::\-Motorcar\-Surface\-Node@{motorcar\-::\-Motorcar\-Surface\-Node}!resource@{resource}}
+\index{resource@{resource}!motorcar::MotorcarSurfaceNode@{motorcar\-::\-Motorcar\-Surface\-Node}}
+\subsubsection[{resource}]{\setlength{\rightskip}{0pt plus 5cm}wl\-\_\-resource $\ast$ Motorcar\-Surface\-Node\-::resource (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1MotorcarSurfaceNode_aea6b1f37432c263f4256e87e940018f8}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/output/wayland/\hyperlink{motorcarsurfacenode_8h}{motorcarsurfacenode.\-h}\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/output/wayland/\hyperlink{motorcarsurfacenode_8cpp}{motorcarsurfacenode.\-cpp}\end{DoxyCompactItemize}

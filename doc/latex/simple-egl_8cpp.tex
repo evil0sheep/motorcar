@@ -1,0 +1,216 @@
+\hypertarget{simple-egl_8cpp}{\section{/home/dave/thesis/motorcar/src/examples/clients/simple-\/egl/simple-\/egl.cpp File Reference}
+\label{simple-egl_8cpp}\index{/home/dave/thesis/motorcar/src/examples/clients/simple-\/egl/simple-\/egl.\-cpp@{/home/dave/thesis/motorcar/src/examples/clients/simple-\/egl/simple-\/egl.\-cpp}}
+}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$stdbool.\-h$>$}\\*
+{\ttfamily \#include $<$math.\-h$>$}\\*
+{\ttfamily \#include $<$assert.\-h$>$}\\*
+{\ttfamily \#include $<$signal.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$linux/input.\-h$>$}\\*
+{\ttfamily \#include $<$wayland-\/client.\-h$>$}\\*
+{\ttfamily \#include $<$wayland-\/egl.\-h$>$}\\*
+{\ttfamily \#include $<$wayland-\/cursor.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}motorcar-\/client-\/protocol.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$G\-L/gl.\-h$>$}\\*
+{\ttfamily \#include $<$E\-G\-L/egl.\-h$>$}\\*
+{\ttfamily \#include $<$E\-G\-L/eglext.\-h$>$}\\*
+{\ttfamily \#include $<$glm/glm.\-hpp$>$}\\*
+{\ttfamily \#include $<$glm/gtc/type\-\_\-ptr.\-hpp$>$}\\*
+{\ttfamily \#include $<$glm/gtc/matrix\-\_\-transform.\-hpp$>$}\\*
+{\ttfamily \#include \char`\"{}glm/gtc/matrix\-\_\-access.\-hpp\char`\"{}}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+Include dependency graph for simple-\/egl.cpp\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{simple-egl_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structviewport}{viewport}
+\item 
+struct \hyperlink{structviewpoint}{viewpoint}
+\item 
+struct \hyperlink{structdisplay}{display}
+\item 
+struct \hyperlink{structgeometry}{geometry}
+\item 
+class \hyperlink{classBox}{Box}
+\item 
+class \hyperlink{classsixDofPointer}{six\-Dof\-Pointer}
+\item 
+struct \hyperlink{structwindow}{window}
+\item 
+struct \hyperlink{structmotorsurface__listener}{motorsurface\-\_\-listener}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{simple-egl_8cpp_a083d37f289b99270e0391419178d458f}{E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage}~1
+\item 
+\#define \hyperlink{simple-egl_8cpp_a0792e3d8b2bc978f95917a234b0c81df}{E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age}~1
+\item 
+\#define \hyperlink{simple-egl_8cpp_a7045d8a6b4857f268a62fab2de2021fd}{E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T}~0x313\-D
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef E\-G\-L\-Surface \hyperlink{simple-egl_8cpp_a0720952aa1caded45b5bcdce589663a9}{surface}
+\item 
+typedef E\-G\-L\-Surface E\-G\-Lint $\ast$ \hyperlink{simple-egl_8cpp_a56616f7ca3fc53c0da41d05de9330b11}{rects}
+\item 
+typedef E\-G\-L\-Surface E\-G\-Lint E\-G\-Lint \hyperlink{simple-egl_8cpp_aa6a11810244355f89e6c4961b9dd3b53}{n\-\_\-rects}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{simple-egl_8cpp_ab4ad070d3bf82abe5e70330578f67893}{E\-G\-L\-Boolean} (E\-G\-L\-A\-P\-I\-E\-N\-T\-R\-Y\-P P\-F\-N\-E\-G\-L\-S\-W\-A\-P\-B\-U\-F\-F\-E\-R\-S\-W\-I\-T\-H\-D\-A\-M\-A\-G\-E\-E\-X\-T\-P\-R\-O\-C)(E\-G\-L\-Display dpy
+\item 
+void \hyperlink{simple-egl_8cpp_aaf6cae69507f2c0964816226ca20c18e}{set\-\_\-window\-\_\-dimensions} (struct \hyperlink{structwindow}{window} $\ast$\hyperlink{structwindow}{window}, const glm\-::vec3 \&new\-\_\-dimensions)
+\item 
+void \hyperlink{simple-egl_8cpp_a52ad3b6b6e289a4bc6f2886ae41fc37d}{motorcar\-\_\-surface\-\_\-handle\-\_\-transform\-\_\-matrix} (void $\ast$data, struct motorcar\-\_\-surface $\ast$motorcar\-\_\-surface, struct wl\-\_\-array $\ast$transform)
+\item 
+void \hyperlink{simple-egl_8cpp_aa8d7695f807c4f92f583c3543745ed48}{motorcar\-\_\-surface\-\_\-handle\-\_\-request\-\_\-size\-\_\-3d} (void $\ast$data, struct motorcar\-\_\-surface $\ast$motorcar\-\_\-surface, struct wl\-\_\-array $\ast$dimensions)
+\item 
+void \hyperlink{simple-egl_8cpp_adb2453327db2ff45639e2da432dc0bda}{draw\-Window\-Bounds\-Stencil} (struct \hyperlink{structwindow}{window} $\ast$\hyperlink{structwindow}{window}, struct \hyperlink{structdisplay}{display} $\ast$\hyperlink{structdisplay}{display})
+\item 
+void \hyperlink{simple-egl_8cpp_acc3f5d76dc86000e0b46cee5181f2965}{blit\-Stencil\-Buffer} (struct \hyperlink{structwindow}{window} $\ast$\hyperlink{structwindow}{window}, struct \hyperlink{structdisplay}{display} $\ast$\hyperlink{structdisplay}{display})
+\item 
+glm\-::mat4 \hyperlink{simple-egl_8cpp_a4c7d62d62dce36fb4c180da3649dc755}{mat4\-\_\-from\-\_\-position\-\_\-and\-\_\-orientation} (struct wl\-\_\-array $\ast$position\-Array, struct wl\-\_\-array $\ast$orientation\-Array)
+\item 
+int \hyperlink{simple-egl_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \\*
+\hyperlink{structmotorcar__six__dof__pointer__listener}{motorcar\-\_\-six\-\_\-dof\-\_\-pointer\-\_\-listener} \hyperlink{simple-egl_8cpp_a7bf478b9029897f63d189fc03f9957ad}{motorcar\-\_\-pointer\-\_\-listener}
+\item 
+struct \hyperlink{structmotorcar__viewpoint__listener}{motorcar\-\_\-viewpoint\-\_\-listener} \hyperlink{simple-egl_8cpp_accee8e06dd6487760ee71ac0c347a035}{viewpoint\-\_\-listener}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{simple-egl_8cpp_a7045d8a6b4857f268a62fab2de2021fd}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T@{E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T}}
+\index{E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T@{E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\-G\-L\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-A\-G\-E\-\_\-\-E\-X\-T~0x313\-D}}\label{simple-egl_8cpp_a7045d8a6b4857f268a62fab2de2021fd}
+\hypertarget{simple-egl_8cpp_a0792e3d8b2bc978f95917a234b0c81df}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age@{E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age}}
+\index{E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age@{E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\-G\-L\-\_\-\-E\-X\-T\-\_\-buffer\-\_\-age~1}}\label{simple-egl_8cpp_a0792e3d8b2bc978f95917a234b0c81df}
+\hypertarget{simple-egl_8cpp_a083d37f289b99270e0391419178d458f}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage@{E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage}}
+\index{E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage@{E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\-G\-L\-\_\-\-E\-X\-T\-\_\-swap\-\_\-buffers\-\_\-with\-\_\-damage~1}}\label{simple-egl_8cpp_a083d37f289b99270e0391419178d458f}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{simple-egl_8cpp_aa6a11810244355f89e6c4961b9dd3b53}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!n\-\_\-rects@{n\-\_\-rects}}
+\index{n\-\_\-rects@{n\-\_\-rects}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{n\-\_\-rects}]{\setlength{\rightskip}{0pt plus 5cm}typedef E\-G\-L\-Surface E\-G\-Lint E\-G\-Lint {\bf n\-\_\-rects}}}\label{simple-egl_8cpp_aa6a11810244355f89e6c4961b9dd3b53}
+\hypertarget{simple-egl_8cpp_a56616f7ca3fc53c0da41d05de9330b11}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!rects@{rects}}
+\index{rects@{rects}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{rects}]{\setlength{\rightskip}{0pt plus 5cm}typedef E\-G\-L\-Surface E\-G\-Lint$\ast$ {\bf rects}}}\label{simple-egl_8cpp_a56616f7ca3fc53c0da41d05de9330b11}
+\hypertarget{simple-egl_8cpp_a0720952aa1caded45b5bcdce589663a9}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!surface@{surface}}
+\index{surface@{surface}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{surface}]{\setlength{\rightskip}{0pt plus 5cm}typedef E\-G\-L\-Surface {\bf surface}}}\label{simple-egl_8cpp_a0720952aa1caded45b5bcdce589663a9}
+
+
+\subsection{Function Documentation}
+\hypertarget{simple-egl_8cpp_acc3f5d76dc86000e0b46cee5181f2965}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!blit\-Stencil\-Buffer@{blit\-Stencil\-Buffer}}
+\index{blit\-Stencil\-Buffer@{blit\-Stencil\-Buffer}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{blit\-Stencil\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}void blit\-Stencil\-Buffer (
+\begin{DoxyParamCaption}
+\item[{struct {\bf window} $\ast$}]{window, }
+\item[{struct {\bf display} $\ast$}]{display}
+\end{DoxyParamCaption}
+)}}\label{simple-egl_8cpp_acc3f5d76dc86000e0b46cee5181f2965}
+\hypertarget{simple-egl_8cpp_adb2453327db2ff45639e2da432dc0bda}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!draw\-Window\-Bounds\-Stencil@{draw\-Window\-Bounds\-Stencil}}
+\index{draw\-Window\-Bounds\-Stencil@{draw\-Window\-Bounds\-Stencil}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{draw\-Window\-Bounds\-Stencil}]{\setlength{\rightskip}{0pt plus 5cm}void draw\-Window\-Bounds\-Stencil (
+\begin{DoxyParamCaption}
+\item[{struct {\bf window} $\ast$}]{window, }
+\item[{struct {\bf display} $\ast$}]{display}
+\end{DoxyParamCaption}
+)}}\label{simple-egl_8cpp_adb2453327db2ff45639e2da432dc0bda}
+\hypertarget{simple-egl_8cpp_ab4ad070d3bf82abe5e70330578f67893}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!E\-G\-L\-Boolean@{E\-G\-L\-Boolean}}
+\index{E\-G\-L\-Boolean@{E\-G\-L\-Boolean}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{E\-G\-L\-Boolean}]{\setlength{\rightskip}{0pt plus 5cm}typedef E\-G\-L\-Boolean (
+\begin{DoxyParamCaption}
+\item[{E\-G\-L\-A\-P\-I\-E\-N\-T\-R\-Y\-P}]{P\-F\-N\-E\-G\-L\-S\-W\-A\-P\-B\-U\-F\-F\-E\-R\-S\-W\-I\-T\-H\-D\-A\-M\-A\-G\-E\-E\-X\-T\-P\-R\-O\-C}
+\end{DoxyParamCaption}
+)}}\label{simple-egl_8cpp_ab4ad070d3bf82abe5e70330578f67893}
+\hypertarget{simple-egl_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!main@{main}}
+\index{main@{main}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{simple-egl_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+\hypertarget{simple-egl_8cpp_a4c7d62d62dce36fb4c180da3649dc755}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!mat4\-\_\-from\-\_\-position\-\_\-and\-\_\-orientation@{mat4\-\_\-from\-\_\-position\-\_\-and\-\_\-orientation}}
+\index{mat4\-\_\-from\-\_\-position\-\_\-and\-\_\-orientation@{mat4\-\_\-from\-\_\-position\-\_\-and\-\_\-orientation}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{mat4\-\_\-from\-\_\-position\-\_\-and\-\_\-orientation}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 mat4\-\_\-from\-\_\-position\-\_\-and\-\_\-orientation (
+\begin{DoxyParamCaption}
+\item[{struct wl\-\_\-array $\ast$}]{position\-Array, }
+\item[{struct wl\-\_\-array $\ast$}]{orientation\-Array}
+\end{DoxyParamCaption}
+)}}\label{simple-egl_8cpp_a4c7d62d62dce36fb4c180da3649dc755}
+\hypertarget{simple-egl_8cpp_aa8d7695f807c4f92f583c3543745ed48}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!motorcar\-\_\-surface\-\_\-handle\-\_\-request\-\_\-size\-\_\-3d@{motorcar\-\_\-surface\-\_\-handle\-\_\-request\-\_\-size\-\_\-3d}}
+\index{motorcar\-\_\-surface\-\_\-handle\-\_\-request\-\_\-size\-\_\-3d@{motorcar\-\_\-surface\-\_\-handle\-\_\-request\-\_\-size\-\_\-3d}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{motorcar\-\_\-surface\-\_\-handle\-\_\-request\-\_\-size\-\_\-3d}]{\setlength{\rightskip}{0pt plus 5cm}void motorcar\-\_\-surface\-\_\-handle\-\_\-request\-\_\-size\-\_\-3d (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{data, }
+\item[{struct motorcar\-\_\-surface $\ast$}]{motorcar\-\_\-surface, }
+\item[{struct wl\-\_\-array $\ast$}]{dimensions}
+\end{DoxyParamCaption}
+)}}\label{simple-egl_8cpp_aa8d7695f807c4f92f583c3543745ed48}
+\hypertarget{simple-egl_8cpp_a52ad3b6b6e289a4bc6f2886ae41fc37d}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!motorcar\-\_\-surface\-\_\-handle\-\_\-transform\-\_\-matrix@{motorcar\-\_\-surface\-\_\-handle\-\_\-transform\-\_\-matrix}}
+\index{motorcar\-\_\-surface\-\_\-handle\-\_\-transform\-\_\-matrix@{motorcar\-\_\-surface\-\_\-handle\-\_\-transform\-\_\-matrix}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{motorcar\-\_\-surface\-\_\-handle\-\_\-transform\-\_\-matrix}]{\setlength{\rightskip}{0pt plus 5cm}void motorcar\-\_\-surface\-\_\-handle\-\_\-transform\-\_\-matrix (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{data, }
+\item[{struct motorcar\-\_\-surface $\ast$}]{motorcar\-\_\-surface, }
+\item[{struct wl\-\_\-array $\ast$}]{transform}
+\end{DoxyParamCaption}
+)}}\label{simple-egl_8cpp_a52ad3b6b6e289a4bc6f2886ae41fc37d}
+\hypertarget{simple-egl_8cpp_aaf6cae69507f2c0964816226ca20c18e}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!set\-\_\-window\-\_\-dimensions@{set\-\_\-window\-\_\-dimensions}}
+\index{set\-\_\-window\-\_\-dimensions@{set\-\_\-window\-\_\-dimensions}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{set\-\_\-window\-\_\-dimensions}]{\setlength{\rightskip}{0pt plus 5cm}void set\-\_\-window\-\_\-dimensions (
+\begin{DoxyParamCaption}
+\item[{struct {\bf window} $\ast$}]{window, }
+\item[{const glm\-::vec3 \&}]{new\-\_\-dimensions}
+\end{DoxyParamCaption}
+)}}\label{simple-egl_8cpp_aaf6cae69507f2c0964816226ca20c18e}
+
+
+\subsection{Variable Documentation}
+\hypertarget{simple-egl_8cpp_a7bf478b9029897f63d189fc03f9957ad}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!motorcar\-\_\-pointer\-\_\-listener@{motorcar\-\_\-pointer\-\_\-listener}}
+\index{motorcar\-\_\-pointer\-\_\-listener@{motorcar\-\_\-pointer\-\_\-listener}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{motorcar\-\_\-pointer\-\_\-listener}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf motorcar\-\_\-six\-\_\-dof\-\_\-pointer\-\_\-listener} motorcar\-\_\-pointer\-\_\-listener}}\label{simple-egl_8cpp_a7bf478b9029897f63d189fc03f9957ad}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+    motorcar\_six\_dof\_pointer\_handle\_enter,
+    motorcar\_six\_dof\_pointer\_handle\_leave,
+    motorcar\_six\_dof\_pointer\_handle\_motion,
+    motorcar\_six\_dof\_pointer\_handle\_button,
+\}
+\end{DoxyCode}
+\hypertarget{simple-egl_8cpp_accee8e06dd6487760ee71ac0c347a035}{\index{simple-\/egl.\-cpp@{simple-\/egl.\-cpp}!viewpoint\-\_\-listener@{viewpoint\-\_\-listener}}
+\index{viewpoint\-\_\-listener@{viewpoint\-\_\-listener}!simple-egl.cpp@{simple-\/egl.\-cpp}}
+\subsubsection[{viewpoint\-\_\-listener}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf motorcar\-\_\-viewpoint\-\_\-listener} viewpoint\-\_\-listener}}\label{simple-egl_8cpp_accee8e06dd6487760ee71ac0c347a035}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+    motorcar\_viewpoint\_handle\_view\_matrix,
+    motorcar\_viewpoint\_handle\_projection\_matrix,
+    motorcar\_viewpoint\_handle\_view\_port
+
+\}
+\end{DoxyCode}

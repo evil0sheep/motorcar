@@ -1,0 +1,34 @@
+\hypertarget{structmotorcar__shell__interface}{\section{motorcar\-\_\-shell\-\_\-interface Struct Reference}
+\label{structmotorcar__shell__interface}\index{motorcar\-\_\-shell\-\_\-interface@{motorcar\-\_\-shell\-\_\-interface}}
+}
+
+
+{\ttfamily \#include $<$motorcar-\/server-\/protocol.\-h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$ \hyperlink{structmotorcar__shell__interface_af2f516fa4585245d6b7db1fbec34419e}{get\-\_\-motorcar\-\_\-surface} )(struct wl\-\_\-client $\ast$client, struct wl\-\_\-resource $\ast$resource, uint32\-\_\-t id, struct wl\-\_\-resource $\ast$\hyperlink{simple-egl_8cpp_a0720952aa1caded45b5bcdce589663a9}{surface}, uint32\-\_\-t clipping\-\_\-mode, uint32\-\_\-t enable\-\_\-depth\-\_\-compositing)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+motorcar\-\_\-shell -\/ a 3\-D compositor shell \-: create a motorcar surface from a surface
+
+An interface to allow a copositor to composite 3\-D data from multiple clients in a manner that makes it appear to be in the same 3\-D space. Combined with embedding tradtional wayland surfaces on quads in the same space it provides the framework needed to achieve a seamless mixture of 2\-D and 3\-D user interfaces while still giving clients full flexibility in how their content is drawn to 2\-D
+
+It allows clients to associate a motorcar\-\_\-surface with a basic surface, which both tells the compositor to perform 3\-D compositing on the client surface, and also provides a mechanism for the compositor to give the client the information it needs to draw its content to 2\-D correctly. 
+
+\subsection{Member Data Documentation}
+\hypertarget{structmotorcar__shell__interface_af2f516fa4585245d6b7db1fbec34419e}{\index{motorcar\-\_\-shell\-\_\-interface@{motorcar\-\_\-shell\-\_\-interface}!get\-\_\-motorcar\-\_\-surface@{get\-\_\-motorcar\-\_\-surface}}
+\index{get\-\_\-motorcar\-\_\-surface@{get\-\_\-motorcar\-\_\-surface}!motorcar_shell_interface@{motorcar\-\_\-shell\-\_\-interface}}
+\subsubsection[{get\-\_\-motorcar\-\_\-surface}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ motorcar\-\_\-shell\-\_\-interface\-::get\-\_\-motorcar\-\_\-surface)(struct wl\-\_\-client $\ast$client, struct wl\-\_\-resource $\ast$resource, uint32\-\_\-t id, struct wl\-\_\-resource $\ast${\bf surface}, uint32\-\_\-t clipping\-\_\-mode, uint32\-\_\-t enable\-\_\-depth\-\_\-compositing)}}\label{structmotorcar__shell__interface_af2f516fa4585245d6b7db1fbec34419e}
+get\-\_\-motorcar\-\_\-surface -\/ create a motorcar surface from a surface \-: the id of the new motorcar surface to be created \-: the wl\-\_\-surface which the motorcar\-\_\-surface is to be associated with \-: the clipping mode to be used by the compositor for this surface \-: boolean value indicating whether to use depth buffer compositing on this surface
+
+Create a motorcar surface for an existing surface.
+
+Only one motorcar surface can be associated with a given surface. 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/protocol/\hyperlink{motorcar-server-protocol_8h}{motorcar-\/server-\/protocol.\-h}\end{DoxyCompactItemize}

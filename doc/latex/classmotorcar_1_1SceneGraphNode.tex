@@ -1,0 +1,332 @@
+\hypertarget{classmotorcar_1_1SceneGraphNode}{\section{motorcar\-:\-:Scene\-Graph\-Node Class Reference}
+\label{classmotorcar_1_1SceneGraphNode}\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}}
+}
+
+
+{\ttfamily \#include $<$scenegraphnode.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Scene\-Graph\-Node\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmotorcar_1_1SceneGraphNode__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1SceneGraphNode_a293d96c3691afbaaba0da114a5e8f433}{Scene\-Graph\-Node} (\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent, glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4())
+\item 
+virtual \hyperlink{classmotorcar_1_1SceneGraphNode_ae81a28adc17e6be945c8279e4af4108c}{$\sim$\-Scene\-Graph\-Node} ()
+\begin{DoxyCompactList}\small\item\em calls destructor on all children and removes this node from its parent's list of children \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmotorcar_1_1SceneGraphNode_a494eb20dd66a224888237af89ba6956f}{handle\-Frame\-Begin} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene})
+\begin{DoxyCompactList}\small\item\em Set up the current node for the next frame. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmotorcar_1_1SceneGraphNode_a06f85abeee71ebe2b21ca9d6d20d7e67}{handle\-Frame\-Draw} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene})
+\begin{DoxyCompactList}\small\item\em draw the current node for the next frame \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmotorcar_1_1SceneGraphNode_a52e54b4a1ed66387b561157ccd780661}{handle\-Frame\-End} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene})
+\begin{DoxyCompactList}\small\item\em cleanup after the current frame is finished \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmotorcar_1_1SceneGraphNode_ad81e5f74bf448c2be1dc9f536d6d98b6}{handle\-World\-Transform\-Change} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene})
+\begin{DoxyCompactList}\small\item\em react to changes in the node's worldtransform \end{DoxyCompactList}\item 
+\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$ \hyperlink{classmotorcar_1_1SceneGraphNode_a57dd5826ed6bf15c8a879f5a090c6000}{parent\-Node} () const 
+\begin{DoxyCompactList}\small\item\em gets this node's parent in the scenegraph \end{DoxyCompactList}\item 
+virtual \hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$ \hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene} ()
+\item 
+bool \hyperlink{classmotorcar_1_1SceneGraphNode_ac2be631270bc40cb1e070983c30a323f}{subtree\-Contains} (\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$node)
+\begin{DoxyCompactList}\small\item\em returns whether or not the given Node exists in the subtree rooted at this node \end{DoxyCompactList}\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform} () const 
+\begin{DoxyCompactList}\small\item\em returns this node's transform relative to its parent \end{DoxyCompactList}\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_af8b8174098f1de1067541f0e3ebec72e}{inverse\-Transform} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SceneGraphNode_a7cd7700336833efa89c8004e85a1fd61}{set\-Transform} (const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform})
+\begin{DoxyCompactList}\small\item\em sets this node's transform relative to its parent \end{DoxyCompactList}\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_a3e7fba2add3f63a65f31996f0ce9c9bf}{world\-Transform} () const 
+\begin{DoxyCompactList}\small\item\em returns this node's transform relative to the world \end{DoxyCompactList}\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_a10e4fd743e891cef676435c5f5d5467d}{inverse\-World\-Transform} () const 
+\begin{DoxyCompactList}\small\item\em returns inverse transform relative to the world (computed on demand) \end{DoxyCompactList}\item 
+void \hyperlink{classmotorcar_1_1SceneGraphNode_ac1a30cbe4af18133b19e6f852c33e30a}{set\-World\-Transform} (const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform})
+\begin{DoxyCompactList}\small\item\em sets this node's transform relative to the world \end{DoxyCompactList}\item 
+virtual \\*
+\hyperlink{structmotorcar_1_1Geometry_1_1RaySurfaceIntersection}{Geometry\-::\-Ray\-Surface\-Intersection} $\ast$ \hyperlink{classmotorcar_1_1SceneGraphNode_ac268b171317430368fcc7733eab05ae6}{intersect\-With\-Surfaces} (const \hyperlink{structmotorcar_1_1Geometry_1_1Ray}{Geometry\-::\-Ray} \&ray)
+\begin{DoxyCompactList}\small\item\em returns the intersection of the given parent space ray with the closest surface in the scenegraph subtree rooted at this node or N\-U\-L\-L if no intersection is found \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$ $>$ \hyperlink{classmotorcar_1_1SceneGraphNode_a9a0c649390da0918afd58805192ccdca}{child\-Nodes} () const 
+\begin{DoxyCompactList}\small\item\em returns the immediate children of this node \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$ $>$ \hyperlink{classmotorcar_1_1SceneGraphNode_aa7ac1c085afbe0fb0b9d5cd578a8c4ef}{nodes\-In\-Subtree} () const 
+\begin{DoxyCompactList}\small\item\em returns a list of all nodes in this the scenegraph subtree rooted at this node \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classmotorcar_1_1SceneGraphNode_a161d962f2594172ea0f58a9e6167703b}{is\-Surface\-Node} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1SceneGraphNode_ab9bc5f59ccba332aab918c7b066c309f}{Scene\-Graph\-Node} ()
+\begin{DoxyCompactList}\small\item\em protected constructor used by \hyperlink{classmotorcar_1_1Scene}{Scene} class to construct parentless, un-\/transformed root node \end{DoxyCompactList}\item 
+void \hyperlink{classmotorcar_1_1SceneGraphNode_a977b156ebcc07018a475b4042de8886a}{set\-Parent\-Node} (\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent)
+\begin{DoxyCompactList}\small\item\em removes this node from its existing parent's list of children and sets the given node to be this nodes parent and then adds this node to the given node's list of children \end{DoxyCompactList}\item 
+void \hyperlink{classmotorcar_1_1SceneGraphNode_a45fc46ec0c27774f31ff7bd0f5e51576}{map\-Onto\-Sub\-Tree} (void(Scene\-Graph\-Node\-::$\ast$map\-Func)(\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$), \hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene})
+\begin{DoxyCompactList}\small\item\em Maps a given function onto all nodes in the subtree rooted at this node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1SceneGraphNode_a293d96c3691afbaaba0da114a5e8f433}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!Scene\-Graph\-Node@{Scene\-Graph\-Node}}
+\index{Scene\-Graph\-Node@{Scene\-Graph\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{Scene\-Graph\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-Graph\-Node\-::\-Scene\-Graph\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{parent, }
+\item[{glm\-::mat4}]{transform = {\ttfamily glm\-:\-:mat4()}}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SceneGraphNode_a293d96c3691afbaaba0da114a5e8f433}
+\hypertarget{classmotorcar_1_1SceneGraphNode_ae81a28adc17e6be945c8279e4af4108c}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!$\sim$\-Scene\-Graph\-Node@{$\sim$\-Scene\-Graph\-Node}}
+\index{$\sim$\-Scene\-Graph\-Node@{$\sim$\-Scene\-Graph\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{$\sim$\-Scene\-Graph\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-Graph\-Node\-::$\sim$\-Scene\-Graph\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_ae81a28adc17e6be945c8279e4af4108c}
+
+
+calls destructor on all children and removes this node from its parent's list of children 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_ab9bc5f59ccba332aab918c7b066c309f}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!Scene\-Graph\-Node@{Scene\-Graph\-Node}}
+\index{Scene\-Graph\-Node@{Scene\-Graph\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{Scene\-Graph\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-Graph\-Node\-::\-Scene\-Graph\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classmotorcar_1_1SceneGraphNode_ab9bc5f59ccba332aab918c7b066c309f}
+
+
+protected constructor used by \hyperlink{classmotorcar_1_1Scene}{Scene} class to construct parentless, un-\/transformed root node 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1SceneGraphNode_a9a0c649390da0918afd58805192ccdca}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!child\-Nodes@{child\-Nodes}}
+\index{child\-Nodes@{child\-Nodes}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{child\-Nodes}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Scene\-Graph\-Node} $\ast$ $>$ Scene\-Graph\-Node\-::child\-Nodes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_a9a0c649390da0918afd58805192ccdca}
+
+
+returns the immediate children of this node 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_a494eb20dd66a224888237af89ba6956f}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!handle\-Frame\-Begin@{handle\-Frame\-Begin}}
+\index{handle\-Frame\-Begin@{handle\-Frame\-Begin}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{handle\-Frame\-Begin}]{\setlength{\rightskip}{0pt plus 5cm}virtual void motorcar\-::\-Scene\-Graph\-Node\-::handle\-Frame\-Begin (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_a494eb20dd66a224888237af89ba6956f}
+
+
+Set up the current node for the next frame. 
+
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a70dad2fa3cc63cb6eac584ae2f632df6}{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}, \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a7005bcd9c0944cec3b558344602c783e}{motorcar\-::\-Wayland\-Surface\-Node}, \hyperlink{classmotorcar_1_1VirtualNode_aae6c8f3752b46e84c65eb9fcab542f60}{motorcar\-::\-Virtual\-Node}, and \hyperlink{classmotorcar_1_1SixenseBaseNode_a5f211241a5bf54194920582a8bb7e3c3}{motorcar\-::\-Sixense\-Base\-Node}.
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_a06f85abeee71ebe2b21ca9d6d20d7e67}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!handle\-Frame\-Draw@{handle\-Frame\-Draw}}
+\index{handle\-Frame\-Draw@{handle\-Frame\-Draw}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{handle\-Frame\-Draw}]{\setlength{\rightskip}{0pt plus 5cm}virtual void motorcar\-::\-Scene\-Graph\-Node\-::handle\-Frame\-Draw (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_a06f85abeee71ebe2b21ca9d6d20d7e67}
+
+
+draw the current node for the next frame 
+
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1Drawable_a8dce7e2370f9fdc5394cf661effc865a}{motorcar\-::\-Drawable}.
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_a52e54b4a1ed66387b561157ccd780661}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!handle\-Frame\-End@{handle\-Frame\-End}}
+\index{handle\-Frame\-End@{handle\-Frame\-End}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{handle\-Frame\-End}]{\setlength{\rightskip}{0pt plus 5cm}virtual void motorcar\-::\-Scene\-Graph\-Node\-::handle\-Frame\-End (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_a52e54b4a1ed66387b561157ccd780661}
+
+
+cleanup after the current frame is finished 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_ad81e5f74bf448c2be1dc9f536d6d98b6}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!handle\-World\-Transform\-Change@{handle\-World\-Transform\-Change}}
+\index{handle\-World\-Transform\-Change@{handle\-World\-Transform\-Change}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{handle\-World\-Transform\-Change}]{\setlength{\rightskip}{0pt plus 5cm}virtual void motorcar\-::\-Scene\-Graph\-Node\-::handle\-World\-Transform\-Change (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_ad81e5f74bf448c2be1dc9f536d6d98b6}
+
+
+react to changes in the node's worldtransform 
+
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1MotorcarSurfaceNode_a21eac7e80d2855fcb822541abc7f1965}{motorcar\-::\-Motorcar\-Surface\-Node}.
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_ac268b171317430368fcc7733eab05ae6}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!intersect\-With\-Surfaces@{intersect\-With\-Surfaces}}
+\index{intersect\-With\-Surfaces@{intersect\-With\-Surfaces}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{intersect\-With\-Surfaces}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Geometry\-::\-Ray\-Surface\-Intersection} $\ast$ Scene\-Graph\-Node\-::intersect\-With\-Surfaces (
+\begin{DoxyParamCaption}
+\item[{const {\bf Geometry\-::\-Ray} \&}]{ray}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_ac268b171317430368fcc7733eab05ae6}
+
+
+returns the intersection of the given parent space ray with the closest surface in the scenegraph subtree rooted at this node or N\-U\-L\-L if no intersection is found 
+
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1WaylandSurfaceNode_adf71a714d07bb262405a361504a77ea4}{motorcar\-::\-Wayland\-Surface\-Node}.
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_af8b8174098f1de1067541f0e3ebec72e}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!inverse\-Transform@{inverse\-Transform}}
+\index{inverse\-Transform@{inverse\-Transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{inverse\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 Scene\-Graph\-Node\-::inverse\-Transform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_af8b8174098f1de1067541f0e3ebec72e}
+returns the inverse of this node's transform relative to its parent (inverse transform is cached whenever transform is set) \hypertarget{classmotorcar_1_1SceneGraphNode_a10e4fd743e891cef676435c5f5d5467d}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!inverse\-World\-Transform@{inverse\-World\-Transform}}
+\index{inverse\-World\-Transform@{inverse\-World\-Transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{inverse\-World\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 Scene\-Graph\-Node\-::inverse\-World\-Transform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_a10e4fd743e891cef676435c5f5d5467d}
+
+
+returns inverse transform relative to the world (computed on demand) 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_a161d962f2594172ea0f58a9e6167703b}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!is\-Surface\-Node@{is\-Surface\-Node}}
+\index{is\-Surface\-Node@{is\-Surface\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{is\-Surface\-Node}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool motorcar\-::\-Scene\-Graph\-Node\-::is\-Surface\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_a161d962f2594172ea0f58a9e6167703b}
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a35b01820957837d5b3a4625cca82776d}{motorcar\-::\-Wayland\-Surface\-Node}.
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_a45fc46ec0c27774f31ff7bd0f5e51576}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!map\-Onto\-Sub\-Tree@{map\-Onto\-Sub\-Tree}}
+\index{map\-Onto\-Sub\-Tree@{map\-Onto\-Sub\-Tree}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{map\-Onto\-Sub\-Tree}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Graph\-Node\-::map\-Onto\-Sub\-Tree (
+\begin{DoxyParamCaption}
+\item[{void(Scene\-Graph\-Node\-::$\ast$)({\bf Scene} $\ast$)}]{map\-Func, }
+\item[{{\bf Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classmotorcar_1_1SceneGraphNode_a45fc46ec0c27774f31ff7bd0f5e51576}
+
+
+Maps a given function onto all nodes in the subtree rooted at this node. 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_aa7ac1c085afbe0fb0b9d5cd578a8c4ef}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!nodes\-In\-Subtree@{nodes\-In\-Subtree}}
+\index{nodes\-In\-Subtree@{nodes\-In\-Subtree}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{nodes\-In\-Subtree}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Scene\-Graph\-Node} $\ast$ $>$ Scene\-Graph\-Node\-::nodes\-In\-Subtree (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_aa7ac1c085afbe0fb0b9d5cd578a8c4ef}
+
+
+returns a list of all nodes in this the scenegraph subtree rooted at this node 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_a57dd5826ed6bf15c8a879f5a090c6000}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!parent\-Node@{parent\-Node}}
+\index{parent\-Node@{parent\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{parent\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Scene\-Graph\-Node} $\ast$ Scene\-Graph\-Node\-::parent\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_a57dd5826ed6bf15c8a879f5a090c6000}
+
+
+gets this node's parent in the scenegraph 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!scene@{scene}}
+\index{scene@{scene}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{scene}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Scene} $\ast$ Scene\-Graph\-Node\-::scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}
+gets the scene which forms the root of the scenegraph this node is embedded in returns N\-U\-L\-L if this node is not rooted in a scene 
+
+Reimplemented in \hyperlink{classmotorcar_1_1Scene_a6e665c0d1e6b838073c61166a77c8477}{motorcar\-::\-Scene}.
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_a977b156ebcc07018a475b4042de8886a}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!set\-Parent\-Node@{set\-Parent\-Node}}
+\index{set\-Parent\-Node@{set\-Parent\-Node}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{set\-Parent\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Graph\-Node\-::set\-Parent\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{parent}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classmotorcar_1_1SceneGraphNode_a977b156ebcc07018a475b4042de8886a}
+
+
+removes this node from its existing parent's list of children and sets the given node to be this nodes parent and then adds this node to the given node's list of children 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_a7cd7700336833efa89c8004e85a1fd61}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!set\-Transform@{set\-Transform}}
+\index{set\-Transform@{set\-Transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{set\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Graph\-Node\-::set\-Transform (
+\begin{DoxyParamCaption}
+\item[{const glm\-::mat4 \&}]{transform}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SceneGraphNode_a7cd7700336833efa89c8004e85a1fd61}
+
+
+sets this node's transform relative to its parent 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_ac1a30cbe4af18133b19e6f852c33e30a}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!set\-World\-Transform@{set\-World\-Transform}}
+\index{set\-World\-Transform@{set\-World\-Transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{set\-World\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Graph\-Node\-::set\-World\-Transform (
+\begin{DoxyParamCaption}
+\item[{const glm\-::mat4 \&}]{transform}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SceneGraphNode_ac1a30cbe4af18133b19e6f852c33e30a}
+
+
+sets this node's transform relative to the world 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_ac2be631270bc40cb1e070983c30a323f}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!subtree\-Contains@{subtree\-Contains}}
+\index{subtree\-Contains@{subtree\-Contains}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{subtree\-Contains}]{\setlength{\rightskip}{0pt plus 5cm}bool Scene\-Graph\-Node\-::subtree\-Contains (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{node}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SceneGraphNode_ac2be631270bc40cb1e070983c30a323f}
+
+
+returns whether or not the given Node exists in the subtree rooted at this node 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!transform@{transform}}
+\index{transform@{transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 Scene\-Graph\-Node\-::transform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}
+
+
+returns this node's transform relative to its parent 
+
+\hypertarget{classmotorcar_1_1SceneGraphNode_a3e7fba2add3f63a65f31996f0ce9c9bf}{\index{motorcar\-::\-Scene\-Graph\-Node@{motorcar\-::\-Scene\-Graph\-Node}!world\-Transform@{world\-Transform}}
+\index{world\-Transform@{world\-Transform}!motorcar::SceneGraphNode@{motorcar\-::\-Scene\-Graph\-Node}}
+\subsubsection[{world\-Transform}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 Scene\-Graph\-Node\-::world\-Transform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SceneGraphNode_a3e7fba2add3f63a65f31996f0ce9c9bf}
+
+
+returns this node's transform relative to the world 
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/\hyperlink{scenegraphnode_8h}{scenegraphnode.\-h}\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/\hyperlink{scenegraphnode_8cpp}{scenegraphnode.\-cpp}\end{DoxyCompactItemize}

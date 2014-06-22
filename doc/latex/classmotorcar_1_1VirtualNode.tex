@@ -1,0 +1,101 @@
+\hypertarget{classmotorcar_1_1VirtualNode}{\section{motorcar\-:\-:Virtual\-Node Class Reference}
+\label{classmotorcar_1_1VirtualNode}\index{motorcar\-::\-Virtual\-Node@{motorcar\-::\-Virtual\-Node}}
+}
+
+
+{\ttfamily \#include $<$virtualnode.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Virtual\-Node\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmotorcar_1_1VirtualNode__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:Virtual\-Node\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{classmotorcar_1_1VirtualNode__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1VirtualNode_acee2e50a0321f81714a7984ce2effbbd}{Virtual\-Node} (\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent, const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4())
+\item 
+virtual \hyperlink{classmotorcar_1_1VirtualNode_afb80a6d7b8ac5b3137357873d63a31c8}{$\sim$\-Virtual\-Node} ()
+\item 
+virtual void \hyperlink{classmotorcar_1_1VirtualNode_a43eca360af74fd3684a8f3d62a6aff35}{animate} (long delta\-Millis)
+\item 
+virtual void \hyperlink{classmotorcar_1_1VirtualNode_aae6c8f3752b46e84c65eb9fcab542f60}{handle\-Frame\-Begin} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}) override
+\begin{DoxyCompactList}\small\item\em Set up the current node for the next frame. \end{DoxyCompactList}\item 
+void \hyperlink{classmotorcar_1_1VirtualNode_aacea6d6974e649331232372d440b6505}{set\-Parent\-Node} (\hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1VirtualNode_acee2e50a0321f81714a7984ce2effbbd}{\index{motorcar\-::\-Virtual\-Node@{motorcar\-::\-Virtual\-Node}!Virtual\-Node@{Virtual\-Node}}
+\index{Virtual\-Node@{Virtual\-Node}!motorcar::VirtualNode@{motorcar\-::\-Virtual\-Node}}
+\subsubsection[{Virtual\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Virtual\-Node\-::\-Virtual\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{parent, }
+\item[{const glm\-::mat4 \&}]{transform = {\ttfamily glm\-:\-:mat4()}}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1VirtualNode_acee2e50a0321f81714a7984ce2effbbd}
+\hypertarget{classmotorcar_1_1VirtualNode_afb80a6d7b8ac5b3137357873d63a31c8}{\index{motorcar\-::\-Virtual\-Node@{motorcar\-::\-Virtual\-Node}!$\sim$\-Virtual\-Node@{$\sim$\-Virtual\-Node}}
+\index{$\sim$\-Virtual\-Node@{$\sim$\-Virtual\-Node}!motorcar::VirtualNode@{motorcar\-::\-Virtual\-Node}}
+\subsubsection[{$\sim$\-Virtual\-Node}]{\setlength{\rightskip}{0pt plus 5cm}virtual motorcar\-::\-Virtual\-Node\-::$\sim$\-Virtual\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1VirtualNode_afb80a6d7b8ac5b3137357873d63a31c8}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1VirtualNode_a43eca360af74fd3684a8f3d62a6aff35}{\index{motorcar\-::\-Virtual\-Node@{motorcar\-::\-Virtual\-Node}!animate@{animate}}
+\index{animate@{animate}!motorcar::VirtualNode@{motorcar\-::\-Virtual\-Node}}
+\subsubsection[{animate}]{\setlength{\rightskip}{0pt plus 5cm}void Virtual\-Node\-::animate (
+\begin{DoxyParamCaption}
+\item[{long}]{delta\-Millis}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1VirtualNode_a43eca360af74fd3684a8f3d62a6aff35}
+\hypertarget{classmotorcar_1_1VirtualNode_aae6c8f3752b46e84c65eb9fcab542f60}{\index{motorcar\-::\-Virtual\-Node@{motorcar\-::\-Virtual\-Node}!handle\-Frame\-Begin@{handle\-Frame\-Begin}}
+\index{handle\-Frame\-Begin@{handle\-Frame\-Begin}!motorcar::VirtualNode@{motorcar\-::\-Virtual\-Node}}
+\subsubsection[{handle\-Frame\-Begin}]{\setlength{\rightskip}{0pt plus 5cm}void Virtual\-Node\-::handle\-Frame\-Begin (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1VirtualNode_aae6c8f3752b46e84c65eb9fcab542f60}
+
+
+Set up the current node for the next frame. 
+
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1SceneGraphNode_a494eb20dd66a224888237af89ba6956f}{motorcar\-::\-Scene\-Graph\-Node}.
+
+
+
+Reimplemented in \hyperlink{classmotorcar_1_1WaylandSurfaceNode_a7005bcd9c0944cec3b558344602c783e}{motorcar\-::\-Wayland\-Surface\-Node}.
+
+\hypertarget{classmotorcar_1_1VirtualNode_aacea6d6974e649331232372d440b6505}{\index{motorcar\-::\-Virtual\-Node@{motorcar\-::\-Virtual\-Node}!set\-Parent\-Node@{set\-Parent\-Node}}
+\index{set\-Parent\-Node@{set\-Parent\-Node}!motorcar::VirtualNode@{motorcar\-::\-Virtual\-Node}}
+\subsubsection[{set\-Parent\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Virtual\-Node\-::set\-Parent\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{parent}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1VirtualNode_aacea6d6974e649331232372d440b6505}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/\hyperlink{virtualnode_8h}{virtualnode.\-h}\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/\hyperlink{virtualnode_8cpp}{virtualnode.\-cpp}\end{DoxyCompactItemize}

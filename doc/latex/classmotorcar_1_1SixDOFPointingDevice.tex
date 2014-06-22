@@ -1,0 +1,179 @@
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice}{\section{motorcar\-:\-:Six\-D\-O\-F\-Pointing\-Device Class Reference}
+\label{classmotorcar_1_1SixDOFPointingDevice}\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+}
+
+
+{\ttfamily \#include $<$sixdofpointingdevice.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Six\-D\-O\-F\-Pointing\-Device\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{classmotorcar_1_1SixDOFPointingDevice__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:Six\-D\-O\-F\-Pointing\-Device\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{classmotorcar_1_1SixDOFPointingDevice__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1SixDOFPointingDevice_a553ef70ad5a67e2f21a012a57c7fc398}{Six\-D\-O\-F\-Pointing\-Device} (\hyperlink{classmotorcar_1_1Seat}{Seat} $\ast$\hyperlink{classmotorcar_1_1SixDOFPointingDevice_a296fe215aeb4ae2e8724c877aabc874f}{seat}, \hyperlink{classmotorcar_1_1PhysicalNode}{Physical\-Node} $\ast$parent, const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4())
+\item 
+virtual \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a234bf04e5af6be0f832f0a425719273c}{$\sim$\-Six\-D\-O\-F\-Pointing\-Device} ()
+\item 
+virtual void \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a70dad2fa3cc63cb6eac584ae2f632df6}{handle\-Frame\-Begin} (\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$\hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{scene}) override
+\begin{DoxyCompactList}\small\item\em updates the current device state and moves any attaches surfaces \end{DoxyCompactList}\item 
+bool \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a7d73caedee587fab53c19e4ee1617611}{left\-Mouse\-Down} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a8f3f87d7e7f64991d3abb6e724ca25be}{set\-Left\-Mouse\-Down} (bool \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a7d73caedee587fab53c19e4ee1617611}{left\-Mouse\-Down})
+\item 
+bool \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a832aeb89ec4400f0c32c6ba355d5a3f4}{right\-Mouse\-Down} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SixDOFPointingDevice_ac4cf201773bef4db5f57dedfbb8ca0c1}{set\-Right\-Mouse\-Down} (bool \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a832aeb89ec4400f0c32c6ba355d5a3f4}{right\-Mouse\-Down})
+\item 
+bool \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a85585b2c17d6457206616f0ac6e5479c}{middle\-Mouse\-Down} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a3f5b831a8731fd60ce01e5066319f09f}{set\-Middle\-Mouse\-Down} (bool \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a85585b2c17d6457206616f0ac6e5479c}{middle\-Mouse\-Down})
+\item 
+void \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a9b55d485a1870d9e50aa85ac3396252c}{grab\-Surface\-Under\-Cursor} ()
+\item 
+void \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a058f434cd85dc2b722f752122e6ce49f}{release\-Grabbed\-Surface} ()
+\item 
+\hyperlink{classmotorcar_1_1Seat}{Seat} $\ast$ \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a296fe215aeb4ae2e8724c877aabc874f}{seat} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a1f97741dbf9f49b6b071558ac3f56b92}{set\-Seat} (\hyperlink{classmotorcar_1_1Seat}{Seat} $\ast$\hyperlink{classmotorcar_1_1SixDOFPointingDevice_a296fe215aeb4ae2e8724c877aabc874f}{seat})
+\item 
+struct wl\-\_\-resource $\ast$ \hyperlink{classmotorcar_1_1SixDOFPointingDevice_a091a631f8fa2adfab8d0a7904cd47eb5}{resource\-For\-Client} (struct wl\-\_\-client $\ast$client)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a553ef70ad5a67e2f21a012a57c7fc398}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!Six\-D\-O\-F\-Pointing\-Device@{Six\-D\-O\-F\-Pointing\-Device}}
+\index{Six\-D\-O\-F\-Pointing\-Device@{Six\-D\-O\-F\-Pointing\-Device}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{Six\-D\-O\-F\-Pointing\-Device}]{\setlength{\rightskip}{0pt plus 5cm}Six\-D\-O\-F\-Pointing\-Device\-::\-Six\-D\-O\-F\-Pointing\-Device (
+\begin{DoxyParamCaption}
+\item[{{\bf Seat} $\ast$}]{seat, }
+\item[{{\bf Physical\-Node} $\ast$}]{parent, }
+\item[{const glm\-::mat4 \&}]{transform = {\ttfamily glm\-:\-:mat4()}}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixDOFPointingDevice_a553ef70ad5a67e2f21a012a57c7fc398}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a234bf04e5af6be0f832f0a425719273c}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!$\sim$\-Six\-D\-O\-F\-Pointing\-Device@{$\sim$\-Six\-D\-O\-F\-Pointing\-Device}}
+\index{$\sim$\-Six\-D\-O\-F\-Pointing\-Device@{$\sim$\-Six\-D\-O\-F\-Pointing\-Device}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{$\sim$\-Six\-D\-O\-F\-Pointing\-Device}]{\setlength{\rightskip}{0pt plus 5cm}virtual motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device\-::$\sim$\-Six\-D\-O\-F\-Pointing\-Device (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1SixDOFPointingDevice_a234bf04e5af6be0f832f0a425719273c}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a9b55d485a1870d9e50aa85ac3396252c}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!grab\-Surface\-Under\-Cursor@{grab\-Surface\-Under\-Cursor}}
+\index{grab\-Surface\-Under\-Cursor@{grab\-Surface\-Under\-Cursor}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{grab\-Surface\-Under\-Cursor}]{\setlength{\rightskip}{0pt plus 5cm}void Six\-D\-O\-F\-Pointing\-Device\-::grab\-Surface\-Under\-Cursor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixDOFPointingDevice_a9b55d485a1870d9e50aa85ac3396252c}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a70dad2fa3cc63cb6eac584ae2f632df6}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!handle\-Frame\-Begin@{handle\-Frame\-Begin}}
+\index{handle\-Frame\-Begin@{handle\-Frame\-Begin}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{handle\-Frame\-Begin}]{\setlength{\rightskip}{0pt plus 5cm}void Six\-D\-O\-F\-Pointing\-Device\-::handle\-Frame\-Begin (
+\begin{DoxyParamCaption}
+\item[{{\bf Scene} $\ast$}]{scene}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1SixDOFPointingDevice_a70dad2fa3cc63cb6eac584ae2f632df6}
+
+
+updates the current device state and moves any attaches surfaces 
+
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1SceneGraphNode_a494eb20dd66a224888237af89ba6956f}{motorcar\-::\-Scene\-Graph\-Node}.
+
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a7d73caedee587fab53c19e4ee1617611}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!left\-Mouse\-Down@{left\-Mouse\-Down}}
+\index{left\-Mouse\-Down@{left\-Mouse\-Down}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{left\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}bool Six\-D\-O\-F\-Pointing\-Device\-::left\-Mouse\-Down (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SixDOFPointingDevice_a7d73caedee587fab53c19e4ee1617611}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a85585b2c17d6457206616f0ac6e5479c}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!middle\-Mouse\-Down@{middle\-Mouse\-Down}}
+\index{middle\-Mouse\-Down@{middle\-Mouse\-Down}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{middle\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}bool Six\-D\-O\-F\-Pointing\-Device\-::middle\-Mouse\-Down (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SixDOFPointingDevice_a85585b2c17d6457206616f0ac6e5479c}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a058f434cd85dc2b722f752122e6ce49f}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!release\-Grabbed\-Surface@{release\-Grabbed\-Surface}}
+\index{release\-Grabbed\-Surface@{release\-Grabbed\-Surface}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{release\-Grabbed\-Surface}]{\setlength{\rightskip}{0pt plus 5cm}void Six\-D\-O\-F\-Pointing\-Device\-::release\-Grabbed\-Surface (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixDOFPointingDevice_a058f434cd85dc2b722f752122e6ce49f}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a091a631f8fa2adfab8d0a7904cd47eb5}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!resource\-For\-Client@{resource\-For\-Client}}
+\index{resource\-For\-Client@{resource\-For\-Client}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{resource\-For\-Client}]{\setlength{\rightskip}{0pt plus 5cm}wl\-\_\-resource $\ast$ Six\-D\-O\-F\-Pointing\-Device\-::resource\-For\-Client (
+\begin{DoxyParamCaption}
+\item[{struct wl\-\_\-client $\ast$}]{client}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixDOFPointingDevice_a091a631f8fa2adfab8d0a7904cd47eb5}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a832aeb89ec4400f0c32c6ba355d5a3f4}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!right\-Mouse\-Down@{right\-Mouse\-Down}}
+\index{right\-Mouse\-Down@{right\-Mouse\-Down}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{right\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}bool Six\-D\-O\-F\-Pointing\-Device\-::right\-Mouse\-Down (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SixDOFPointingDevice_a832aeb89ec4400f0c32c6ba355d5a3f4}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a296fe215aeb4ae2e8724c877aabc874f}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!seat@{seat}}
+\index{seat@{seat}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{seat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Seat} $\ast$ Six\-D\-O\-F\-Pointing\-Device\-::seat (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SixDOFPointingDevice_a296fe215aeb4ae2e8724c877aabc874f}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a8f3f87d7e7f64991d3abb6e724ca25be}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!set\-Left\-Mouse\-Down@{set\-Left\-Mouse\-Down}}
+\index{set\-Left\-Mouse\-Down@{set\-Left\-Mouse\-Down}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{set\-Left\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}void Six\-D\-O\-F\-Pointing\-Device\-::set\-Left\-Mouse\-Down (
+\begin{DoxyParamCaption}
+\item[{bool}]{left\-Mouse\-Down}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixDOFPointingDevice_a8f3f87d7e7f64991d3abb6e724ca25be}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a3f5b831a8731fd60ce01e5066319f09f}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!set\-Middle\-Mouse\-Down@{set\-Middle\-Mouse\-Down}}
+\index{set\-Middle\-Mouse\-Down@{set\-Middle\-Mouse\-Down}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{set\-Middle\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}void Six\-D\-O\-F\-Pointing\-Device\-::set\-Middle\-Mouse\-Down (
+\begin{DoxyParamCaption}
+\item[{bool}]{middle\-Mouse\-Down}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixDOFPointingDevice_a3f5b831a8731fd60ce01e5066319f09f}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_ac4cf201773bef4db5f57dedfbb8ca0c1}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!set\-Right\-Mouse\-Down@{set\-Right\-Mouse\-Down}}
+\index{set\-Right\-Mouse\-Down@{set\-Right\-Mouse\-Down}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{set\-Right\-Mouse\-Down}]{\setlength{\rightskip}{0pt plus 5cm}void Six\-D\-O\-F\-Pointing\-Device\-::set\-Right\-Mouse\-Down (
+\begin{DoxyParamCaption}
+\item[{bool}]{right\-Mouse\-Down}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixDOFPointingDevice_ac4cf201773bef4db5f57dedfbb8ca0c1}
+\hypertarget{classmotorcar_1_1SixDOFPointingDevice_a1f97741dbf9f49b6b071558ac3f56b92}{\index{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}!set\-Seat@{set\-Seat}}
+\index{set\-Seat@{set\-Seat}!motorcar::SixDOFPointingDevice@{motorcar\-::\-Six\-D\-O\-F\-Pointing\-Device}}
+\subsubsection[{set\-Seat}]{\setlength{\rightskip}{0pt plus 5cm}void Six\-D\-O\-F\-Pointing\-Device\-::set\-Seat (
+\begin{DoxyParamCaption}
+\item[{{\bf Seat} $\ast$}]{seat}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixDOFPointingDevice_a1f97741dbf9f49b6b071558ac3f56b92}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/input/\hyperlink{sixdofpointingdevice_8h}{sixdofpointingdevice.\-h}\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/input/\hyperlink{sixdofpointingdevice_8cpp}{sixdofpointingdevice.\-cpp}\end{DoxyCompactItemize}

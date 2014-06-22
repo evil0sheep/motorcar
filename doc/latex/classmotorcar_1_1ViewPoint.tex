@@ -1,0 +1,284 @@
+\hypertarget{classmotorcar_1_1ViewPoint}{\section{motorcar\-:\-:View\-Point Class Reference}
+\label{classmotorcar_1_1ViewPoint}\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}}
+}
+
+
+{\ttfamily \#include $<$viewpoint.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:View\-Point\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{classmotorcar_1_1ViewPoint__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:View\-Point\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{classmotorcar_1_1ViewPoint__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1ViewPoint_af5805de3e5ed03bd7d2dee2e9a2d147f}{View\-Point} (float near, float far, \hyperlink{classmotorcar_1_1Display}{Display} $\ast$\hyperlink{structdisplay}{display}, \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} $\ast$parent, glm\-::mat4 \hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4(), glm\-::vec4 view\-Port\-Params=glm\-::vec4(0, 0, 1, 1), glm\-::vec3 center\-Of\-Projection=glm\-::vec3(0))
+\item 
+\hyperlink{classmotorcar_1_1ViewPoint_add72302715c1fbb5c75a0a1c37fa0480}{$\sim$\-View\-Point} ()
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_a3b3ab463cfc36488401940316b0cb929}{update\-View\-Matrix} ()
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_a9c6a1e5584cfdb7f2ec85b7f0f46f9f9}{update\-Projection\-Matrix} ()
+\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1ViewPoint_af5a13ecd8d8e433a45bd28f997e64a7b}{view\-Matrix} () const 
+\item 
+glm\-::mat4 \hyperlink{classmotorcar_1_1ViewPoint_a7d074cab26646cc98bfb4f04d050439d}{projection\-Matrix} () const 
+\item 
+float \hyperlink{classmotorcar_1_1ViewPoint_a9838e5d3735bc9c97c32ce4a3299d904}{fov} (\hyperlink{classmotorcar_1_1Display}{Display} $\ast$\hyperlink{structdisplay}{display})
+\item 
+\hyperlink{structmotorcar_1_1Geometry_1_1Ray}{Geometry\-::\-Ray} \hyperlink{classmotorcar_1_1ViewPoint_a51a8062c2f29ac0e9a49369cdba7789d}{world\-Ray\-At\-Display\-Position} (float pixel\-X, float pixel\-Y)
+\item 
+\hyperlink{classmotorcar_1_1ViewPort}{View\-Port} $\ast$ \hyperlink{classmotorcar_1_1ViewPoint_afc15eb323f3dd5b6d1eb8cb266eb2041}{viewport} () const 
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_a5c29d256506c86422c58f8fd8aa2ae3e}{set\-Viewport} (\hyperlink{classmotorcar_1_1ViewPort}{View\-Port} $\ast$\hyperlink{structviewport}{viewport})
+\item 
+glm\-::vec4 \hyperlink{classmotorcar_1_1ViewPoint_a23a9f5eea733551393489b962be957ef}{center\-Of\-Focus} () const 
+\item 
+motorcar\-\_\-viewpoint $\ast$ \hyperlink{classmotorcar_1_1ViewPoint_a4a1e5b188d201d3361f80c841348bc75}{viewpoint\-Handle} () const 
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_a7d053ccb05ea7ee464433a2b01d711ed}{set\-Viewpoint\-Handle} (motorcar\-\_\-viewpoint $\ast$\hyperlink{classmotorcar_1_1ViewPoint_a4a1e5b188d201d3361f80c841348bc75}{viewpoint\-Handle})
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_ac48a96b38c8e60073cb52d73cb320f60}{send\-View\-Matrix\-To\-Clients} ()
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_adcbd2b4dcb3152481b7ac488e72f7f4e}{send\-Projection\-Matrix\-To\-Clients} ()
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_ac3f5cc3f1679e4320bd0e46a4380bdf7}{send\-View\-Port\-To\-Clients} ()
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_a48ab341588511e267aded9295c1452a0}{send\-Current\-State\-To\-Single\-Client} (wl\-\_\-resource $\ast$resource)
+\item 
+wl\-\_\-global $\ast$ \hyperlink{classmotorcar_1_1ViewPoint_aa4851dabec3c43f99467edacc08c8283}{global} () const 
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_a5672ddf147b8a3c8f83574dba9afb5b0}{set\-Global} (wl\-\_\-global $\ast$\hyperlink{classmotorcar_1_1ViewPoint_aa4851dabec3c43f99467edacc08c8283}{global})
+\item 
+\hyperlink{classmotorcar_1_1ViewPort}{View\-Port} $\ast$ \hyperlink{classmotorcar_1_1ViewPoint_a746526fab6dda97be6ec00a1d480ac71}{client\-Color\-Viewport} () const 
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_adc449139ba7904c3f8f388728aae383a}{set\-Client\-Color\-Viewport} (\hyperlink{classmotorcar_1_1ViewPort}{View\-Port} $\ast$\hyperlink{classmotorcar_1_1ViewPoint_a746526fab6dda97be6ec00a1d480ac71}{client\-Color\-Viewport})
+\item 
+\hyperlink{classmotorcar_1_1ViewPort}{View\-Port} $\ast$ \hyperlink{classmotorcar_1_1ViewPoint_ab393381a7b22ede65329653dbc472b72}{client\-Depth\-Viewport} () const 
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_a51c6c3a455cc2adc10daab9a5cfc461d}{set\-Client\-Depth\-Viewport} (\hyperlink{classmotorcar_1_1ViewPort}{View\-Port} $\ast$\hyperlink{classmotorcar_1_1ViewPoint_ab393381a7b22ede65329653dbc472b72}{client\-Depth\-Viewport})
+\item 
+\hyperlink{classmotorcar_1_1Display}{Display} $\ast$ \hyperlink{classmotorcar_1_1ViewPoint_a46dc40c99a399997802e682644054a7e}{display} () const 
+\item 
+\hyperlink{structmotorcar_1_1Geometry_1_1Rectangle}{Geometry\-::\-Rectangle} $\ast$ \hyperlink{classmotorcar_1_1ViewPoint_aae2799791cca3889bb52dfdbc6416179}{buffer\-Geometry} () const 
+\item 
+void \hyperlink{classmotorcar_1_1ViewPoint_abfd398fb18213aad823932f23f2a8613}{set\-Buffer\-Geometry} (\hyperlink{structmotorcar_1_1Geometry_1_1Rectangle}{Geometry\-::\-Rectangle} $\ast$\hyperlink{classmotorcar_1_1ViewPoint_aae2799791cca3889bb52dfdbc6416179}{buffer\-Geometry})
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1ViewPoint_af5805de3e5ed03bd7d2dee2e9a2d147f}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!View\-Point@{View\-Point}}
+\index{View\-Point@{View\-Point}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{View\-Point}]{\setlength{\rightskip}{0pt plus 5cm}View\-Point\-::\-View\-Point (
+\begin{DoxyParamCaption}
+\item[{float}]{near, }
+\item[{float}]{far, }
+\item[{{\bf Display} $\ast$}]{display, }
+\item[{{\bf Scene\-Graph\-Node} $\ast$}]{parent, }
+\item[{glm\-::mat4}]{transform = {\ttfamily glm\-:\-:mat4()}, }
+\item[{glm\-::vec4}]{view\-Port\-Params = {\ttfamily glm\-:\-:vec4(0,0,1,1)}, }
+\item[{glm\-::vec3}]{center\-Of\-Projection = {\ttfamily glm\-:\-:vec3(0)}}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_af5805de3e5ed03bd7d2dee2e9a2d147f}
+\hypertarget{classmotorcar_1_1ViewPoint_add72302715c1fbb5c75a0a1c37fa0480}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!$\sim$\-View\-Point@{$\sim$\-View\-Point}}
+\index{$\sim$\-View\-Point@{$\sim$\-View\-Point}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{$\sim$\-View\-Point}]{\setlength{\rightskip}{0pt plus 5cm}View\-Point\-::$\sim$\-View\-Point (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_add72302715c1fbb5c75a0a1c37fa0480}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1ViewPoint_aae2799791cca3889bb52dfdbc6416179}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!buffer\-Geometry@{buffer\-Geometry}}
+\index{buffer\-Geometry@{buffer\-Geometry}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{buffer\-Geometry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Geometry\-::\-Rectangle} $\ast$ View\-Point\-::buffer\-Geometry (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPoint_aae2799791cca3889bb52dfdbc6416179}
+\hypertarget{classmotorcar_1_1ViewPoint_a23a9f5eea733551393489b962be957ef}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!center\-Of\-Focus@{center\-Of\-Focus}}
+\index{center\-Of\-Focus@{center\-Of\-Focus}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{center\-Of\-Focus}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::vec4 View\-Point\-::center\-Of\-Focus (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPoint_a23a9f5eea733551393489b962be957ef}
+\hypertarget{classmotorcar_1_1ViewPoint_a746526fab6dda97be6ec00a1d480ac71}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!client\-Color\-Viewport@{client\-Color\-Viewport}}
+\index{client\-Color\-Viewport@{client\-Color\-Viewport}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{client\-Color\-Viewport}]{\setlength{\rightskip}{0pt plus 5cm}{\bf View\-Port} $\ast$ View\-Point\-::client\-Color\-Viewport (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPoint_a746526fab6dda97be6ec00a1d480ac71}
+\hypertarget{classmotorcar_1_1ViewPoint_ab393381a7b22ede65329653dbc472b72}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!client\-Depth\-Viewport@{client\-Depth\-Viewport}}
+\index{client\-Depth\-Viewport@{client\-Depth\-Viewport}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{client\-Depth\-Viewport}]{\setlength{\rightskip}{0pt plus 5cm}{\bf View\-Port} $\ast$ View\-Point\-::client\-Depth\-Viewport (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPoint_ab393381a7b22ede65329653dbc472b72}
+\hypertarget{classmotorcar_1_1ViewPoint_a46dc40c99a399997802e682644054a7e}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!display@{display}}
+\index{display@{display}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{display}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Display} $\ast$ View\-Point\-::display (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPoint_a46dc40c99a399997802e682644054a7e}
+\hypertarget{classmotorcar_1_1ViewPoint_a9838e5d3735bc9c97c32ce4a3299d904}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!fov@{fov}}
+\index{fov@{fov}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{fov}]{\setlength{\rightskip}{0pt plus 5cm}float View\-Point\-::fov (
+\begin{DoxyParamCaption}
+\item[{{\bf Display} $\ast$}]{display}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_a9838e5d3735bc9c97c32ce4a3299d904}
+\hypertarget{classmotorcar_1_1ViewPoint_aa4851dabec3c43f99467edacc08c8283}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!global@{global}}
+\index{global@{global}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{global}]{\setlength{\rightskip}{0pt plus 5cm}wl\-\_\-global $\ast$ View\-Point\-::global (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPoint_aa4851dabec3c43f99467edacc08c8283}
+\hypertarget{classmotorcar_1_1ViewPoint_a7d074cab26646cc98bfb4f04d050439d}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!projection\-Matrix@{projection\-Matrix}}
+\index{projection\-Matrix@{projection\-Matrix}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{projection\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 View\-Point\-::projection\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPoint_a7d074cab26646cc98bfb4f04d050439d}
+\hypertarget{classmotorcar_1_1ViewPoint_a48ab341588511e267aded9295c1452a0}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!send\-Current\-State\-To\-Single\-Client@{send\-Current\-State\-To\-Single\-Client}}
+\index{send\-Current\-State\-To\-Single\-Client@{send\-Current\-State\-To\-Single\-Client}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{send\-Current\-State\-To\-Single\-Client}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::send\-Current\-State\-To\-Single\-Client (
+\begin{DoxyParamCaption}
+\item[{wl\-\_\-resource $\ast$}]{resource}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_a48ab341588511e267aded9295c1452a0}
+\hypertarget{classmotorcar_1_1ViewPoint_adcbd2b4dcb3152481b7ac488e72f7f4e}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!send\-Projection\-Matrix\-To\-Clients@{send\-Projection\-Matrix\-To\-Clients}}
+\index{send\-Projection\-Matrix\-To\-Clients@{send\-Projection\-Matrix\-To\-Clients}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{send\-Projection\-Matrix\-To\-Clients}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::send\-Projection\-Matrix\-To\-Clients (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_adcbd2b4dcb3152481b7ac488e72f7f4e}
+\hypertarget{classmotorcar_1_1ViewPoint_ac48a96b38c8e60073cb52d73cb320f60}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!send\-View\-Matrix\-To\-Clients@{send\-View\-Matrix\-To\-Clients}}
+\index{send\-View\-Matrix\-To\-Clients@{send\-View\-Matrix\-To\-Clients}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{send\-View\-Matrix\-To\-Clients}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::send\-View\-Matrix\-To\-Clients (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_ac48a96b38c8e60073cb52d73cb320f60}
+\hypertarget{classmotorcar_1_1ViewPoint_ac3f5cc3f1679e4320bd0e46a4380bdf7}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!send\-View\-Port\-To\-Clients@{send\-View\-Port\-To\-Clients}}
+\index{send\-View\-Port\-To\-Clients@{send\-View\-Port\-To\-Clients}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{send\-View\-Port\-To\-Clients}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::send\-View\-Port\-To\-Clients (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_ac3f5cc3f1679e4320bd0e46a4380bdf7}
+\hypertarget{classmotorcar_1_1ViewPoint_abfd398fb18213aad823932f23f2a8613}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!set\-Buffer\-Geometry@{set\-Buffer\-Geometry}}
+\index{set\-Buffer\-Geometry@{set\-Buffer\-Geometry}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{set\-Buffer\-Geometry}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::set\-Buffer\-Geometry (
+\begin{DoxyParamCaption}
+\item[{{\bf Geometry\-::\-Rectangle} $\ast$}]{buffer\-Geometry}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_abfd398fb18213aad823932f23f2a8613}
+\hypertarget{classmotorcar_1_1ViewPoint_adc449139ba7904c3f8f388728aae383a}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!set\-Client\-Color\-Viewport@{set\-Client\-Color\-Viewport}}
+\index{set\-Client\-Color\-Viewport@{set\-Client\-Color\-Viewport}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{set\-Client\-Color\-Viewport}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::set\-Client\-Color\-Viewport (
+\begin{DoxyParamCaption}
+\item[{{\bf View\-Port} $\ast$}]{client\-Color\-Viewport}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_adc449139ba7904c3f8f388728aae383a}
+\hypertarget{classmotorcar_1_1ViewPoint_a51c6c3a455cc2adc10daab9a5cfc461d}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!set\-Client\-Depth\-Viewport@{set\-Client\-Depth\-Viewport}}
+\index{set\-Client\-Depth\-Viewport@{set\-Client\-Depth\-Viewport}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{set\-Client\-Depth\-Viewport}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::set\-Client\-Depth\-Viewport (
+\begin{DoxyParamCaption}
+\item[{{\bf View\-Port} $\ast$}]{client\-Depth\-Viewport}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_a51c6c3a455cc2adc10daab9a5cfc461d}
+\hypertarget{classmotorcar_1_1ViewPoint_a5672ddf147b8a3c8f83574dba9afb5b0}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!set\-Global@{set\-Global}}
+\index{set\-Global@{set\-Global}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{set\-Global}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::set\-Global (
+\begin{DoxyParamCaption}
+\item[{wl\-\_\-global $\ast$}]{global}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_a5672ddf147b8a3c8f83574dba9afb5b0}
+\hypertarget{classmotorcar_1_1ViewPoint_a7d053ccb05ea7ee464433a2b01d711ed}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!set\-Viewpoint\-Handle@{set\-Viewpoint\-Handle}}
+\index{set\-Viewpoint\-Handle@{set\-Viewpoint\-Handle}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{set\-Viewpoint\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::set\-Viewpoint\-Handle (
+\begin{DoxyParamCaption}
+\item[{motorcar\-\_\-viewpoint $\ast$}]{viewpoint\-Handle}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_a7d053ccb05ea7ee464433a2b01d711ed}
+\hypertarget{classmotorcar_1_1ViewPoint_a5c29d256506c86422c58f8fd8aa2ae3e}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!set\-Viewport@{set\-Viewport}}
+\index{set\-Viewport@{set\-Viewport}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{set\-Viewport}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::set\-Viewport (
+\begin{DoxyParamCaption}
+\item[{{\bf View\-Port} $\ast$}]{viewport}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_a5c29d256506c86422c58f8fd8aa2ae3e}
+\hypertarget{classmotorcar_1_1ViewPoint_a9c6a1e5584cfdb7f2ec85b7f0f46f9f9}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!update\-Projection\-Matrix@{update\-Projection\-Matrix}}
+\index{update\-Projection\-Matrix@{update\-Projection\-Matrix}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{update\-Projection\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::update\-Projection\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_a9c6a1e5584cfdb7f2ec85b7f0f46f9f9}
+\hypertarget{classmotorcar_1_1ViewPoint_a3b3ab463cfc36488401940316b0cb929}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!update\-View\-Matrix@{update\-View\-Matrix}}
+\index{update\-View\-Matrix@{update\-View\-Matrix}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{update\-View\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}void View\-Point\-::update\-View\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_a3b3ab463cfc36488401940316b0cb929}
+\hypertarget{classmotorcar_1_1ViewPoint_af5a13ecd8d8e433a45bd28f997e64a7b}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!view\-Matrix@{view\-Matrix}}
+\index{view\-Matrix@{view\-Matrix}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{view\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}glm\-::mat4 View\-Point\-::view\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPoint_af5a13ecd8d8e433a45bd28f997e64a7b}
+\hypertarget{classmotorcar_1_1ViewPoint_a4a1e5b188d201d3361f80c841348bc75}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!viewpoint\-Handle@{viewpoint\-Handle}}
+\index{viewpoint\-Handle@{viewpoint\-Handle}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{viewpoint\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}motorcar\-\_\-viewpoint $\ast$ View\-Point\-::viewpoint\-Handle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPoint_a4a1e5b188d201d3361f80c841348bc75}
+\hypertarget{classmotorcar_1_1ViewPoint_afc15eb323f3dd5b6d1eb8cb266eb2041}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!viewport@{viewport}}
+\index{viewport@{viewport}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{viewport}]{\setlength{\rightskip}{0pt plus 5cm}{\bf View\-Port} $\ast$ View\-Point\-::viewport (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1ViewPoint_afc15eb323f3dd5b6d1eb8cb266eb2041}
+\hypertarget{classmotorcar_1_1ViewPoint_a51a8062c2f29ac0e9a49369cdba7789d}{\index{motorcar\-::\-View\-Point@{motorcar\-::\-View\-Point}!world\-Ray\-At\-Display\-Position@{world\-Ray\-At\-Display\-Position}}
+\index{world\-Ray\-At\-Display\-Position@{world\-Ray\-At\-Display\-Position}!motorcar::ViewPoint@{motorcar\-::\-View\-Point}}
+\subsubsection[{world\-Ray\-At\-Display\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Geometry\-::\-Ray} View\-Point\-::world\-Ray\-At\-Display\-Position (
+\begin{DoxyParamCaption}
+\item[{float}]{pixel\-X, }
+\item[{float}]{pixel\-Y}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1ViewPoint_a51a8062c2f29ac0e9a49369cdba7789d}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/output/\hyperlink{viewpoint_8h}{viewpoint.\-h}\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/output/\hyperlink{viewpoint_8cpp}{viewpoint.\-cpp}\end{DoxyCompactItemize}

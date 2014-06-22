@@ -1,0 +1,30 @@
+\hypertarget{structmotorcar__six__dof__pointer__interface}{\section{motorcar\-\_\-six\-\_\-dof\-\_\-pointer\-\_\-interface Struct Reference}
+\label{structmotorcar__six__dof__pointer__interface}\index{motorcar\-\_\-six\-\_\-dof\-\_\-pointer\-\_\-interface@{motorcar\-\_\-six\-\_\-dof\-\_\-pointer\-\_\-interface}}
+}
+
+
+{\ttfamily \#include $<$motorcar-\/server-\/protocol.\-h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$ \hyperlink{structmotorcar__six__dof__pointer__interface_af0a50e3dcf962950e332433fc3242d83}{release} )(struct wl\-\_\-client $\ast$client, struct wl\-\_\-resource $\ast$resource)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+motorcar\-\_\-six\-\_\-dof\-\_\-pointer -\/ six degree of freedom pointer input device \-: release the six\-\_\-dof pointer object
+
+This interface represents a six degree of freedom pointing device which behaves much like a traditional pointing device except that rather then event being associated with a 2\-D position they are associated with a 3\-D position and orientation, represented as a 3-\/vector position and column major 3x3 rotation matrix as packed 32 bit float arrays (all values in meters). Most of the events are the same as the traditional wayaland pointer events other than this.
+
+The motorcar\-\_\-six\-\_\-dof\-\_\-pointer interface generates motion, enter and leave events for the surfaces that the six\-\_\-dof pointer is located over, and button and axis events for button presses, button releases and scrolling. 
+
+\subsection{Member Data Documentation}
+\hypertarget{structmotorcar__six__dof__pointer__interface_af0a50e3dcf962950e332433fc3242d83}{\index{motorcar\-\_\-six\-\_\-dof\-\_\-pointer\-\_\-interface@{motorcar\-\_\-six\-\_\-dof\-\_\-pointer\-\_\-interface}!release@{release}}
+\index{release@{release}!motorcar_six_dof_pointer_interface@{motorcar\-\_\-six\-\_\-dof\-\_\-pointer\-\_\-interface}}
+\subsubsection[{release}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ motorcar\-\_\-six\-\_\-dof\-\_\-pointer\-\_\-interface\-::release)(struct wl\-\_\-client $\ast$client, struct wl\-\_\-resource $\ast$resource)}}\label{structmotorcar__six__dof__pointer__interface_af0a50e3dcf962950e332433fc3242d83}
+release -\/ release the six\-\_\-dof pointer object 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/protocol/\hyperlink{motorcar-server-protocol_8h}{motorcar-\/server-\/protocol.\-h}\end{DoxyCompactItemize}

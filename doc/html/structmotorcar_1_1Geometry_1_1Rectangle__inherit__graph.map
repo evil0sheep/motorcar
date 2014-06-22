@@ -1,0 +1,6 @@
+<map id="motorcar::Geometry::Rectangle" name="motorcar::Geometry::Rectangle">
+<area shape="rect" id="node2" href="$classmotorcar_1_1Display.html" title="motorcar::Display" alt="" coords="33,96,159,123"/>
+<area shape="rect" id="node5" href="$classmotorcar_1_1ViewPort.html" title="motorcar::ViewPort" alt="" coords="183,96,317,123"/>
+<area shape="rect" id="node3" href="$classmotorcar_1_1RenderToTextureDisplay.html" title="motorcar::RenderToTexture\lDisplay" alt="" coords="5,171,187,213"/>
+<area shape="rect" id="node4" href="$classmotorcar_1_1OculusHMD.html" title="motorcar::OculusHMD" alt="" coords="19,261,172,288"/>
+</map>

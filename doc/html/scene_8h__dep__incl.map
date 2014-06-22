@@ -1,0 +1,30 @@
+<map id="/home/dave/thesis/motorcar/src/compositor/scenegraph/scene.h" name="/home/dave/thesis/motorcar/src/compositor/scenegraph/scene.h">
+<area shape="rect" id="node2" href="$geometry_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/geometry.cpp" alt="" coords="5,117,200,158"/>
+<area shape="rect" id="node3" href="$sixdofpointingdevice_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/scenegraph\l/input/sixdofpointingdevice.cpp" alt="" coords="225,109,425,165"/>
+<area shape="rect" id="node4" href="$drawable_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/scenegraph\l/output/drawable.cpp" alt="" coords="451,109,635,165"/>
+<area shape="rect" id="node5" href="$viewpoint_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/scenegraph\l/output/viewpoint.cpp" alt="" coords="659,109,843,165"/>
+<area shape="rect" id="node6" href="$scene_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/scenegraph\l/scene.cpp" alt="" coords="709,213,893,269"/>
+<area shape="rect" id="node7" href="$scenegraph_8h.html" title="/home/dave/thesis/motorcar\l/src/compositor/scenegraph\l/scenegraph.h" alt="" coords="917,109,1101,165"/>
+<area shape="rect" id="node19" href="$scenegraphnode_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/scenegraph\l/scenegraphnode.cpp" alt="" coords="1749,109,1933,165"/>
+<area shape="rect" id="node20" href="$virtualnode_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/scenegraph\l/virtualnode.cpp" alt="" coords="1957,109,2141,165"/>
+<area shape="rect" id="node21" href="$shell_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/shell.cpp" alt="" coords="1125,221,1309,262"/>
+<area shape="rect" id="node22" href="$windowmanager_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/windowmanager.cpp" alt="" coords="1333,221,1567,262"/>
+<area shape="rect" id="node23" href="$windowmanager_8h.html" title="/home/dave/thesis/motorcar\l/src/compositor/windowmanager.h" alt="" coords="1125,117,1347,158"/>
+<area shape="rect" id="node24" href="$sixensebasenode_8h.html" title="/home/dave/thesis/motorcar\l/src/device/sixensebasenode.h" alt="" coords="1523,117,1725,158"/>
+<area shape="rect" id="node25" href="$sixensemotionsensingsystem_8h.html" title="/home/dave/thesis/motorcar\l/src/device/sixensemotionsensingsystem.h" alt="" coords="1591,221,1864,262"/>
+<area shape="rect" id="node29" href="$sixensecontrollernode_8cpp.html" title="/home/dave/thesis/motorcar\l/src/device/sixensecontrollernode.cpp" alt="" coords="2166,117,2407,158"/>
+<area shape="rect" id="node8" href="$motorcar_8h.html" title="/home/dave/thesis/motorcar\l/src/compositor/motorcar.h" alt="" coords="917,221,1101,262"/>
+<area shape="rect" id="node9" href="$qtwaylandmotorcarcompositor_8h.html" title="/home/dave/thesis/motorcar\l/src/compositor/qt/qtwaylandmotorcarcompositor.h" alt="" coords="514,422,829,463"/>
+<area shape="rect" id="node14" href="$qtwaylandmotorcarsurface_8h.html" title="/home/dave/thesis/motorcar\l/src/compositor/qt/qtwaylandmotorcarsurface.h" alt="" coords="1011,513,1305,554"/>
+<area shape="rect" id="node16" href="$qtwaylandmotorcaropenglcontext_8h.html" title="/home/dave/thesis/motorcar\l/src/compositor/qt/qtwaylandmotorcaropenglcontext.h" alt="" coords="843,325,1175,366"/>
+<area shape="rect" id="node18" href="$main_8cpp.html" title="/home/dave/thesis/motorcar\l/src/examples/compositors\l/rift&#45;hydra&#45;compositor/main.cpp" alt="" coords="1313,317,1516,373"/>
+<area shape="rect" id="node10" href="$compositor_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/compositor.cpp" alt="" coords="429,513,635,554"/>
+<area shape="rect" id="node11" href="$qtwaylandmotorcarcompositor_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/qt/qtwaylandmotorcarcompositor.cpp" alt="" coords="583,603,912,645"/>
+<area shape="rect" id="node12" href="$qtwaylandmotorcarseat_8h.html" title="/home/dave/thesis/motorcar\l/src/compositor/qt/qtwaylandmotorcarseat.h" alt="" coords="709,513,987,554"/>
+<area shape="rect" id="node13" href="$qtwaylandmotorcarseat_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/qt/qtwaylandmotorcarseat.cpp" alt="" coords="937,603,1228,645"/>
+<area shape="rect" id="node15" href="$qtwaylandmotorcarsurface_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/qt/qtwaylandmotorcarsurface.cpp" alt="" coords="1252,603,1560,645"/>
+<area shape="rect" id="node17" href="$qtwaylandmotorcaropenglcontext_8cpp.html" title="/home/dave/thesis/motorcar\l/src/compositor/qt/qtwaylandmotorcaropenglcontext.cpp" alt="" coords="855,422,1201,463"/>
+<area shape="rect" id="node28" href="$sixensebasenode_8cpp.html" title="/home/dave/thesis/motorcar\l/src/device/sixensebasenode.cpp" alt="" coords="1889,221,2105,262"/>
+<area shape="rect" id="node26" href="$device_8h.html" title="/home/dave/thesis/motorcar\l/src/device/device.h" alt="" coords="1616,325,1800,366"/>
+<area shape="rect" id="node27" href="$sixensemotionsensingsystem_8cpp.html" title="/home/dave/thesis/motorcar\l/src/device/sixensemotionsensingsystem.cpp" alt="" coords="1825,325,2111,366"/>
+</map>

@@ -1,0 +1,38 @@
+\hypertarget{structmotorcar__surface__interface}{\section{motorcar\-\_\-surface\-\_\-interface Struct Reference}
+\label{structmotorcar__surface__interface}\index{motorcar\-\_\-surface\-\_\-interface@{motorcar\-\_\-surface\-\_\-interface}}
+}
+
+
+{\ttfamily \#include $<$motorcar-\/server-\/protocol.\-h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$ \hyperlink{structmotorcar__surface__interface_a0fc3dd0d7064b7885b62cd7733d212b3}{set\-\_\-size\-\_\-3d} )(struct wl\-\_\-client $\ast$client, struct wl\-\_\-resource $\ast$resource, struct wl\-\_\-array $\ast$dimensions)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+motorcar\-\_\-surface -\/ a 3\-D, view dependent, depth composited meta-\/data surface \-: requests that the client resize the 3\-D window to the given scale
+
+An interface that may be implemented by a wl\-\_\-surface, for implementations that provide motorcar style depth composited 3\-D surfaces
+
+A motorcar\-\_\-surface can be created from an exisitng surface, and provides the client with the information needed to draw its content in a way that can be depth composited by a motorcar compliant compositor.
+
+A motorcar surface is handled in the compositor as a 3\-D analog of a traditional window. Rather than the window being a 2 dimensional region of a 2 dimensional interface space, the window represents a 3 dimensional region of a 3 dimensional interface space, essentially a 3\-D box in which the client can draw 3\-D geometry
+
+The 3\-D window has its own 3\-D space whose origin is at the center of the window. The window's position refers to the location of this origin in the world space, and its rotation is around this point. The window also has a 3\-D size, which is defined in its local space. Each component of the size indicates one dimension of the window bounds, so the window extends for one half this distance on each side of the origin in its local space. 
+
+\subsection{Member Data Documentation}
+\hypertarget{structmotorcar__surface__interface_a0fc3dd0d7064b7885b62cd7733d212b3}{\index{motorcar\-\_\-surface\-\_\-interface@{motorcar\-\_\-surface\-\_\-interface}!set\-\_\-size\-\_\-3d@{set\-\_\-size\-\_\-3d}}
+\index{set\-\_\-size\-\_\-3d@{set\-\_\-size\-\_\-3d}!motorcar_surface_interface@{motorcar\-\_\-surface\-\_\-interface}}
+\subsubsection[{set\-\_\-size\-\_\-3d}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ motorcar\-\_\-surface\-\_\-interface\-::set\-\_\-size\-\_\-3d)(struct wl\-\_\-client $\ast$client, struct wl\-\_\-resource $\ast$resource, struct wl\-\_\-array $\ast$dimensions)}}\label{structmotorcar__surface__interface_a0fc3dd0d7064b7885b62cd7733d212b3}
+set\-\_\-size\-\_\-3d -\/ requests that the client resize the 3\-D window to the given scale \-: the new size vector
+
+Sets the new size of the 3\-D window. If this size is larger than the size most recently requested by the compositor the compositor is free to clip the window to a new size, provided that it immediatly requests the client resize to those dimensions.
+
+The size is represented here as a vector of three 32-\/bit floats, representing the size of the 3\-D window along each of the cardinal axes in the window's local space. 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/protocol/\hyperlink{motorcar-server-protocol_8h}{motorcar-\/server-\/protocol.\-h}\end{DoxyCompactItemize}

@@ -1,0 +1,11 @@
+<map id="/home/dave/thesis/motorcar/src/compositor/wayland/input/waylandinput.h" name="/home/dave/thesis/motorcar/src/compositor/wayland/input/waylandinput.h">
+<area shape="rect" id="node2" href="$seat_8h.html" title="wayland/input/seat.h" alt="" coords="42,184,184,211"/>
+<area shape="rect" id="node12" href="$pointer_8h.html" title="wayland/input/pointer.h" alt="" coords="35,109,191,136"/>
+<area shape="rect" id="node13" href="$keyboard_8h.html" title="wayland/input/keyboard.h" alt="" coords="216,109,387,136"/>
+<area shape="rect" id="node3" href="$waylandsurface_8h.html" title="wayland/output/waylandsurface.h" alt="" coords="5,259,221,285"/>
+<area shape="rect" id="node6" href="$events_8h.html" title="events/events.h" alt="" coords="169,333,284,360"/>
+<area shape="rect" id="node7" href="$event_8h.html" title="events/event.h" alt="" coords="261,557,368,584"/>
+<area shape="rect" id="node8" href="$mouseevent_8h.html" title="events/mouseevent.h" alt="" coords="124,483,271,509"/>
+<area shape="rect" id="node9" href="$keyboardevent_8h.html" title="events/keyboardevent.h" alt="" coords="299,408,460,435"/>
+<area shape="rect" id="node11" href="$sixdofevent_8h.html" title="events/sixdofevent.h" alt="" coords="133,408,275,435"/>
+</map>

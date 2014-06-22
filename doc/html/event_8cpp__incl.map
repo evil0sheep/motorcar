@@ -1,0 +1,9 @@
+<map id="/home/dave/thesis/motorcar/src/compositor/events/event.cpp" name="/home/dave/thesis/motorcar/src/compositor/events/event.cpp">
+<area shape="rect" id="node2" href="$event_8h.html" title="events/event.h" alt="" coords="63,469,171,496"/>
+<area shape="rect" id="node3" href="$seat_8h.html" title="wayland/input/seat.h" alt="" coords="114,96,256,123"/>
+<area shape="rect" id="node4" href="$waylandsurface_8h.html" title="wayland/output/waylandsurface.h" alt="" coords="112,171,328,197"/>
+<area shape="rect" id="node7" href="$events_8h.html" title="events/events.h" alt="" coords="239,245,353,272"/>
+<area shape="rect" id="node8" href="$mouseevent_8h.html" title="events/mouseevent.h" alt="" coords="317,395,464,421"/>
+<area shape="rect" id="node9" href="$keyboardevent_8h.html" title="events/keyboardevent.h" alt="" coords="130,320,291,347"/>
+<area shape="rect" id="node11" href="$sixdofevent_8h.html" title="events/sixdofevent.h" alt="" coords="367,320,509,347"/>
+</map>

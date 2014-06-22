@@ -1,0 +1,204 @@
+\hypertarget{classmotorcar_1_1Scene}{\section{motorcar\-:\-:Scene Class Reference}
+\label{classmotorcar_1_1Scene}\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}}
+}
+
+
+{\ttfamily \#include $<$scene.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Scene\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{classmotorcar_1_1Scene__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:Scene\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{classmotorcar_1_1Scene__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1Scene_ad10176d75a9cc0da56626f682d083507}{Scene} ()
+\item 
+virtual \hyperlink{classmotorcar_1_1Scene_a3b8cec2e32546713915f8c6303c951f1}{$\sim$\-Scene} ()
+\item 
+\hyperlink{classmotorcar_1_1Scene}{Scene} $\ast$ \hyperlink{classmotorcar_1_1Scene_a6e665c0d1e6b838073c61166a77c8477}{scene} () override
+\begin{DoxyCompactList}\small\item\em Overloads \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} definition to return this node. \end{DoxyCompactList}\item 
+void \hyperlink{classmotorcar_1_1Scene_a56d26423475317e64a4c7cfdec193213}{prepare\-For\-Frame} (long time\-Stamp\-Millis)
+\item 
+void \hyperlink{classmotorcar_1_1Scene_a428e4369e27ac0224dd8937594aadcd2}{draw\-Frame} ()
+\item 
+void \hyperlink{classmotorcar_1_1Scene_a5158b1eae76b1a4e6c77a7a6b41d43d9}{finish\-Frame} ()
+\item 
+\hyperlink{classmotorcar_1_1WindowManager}{Window\-Manager} $\ast$ \hyperlink{classmotorcar_1_1Scene_a8981438767571989fb2b934e53f266f8}{window\-Manager} () const 
+\item 
+void \hyperlink{classmotorcar_1_1Scene_afacdf1d66cd18832e841b45bec34964b}{set\-Window\-Manager} (\hyperlink{classmotorcar_1_1WindowManager}{Window\-Manager} $\ast$\hyperlink{classmotorcar_1_1Scene_a8981438767571989fb2b934e53f266f8}{window\-Manager})
+\item 
+\hyperlink{classmotorcar_1_1Compositor}{Compositor} $\ast$ \hyperlink{classmotorcar_1_1Scene_aac8e8cdfc6a46fb4a8c3e1c192e074f1}{compositor} () const 
+\item 
+void \hyperlink{classmotorcar_1_1Scene_abeab0365e3e8ea1857b41a32e09323f8}{set\-Compositor} (\hyperlink{classmotorcar_1_1Compositor}{Compositor} $\ast$\hyperlink{classmotorcar_1_1Scene_aac8e8cdfc6a46fb4a8c3e1c192e074f1}{compositor})
+\item 
+void \hyperlink{classmotorcar_1_1Scene_a3482161400b2f552307cc70812b128a9}{add\-Display} (\hyperlink{classmotorcar_1_1Display}{Display} $\ast$\hyperlink{structdisplay}{display})
+\item 
+std\-::vector$<$ \hyperlink{classmotorcar_1_1Display}{Display} $\ast$ $>$ \hyperlink{classmotorcar_1_1Scene_a1c09a0e3e55f1dd870d5c3001890afa9}{displays} () const 
+\item 
+\hyperlink{classmotorcar_1_1Display}{Display} $\ast$ \hyperlink{classmotorcar_1_1Scene_ab801f9d9d5359a82a7318b1d8370f46e}{active\-Display} () const 
+\item 
+void \hyperlink{classmotorcar_1_1Scene_a52c1dcf07a89ab12e841d6d85472ce81}{set\-Active\-Display} (\hyperlink{classmotorcar_1_1Display}{Display} $\ast$\hyperlink{classmotorcar_1_1Scene_ab801f9d9d5359a82a7318b1d8370f46e}{active\-Display})
+\item 
+long \hyperlink{classmotorcar_1_1Scene_af8fdec045cf73fbbfcfdb7a98d43c4bb}{current\-Timestamp\-Millis} () const 
+\item 
+void \hyperlink{classmotorcar_1_1Scene_adbdfd2cff05851748458098cfcdd44b1}{set\-Current\-Timestamp\-Millis} (long \hyperlink{classmotorcar_1_1Scene_af8fdec045cf73fbbfcfdb7a98d43c4bb}{current\-Timestamp\-Millis})
+\item 
+long \hyperlink{classmotorcar_1_1Scene_a4c7a31ec132316e53286e5afeaae9a4d}{latest\-Timestamp\-Change} ()
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1Scene_ad10176d75a9cc0da56626f682d083507}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!Scene@{Scene}}
+\index{Scene@{Scene}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{Scene}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-::\-Scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_ad10176d75a9cc0da56626f682d083507}
+\hypertarget{classmotorcar_1_1Scene_a3b8cec2e32546713915f8c6303c951f1}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!$\sim$\-Scene@{$\sim$\-Scene}}
+\index{$\sim$\-Scene@{$\sim$\-Scene}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{$\sim$\-Scene}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-::$\sim$\-Scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmotorcar_1_1Scene_a3b8cec2e32546713915f8c6303c951f1}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1Scene_ab801f9d9d5359a82a7318b1d8370f46e}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!active\-Display@{active\-Display}}
+\index{active\-Display@{active\-Display}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{active\-Display}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Display} $\ast$ Scene\-::active\-Display (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Scene_ab801f9d9d5359a82a7318b1d8370f46e}
+\hypertarget{classmotorcar_1_1Scene_a3482161400b2f552307cc70812b128a9}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!add\-Display@{add\-Display}}
+\index{add\-Display@{add\-Display}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{add\-Display}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::add\-Display (
+\begin{DoxyParamCaption}
+\item[{{\bf Display} $\ast$}]{display}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_a3482161400b2f552307cc70812b128a9}
+\hypertarget{classmotorcar_1_1Scene_aac8e8cdfc6a46fb4a8c3e1c192e074f1}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!compositor@{compositor}}
+\index{compositor@{compositor}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{compositor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Compositor} $\ast$ Scene\-::compositor (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Scene_aac8e8cdfc6a46fb4a8c3e1c192e074f1}
+\hypertarget{classmotorcar_1_1Scene_af8fdec045cf73fbbfcfdb7a98d43c4bb}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!current\-Timestamp\-Millis@{current\-Timestamp\-Millis}}
+\index{current\-Timestamp\-Millis@{current\-Timestamp\-Millis}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{current\-Timestamp\-Millis}]{\setlength{\rightskip}{0pt plus 5cm}long Scene\-::current\-Timestamp\-Millis (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Scene_af8fdec045cf73fbbfcfdb7a98d43c4bb}
+\hypertarget{classmotorcar_1_1Scene_a1c09a0e3e55f1dd870d5c3001890afa9}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!displays@{displays}}
+\index{displays@{displays}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{displays}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Display} $\ast$ $>$ Scene\-::displays (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Scene_a1c09a0e3e55f1dd870d5c3001890afa9}
+\hypertarget{classmotorcar_1_1Scene_a428e4369e27ac0224dd8937594aadcd2}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!draw\-Frame@{draw\-Frame}}
+\index{draw\-Frame@{draw\-Frame}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{draw\-Frame}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::draw\-Frame (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_a428e4369e27ac0224dd8937594aadcd2}
+\hypertarget{classmotorcar_1_1Scene_a5158b1eae76b1a4e6c77a7a6b41d43d9}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!finish\-Frame@{finish\-Frame}}
+\index{finish\-Frame@{finish\-Frame}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{finish\-Frame}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::finish\-Frame (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_a5158b1eae76b1a4e6c77a7a6b41d43d9}
+\hypertarget{classmotorcar_1_1Scene_a4c7a31ec132316e53286e5afeaae9a4d}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!latest\-Timestamp\-Change@{latest\-Timestamp\-Change}}
+\index{latest\-Timestamp\-Change@{latest\-Timestamp\-Change}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{latest\-Timestamp\-Change}]{\setlength{\rightskip}{0pt plus 5cm}long Scene\-::latest\-Timestamp\-Change (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_a4c7a31ec132316e53286e5afeaae9a4d}
+\hypertarget{classmotorcar_1_1Scene_a56d26423475317e64a4c7cfdec193213}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!prepare\-For\-Frame@{prepare\-For\-Frame}}
+\index{prepare\-For\-Frame@{prepare\-For\-Frame}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{prepare\-For\-Frame}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::prepare\-For\-Frame (
+\begin{DoxyParamCaption}
+\item[{long}]{time\-Stamp\-Millis}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_a56d26423475317e64a4c7cfdec193213}
+\hypertarget{classmotorcar_1_1Scene_a6e665c0d1e6b838073c61166a77c8477}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!scene@{scene}}
+\index{scene@{scene}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{scene}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Scene} $\ast$ Scene\-::scene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classmotorcar_1_1Scene_a6e665c0d1e6b838073c61166a77c8477}
+
+
+Overloads \hyperlink{classmotorcar_1_1SceneGraphNode}{Scene\-Graph\-Node} definition to return this node. 
+
+
+
+Reimplemented from \hyperlink{classmotorcar_1_1SceneGraphNode_aa14e637ed4ae98f77e28941a4b5cfdd8}{motorcar\-::\-Scene\-Graph\-Node}.
+
+\hypertarget{classmotorcar_1_1Scene_a52c1dcf07a89ab12e841d6d85472ce81}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!set\-Active\-Display@{set\-Active\-Display}}
+\index{set\-Active\-Display@{set\-Active\-Display}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{set\-Active\-Display}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::set\-Active\-Display (
+\begin{DoxyParamCaption}
+\item[{{\bf Display} $\ast$}]{active\-Display}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_a52c1dcf07a89ab12e841d6d85472ce81}
+\hypertarget{classmotorcar_1_1Scene_abeab0365e3e8ea1857b41a32e09323f8}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!set\-Compositor@{set\-Compositor}}
+\index{set\-Compositor@{set\-Compositor}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{set\-Compositor}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::set\-Compositor (
+\begin{DoxyParamCaption}
+\item[{{\bf Compositor} $\ast$}]{compositor}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_abeab0365e3e8ea1857b41a32e09323f8}
+\hypertarget{classmotorcar_1_1Scene_adbdfd2cff05851748458098cfcdd44b1}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!set\-Current\-Timestamp\-Millis@{set\-Current\-Timestamp\-Millis}}
+\index{set\-Current\-Timestamp\-Millis@{set\-Current\-Timestamp\-Millis}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{set\-Current\-Timestamp\-Millis}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::set\-Current\-Timestamp\-Millis (
+\begin{DoxyParamCaption}
+\item[{long}]{current\-Timestamp\-Millis}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_adbdfd2cff05851748458098cfcdd44b1}
+\hypertarget{classmotorcar_1_1Scene_afacdf1d66cd18832e841b45bec34964b}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!set\-Window\-Manager@{set\-Window\-Manager}}
+\index{set\-Window\-Manager@{set\-Window\-Manager}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{set\-Window\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-::set\-Window\-Manager (
+\begin{DoxyParamCaption}
+\item[{{\bf Window\-Manager} $\ast$}]{window\-Manager}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1Scene_afacdf1d66cd18832e841b45bec34964b}
+\hypertarget{classmotorcar_1_1Scene_a8981438767571989fb2b934e53f266f8}{\index{motorcar\-::\-Scene@{motorcar\-::\-Scene}!window\-Manager@{window\-Manager}}
+\index{window\-Manager@{window\-Manager}!motorcar::Scene@{motorcar\-::\-Scene}}
+\subsubsection[{window\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Window\-Manager} $\ast$ Scene\-::window\-Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1Scene_a8981438767571989fb2b934e53f266f8}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/\hyperlink{scene_8h}{scene.\-h}\item 
+/home/dave/thesis/motorcar/src/compositor/scenegraph/\hyperlink{scene_8cpp}{scene.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,135 @@
+\hypertarget{classmotorcar_1_1SixenseControllerNode}{\section{motorcar\-:\-:Sixense\-Controller\-Node Class Reference}
+\label{classmotorcar_1_1SixenseControllerNode}\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}}
+}
+
+
+{\ttfamily \#include $<$sixensecontrollernode.\-h$>$}
+
+
+
+Inheritance diagram for motorcar\-:\-:Sixense\-Controller\-Node\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{classmotorcar_1_1SixenseControllerNode__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for motorcar\-:\-:Sixense\-Controller\-Node\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{classmotorcar_1_1SixenseControllerNode__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmotorcar_1_1SixenseControllerNode_acb326fa6a4174d767eedc5563cf8f3bb}{Sixense\-Controller\-Node} (int \hyperlink{classmotorcar_1_1SixenseControllerNode_aa061782ed3ae2a57180fdad9dc6383d9}{controller\-Index}, \hyperlink{classmotorcar_1_1PhysicalNode}{Physical\-Node} $\ast$parent, const glm\-::mat4 \&\hyperlink{classmotorcar_1_1SceneGraphNode_ad96e79fdd739ac8223a3128003be391a}{transform}=glm\-::mat4())
+\item 
+void \hyperlink{classmotorcar_1_1SixenseControllerNode_afbe76474cf77da7e11b0ac1b291b51f3}{update\-State} (sixense\-Controller\-Data data)
+\item 
+int \hyperlink{classmotorcar_1_1SixenseControllerNode_aa061782ed3ae2a57180fdad9dc6383d9}{controller\-Index} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SixenseControllerNode_a337d87a6667b7e35301978c8017f2b20}{set\-Controller\-Index} (int \hyperlink{classmotorcar_1_1SixenseControllerNode_aa061782ed3ae2a57180fdad9dc6383d9}{controller\-Index})
+\item 
+bool \hyperlink{classmotorcar_1_1SixenseControllerNode_a46ff3af0aa1723d13a7f2a2be599a786}{enabled} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SixenseControllerNode_aae977f21555500a932f2d9e7a670acd9}{set\-Enabled} (bool \hyperlink{classmotorcar_1_1SixenseControllerNode_a46ff3af0aa1723d13a7f2a2be599a786}{enabled})
+\item 
+\hyperlink{classmotorcar_1_1SixDOFPointingDevice}{Six\-D\-O\-F\-Pointing\-Device} $\ast$ \hyperlink{classmotorcar_1_1SixenseControllerNode_adc631d1698a4dcf1d72efb8912a76e1a}{pointing\-Device} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SixenseControllerNode_aa3723c41d3512b53db0708bb86465941}{set\-Pointing\-Device} (\hyperlink{classmotorcar_1_1SixDOFPointingDevice}{Six\-D\-O\-F\-Pointing\-Device} $\ast$\hyperlink{classmotorcar_1_1SixenseControllerNode_adc631d1698a4dcf1d72efb8912a76e1a}{pointing\-Device})
+\item 
+\hyperlink{classmotorcar_1_1SingleBoneTracker}{Single\-Bone\-Tracker} $\ast$ \hyperlink{classmotorcar_1_1SixenseControllerNode_a96ebf0431751aad1153ac0da8845257d}{bone\-Tracker} () const 
+\item 
+void \hyperlink{classmotorcar_1_1SixenseControllerNode_a99cb44bf2c021c990b9f8bdc46f178f1}{set\-Bone\-Tracker} (\hyperlink{classmotorcar_1_1SingleBoneTracker}{Single\-Bone\-Tracker} $\ast$\hyperlink{classmotorcar_1_1SixenseControllerNode_a96ebf0431751aad1153ac0da8845257d}{bone\-Tracker})
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmotorcar_1_1SixenseControllerNode_acb326fa6a4174d767eedc5563cf8f3bb}{\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}!Sixense\-Controller\-Node@{Sixense\-Controller\-Node}}
+\index{Sixense\-Controller\-Node@{Sixense\-Controller\-Node}!motorcar::SixenseControllerNode@{motorcar\-::\-Sixense\-Controller\-Node}}
+\subsubsection[{Sixense\-Controller\-Node}]{\setlength{\rightskip}{0pt plus 5cm}Sixense\-Controller\-Node\-::\-Sixense\-Controller\-Node (
+\begin{DoxyParamCaption}
+\item[{int}]{controller\-Index, }
+\item[{{\bf Physical\-Node} $\ast$}]{parent, }
+\item[{const glm\-::mat4 \&}]{transform = {\ttfamily glm\-:\-:mat4()}}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixenseControllerNode_acb326fa6a4174d767eedc5563cf8f3bb}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmotorcar_1_1SixenseControllerNode_a96ebf0431751aad1153ac0da8845257d}{\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}!bone\-Tracker@{bone\-Tracker}}
+\index{bone\-Tracker@{bone\-Tracker}!motorcar::SixenseControllerNode@{motorcar\-::\-Sixense\-Controller\-Node}}
+\subsubsection[{bone\-Tracker}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Single\-Bone\-Tracker} $\ast$ Sixense\-Controller\-Node\-::bone\-Tracker (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SixenseControllerNode_a96ebf0431751aad1153ac0da8845257d}
+\hypertarget{classmotorcar_1_1SixenseControllerNode_aa061782ed3ae2a57180fdad9dc6383d9}{\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}!controller\-Index@{controller\-Index}}
+\index{controller\-Index@{controller\-Index}!motorcar::SixenseControllerNode@{motorcar\-::\-Sixense\-Controller\-Node}}
+\subsubsection[{controller\-Index}]{\setlength{\rightskip}{0pt plus 5cm}int Sixense\-Controller\-Node\-::controller\-Index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SixenseControllerNode_aa061782ed3ae2a57180fdad9dc6383d9}
+\hypertarget{classmotorcar_1_1SixenseControllerNode_a46ff3af0aa1723d13a7f2a2be599a786}{\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}!enabled@{enabled}}
+\index{enabled@{enabled}!motorcar::SixenseControllerNode@{motorcar\-::\-Sixense\-Controller\-Node}}
+\subsubsection[{enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool Sixense\-Controller\-Node\-::enabled (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SixenseControllerNode_a46ff3af0aa1723d13a7f2a2be599a786}
+\hypertarget{classmotorcar_1_1SixenseControllerNode_adc631d1698a4dcf1d72efb8912a76e1a}{\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}!pointing\-Device@{pointing\-Device}}
+\index{pointing\-Device@{pointing\-Device}!motorcar::SixenseControllerNode@{motorcar\-::\-Sixense\-Controller\-Node}}
+\subsubsection[{pointing\-Device}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Six\-D\-O\-F\-Pointing\-Device} $\ast$ Sixense\-Controller\-Node\-::pointing\-Device (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classmotorcar_1_1SixenseControllerNode_adc631d1698a4dcf1d72efb8912a76e1a}
+\hypertarget{classmotorcar_1_1SixenseControllerNode_a99cb44bf2c021c990b9f8bdc46f178f1}{\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}!set\-Bone\-Tracker@{set\-Bone\-Tracker}}
+\index{set\-Bone\-Tracker@{set\-Bone\-Tracker}!motorcar::SixenseControllerNode@{motorcar\-::\-Sixense\-Controller\-Node}}
+\subsubsection[{set\-Bone\-Tracker}]{\setlength{\rightskip}{0pt plus 5cm}void Sixense\-Controller\-Node\-::set\-Bone\-Tracker (
+\begin{DoxyParamCaption}
+\item[{{\bf Single\-Bone\-Tracker} $\ast$}]{bone\-Tracker}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixenseControllerNode_a99cb44bf2c021c990b9f8bdc46f178f1}
+\hypertarget{classmotorcar_1_1SixenseControllerNode_a337d87a6667b7e35301978c8017f2b20}{\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}!set\-Controller\-Index@{set\-Controller\-Index}}
+\index{set\-Controller\-Index@{set\-Controller\-Index}!motorcar::SixenseControllerNode@{motorcar\-::\-Sixense\-Controller\-Node}}
+\subsubsection[{set\-Controller\-Index}]{\setlength{\rightskip}{0pt plus 5cm}void Sixense\-Controller\-Node\-::set\-Controller\-Index (
+\begin{DoxyParamCaption}
+\item[{int}]{controller\-Index}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixenseControllerNode_a337d87a6667b7e35301978c8017f2b20}
+\hypertarget{classmotorcar_1_1SixenseControllerNode_aae977f21555500a932f2d9e7a670acd9}{\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}!set\-Enabled@{set\-Enabled}}
+\index{set\-Enabled@{set\-Enabled}!motorcar::SixenseControllerNode@{motorcar\-::\-Sixense\-Controller\-Node}}
+\subsubsection[{set\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}void Sixense\-Controller\-Node\-::set\-Enabled (
+\begin{DoxyParamCaption}
+\item[{bool}]{enabled}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixenseControllerNode_aae977f21555500a932f2d9e7a670acd9}
+\hypertarget{classmotorcar_1_1SixenseControllerNode_aa3723c41d3512b53db0708bb86465941}{\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}!set\-Pointing\-Device@{set\-Pointing\-Device}}
+\index{set\-Pointing\-Device@{set\-Pointing\-Device}!motorcar::SixenseControllerNode@{motorcar\-::\-Sixense\-Controller\-Node}}
+\subsubsection[{set\-Pointing\-Device}]{\setlength{\rightskip}{0pt plus 5cm}void Sixense\-Controller\-Node\-::set\-Pointing\-Device (
+\begin{DoxyParamCaption}
+\item[{{\bf Six\-D\-O\-F\-Pointing\-Device} $\ast$}]{pointing\-Device}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixenseControllerNode_aa3723c41d3512b53db0708bb86465941}
+\hypertarget{classmotorcar_1_1SixenseControllerNode_afbe76474cf77da7e11b0ac1b291b51f3}{\index{motorcar\-::\-Sixense\-Controller\-Node@{motorcar\-::\-Sixense\-Controller\-Node}!update\-State@{update\-State}}
+\index{update\-State@{update\-State}!motorcar::SixenseControllerNode@{motorcar\-::\-Sixense\-Controller\-Node}}
+\subsubsection[{update\-State}]{\setlength{\rightskip}{0pt plus 5cm}void Sixense\-Controller\-Node\-::update\-State (
+\begin{DoxyParamCaption}
+\item[{sixense\-Controller\-Data}]{data}
+\end{DoxyParamCaption}
+)}}\label{classmotorcar_1_1SixenseControllerNode_afbe76474cf77da7e11b0ac1b291b51f3}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/dave/thesis/motorcar/src/device/\hyperlink{sixensecontrollernode_8h}{sixensecontrollernode.\-h}\item 
+/home/dave/thesis/motorcar/src/device/\hyperlink{sixensecontrollernode_8cpp}{sixensecontrollernode.\-cpp}\end{DoxyCompactItemize}
