@@ -38,8 +38,5 @@ Thumbs.db
 
 # qmake generated files #
 ######################
-Makefile
+# Makefile
 
-# Binaries #
-######################
-qwindow-compositor

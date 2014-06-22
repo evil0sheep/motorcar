@@ -1,12 +1,12 @@
 MOTORCAR_DIR=../../../..
 CC=g++
 
-LIBOVRPATH=${MOTORCAR_DIR}/../thirdPartySource/Oculus/OculusSDK/LibOVR
+#LIBOVRPATH=${MOTORCAR_DIR}/../thirdPartySource/Oculus/OculusSDK/LibOVR
 OCULUS_INCLUDES= -I${LIBOVRPATH}/Include -I${LIBOVRPATH}/Src
 OCULUS_LIBS= -L${LIBOVRPATH}/Lib/Linux/Release/x86_64 -lovr  
 
 
-SIXENSEPATH=${MOTORCAR_DIR}/../thirdPartySource/sixenseSDK_linux_OSX
+#SIXENSEPATH=${MOTORCAR_DIR}/../thirdPartySource/sixenseSDK_linux_OSX
 SIXENSE_INCLUDES= -I${SIXENSEPATH}/include
 SIXENSE_LIBS= -L${SIXENSEPATH}/lib/linux_x64/release -lsixense_utils_x64 -lsixense_x64 
 

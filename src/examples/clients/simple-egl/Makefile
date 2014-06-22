@@ -3,7 +3,7 @@ LIBS= -lm -lwayland-client -lwayland-egl -lwayland-cursor -DGL_GLEXT_PROTOTYPES 
 
 
 simple-egl: motorcar-protocol
-	g++ -std=c++0x -g simple-egl.cpp motorcar-wayland-extensions.o $(LIBS) 
+	g++ -std=c++0x -g simple-egl.cpp motorcar-wayland-extensions.o $(LIBS) -o motorcar-demo-client
 
 motorcar-protocol:
 	wayland-scanner client-header < $(MOTORCAR_PROTOCOL_XML) > motorcar-client-protocol.h
