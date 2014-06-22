@@ -5,7 +5,7 @@ Motorcar is a framework for 3D windowing built on top of Wayland which I origina
 
 Motorcar is free and open source (under the BSD license), and I am very open to contributions (both conceptual and functional) from the community. If you have any questions, comments, or critical feedback about the software, or if you are interested in using or contributing Motorcar, or if you are working on something related, please feel free to contact me, I would love to hear from you.
 
-Doxygen generated class documentation is available in the repository [here](https://github.com/evil0sheep/motorcar/blob/stable/doc/html/annotated.html), though it is somewhat sparse.
+Doxygen generated class documentation is available in the repository [here](http://htmlpreview.github.io/?https://github.com/evil0sheep/motorcar/blob/stable/doc/html/annotated.html), though it is somewhat sparse.
 
 Building Motorcar
 =================
