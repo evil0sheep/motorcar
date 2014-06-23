@@ -54,6 +54,7 @@ public:
 
 
     WindowManager(Scene *scene, Seat *defaultSeat);
+    virtual ~WindowManager();
 
     virtual WaylandSurfaceNode *createSurface(WaylandSurface *surface);
     virtual void destroySurface(WaylandSurface *surface);

@@ -47,6 +47,12 @@ WindowManager::WindowManager(Scene *scene, Seat *defaultSeat)
 
 }
 
+WindowManager::~WindowManager()
+{
+    delete m_defaultSeat;
+    delete m_shell;
+}
+
 WaylandSurfaceNode *WindowManager::createSurface(WaylandSurface *surface)
 {
 
