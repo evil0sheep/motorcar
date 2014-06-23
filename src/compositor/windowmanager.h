@@ -55,14 +55,14 @@ public:
 
     WindowManager(Scene *scene, Seat *defaultSeat);
 
-    WaylandSurfaceNode *createSurface(WaylandSurface *surface);
-    void destroySurface(WaylandSurface *surface);
+    virtual WaylandSurfaceNode *createSurface(WaylandSurface *surface);
+    virtual void destroySurface(WaylandSurface *surface);
 
-    WaylandSurfaceNode *mapSurface(WaylandSurface *surface, WaylandSurface::SurfaceType surfaceType);
-    void unmapSurface(WaylandSurface *surface);
+    virtual WaylandSurfaceNode *mapSurface(WaylandSurface *surface, WaylandSurface::SurfaceType surfaceType);
+    virtual void unmapSurface(WaylandSurface *surface);
 
 
-    void sendEvent(const Event &event);
+    virtual void sendEvent(const Event &event);
 
     WaylandSurfaceNode *getSurfaceNode(WaylandSurface *surface) const;
 
