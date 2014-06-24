@@ -18,8 +18,6 @@ TEMPLATE = lib
 #LIBS +=  -lwayland-server -lwayland-client
 
 
-
-
 MOTORCAR_PROTOCOL_PATH=$$PWD/src/protocol/
 system(cd $$MOTORCAR_PROTOCOL_PATH; make)
 
@@ -38,8 +36,9 @@ QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES -DMOTORCAR_SHADER_PATH=$$PWD/
 
 
 LIBS += -lGL
-#LIBS += -L $$QTWAYLANDSOURCEPATH/lib -lGL
-#INCLUDEPATH += $$QTWAYLANDSOURCEPATH/includeINCLUDEPATH += $$QTWAYLANDSOURCEPATH/include/QtCompositor/5.3.0/
+LIBS += -L $$QTWAYLANDSOURCEPATH/lib
+INCLUDEPATH += $$QTWAYLANDSOURCEPATH/include
+INCLUDEPATH += $$QTWAYLANDSOURCEPATH/include/QtCompositor/5.3.0/
 
 #  if you want to compile QtCompositor as part of the application
 #  instead of linking to it, remove the QT += compositor and uncomment
