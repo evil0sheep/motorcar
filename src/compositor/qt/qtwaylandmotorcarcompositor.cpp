@@ -137,18 +137,19 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
     format.setSwapInterval(1);
     format.setStencilBufferSize(8);
 
-    QRect geom = screenGeometry;
+    //QRect geom = screenGeometry;
 //    if (QCoreApplication::arguments().contains(QLatin1String("-nofullscreen")))
 //        geom = QRect(screenGeometry.width() / 4, screenGeometry.height() / 4,
 //                     screenGeometry.width() / 2, screenGeometry.height() / 2);
 
-    QOpenGLWindow *window = new QOpenGLWindow(format, geom);
+    QOpenGLWindow *window = new QOpenGLWindow(format, screenGeometry);
     return  new QtWaylandMotorcarCompositor(window, app, scene);
 }
 
 int QtWaylandMotorcarCompositor::start()
 {
     this->glData()->m_window->showFullScreen();
+    this->cleanupGraphicsResources();
     int result = m_app->exec();
     delete m_app;
     return result;
