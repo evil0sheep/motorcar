@@ -3,7 +3,7 @@ QT += gui widgets gui-private core-private compositor compositor-private
 TEMPLATE = lib
 
 
-#QTWAYLANDPATH=$$PWD/../thirdPartySource/qt5_GLES/qtwayland/src/compositor
+#QTWAYLANDSOURCEPATH=$$PWD/../thirdPartySource/qt5_GLES/qtwayland/
 
 
 #LIBOVRPATH=$$PWD/../thirdPartySource/Oculus/OculusSDK/LibOVR
@@ -38,7 +38,7 @@ QMAKE_CXXFLAGS += -std=c++11 -DGL_GLEXT_PROTOTYPES -DMOTORCAR_SHADER_PATH=$$PWD/
 LIBS += -lGL
 LIBS += -L $$QTWAYLANDSOURCEPATH/lib
 INCLUDEPATH += $$QTWAYLANDSOURCEPATH/include
-INCLUDEPATH += $$QTWAYLANDSOURCEPATH/include/QtCompositor/5.3.0/
+#INCLUDEPATH += $$QTWAYLANDSOURCEPATH/include/QtCompositor/5.3.0/
 
 #  if you want to compile QtCompositor as part of the application
 #  instead of linking to it, remove the QT += compositor and uncomment
