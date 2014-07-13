@@ -9,6 +9,8 @@
 
 #include <gl/GLSLHelper.h>
 
+#include <iostream>
+
 int printOglError (const char *file, int line) {
 	/* Returns 1 if an OpenGL error occurred, 0 otherwise. */
 	GLenum glErr;
@@ -16,7 +18,8 @@ int printOglError (const char *file, int line) {
 	
 	glErr = glGetError ();
 	while (glErr != GL_NO_ERROR) {
-        printf ("glError in file %s @ line %d: %s\n", file, line, "message deleted to remove glu dependency");
+        std::cout << "glError in file "<< file 
+                  << " @ line " << line << "message deleted to remove glu dependency" << std::endl;
 		retCode = 1;
 		glErr = glGetError ();
     	}
@@ -36,13 +39,14 @@ void printShaderInfoLog (GLuint shader)
 	if (infologLength > 0) {
 		infoLog = (GLchar *)malloc (infologLength);
 		if (infoLog == NULL) {
-			puts ("ERROR: Could not allocate InfoLog buffer");
+			std::cerr << "ERROR: Could not allocate InfoLog buffer" << std::endl;
 			exit (1);
         	}
 		glGetShaderInfoLog (shader, infologLength, &charsWritten, infoLog);
-		printf ("Shader InfoLog:\n%s\n\n", infoLog);
-		free (infoLog);
-    	}
+                std::cout << "Shader InfoLog:\n" << infoLog << "\n"
+                          << std::endl;
+                free(infoLog);
+        }
 	printOpenGLError();  // Check for OpenGL errors
 }
 
@@ -66,8 +70,9 @@ void printProgramInfoLog (GLuint program)
 			exit (1);
         	}
 		glGetProgramInfoLog (program, infologLength, &charsWritten, infoLog);
-		printf ("Program InfoLog:\n%s\n\n", infoLog);
-		free (infoLog);
+                std::cout << "Program InfoLog:\n" << infoLog << "\n"
+                          << std::endl;
+                free (infoLog);
     	}
 	printOpenGLError ();  // Check for OpenGL errors
 }
@@ -79,8 +84,8 @@ GLint getUniLoc(GLuint program, const GLchar *name) {
 	loc = glGetUniformLocation(program, name);
 	
 	if (loc ==1) {
-		printf("No such uniform named %s\n", name);
-	}
+          std::cout << "No such uniform named \"" << name << "\"" << std::endl;
+        }
 	
 	printOpenGLError();
 	return loc;
@@ -93,68 +98,12 @@ void getGLversion() {
 	const char *verstr = (const char *)glGetString(GL_VERSION);
 	
 	if ((verstr == NULL) || (sscanf(verstr, "%d.%d", &major, &minor) !=2)) {
-		printf("Invalid GL_VERSION format %d %d\n", major, minor);
+		std::cout << "Invalid GL_VERSION format " << major << " " << minor << std::endl;
 	}
 	if( major <2) {
-		printf("This shader example will not work due to opengl version, which is %d %d\n", major, minor);
-		exit(0);
+          std::cerr << "This shader example will not work due to opengl "
+                       "version, which is " << major << " " << minor
+                    << std::endl;
+                exit(0);
 	}
 }
-
-// textfile.cpp
-//
-// simple reading and writing for text files
-//
-// www.lighthouse3d.com
-//
-// You may use these functions freely.
-// they are provided as is, and no warranties, either implicit,
-// or explicit are given
-//////////////////////////////////////////////////////////////////////
-
-char *textFileRead(char *fn) {
-	
-	
-	FILE *fp;
-	char *content = NULL;
-	
-	int count=0;
-	
-	if (fn != NULL) {
-		fp = fopen(fn,"rt");
-		
-		if (fp != NULL) {
-			
-			fseek(fp, 0, SEEK_END);
-			count = ftell(fp);
-			rewind(fp);
-			
-			if (count > 0) {
-				content = (char *)malloc(sizeof(char) * (count+1));
-				count = fread(content,sizeof(char),count,fp);
-				content[count] = '\0';
-			}
-			fclose(fp);
-		}
-	}
-	return content;
-}
-
-int textFileWrite(char *fn, char *s) {
-	
-	FILE *fp;
-	int status = 0;
-	
-	if (fn != NULL) {
-		fp = fopen(fn,"w");
-		
-		if (fp != NULL) {
-			
-			if (fwrite(s,sizeof(char),strlen(s),fp) == strlen(s))
-				status = 1;
-			fclose(fp);
-		}
-	}
-	return(status);
-}
-

@@ -35,6 +35,8 @@
 #include <scenegraph/output/wireframenode.h>
 #include <scenegraph/output/display/display.h>
 
+#include <string>
+
 using namespace motorcar;
 
 //WireframeNode::WireframeNode(std::vector<std::pair<glm::vec3, glm::vec3>> &segments, glm::vec3 lineColor, SceneGraphNode *parent, const glm::mat4 &transform)
