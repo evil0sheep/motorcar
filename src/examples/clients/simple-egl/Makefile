@@ -1,4 +1,4 @@
-MOTORCAR_PROTOCOL_XML=../../protocol/motorcar.xml
+MOTORCAR_PROTOCOL_XML=../../../protocol/motorcar.xml
 LIBS= -lm -lwayland-client -lwayland-egl -lwayland-cursor -DGL_GLEXT_PROTOTYPES -lGL -lEGL 
 
 
