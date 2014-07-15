@@ -75,14 +75,14 @@ void Geometry::Ray::draw(SceneGraphNode *parent, glm::vec3 color, glm::mat4 tran
         d.x, d.y, d.z
 
     };
-    WireframeNode *node = new WireframeNode(vertices, 4, color, parent, transform*translation);
+    auto node = new WireframeNode(vertices, 4, color, parent, transform*translation);
 
-    Scene *scene = parent->scene();
-    for(Display *display : scene->displays()){
+    auto scene = parent->scene();
+    for(auto display : scene->displays()){
         node->draw(scene, display);
     }
 
-    delete node;
+delete node;
 }
 
 
@@ -107,9 +107,10 @@ void Geometry::printMatrix(glm::mat4 m)
 {
     for(int i=0; i<4; i++){
             glm::vec4 row= glm::row(m, i);
-            printf("%2.2f %2.2f %2.2f %2.2f\n", row.x, row.y, row.z, row.w);
+            std::cout.precision(2);
+            std::cout << row.x << " " << row.y << " " << row.z << " " << row.w << std::endl;
         }
-    printf("\n");
+        std::cout << std::endl;
 }
 
 void Geometry::printVector(glm::vec3 v)

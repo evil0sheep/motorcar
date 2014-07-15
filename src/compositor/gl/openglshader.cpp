@@ -109,7 +109,7 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
         printShaderInfoLog(VS);
 
         if (!vCompiled) {
-                printf("Error compiling vertex shader:\n\n ");
+                std::cerr << "Error compiling vertex shader:\n" << std::endl;
                 return 0;
         }
         glAttachShader(m_handle, VS);
@@ -128,7 +128,7 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
         printShaderInfoLog(FS);
 
         if (!fCompiled) {
-                printf("Error compiling fragment shader:\n\n ");
+                std::cerr << "Error compiling fragment shader:\n" << std::endl;
                 return 0;
         }
         glAttachShader(m_handle, FS);
@@ -140,8 +140,8 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
     printOpenGLError();
     glGetProgramiv(m_handle, GL_LINK_STATUS, &linked);
     if (!linked) {
-    printf("Error linking shader: %d\n\n", m_handle);
-    return 0;
+      std::cerr << "Error linking shader: " << m_handle << "\n" << std::endl;
+      return 0;
     }
 
 

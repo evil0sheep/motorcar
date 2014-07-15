@@ -37,6 +37,8 @@
 #include <scenegraph/output/viewpoint.h>
 #include <scenegraph/output/display/display.h>
 
+#include <vector>
+
 using namespace motorcar;
 using namespace DepthSense;
 using namespace std;
@@ -154,82 +156,71 @@ void configureAudioNode()
     }
     catch (ArgumentException& e)
     {
-        printf("Argument Exception: %s\n",e.what());
+        std::cout << "Argument Exception: " << e.what() << std::endl;
     }
     catch (UnauthorizedAccessException& e)
     {
-        printf("Unauthorized Access Exception: %s\n",e.what());
+        std::cout << "Unauthorized Access Exception: " << e.what() << std::endl;
     }
     catch (ConfigurationException& e)
     {
-        printf("Configuration Exception: %s\n",e.what());
+        std::cout << "Configuration Exception: " << e.what() << std::endl;
     }
     catch (StreamingException& e)
     {
-        printf("Streaming Exception: %s\n",e.what());
+        std::cout << "Streaming Exception: " << e.what() << std::endl;
     }
     catch (TimeoutException&)
     {
-        printf("TimeoutException\n");
+        std::cout << "TimeoutException" << std::endl;
     }
 }
 
 /*----------------------------------------------------------------------------*/
 void configureDepthNode()
 {
-    g_dnode.newSampleReceivedEvent().connect(&onNewDepthSample);
+  g_dnode.newSampleReceivedEvent().connect(&onNewDepthSample);
 
-    DepthNode::Configuration config = g_dnode.getConfiguration();
-    config.frameFormat = FRAME_FORMAT_QVGA;
-    config.framerate = 25;
-    config.mode = DepthNode::CAMERA_MODE_CLOSE_MODE;
-    config.saturation = true;
+  DepthNode::Configuration config = g_dnode.getConfiguration();
+  config.frameFormat = FRAME_FORMAT_QVGA;
+  config.framerate = 25;
+  config.mode = DepthNode::CAMERA_MODE_CLOSE_MODE;
+  config.saturation = true;
 
-    g_dnode.setEnableVertices(true);
-    g_dnode.setEnableVerticesFloatingPoint(true);
-    g_dnode.setEnableConfidenceMap(true);
-    g_dnode.setEnableUvMap(true);
+  g_dnode.setEnableVertices(true);
+  g_dnode.setEnableVerticesFloatingPoint(true);
+  g_dnode.setEnableConfidenceMap(true);
+  g_dnode.setEnableUvMap(true);
 
-    try
-    {
-        g_context.requestControl(g_dnode,0);
-
-        g_dnode.setConfiguration(config);
+  try {
+    g_context.requestControl(g_dnode, 0);
+    g_dnode.setConfiguration(config);
     }
-    catch (ArgumentException& e)
-    {
-        printf("Argument Exception: %s\n",e.what());
+    catch (ArgumentException &e) {
+      std::cout << "Argument Exception: " << e.what() << std::endl;
     }
-    catch (UnauthorizedAccessException& e)
-    {
-        printf("Unauthorized Access Exception: %s\n",e.what());
+    catch (UnauthorizedAccessException &e) {
+      std::cout << "Unauthorized Access Exception: " << e.what() << std::endl;
     }
-    catch (IOException& e)
-    {
-        printf("IO Exception: %s\n",e.what());
+    catch (IOException &e) {
+      std::cout << "IO Exception: " << e.what() << std::endl;
     }
-    catch (InvalidOperationException& e)
-    {
-        printf("Invalid Operation Exception: %s\n",e.what());
+    catch (InvalidOperationException &e) {
+      std::cout << "Invalid Operation Exception: " << e.what() << std::endl;
     }
-    catch (ConfigurationException& e)
-    {
-        printf("Configuration Exception: %s\n",e.what());
+    catch (ConfigurationException &e) {
+      std::cout << "Configuration Exception: " << e.what() << std::endl;
     }
-    catch (StreamingException& e)
-    {
-        printf("Streaming Exception: %s\n",e.what());
+    catch (StreamingException &e) {
+      std::cout << "Streaming Exception: " << e.what() << std::end;
     }
-    catch (TimeoutException&)
-    {
-        printf("TimeoutException\n");
+    catch (TimeoutException &) {
+      std::cout << "TimeoutException" << std::endl;
     }
-
 }
 
 /*----------------------------------------------------------------------------*/
-void configureColorNode()
-{
+void configureColorNode() {
     // connect new color sample handler
     g_cnode.newSampleReceivedEvent().connect(&onNewColorSample);
 
@@ -249,31 +240,31 @@ void configureColorNode()
     }
     catch (ArgumentException& e)
     {
-        printf("Argument Exception: %s\n",e.what());
+      std::cout << "Argument Exception: " << e.what() << std::endl;
     }
     catch (UnauthorizedAccessException& e)
     {
-        printf("Unauthorized Access Exception: %s\n",e.what());
+      std::cout << "Unauthorized Access Exception: " << e.what() << std::endl;
     }
     catch (IOException& e)
     {
-        printf("IO Exception: %s\n",e.what());
+      std::cout << "IO Exception: " << e.what() << std::endl;
     }
     catch (InvalidOperationException& e)
     {
-        printf("Invalid Operation Exception: %s\n",e.what());
+      std::cout << "Invalid Operation Exception: " << e.what() << std::endl;
     }
     catch (ConfigurationException& e)
     {
-        printf("Configuration Exception: %s\n",e.what());
+      std::cout << "Configuration Exception: " << e.what() << std::endl;
     }
     catch (StreamingException& e)
     {
-        printf("Streaming Exception: %s\n",e.what());
+      std::cout << "Streaming Exception: " << e.what() << std::end;
     }
     catch (TimeoutException&)
     {
-        printf("TimeoutException\n");
+      std::cout << "TimeoutException" << std::endl;
     }
 }
 
@@ -317,7 +308,7 @@ void onNodeDisconnected(Device device, Device::NodeRemovedData data)
         g_cnode.unset();
     if (data.node.is<DepthNode>() && (data.node.as<DepthNode>() == g_dnode))
         g_dnode.unset();
-    printf("Node disconnected\n");
+    std::cout << "Node disconnected" << std::endl; 
 }
 
 /*----------------------------------------------------------------------------*/
@@ -335,7 +326,7 @@ void onDeviceConnected(Context context, Context::DeviceAddedData data)
 void onDeviceDisconnected(Context context, Context::DeviceRemovedData data)
 {
     g_bDeviceFound = false;
-    printf("Device disconnected\n");
+    std::cout << "Device disconnected" << std::endl;
 }
 
 
@@ -382,7 +373,7 @@ SoftKineticDepthCamera::SoftKineticDepthCamera(SceneGraphNode *parent, const glm
 
         vector<Node> na = da[0].getNodes();
 
-        printf("Found %u nodes\n",na.size());
+        std::cout << "Found " << na.size() << "nodes" << std::endl;
 
         for (int n = 0; n < (int)na.size();n++)
             configureNode(na[n]);

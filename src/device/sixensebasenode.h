@@ -40,6 +40,8 @@
 #include "sixensecontrollernode.h"
 #include <scenegraph/scene.h>
 
+#include <vector>
+
 namespace motorcar {
 class SixenseBaseNode : public PhysicalNode
 {

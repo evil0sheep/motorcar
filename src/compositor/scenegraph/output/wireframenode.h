@@ -36,7 +36,6 @@
 #define WIREFRAMENODE_H
 
 #include <scenegraph/output/drawable.h>
-#include <string.h>
 #include <scenegraph/output/viewpoint.h>
 #include <gl/openglshader.h>
 

@@ -11,8 +11,6 @@
 #include <GL/gl.h>
 
 #include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <iostream>
 #include <stdexcept>
 

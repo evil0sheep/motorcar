@@ -54,6 +54,7 @@
 #include <QPixmap>
 #include <QScreen>
 
+#include <iostream>
 
 #include <QtCompositor/qwaylandinput.h>
 
@@ -540,15 +541,13 @@ void QtWaylandMotorcarCompositor::render()
     gettimeofday(&tv, NULL);
         uint32_t time = this->handle()->currentTimeMsecs();//tv.tv_sec * 1000 + tv.tv_usec / 1000;
         if (m_frames == 0)
-            m_benchmark_time = time;
+          m_benchmark_time = time;
         if (time - m_benchmark_time > (benchmark_interval * 1000)) {
-            printf("%d frames in %d seconds: %f fps\n",
-                   m_frames,
-                   benchmark_interval,
-                   (float) m_frames / benchmark_interval);
-            fflush(stdout);
-            m_benchmark_time = time;
-            m_frames = 0;
+          std::cout << m_frames << " frames in " << benchmark_interval
+                    << " seconds: " << (float)m_frames / benchmark_interval
+                    << std::endl;
+          m_benchmark_time = time;
+          m_frames = 0;
         }
 
         m_frames++;

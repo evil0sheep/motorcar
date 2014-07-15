@@ -36,9 +36,6 @@
 #ifndef SOFTKINETICDEPTHCAMERA_H
 #define SOFTKINETICDEPTHCAMERA_H
 #include <DepthSense.hxx>
-#include <stdio.h>
-#include <vector>
-#include <exception>
 #include <thread>
 #include <scenegraph/output/drawable.h>
 #include <gl/openglshader.h>
