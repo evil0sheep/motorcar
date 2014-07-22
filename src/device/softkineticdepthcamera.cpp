@@ -1,4 +1,4 @@
-/****************************************************************************
+//****************************************************************************
 **This file is part of the Motorcar 3D windowing framework
 **
 **
@@ -105,13 +105,13 @@ void onNewDepthSample(DepthNode node, DepthNode::NewSampleReceivedData data)
     if(data.verticesFloatingPoint.size() != g_depthMapSize){
         g_depthMapSize = data.verticesFloatingPoint.size();
         float * temp_ptr = g_vertexData;
-        g_vertexData = new float[3 * g_depthMapSize];
+        g_vertexData = new float[3.0f * g_depthMapSize];
         delete temp_ptr;
         temp_ptr = g_confidenceData;
         g_confidenceData = new float[g_depthMapSize];
         delete temp_ptr;
         temp_ptr = g_uvData;
-        g_uvData = new float[2 * g_depthMapSize];
+        g_uvData = new float[2.0f * g_depthMapSize];
         delete temp_ptr;
     }
 

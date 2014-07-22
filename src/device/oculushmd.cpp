@@ -132,24 +132,24 @@ OculusHMD *OculusHMD::OVRSystem::getDisplay(OpenGLContext *glContext, Skeleton *
         std::cout << "IPD " << InterpupillaryDistance << std::endl;
 
 
-        float near = .01, far = 10;
+        float near = .01f, far = 10.0f;
 
-        float h_meters = HScreenSize / 4 - LensSeparationDistance / 2;
-        float h = (4 * h_meters) / HScreenSize ;
+        float h_meters = HScreenSize / 4.0f - LensSeparationDistance / 2.0f;
+        float h = (4.0f * h_meters) / HScreenSize ;
 
         //RenderToTextureDisplay display(scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0, 0, EyeToScreenDistance)));
 
-        m_display = new OculusHMD(this, skeleton, scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0, 0, EyeToScreenDistance)));
+        m_display = new OculusHMD(this, skeleton, scaleFactor, DistortionK, glContext, glm::vec2(HScreenSize, VScreenSize), parent, glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, EyeToScreenDistance)));
 
 
 
         ViewPoint *lCam = new ViewPoint(near, far, m_display, m_display,
                                        glm::translate(glm::mat4(), glm::vec3(-InterpupillaryDistance/2, VScreenSize/2 - VScreenCenter, EyeToScreenDistance)),
-                                       glm::vec4(0,0,.5,1), glm::vec3(h, 0, 0));
+                                       glm::vec4(0.0f,0.0f,.5f,1.0f), glm::vec3(h, 0.0f, 0.0f));
 
         ViewPoint *rCam = new ViewPoint(near, far, m_display, m_display,
-                                       glm::translate(glm::mat4(), glm::vec3(InterpupillaryDistance/2, VScreenSize/2 - VScreenCenter, EyeToScreenDistance)),
-                                       glm::vec4(.5,0,.5,1), glm::vec3(-h, 0, 0));
+                                       glm::translate(glm::mat4(), glm::vec3(InterpupillaryDistance/2.0f, VScreenSize/2 - VScreenCenter, EyeToScreenDistance)),
+                                       glm::vec4(.5f,0.0f,.5f,1.0f), glm::vec3(-h, 0.0f, 0.0f));
 
         m_display->addViewpoint(lCam);
         m_display->addViewpoint(rCam);

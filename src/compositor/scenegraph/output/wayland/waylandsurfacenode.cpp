@@ -48,16 +48,16 @@ WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *
      std::cout << std::endl << "constructing surface node " << this << std::endl;
 
     static const GLfloat textureCoordinates[] = {
-        0, 0,
-        0, 1,
-        1, 1,
-        1, 0
+        0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        1.0f, 0.0f
     };
     static const GLfloat vertexCoordinates[] ={
-        0, 0, 0,
-        0, 1, 0,
-        1, 1, 0,
-        1, 0, 0
+        0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        1.0f, 1.0f, 0.0f,
+        1.0f, 0.0f, 0.0f
     };
 
     glGenBuffers(1, &m_surfaceTextureCoordinates);
@@ -91,7 +91,7 @@ WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *
                     decorationVertices.push_back(cornerVertex.z);
                     glm::vec3 secondVertex(cornerVertex);
                     glm::vec3 directions(i,j,k);
-                    secondVertex[l] = secondVertex[l] - 0.25 * directions[l];
+                    secondVertex[l] = secondVertex[l] - 0.25f * directions[l];
                     decorationVertices.push_back(secondVertex.x);
                     decorationVertices.push_back(secondVertex.y);
                     decorationVertices.push_back(secondVertex.z);
@@ -100,7 +100,7 @@ WaylandSurfaceNode::WaylandSurfaceNode(WaylandSurface *surface, SceneGraphNode *
         }
     }
 
-    glm::vec3 decorationColor(0.5);
+    glm::vec3 decorationColor(0.5f);
 
     m_decorationsNode = new WireframeNode(&(decorationVertices[0]), decorationVertices.size() / 6, decorationColor, this);
     this->setSurface(surface);
@@ -137,9 +137,9 @@ void WaylandSurfaceNode::computeSurfaceTransform(float ppcm)
 {
     if(ppcm > 0){
         float ppm = ppcm * 100.f;
-        glm::mat4 surfaceRotation = glm::rotate(glm::mat4(1), 180.f ,glm::vec3(0, 0, 1));
+        glm::mat4 surfaceRotation = glm::rotate(glm::mat4(1), 180.f ,glm::vec3(0.0f, 0.0f, 1.0f));
         glm::mat4 surfaceScale = glm::scale(glm::mat4(1), glm::vec3( -m_surface->size().x / ppm,  m_surface->size().y / ppm, 1));
-        glm::mat4 surfaceOffset = glm::translate(glm::mat4(1), glm::vec3(-0.5f, -0.5f, 0));
+        glm::mat4 surfaceOffset = glm::translate(glm::mat4(1), glm::vec3(-0.5f, -0.5f, 0.0f));
         m_surfaceTransform = surfaceRotation * surfaceScale * surfaceOffset ;
 
         m_decorationsNode->setTransform(surfaceRotation*surfaceScale * glm::scale(glm::mat4(), glm::vec3(1.04, 1.04, 0.00)));
@@ -148,7 +148,7 @@ void WaylandSurfaceNode::computeSurfaceTransform(float ppcm)
 
 bool WaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &localRay, glm::vec2 &localIntersection, float &t)
 {
-    Geometry::Plane surfacePlane = Geometry::Plane(glm::vec3(0), glm::vec3(0,0,1));
+    Geometry::Plane surfacePlane = Geometry::Plane(glm::vec3(0), glm::vec3(0.0f,0.0f,1.0f));
     if(glm::dot(localRay.d, surfacePlane.n) == 0) return false;
 
     Geometry::Ray transformedRay = localRay.transform(glm::inverse(surfaceTransform()));

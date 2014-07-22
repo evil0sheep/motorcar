@@ -119,10 +119,10 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 
 
     int type = static_cast<int>(surfaceType);
-    float popupZOffset = 0.05;
+    float popupZOffset = 0.05f;
 
-    float zOffset = -1.5;
-    float thetaOffset = -30.0;
+    float zOffset = -1.5f;
+    float thetaOffset = -30.0f;
 
 
     if(surface->isMotorcarSurface()){
@@ -130,10 +130,10 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
          std::cout << "mapping motorcar surface ";
          if(surface->clippingMode() == WaylandSurface::ClippingMode::CUBOID){
              std::cout << "with cuboid clipping mode" <<std::endl;
-             mcsn->requestSize3D(glm::vec3(0.5));
+             mcsn->requestSize3D(glm::vec3(0.5f));
          }else if(surface->clippingMode() == WaylandSurface::ClippingMode::PORTAL){
               std::cout << "with portal clipping mode" <<std::endl;
-             mcsn->requestSize3D(glm::vec3(0.7, 0.5, 0));
+             mcsn->requestSize3D(glm::vec3(0.7f, 0.5f, 0.0f));
          }
 
          if(surface->depthCompositingEnabled()){
@@ -154,9 +154,9 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
 //                    //* glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
 //                    * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
 //                    * glm::mat4(1));
-        surfaceNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0, 0 ,1.0)) *
-                            glm::rotate(glm::mat4(1), (m_numSurfacesMapped - 1) * thetaOffset, glm::vec3(0, 1 ,0)) *
-                                    glm::translate(glm::mat4(1), glm::vec3(0, 0 ,zOffset)));
+        surfaceNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0.0f, 0.0f ,1.0f)) *
+                            glm::rotate(glm::mat4(1.0f), (m_numSurfacesMapped - 1) * thetaOffset, glm::vec3(0.0f, 1.0f ,0.0f)) *
+                                    glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f ,zOffset)));
 
        // surfaceNode->setTransform(glm::mat4());
         m_numSurfacesMapped ++;

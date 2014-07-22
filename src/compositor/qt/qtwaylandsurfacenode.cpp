@@ -115,11 +115,11 @@ void QtwaylandSurfaceNode::paintChildren(QWaylandSurface *surface, QWaylandSurfa
 
 void QtwaylandSurfaceNode::computeSurfaceTransform(float ppcm)
 {
-    if(ppcm > 0){
+    if(ppcm > 0.0f){
         float ppm = ppcm * 100.f;
-        glm::mat4 surfaceRotation = glm::rotate(glm::mat4(1), 180.f ,glm::vec3(0, 0, 1));
-        glm::mat4 surfaceScale = glm::scale(glm::mat4(1), glm::vec3( m_surface->size().width() / ppm,  m_surface->size().height() / ppm, 1));
-        glm::mat4 surfaceOffset = glm::translate(glm::mat4(1), glm::vec3(-0.5f, -0.5f, 0));
+        glm::mat4 surfaceRotation = glm::rotate(glm::mat4(1), 180.0f ,glm::vec3(0.0f, 0.0f, 1.0f));
+        glm::mat4 surfaceScale = glm::scale(glm::mat4(1), glm::vec3( m_surface->size().width() / ppm,  m_surface->size().height() / ppm, 1.0f));
+        glm::mat4 surfaceOffset = glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, 0.0f));
         m_surfaceTransform = surfaceRotation * surfaceScale * surfaceOffset  ;
 
     }
@@ -137,7 +137,7 @@ QtwaylandSurfaceNode *QtwaylandSurfaceNode::getSurfaceNode(const QWaylandSurface
 
 bool QtwaylandSurfaceNode::computeLocalSurfaceIntersection(const Geometry::Ray &localRay, QPointF &localIntersection, float &t) const
 {
-    Geometry::Plane surfacePlane = Geometry::Plane(glm::vec3(0), glm::vec3(0,0,1));
+    Geometry::Plane surfacePlane = Geometry::Plane(glm::vec3(0.0f), glm::vec3(0.0f,0.0f,1.0f));
     if(glm::dot(localRay.d, surfacePlane.n) == 0) return false;
 
     Geometry::Ray transformedRay = localRay.transform(glm::inverse(surfaceTransform()));

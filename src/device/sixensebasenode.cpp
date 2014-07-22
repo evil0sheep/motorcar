@@ -72,9 +72,9 @@ SixenseBaseNode::SixenseBaseNode(int baseIndex, PhysicalNode *parent,
     }
   }
 
-  float vertices[] = { -0.0, 0,   0, 0.1, 0, 0,    0, -0.0, 0,
-                       0,    0.1, 0, 0,   0, -0.0, 0, 0,    0.1, };
-  new WireframeNode(vertices, 3, glm::vec3(0.25), this);
+  float vertices[] = { -0.0f, 0.0f,   0.0f, 0.1f, 0.0f, 0.0f,    0.0f, -0.0f, 0.0f,
+                       0.0f,    0.1f, 0.0f, 0.0f,   0.0f, -0.0f, 0.0f, 0.0f,    0.1f, };
+  new WireframeNode(vertices, 3, glm::vec3(0.25f), this);
 }
 
 void SixenseBaseNode::handleFrameBegin(Scene *scene) {

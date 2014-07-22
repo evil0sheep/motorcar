@@ -64,8 +64,8 @@ ViewPoint::ViewPoint(float near, float far, Display *display, SceneGraphNode *pa
 
 
     m_viewport = new ViewPort(vpPos, vpSize, m_display);
-    m_clientColorViewport = new ViewPort(glm::vec2(vpPos.x, vpPos.y / 2), glm::vec2(vpSize.x, vpSize.y/2), m_bufferGeometry);
-    m_clientDepthViewport = new ViewPort(glm::vec2(vpPos.x, vpPos.y / 2 + vpSize.y/2), glm::vec2(vpSize.x, vpSize.y/2), m_bufferGeometry);
+    m_clientColorViewport = new ViewPort(glm::vec2(vpPos.x, vpPos.y / 2.0f), glm::vec2(vpSize.x, vpSize.y/2.0f), m_bufferGeometry);
+    m_clientDepthViewport = new ViewPort(glm::vec2(vpPos.x, vpPos.y / 2.0f + vpSize.y/2.0f), glm::vec2(vpSize.x, vpSize.y/2), m_bufferGeometry);
 
     std::cout << "creating viewpoint global: " << this <<std::endl;
 
@@ -101,9 +101,9 @@ ViewPoint::~ViewPoint()
 void ViewPoint::updateViewMatrix()
 {
     glm::mat4 trans = worldTransform();
-    glm::vec3 center = glm::vec3(trans * glm::vec4(0, 0, 0, 1));
-    glm::vec3 target = glm::vec3(trans * glm::vec4(0, 0, -1, 1));
-    glm::vec3 up = glm::normalize(glm::vec3(trans * glm::vec4(0, 1, 0, 0)));
+    glm::vec3 center = glm::vec3(trans * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    glm::vec3 target = glm::vec3(trans * glm::vec4(0.0f, 0.0f, -1.0f, 1.0f));
+    glm::vec3 up = glm::normalize(glm::vec3(trans * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f)));
     //        glm::vec3 vec = target;
     //        qDebug() << vec.x << ", " << vec.y << ", " << vec.z;
     m_viewMatrix = glm::lookAt(center, target, up);
@@ -122,12 +122,12 @@ void ViewPoint::updateProjectionMatrix()
 Geometry::Ray ViewPoint::worldRayAtDisplayPosition(float pixelX, float pixelY)
 {
 
-    glm::vec2 normalizedPixelPos = glm::vec2(-1, 1) * m_viewport->displayCoordsToViewportCoords(pixelX, pixelY);
-    float h = (m_viewport->height()/m_viewport->width()) /2;
-    float theta = glm::radians(fov(display()) / 2);
+    glm::vec2 normalizedPixelPos = glm::vec2(-1.0f, 1.0f) * m_viewport->displayCoordsToViewportCoords(pixelX, pixelY);
+    float h = (m_viewport->height()/m_viewport->width()) /2.0f;
+    float theta = glm::radians(fov(display()) / 2.0f);
     float d = h / glm::tan(theta);
 
-    return Geometry::Ray(glm::vec3(0), glm::normalize(glm::vec3(normalizedPixelPos, d))).transform(this->worldTransform());
+    return Geometry::Ray(glm::vec3(0.0f), glm::normalize(glm::vec3(normalizedPixelPos, d))).transform(this->worldTransform());
 
 }
 
@@ -138,13 +138,13 @@ float ViewPoint::fov(Display *display)
 
     //take camera distance to display and project it onto display normal
     glm::mat4 displayWorldTransform = display->worldTransform();
-    glm::vec4 origin(0, 0, 0, 1);
+    glm::vec4 origin(0.0f, 0.0f, 0.0f, 1.0f);
     glm::vec3 cameraToDisplayVector = glm::vec3((displayWorldTransform * origin) -  (worldTransform() * origin));
     glm::vec3 displayNormal = glm::normalize(glm::vec3(displayWorldTransform * glm::vec4(0, 0, 1, 0)));
     float eyeToScreenDistance = glm::abs(glm::dot(cameraToDisplayVector, displayNormal));
 
 
-    return glm::degrees(2 * atan(display->dimensions().y / (2 * eyeToScreenDistance)));
+    return glm::degrees(2.0f * atan(display->dimensions().y / (2.0f * eyeToScreenDistance)));
 }
 
 

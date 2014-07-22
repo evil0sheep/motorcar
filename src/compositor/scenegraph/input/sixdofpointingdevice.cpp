@@ -51,12 +51,12 @@ SixDOFPointingDevice::SixDOFPointingDevice(Seat *seat, PhysicalNode *parent, con
     ,m_sixDofFocus(NULL)
 { 
     float vertices[]= {
-        -0.05, 0, 0,
-        0.05, 0, 0,
-        0, -0.05, 0,
-        0, 0.05, 0,
-        0, 0, -1,
-        0, 0, 0.05,
+        -0.05f, 0.0f, 0.0f,
+        0.05f, 0.0f, 0.0f,
+        0.0f, -0.05f, 0.0f,
+        0.0f, 0.05f, 0.0f,
+        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, 0.05f,
 
 
     };
@@ -83,7 +83,7 @@ void SixDOFPointingDevice::handleFrameBegin(Scene *scene)
 {std::map<WaylandSurface *, WaylandSurfaceNode *> m_surfaceMap;
     PhysicalNode::handleFrameBegin(scene);
 
-    Geometry::Ray ray = Geometry::Ray(glm::vec3(0,0,0), glm::vec3(0,0,-1)).transform(worldTransform());
+    Geometry::Ray ray = Geometry::Ray(glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.0f,0.0f,-1.0f)).transform(worldTransform());
 
     Geometry::RaySurfaceIntersection *intersection = scene->intersectWithSurfaces(ray);
 
@@ -100,7 +100,7 @@ void SixDOFPointingDevice::handleFrameBegin(Scene *scene)
            glm::vec3 position = glm::vec3(surfaceNode->surfaceTransform() *
                                           glm::vec4((intersection->surfaceLocalCoordinates +
                                                      (glm::vec2(cursor->surface()->size())/2.0f) - glm::vec2(m_seat->pointer()->cursorHotspot())) /
-                                                    glm::vec2(surfaceNode->surface()->size()),0.01,1));
+                                                    glm::vec2(surfaceNode->surface()->size()),0.01f,1.0f));
 
            cursor->setParentNode(surfaceNode);
            cursor->setTransform(glm::translate(glm::mat4(), position));

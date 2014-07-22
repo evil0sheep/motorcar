@@ -467,25 +467,25 @@ init_gl(struct window *window)
 
 
 	static const GLfloat verts[8][3]= {
-		{ 0.5, 0.5 , 0.5},
-		{ 0.5, 0.5 , -0.5},
-		{ 0.5, -0.5 , 0.5},
-		{ 0.5, -0.5 , -0.5},
-		{ -0.5, 0.5 , 0.5},
-		{ -0.5, 0.5 , -0.5},
-		{ -0.5, -0.5 , 0.5},
-		{ -0.5, -0.5 , -0.5}
+		{ 0.5f, 0.5f , 0.5f},
+		{ 0.5f, 0.5f , -0.5f},
+		{ 0.5f, -0.5f , 0.5f},
+		{ 0.5f, -0.5f , -0.5f},
+		{ -0.5f, 0.5f , 0.5f},
+		{ -0.5f, 0.5f , -0.5f},
+		{ -0.5f, -0.5f , 0.5f},
+		{ -0.5f, -0.5f , -0.5f}
 	};
 
 	static const GLfloat colors[8][3] = {
-	 	{ 0, 0, 0 },
-	 	{ 0, 0, 1 },
-	 	{ 0, 1, 0 },
-	 	{ 0, 1, 1 },
-	 	{ 1, 0, 0 },
-	 	{ 1, 0, 1 },
-	 	{ 1, 1, 0 },
-	 	{ 1, 1, 1 },
+	 	{ 0.0f, 0.0f, 0.0f },
+	 	{ 0.0f, 0.0f, 1.0f },
+	 	{ 0.0f, 1.0f, 0.0f },
+	 	{ 0.0f , 1.0f, 1.0f },
+	 	{ 1.0f, 0.0f, 0.0f },
+	 	{ 1.0f, 0.0f, 1.0f },
+	 	{ 1.0f, 1.0f, 0.0f },
+	 	{ 1.0f, 1.0f, 1.0f },
 	};
 
 	// static const GLfloat colors[8][3] = {
@@ -891,7 +891,7 @@ void Box::draw(struct window *window, std::vector<struct viewpoint *> &viewpoint
 
 	glDepthFunc(GL_LESS);
 	glClearColor(.7f, .85f, 1.f, 1.0f);
-	glClearDepth(1.0);
+	glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
    // drawWindowBoundsStencil(window, display);
@@ -911,13 +911,13 @@ void Box::draw(struct window *window, std::vector<struct viewpoint *> &viewpoint
 	glm::mat4 window_offset = glm::mat4(1);
 
 	if(window->clipping_mode == MOTORCAR_SURFACE_CLIPPING_MODE_PORTAL){
-		window_offset = glm::translate(glm::mat4(1), glm::vec3(0, 0, -0.25));
+		window_offset = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -0.25f));
 	}
 
 	glm::mat4 model =  window->transformMatrix
 						* window_offset
 						* this->transform
-						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0,1,0)) 
+						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0.0f,1.0f,0.0f)) 
 						* glm::scale(glm::mat4(), this->size);
 
 	int i = 0;
@@ -1019,8 +1019,8 @@ redraw(void *data, struct wl_callback *callback, uint32_t time)
 
 		glEnable(GL_STENCIL_TEST);
 		glUseProgram(window->gl.colorBlitProgram);
-		glClearColor(0.0, 0.0, 0.0, 0.0);
-		glClearDepth(1.0);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearDepth(1.0f);
 		glClearStencil(0);
 	    glStencilMask(0xFF);
 	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

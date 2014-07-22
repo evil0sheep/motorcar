@@ -48,7 +48,7 @@ Geometry::Ray::Ray(glm::vec3 p, glm::vec3 d)
 
 Geometry::Ray Geometry::Ray::transform(glm::mat4 t) const
 {
-    return Ray(glm::vec3(t * glm::vec4(p, 1)), glm::vec3(t * glm::vec4(d, 0)));
+    return Ray(glm::vec3(t * glm::vec4(p, 1.0f)), glm::vec3(t * glm::vec4(d, 0)));
 }
 
 glm::vec3 Geometry::Ray::solve(float t) const
@@ -65,13 +65,13 @@ void Geometry::Ray::draw(SceneGraphNode *parent, glm::vec3 color, glm::mat4 tran
 {
     glm::mat4 translation = glm::translate(glm::mat4(), p);
     float vertices[]= {
-        -0.05, 0, 0,
-        0.05, 0, 0,
-        0, -0.05, 0,
-        0, 0.05, 0,
-        0, 0, -0.05,
-        0, 0, 0.05,
-        0, 0, 0,
+        -0.05f, 0.0f, 0.0f,
+        0.05f, 0.0f, 0.0f,
+        0.0f, -0.05f, 0.0f,
+        0.0f, 0.05f, 0.0f,
+        0.0f, 0.0f, -0.05f,
+        0.0f, 0.0f, 0.05f,
+        0.0f, 0.0f, 0.0f,
         d.x, d.y, d.z
 
     };
