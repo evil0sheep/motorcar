@@ -278,7 +278,7 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
             motorcar::WaylandSurface::SurfaceType surfaceType;
 
             int type = static_cast<int>(surface->windowType());
-            float popupZOffset = 0.05;
+            float popupZOffset = 0.05f;
 
 
             if(type == QWaylandSurface::WindowType::Toplevel){

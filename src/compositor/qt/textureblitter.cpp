@@ -101,10 +101,10 @@ void TextureBlitter::drawTexture(int textureId, const QRectF &targetRect, const 
     GLfloat zValue = depth / 1000.0f;
     //Set Texture and Vertex coordinates
     const GLfloat textureCoordinates[] = {
-        0, 0,
-        1, 0,
-        1, 1,
-        0, 1
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f
     };
 
     GLfloat x1 = targetRect.left();
