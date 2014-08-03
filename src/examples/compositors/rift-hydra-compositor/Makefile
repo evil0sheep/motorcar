@@ -14,7 +14,7 @@ SIXENSE_LIBS= -L${SIXENSEPATH}/lib/linux_x64/release -lsixense_utils_x64 -lsixen
 INCLUDES= -I${MOTORCAR_DIR}/src/compositor -I${MOTORCAR_DIR}/src/protocol -I${MOTORCAR_DIR}/src/device ${OCULUS_INCLUDES} ${SIXENSE_INCLUDES}
 LIBS= -L${MOTORCAR_DIR}/lib -lmotorcar-compositor -ludev -lpthread -lGL -lX11 -lXinerama
 CFLAGS=-std=c++11 
-objects=oculushmd.o sixensemotionsensingsystem.o sixensecontrollernode.o sixensebasenode.o 
+objects=oculushmd.o sixensemotionsensingsystem.o sixensecontrollernode.o sixensebasenode.o ovrvisionsensor.o
 
 compositor: main.cpp sixense $(objects) 
 	${CC}  main.cpp $(objects) ${CFLAGS} ${INCLUDES} ${OCULUS_LIBS} ${SIXENSE_LIBS} ${LIBS} -o rift-hydra-compositor 
@@ -32,6 +32,11 @@ SIXENSE_SOURCES=${MOTORCAR_DIR}/src/device/sixensemotionsensingsystem.cpp \
 
 sixense: ${SIXENSE_HEADERS} ${SIXENSE_SOURCES}
 	${CC} -c ${SIXENSE_SOURCES} ${CFLAGS} ${INCLUDES} ${SIXENSE_LIBS} ${LIBS}
+
+ovrvisionsensor.o: ${MOTORCAR_DIR}/src/device/ovrvisionsensor.cpp ${MOTORCAR_DIR}/src/device/ovrvisionsensor.h
+	${CC} -c ${MOTORCAR_DIR}/src/device/ovrvisionsensor.cpp ${CFLAGS} ${INCLUDES} ${LIBS}
+
+
 
 
 clean:

@@ -41,6 +41,7 @@
 #include <motorcar.h>
 #include <sixensemotionsensingsystem.h>
 #include <oculushmd.h>
+#include <ovrvisionsensor.h>
 
 
 int main(int argc, char *argv[])
@@ -117,6 +118,7 @@ int main(int argc, char *argv[])
 //        compositor->display()->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,-0.25, 0)));
     }
 
+    motorcar::OVRVisionSensor *ovrVision = new motorcar::OVRVisionSensor(compositor->display());
 
 
 
