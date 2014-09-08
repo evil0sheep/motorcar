@@ -57,7 +57,7 @@ Other modules may be required to run some of the Qt clients, but not for Motorca
 	$ cd qtbase
 	$ git checkout 625002f7067271b8f03f7bfa13baff6128c72e68
 	$ cd ../qtwayland
-	$ git checkout 5c605d363e2fc42f5ec80413d093b69614027da4
+	$ git checkout e7a1e121d9cb92e89e53baba81aceedca24f2b94
 	$ cd ../
 	$ ./configure -prefix /opt/qt5  -debug -confirm-license -opensource -egl -opengl  -no-xcb-xlib
 
@@ -82,13 +82,15 @@ This allows many compositors to be built with the core windowing infrastructure,
 
 ### Building the Motorcar Compositor Library
 
-Currently the entire compositor library is built with qmake, but eventually I would like to transition to GNU autotools and only use qmake to build the Qt dependent components (since this is a relatively small portion of the code base). To build the motorcar compositor library:
+Currently the entire compositor library is built with qmake, but eventually I would like to transition to CMake and only use qmake to build the Qt dependent components (since this is a relatively small portion of the code base). To build the motorcar compositor library:
 	
 	$ cd path/to/motorcar/repo
-	$ qmake
+	$ qmake 
 	$ make
 
 This will build shared objects in the lib directory (under the repository root directory) which compositors will link against when using the Motorcar compositor library.
+
+**Be sure that you are running the qmake binary that you just built.** If you configure Qt with the prefix '/opt/qt5' be sure you are running /opt/qt5/bin/qmake. Specify the full path if neccessary
 
 ### Building the Example Compositor ###
 
