@@ -44,6 +44,10 @@
 #include <QtDebug>
 #include <glm/glm.hpp>
 
+//  @@JAF  - Add include
+#include <QtCompositor/qwaylandsurfaceview.h>
+//  @@JAF - END
+
 namespace qtmotorcar{
     class QtWaylandMotorcarCompositor;
     class QtWaylandMotorcarSurface : public motorcar::WaylandSurface

@@ -55,9 +55,67 @@
 #include <QObject>
 #include <QTimer>
 
+//  @@JAF - for the Buffer attacher class
+#include <QOpenGLTexture>
+#include <qwaylandsurface.h>
+#include <QtCompositor/qwaylandbufferref.h>
+//  @@JAF - END
+
 namespace qtmotorcar{
 class QtWaylandMotorcarSurface;
 class QtWaylandMotorcarSeat;
+//  @@JAF - As per qt5-wayland/examples/wayland/qwindow-compositor/qwindowcompositor.cpp
+class BufferAttacher : public QWaylandBufferAttacher
+{
+public:
+    BufferAttacher()
+        : QWaylandBufferAttacher()
+        , shmTex(0)
+    {
+    }
+
+    ~BufferAttacher()
+    {
+        delete shmTex;
+    }
+
+    void attach(const QWaylandBufferRef &ref) Q_DECL_OVERRIDE
+    {
+        if (bufferRef) {
+            if (bufferRef.isShm()) {
+                delete shmTex;
+                shmTex = 0;
+            } else {
+                bufferRef.destroyTexture();
+            }
+        }
+
+        bufferRef = ref;
+
+        if (bufferRef) {
+            if (bufferRef.isShm()) {
+                shmTex = new QOpenGLTexture(bufferRef.image(), QOpenGLTexture::DontGenerateMipMaps);
+                texture = shmTex->textureId();
+            } else {
+                texture = bufferRef.createTexture();
+            }
+        }
+    }
+
+    QImage image() const
+    {
+        if (!bufferRef || !bufferRef.isShm())
+            return QImage();
+        return bufferRef.image();
+    }
+
+    QOpenGLTexture *shmTex;
+    QWaylandBufferRef bufferRef;
+    GLuint texture;
+};
+
+
+//  @@JAF - END
 class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor, public motorcar::Compositor
 {
     Q_OBJECT

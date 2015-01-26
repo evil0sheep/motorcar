@@ -42,9 +42,12 @@
 #include <qt/qtwaylandmotorcarseat.h>
 #include <sys/time.h>
 
-
-#include <QtCompositor/private/qwlsurface_p.h>
-#include <QtCompositor/private/qwlcompositor_p.h>
+//  @@JAF - These are updated headers
+#include <QtCompositor/qwaylandsurface.h>
+// #include <QtCompositor/private/qwlsurface_p.h>
+#include <QtCompositor/qwaylandcompositor.h>
+//#include <QtCompositor/private/qwlcompositor_p.h>
+//  @@JAF - END
 
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -53,7 +56,9 @@
 #include <QCursor>
 #include <QPixmap>
 #include <QScreen>
-
+//@@JAF
+#include <QDateTime>
+//@@JAF - END
 #include <iostream>
 
 #include <QtCompositor/qwaylandinput.h>
@@ -143,6 +148,10 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
 //        geom = QRect(screenGeometry.width() / 4, screenGeometry.height() / 4,
 //                     screenGeometry.width() / 2, screenGeometry.height() / 2);
 
+    /* @@JAF:
+     *  look into qwindow-compositor/main.cpp.  This is just a 'compositorwindow' that is
+     * a QWindow with a 'QOpenGLContext'
+     */
     QOpenGLWindow *window = new QOpenGLWindow(format, screenGeometry);
     return  new QtWaylandMotorcarCompositor(window, app, scene);
 }
@@ -168,7 +177,10 @@ wl_display *QtWaylandMotorcarCompositor::wlDisplay()
 
 motorcar::WaylandSurface *QtWaylandMotorcarCompositor::getSurfaceFromResource(wl_resource *resource)
 {
-    QWaylandSurface *surface = QtWayland::Surface::fromResource(resource)->waylandSurface();
+//    @@JAF update to QWaylandSurface class function
+    QWaylandSurface *surface = QWaylandSurface::fromResource(resource);
+    //QWaylandSurface *surface = QtWayland::Surface::fromResource(resource)->waylandSurface();
+//    @@JAF - END
     std::cout << "got surface from resource: " << surface <<std::endl;
 
     QtWaylandMotorcarSurface *motorsurface = this->getMotorcarSurface(surface);
@@ -273,7 +285,10 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
     //if (!m_surfaces.contains(surface)) {
 
         //surface->setPos(QPoint(0, 0));
-        if (surface->hasShellSurface()) {
+//        @@JAF  Every surface will have a shell surface????  That is what I am gathering from this commit
+//        https://qt.gitorious.org/qt/qtwayland/commit/96ab8abe0b0faea7f63f0477025fe0649e410362#src/compositor/compositor_api/qwaylandsurface.h
+        //if (surface->hasShellSurface()) {
+//        @@JAF - END
 
             motorcar::WaylandSurface::SurfaceType surfaceType;
 
@@ -315,9 +330,9 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
 
 
             //defaultInputDevice()->setKeyboardFocus(surface);
-
-    }
-
+//@@JAF - Remove the rest of the 'if'
+//    }
+//@@JAF - END
 
 
 
@@ -386,6 +401,9 @@ void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
     connect(surface, SIGNAL(extendedSurfaceReady()), this, SLOT(sendExpose()));
     connect(surface, SIGNAL(posChanged()), this, SLOT(surfacePosChanged()));
 
+//    @@JAF - As per qt5-wayland/examples/wayland/qwindow-compositor/qwindowcompositor.cpp
+    surface->setBufferAttacher(new BufferAttacher);
+//    @@JAF - END
     std::cout << "created surface: " << surface << std::endl;
 
     QtWaylandMotorcarSurface *motorsurface = new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA);
@@ -449,7 +467,11 @@ void QtWaylandMotorcarCompositor::updateCursor()
 {
     if (!m_cursorSurface)
         return;
-    QCursor cursor(QPixmap::fromImage(m_cursorSurface->image()), m_cursorHotspotX, m_cursorHotspotY);
+//    @@JAF
+    QImage image = (static_cast<BufferAttacher *>(m_cursorSurface->bufferAttacher()))->image();
+//    QCursor cursor(QPixmap::fromImage(m_cursorSurface->image()), m_cursorHotspotX, m_cursorHotspotY);
+    QCursor cursor(QPixmap::fromImage(image), m_cursorHotspotX, m_cursorHotspotY);
+//  @@JAF - END
     static bool cursorIsSet = false;
     if (cursorIsSet) {
         QGuiApplication::changeOverrideCursor(cursor);
@@ -490,6 +512,11 @@ void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int
     m_cursorSurface = surface;
     m_cursorHotspotX = hotspotX;
     m_cursorHotspotY = hotspotY;
+
+    //  @@JAF - As per qt5-wayland/examples/wayland/qwindow-compositor/qwindowcompositor.cpp
+    if (m_cursorSurface && !m_cursorSurface->bufferAttacher())
+            m_cursorSurface->setBufferAttacher(new BufferAttacher);
+    //  @@JAF - END
 }
 
 
@@ -528,7 +555,10 @@ void QtWaylandMotorcarCompositor::render()
     scene()->drawFrame();
     scene()->finishFrame();
 
-    scene()->prepareForFrame(this->handle()->currentTimeMsecs());
+    //  @@JAF - Update time setting as per http://doc.qt.io/qt-5/qdatetime.html#currentMSecsSinceEpoch
+    scene()->prepareForFrame(QDateTime::currentMSecsSinceEpoch());
+    //  @@JAF - END
+    //scene()->prepareForFrame(this->handle()->currentTimeMsecs());
     sendFrameCallbacks(surfaces());
 
 
@@ -539,25 +569,29 @@ void QtWaylandMotorcarCompositor::render()
     struct timeval tv;
     static const int32_t benchmark_interval = 5;
     gettimeofday(&tv, NULL);
-        uint32_t time = this->handle()->currentTimeMsecs();//tv.tv_sec * 1000 + tv.tv_usec / 1000;
-        if (m_frames == 0)
-          m_benchmark_time = time;
-        if (time - m_benchmark_time > (benchmark_interval * 1000)) {
-          std::cout << m_frames << " frames in " << benchmark_interval
-                    << " seconds: " << (float)m_frames / benchmark_interval
-                    << std::endl;
-          m_benchmark_time = time;
-          m_frames = 0;
-        }
+    //  @@JAF - Update time setting as per http://doc.qt.io/qt-5/qdatetime.html#currentMSecsSinceEpoch
+    uint32_t time = QDateTime::currentMSecsSinceEpoch();
+//    //uint32_t time = this->handle()->currentTimeMsecs();//tv.tv_sec * 1000 + tv.tv_usec / 1000;
+//    uint32_t time = 1;
+    //  @@JAF - END
+    if (m_frames == 0)
+      m_benchmark_time = time;
+    if (time - m_benchmark_time > (benchmark_interval * 1000)) {
+      std::cout << m_frames << " frames in " << benchmark_interval
+                << " seconds: " << (float)m_frames / benchmark_interval
+                << std::endl;
+      m_benchmark_time = time;
+      m_frames = 0;
+    }
 
-        m_frames++;
+    m_frames++;
 
 
 //    glFlush();
 //    glFinish();
 
     //if(this->surfaces().empty()){
-        m_renderScheduler.start(16);
+    m_renderScheduler.start(16);
     //}
 
     // N.B. Never call glFinish() here as the busylooping with vsync 'feature' of the nvidia binary driver is not desirable.

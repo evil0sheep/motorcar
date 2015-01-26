@@ -76,7 +76,10 @@ void QtWaylandMotorcarSeat::setPointerFocus(motorcar::WaylandSurface *pointerFoc
     }else{
         QtWaylandMotorcarSurface *surface = dynamic_cast<QtWaylandMotorcarSurface *>(pointerFocus);
         if(surface){
-            m_inputDevice->setMouseFocus(surface->surface(), localPos);
+//            @@JAF - Events to the qt system need the original event to pass what surface view the event was tagged from.
+            m_inputDevice->setMouseFocus(surface->surface()->views().first(), localPos);
+//            m_inputDevice->setMouseFocus(surface->surface(), localPos);
+//            @@JAF - END
         }
     }
 }

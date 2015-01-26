@@ -1,11 +1,18 @@
 MOTORCAR_DIR=../../../..
 CC=g++
 
+#  @@JAF - Personalized the sdk dirs
+LIBOVRPATH=/home/thegreatpissant/src/OculusSDKv2.3/LibOVR
+#LIBOVRPATH=/home/thegreatpissant/src/OculusSDKv0.1.5/LibOVR
+#LIBOVRPATH=/home/thegreatpissant/src/OculusSDKv0.1.4/LibOVR
+#LIBOVRPATH=/home/thegreatpissant/src/OculusSDKv0.1.3/LibOVR
 #LIBOVRPATH=${MOTORCAR_DIR}/../thirdPartySource/Oculus/OculusSDK/LibOVR
+#  @@JAF - end
 OCULUS_INCLUDES= -I${LIBOVRPATH}/Include -I${LIBOVRPATH}/Src
 OCULUS_LIBS= -L${LIBOVRPATH}/Lib/Linux/Release/x86_64 -lovr  
 
 
+SIXENSEPATH=/home/thegreatpissant/src/sixenseSDK_linux_OSX
 #SIXENSEPATH=${MOTORCAR_DIR}/../thirdPartySource/sixenseSDK_linux_OSX
 SIXENSE_INCLUDES= -I${SIXENSEPATH}/include
 SIXENSE_LIBS= -L${SIXENSEPATH}/lib/linux_x64/release -lsixense_utils_x64 -lsixense_x64 

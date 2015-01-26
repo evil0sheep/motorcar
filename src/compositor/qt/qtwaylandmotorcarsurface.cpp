@@ -63,7 +63,11 @@ void QtWaylandMotorcarSurface::setSize(glm::ivec2 newSize)
 
 glm::ivec2 QtWaylandMotorcarSurface::position()
 {
-    return glm::ivec2(m_surface->pos().x(), m_surface->pos().y());
+//    @@JAF
+    QWaylandSurfaceView *l_view = m_surface->views().first();
+    return glm::ivec2(l_view->pos().x(), l_view->pos().y());
+//    return glm::ivec2(m_surface->pos().x(), m_surface->pos().y());
+//    @@JAF - END
 }
 
 motorcar::WaylandSurface *QtWaylandMotorcarSurface::parentSurface()
@@ -131,8 +135,10 @@ void QtWaylandMotorcarSurface::sendEvent(const motorcar::Event &event)
             input->sendMouseReleaseEvent(button, localPos);
             break;
         case motorcar::MouseEvent::Event::MOVE:
-            //std::cout << "mouse move event" << std::endl;
-            input->sendMouseMoveEvent(m_surface, localPos);
+//            //std::cout << "mouse move event" << std::endl;
+//                @@JAF
+                //input->sendMouseMoveEvent(m_surface, localPos);
+//                @@JAF - END
             break;
         default:
             break;
@@ -228,16 +234,23 @@ GLuint QtWaylandMotorcarSurface::composeSurface(QWaylandSurface *surface, bool *
     GLuint texture = 0;
 
     QSize windowSize = surface->size();
-    surface->swapBuffers();
-
+//    @@JAF
+//    surface->swapBuffers();
+//    @@JAF - END
     QOpenGLFunctions *functions = QOpenGLContext::currentContext()->functions();
     functions->glBindFramebuffer(GL_FRAMEBUFFER, glData->m_surface_fbo);
 
     if (surface->type() == QWaylandSurface::Shm) {
-        texture = textureFromImage(surface->image());
+//        @@JAF
+//        texture = textureFromImage(surface->image());
+        texture = (dynamic_cast<BufferAttacher *>(surface->bufferAttacher()))->texture;
+//        @@JAF - END
         *textureOwned = true;
     } else if (surface->type() == QWaylandSurface::Texture) {
-        texture = surface->texture();
+//        @@JAF
+//        texture = surface->views().front()->surface()->Texture; //texture();
+        texture = (static_cast<BufferAttacher *>(surface->bufferAttacher()))->texture;
+//        @@JAF - END
         *textureOwned = false;
     }
 
@@ -261,16 +274,27 @@ void QtWaylandMotorcarSurface::paintChildren(QWaylandSurface *surface, QWaylandS
     QLinkedListIterator<QWaylandSurface *> i(surface->subSurfaces());
     while (i.hasNext()) {
         QWaylandSurface *subSurface = i.next();
-        QPointF p = subSurface->mapTo(window,QPointF(0,0));
+        // @@JAF
+        //        QPointF p = subSurface->mapTo(window,QPointF(0,0));
+        QPointF p = subSurface->views().first()->pos() + surface->views().first()->pos();
+        //  @@JAF - END
         QSize subSize = subSurface->size();
         //subSurface->advanceBufferQueue();
-        subSurface->swapBuffers();
+//        @@JAF
+//        subSurface->swapBuffers();
+//        @@JAF - END
         if (subSize.isValid()) {
             GLuint texture = 0;
             if (subSurface->type() == QWaylandSurface::Texture) {
-                texture = subSurface->texture();
+                // @@JAF
+                //                texture = subSurface->texture();
+                texture = (dynamic_cast<BufferAttacher*>(subSurface->views().first()->surface()->bufferAttacher()))->texture;
+                //  @@JAF - END
             } else if (surface->type() == QWaylandSurface::Shm) {
-                texture = textureFromImage(subSurface->image());
+                //  @@JAF
+//                texture = textureFromImage(subSurface->image());
+                texture = textureFromImage((dynamic_cast<BufferAttacher*>(subSurface->views().first()->surface()->bufferAttacher()))->image());
+                // @@JAF - END
             }
             QRect geo(p.toPoint(),subSize);
             if (texture > 0)
