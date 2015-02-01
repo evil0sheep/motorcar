@@ -98,6 +98,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     setOutputRefreshRate(qRound(qGuiApp->primaryScreen()->refreshRate() * 1000.0));
 
     m_defaultSeat = new QtWaylandMotorcarSeat(this->defaultInputDevice());
+        addDefaultShell();
 
 
 //    motorcar::Display testDisplay(window_context, glm::vec2(1), *m_scene, glm::mat4(1));
@@ -120,7 +121,7 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
     // Enable the following to have touch events generated from mouse events.
     // Very handy for testing touch event delivery without a real touch device.
     // QGuiApplication::setAttribute(Qt::AA_SynthesizeTouchForUnhandledMouseEvents, true);
-
+//@@JAF: Cleanup this screen section
     QGuiApplication *app = new QGuiApplication(argc, argv);
     QScreen *screen = NULL;
 
@@ -131,7 +132,7 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
 
     QRect screenGeometry = screen->geometry();
 
-
+//@@JAF:: Why did we choose these values?
     QSurfaceFormat format;
 //    std::cout << "color buffer size: " << format.redBufferSize() << std::endl;
 //    format.setRedBufferSize(8);
@@ -148,7 +149,7 @@ QtWaylandMotorcarCompositor *QtWaylandMotorcarCompositor::create(int argc, char*
 //        geom = QRect(screenGeometry.width() / 4, screenGeometry.height() / 4,
 //                     screenGeometry.width() / 2, screenGeometry.height() / 2);
 
-    /* @@JAF:
+    /* @@JAF: Is probally just fine.  Seems to mimick the compositor window example class.
      *  look into qwindow-compositor/main.cpp.  This is just a 'compositorwindow' that is
      * a QWindow with a 'QOpenGLContext'
      */
@@ -317,6 +318,7 @@ void QtWaylandMotorcarCompositor::surfaceMapped()
                  m_surfaceMap.insert(std::pair<QWaylandSurface *, QtWaylandMotorcarSurface *>(surface, motorsurface));
 
             }
+            //surface->views().first()->setPos(QPoint(0,0));
 //            if((motorsurface->type() == motorcar::WaylandSurface::SurfaceType::CUBOID ||
 //                motorsurface->type() == motorcar::WaylandSurface::SurfaceType::PORTAL)
 //                 && surfaceType == motorcar::WaylandSurface::SurfaceType::TOPLEVEL){
@@ -382,7 +384,7 @@ void QtWaylandMotorcarCompositor::surfaceDamaged()
 
 void QtWaylandMotorcarCompositor::surfacePosChanged()
 {
-    //m_renderScheduler.start(0);
+//    m_renderScheduler.start(0);
 }
 
 void QtWaylandMotorcarCompositor::surfaceDamaged(QWaylandSurface *surface)
@@ -565,6 +567,7 @@ void QtWaylandMotorcarCompositor::render()
     //frameFinished();
 
     m_glData->m_window->swapBuffers();
+//    context()->swapBuffers(m_glData->m_window);
 
     struct timeval tv;
     static const int32_t benchmark_interval = 5;

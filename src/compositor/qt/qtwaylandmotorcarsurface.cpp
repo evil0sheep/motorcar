@@ -137,7 +137,7 @@ void QtWaylandMotorcarSurface::sendEvent(const motorcar::Event &event)
         case motorcar::MouseEvent::Event::MOVE:
 //            //std::cout << "mouse move event" << std::endl;
 //                @@JAF
-                //input->sendMouseMoveEvent(m_surface, localPos);
+                input->sendMouseMoveEvent(m_surface->views().first(), localPos);
 //                @@JAF - END
             break;
         default:
@@ -293,7 +293,8 @@ void QtWaylandMotorcarSurface::paintChildren(QWaylandSurface *surface, QWaylandS
             } else if (surface->type() == QWaylandSurface::Shm) {
                 //  @@JAF
 //                texture = textureFromImage(subSurface->image());
-                texture = textureFromImage((dynamic_cast<BufferAttacher*>(subSurface->views().first()->surface()->bufferAttacher()))->image());
+                texture = textureFromImage((dynamic_cast<BufferAttacher*>(subSurface->bufferAttacher()))->image());
+//                                                                          views().first()->surface()->bufferAttacher()))->image());
                 // @@JAF - END
             }
             QRect geo(p.toPoint(),subSize);
