@@ -243,7 +243,7 @@ GLuint QtWaylandMotorcarSurface::composeSurface(QWaylandSurface *surface, bool *
     if (surface->type() == QWaylandSurface::Shm) {
 //        @@JAF
 //        texture = textureFromImage(surface->image());
-        texture = (dynamic_cast<BufferAttacher *>(surface->bufferAttacher()))->texture;
+        texture = textureFromImage((dynamic_cast<BufferAttacher *>(surface->bufferAttacher()))->image());
 //        @@JAF - END
         *textureOwned = true;
     } else if (surface->type() == QWaylandSurface::Texture) {
