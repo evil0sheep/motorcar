@@ -148,7 +148,7 @@ public:
     void setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat);
 
 private slots:
-    void surfaceDestroyed(QObject *object);
+    void surfaceDestroyed();
     void surfaceMapped();
     void surfaceUnmapped();
     void surfaceDamaged();

@@ -77,12 +77,11 @@ namespace qtmotorcar{
 
     private:
         QWaylandSurface *m_surface;
-        bool m_ownsTexture;
         GLuint m_textureID;
 
         QtWaylandMotorcarCompositor *m_compositor;
 
-        GLuint composeSurface(QWaylandSurface *surface, bool *textureOwned, OpenGLData *glData);
+        GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
         void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, const QSize &windowSize, OpenGLData *glData);
         void computeSurfaceTransform(float ppcm);
 

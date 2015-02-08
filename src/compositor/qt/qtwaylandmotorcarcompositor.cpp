@@ -259,10 +259,10 @@ void QtWaylandMotorcarCompositor::ensureKeyboardFocusSurface(QWaylandSurface *ol
 
 
 
-void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
+void QtWaylandMotorcarCompositor::surfaceDestroyed()
 {
 
-    QWaylandSurface *surface = static_cast<QWaylandSurface *>(object);
+    QWaylandSurface *surface = static_cast<QWaylandSurface *>(sender());
     //m_surfaces.removeOne(surface);
     if(surface != NULL){ //because calling getSurfaceNode with NULL will cause the first surface node to be returned
         motorcar::WaylandSurface *motorsurface = this->getMotorcarSurface(surface); //will return surfaceNode whose destructor will remove it from the scenegraph
@@ -273,7 +273,7 @@ void QtWaylandMotorcarCompositor::surfaceDestroyed(QObject *object)
 
     }
 //    ensureKeyboardFocusSurface(surface);
-//    //m_renderScheduler.start(0);
+//    m_renderScheduler.start(0);
 }
 
 void QtWaylandMotorcarCompositor::surfaceMapped()
@@ -396,12 +396,11 @@ void QtWaylandMotorcarCompositor::surfaceDamaged(QWaylandSurface *surface)
 
 void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
 {
-    connect(surface, SIGNAL(destroyed(QObject *)), this, SLOT(surfaceDestroyed(QObject *)));
+    connect(surface, SIGNAL(surfaceDestroyed()), this, SLOT(surfaceDestroyed()));
     connect(surface, SIGNAL(mapped()), this, SLOT(surfaceMapped()));
     connect(surface, SIGNAL(unmapped()), this, SLOT(surfaceUnmapped()));
-    connect(surface, SIGNAL(committed()), this, SLOT(surfaceDamaged()));
+    connect(surface, SIGNAL(redraw()), this, SLOT(surfaceDamaged()));
     connect(surface, SIGNAL(extendedSurfaceReady()), this, SLOT(sendExpose()));
-    connect(surface, SIGNAL(posChanged()), this, SLOT(surfacePosChanged()));
 
 //    @@JAF - As per qt5-wayland/examples/wayland/qwindow-compositor/qwindowcompositor.cpp
     surface->setBufferAttacher(new BufferAttacher);
@@ -508,7 +507,7 @@ void QtWaylandMotorcarCompositor::setCursorSurface(QWaylandSurface *surface, int
     }
 
     if ((m_cursorSurface != surface) && surface){
-        connect(surface, SIGNAL(committed()), this, SLOT(updateCursor()));
+        connect(surface, SIGNAL(redraw()), this, SLOT(updateCursor()));
     }
 
     m_cursorSurface = surface;

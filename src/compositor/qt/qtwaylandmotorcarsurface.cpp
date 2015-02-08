@@ -39,14 +39,12 @@ QtWaylandMotorcarSurface::QtWaylandMotorcarSurface(QWaylandSurface *surface, QtW
     :motorcar::WaylandSurface(type)
     , m_surface(surface)
     , m_compositor(compositor)
-    , m_ownsTexture(false)
 {
 
 }
 
 GLuint QtWaylandMotorcarSurface::texture()
 {
-
     return m_textureID;
 }
 
@@ -82,10 +80,7 @@ motorcar::WaylandSurface *QtWaylandMotorcarSurface::parentSurface()
 
 void QtWaylandMotorcarSurface::prepare()
 {
-    if (m_ownsTexture){
-        glDeleteTextures(1, &m_textureID);
-    }
-    m_textureID = composeSurface(m_surface, &m_ownsTexture, m_compositor->glData());
+    m_textureID = composeSurface(m_surface, m_compositor->glData());
 }
 
 void QtWaylandMotorcarSurface::sendEvent(const motorcar::Event &event)
@@ -229,12 +224,13 @@ static GLuint textureFromImage(const QImage &image)
     return texture;
 }
 
-GLuint QtWaylandMotorcarSurface::composeSurface(QWaylandSurface *surface, bool *textureOwned, OpenGLData *glData)
+GLuint QtWaylandMotorcarSurface::composeSurface(QWaylandSurface *surface, OpenGLData *glData)
 {
     GLuint texture = 0;
 
     QSize windowSize = surface->size();
 //    @@JAF
+    glData->m_window->swapBuffers();
 //    surface->swapBuffers();
 //    @@JAF - END
     QOpenGLFunctions *functions = QOpenGLContext::currentContext()->functions();
@@ -245,13 +241,11 @@ GLuint QtWaylandMotorcarSurface::composeSurface(QWaylandSurface *surface, bool *
 //        texture = textureFromImage(surface->image());
         texture = textureFromImage((dynamic_cast<BufferAttacher *>(surface->bufferAttacher()))->image());
 //        @@JAF - END
-        *textureOwned = true;
     } else if (surface->type() == QWaylandSurface::Texture) {
 //        @@JAF
 //        texture = surface->views().front()->surface()->Texture; //texture();
         texture = (static_cast<BufferAttacher *>(surface->bufferAttacher()))->texture;
 //        @@JAF - END
-        *textureOwned = false;
     }
 
     functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
@@ -293,7 +287,7 @@ void QtWaylandMotorcarSurface::paintChildren(QWaylandSurface *surface, QWaylandS
             } else if (surface->type() == QWaylandSurface::Shm) {
                 //  @@JAF
 //                texture = textureFromImage(subSurface->image());
-                texture = textureFromImage((dynamic_cast<BufferAttacher*>(subSurface->bufferAttacher()))->image());
+                texture = textureFromImage((dynamic_cast<BufferAttacher*>(subSurface->views().first()->surface()->bufferAttacher()))->image());
 //                                                                          views().first()->surface()->bufferAttacher()))->image());
                 // @@JAF - END
             }
