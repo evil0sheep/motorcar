@@ -234,7 +234,6 @@ GLuint QtWaylandMotorcarSurface::composeSurface(QWaylandSurface *surface, OpenGL
 //    @@JAF - END
     QOpenGLFunctions *functions = QOpenGLContext::currentContext()->functions();
     functions->glBindFramebuffer(GL_FRAMEBUFFER, glData->m_surface_fbo);
-    functions->
     if (surface->type() == QWaylandSurface::Shm) {
 //        @@JAF
 //        texture = textureFromImage(surface->image());
