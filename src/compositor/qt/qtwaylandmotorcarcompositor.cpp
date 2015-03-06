@@ -405,7 +405,6 @@ void QtWaylandMotorcarCompositor::surfaceCreated(QWaylandSurface *surface)
 //    @@JAF - As per qt5-wayland/examples/wayland/qwindow-compositor/qwindowcompositor.cpp
     surface->setBufferAttacher(new BufferAttacher);
 //    @@JAF - END
-    std::cout << "created surface: " << surface << std::endl;
 
     QtWaylandMotorcarSurface *motorsurface = new QtWaylandMotorcarSurface(surface, this, motorcar::WaylandSurface::SurfaceType::NA);
     m_surfaceMap.insert(std::pair<QWaylandSurface *, QtWaylandMotorcarSurface *>(surface, motorsurface));
@@ -553,14 +552,24 @@ void QtWaylandMotorcarCompositor::render()
     cleanupGraphicsResources();
 
 
-    scene()->drawFrame();
-    scene()->finishFrame();
+    /*
+     *  @@JAF - Switched the order the following functions are called.
+     *   Originally 'scene()->drawFrame' and 'scene()->finishFrame'
+     * were called before the 'scene()->prepareForFrame' and 'sendFrameCallbacks'
+     */
 
     //  @@JAF - Update time setting as per http://doc.qt.io/qt-5/qdatetime.html#currentMSecsSinceEpoch
     scene()->prepareForFrame(QDateTime::currentMSecsSinceEpoch());
     //  @@JAF - END
     //scene()->prepareForFrame(this->handle()->currentTimeMsecs());
     sendFrameCallbacks(surfaces());
+
+
+    scene()->drawFrame();
+    scene()->finishFrame();
+    /*
+     * @@JAF - END call order
+     */
 
 
     //frameFinished();
