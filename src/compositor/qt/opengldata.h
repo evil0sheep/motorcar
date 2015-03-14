@@ -39,34 +39,24 @@
 #include <qt/textureblitter.h>
 #include "qopenglwindow.h"
 
-
 #include <QtGui/private/qopengltexturecache_p.h>
 #include <QOpenGLFunctions>
-#include <QPainter>
-#include <QLinkedList>
-#include <QtGui/QOpenGLShaderProgram>
-#include <QtGui/QOpenGLContext>
-#include <QtGui/QOpenGLFunctions>
 
-#include <glm/glm.hpp>
-
-class SceneGraphNode;
 class OpenGLData
 {
 public:
+    OpenGLData(QOpenGLWindow *window);
+    ~OpenGLData();
+
     QOpenGLWindow *m_window;
     TextureBlitter *m_textureBlitter;
     QOpenGLTextureCache *m_textureCache;
     GLuint m_surface_fbo;
-    OpenGLData(QOpenGLWindow *window);
-    ~OpenGLData();
 
     float ppcm();
+
 private:
     float m_ppcm;
-
-
-
 };
 
 #endif // OPENGLDATA_H

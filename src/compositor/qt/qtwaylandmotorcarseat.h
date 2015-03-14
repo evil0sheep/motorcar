@@ -36,10 +36,10 @@
 #ifndef QTWAYLANDMOTORCARSEAT_H
 #define QTWAYLANDMOTORCARSEAT_H
 
-
-#include <qt/qtwaylandmotorcarcompositor.h>
+#include "qt/qtwaylandmotorcarcompositor.h"
 
 namespace qtmotorcar{
+
 class QtWaylandMotorcarSeat : public motorcar::Seat
 {
 public:
@@ -54,7 +54,7 @@ public:
 private:
     QWaylandInputDevice *m_inputDevice;
 };
-}
 
+}
 
 #endif // QTWAYLANDMOTORCARSEAT_H

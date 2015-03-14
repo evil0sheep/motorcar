@@ -42,16 +42,13 @@
 
 #include <qwaylandcompositor.h>
 
-#include <motorcar.h>
+#include "motorcar.h"
 
-
-#include <qt/qtwaylandmotorcaropenglcontext.h>
+#include "qt/qtwaylandmotorcaropenglcontext.h"
 #include <qt/opengldata.h>
 
 #include <QGuiApplication>
 #include <QDesktopWidget>
-
-
 #include <QObject>
 #include <QTimer>
 
@@ -62,9 +59,90 @@
 //  @@JAF - END
 
 namespace qtmotorcar{
+
 class QtWaylandMotorcarSurface;
 class QtWaylandMotorcarSeat;
-//  @@JAF - As per qt5-wayland/examples/wayland/qwindow-compositor/qwindowcompositor.cpp
+
+
+class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor, public motorcar::Compositor
+{
+    Q_OBJECT
+public:
+    QtWaylandMotorcarCompositor(QOpenGLWindow *window, QGuiApplication *app, motorcar::Scene *scene);
+    ~QtWaylandMotorcarCompositor();
+
+    static QtWaylandMotorcarCompositor *create(int argc, char **argv, motorcar::Scene *scene);
+    virtual int start() override;
+
+    QtWaylandMotorcarSurface *getMotorcarSurface(QWaylandSurface *surface = NULL) const;
+
+    virtual motorcar::OpenGLContext *getContext() override;
+
+    OpenGLData *glData() const;
+    void setGlData(OpenGLData *glData);
+
+    motorcar::Scene *scene() const;
+    void setScene(motorcar::Scene *scene);
+
+    motorcar::Seat *defaultSeat() const override;
+    void setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat);
+
+    struct wl_display *wlDisplay() override;
+
+    motorcar::WaylandSurface *getSurfaceFromResource(struct wl_resource *resource) override;
+
+private slots:
+    void surfaceDestroyed();
+    void surfaceMapped();
+    void surfaceUnmapped();
+    void surfaceDamaged();
+    void surfacePosChanged();
+
+    void render();
+
+protected:
+    void surfaceDamaged(QWaylandSurface *surface);
+    void surfaceCreated(QWaylandSurface *surface);
+
+    QWaylandSurface* surfaceAt(const QPointF &point, QPointF *local = 0);
+
+    bool eventFilter(QObject *obj, QEvent *event);
+    QPointF toSurface(QWaylandSurface *surface, const QPointF &point) const;
+
+    void setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY);
+
+    void ensureKeyboardFocusSurface(QWaylandSurface *oldSurface);
+
+private slots:
+    void sendExpose();
+    void updateCursor();
+
+private:
+    QGuiApplication *m_app;
+    QtWaylandMotorcarSeat *m_defaultSeat;
+
+    motorcar::Scene *m_scene;
+    OpenGLData *m_glData;
+    QTimer m_renderScheduler;
+
+    //Dragging windows around
+    QWaylandSurface *m_draggingWindow;
+    bool m_dragKeyIsPressed;
+    QPointF m_drag_diff;
+
+    //Cursor
+    QWaylandSurface *m_cursorSurface;
+    int m_cursorHotspotX;
+    int m_cursorHotspotY;
+
+    Qt::KeyboardModifiers m_modifiers;
+
+    std::map<QWaylandSurface *, QtWaylandMotorcarSurface *> m_surfaceMap;
+
+    uint32_t m_frames, m_benchmark_time;
+};
+
+//  This is borowed from the qtwayland examples
 class BufferAttacher : public QWaylandBufferAttacher
 {
 public:
@@ -113,101 +191,6 @@ public:
     QWaylandBufferRef bufferRef;
     GLuint texture;
 };
-
-
-//  @@JAF - END
-class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor, public motorcar::Compositor
-{
-    Q_OBJECT
-public:
-    QtWaylandMotorcarCompositor(QOpenGLWindow *window, QGuiApplication *app, motorcar::Scene *scene);
-    ~QtWaylandMotorcarCompositor();
-
-
-    static QtWaylandMotorcarCompositor *create(int argc, char **argv, motorcar::Scene *scene);
-
-    virtual int start() override;
-
-    virtual motorcar::OpenGLContext *getContext() override;
-
-    struct wl_display *wlDisplay() override;
-
-    motorcar::WaylandSurface *getSurfaceFromResource(struct wl_resource *resource) override;
-
-    OpenGLData *glData() const;
-    void setGlData(OpenGLData *glData);
-
-
-
-    motorcar::Scene *scene() const;
-    void setScene(motorcar::Scene *scene);
-
-    QtWaylandMotorcarSurface *getMotorcarSurface(QWaylandSurface *surface = NULL) const;
-
-    motorcar::Seat *defaultSeat() const override;
-    void setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat);
-
-private slots:
-    void surfaceDestroyed();
-    void surfaceMapped();
-    void surfaceUnmapped();
-    void surfaceDamaged();
-    void surfacePosChanged();
-
-    void render();
-protected:
-    void surfaceDamaged(QWaylandSurface *surface);
-    void surfaceCreated(QWaylandSurface *surface);
-
-    QWaylandSurface* surfaceAt(const QPointF &point, QPointF *local = 0);
-
-//    GLuint composeSurface(QWaylandSurface *surface);
-//    void paintChildren(QWaylandSurface *surface, QWaylandSurface *window);
-
-
-    bool eventFilter(QObject *obj, QEvent *event);
-    QPointF toSurface(QWaylandSurface *surface, const QPointF &point) const;
-
-    void setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY);
-
-    void ensureKeyboardFocusSurface(QWaylandSurface *oldSurface);
-//    QImage makeBackgroundImage(const QString &fileName);
-
-private slots:
-    void sendExpose();
-    void updateCursor();
-
-private:
-    QGuiApplication *m_app;
-    QtWaylandMotorcarSeat *m_defaultSeat;
-
-    motorcar::Scene *m_scene;
-    //QList<QWaylandSurface *> m_surfaces;
-    OpenGLData *m_glData;
-    QTimer m_renderScheduler;
-
-
-    //Dragging windows around
-    QWaylandSurface *m_draggingWindow;
-    bool m_dragKeyIsPressed;
-    QPointF m_drag_diff;
-
-    //Cursor
-    QWaylandSurface *m_cursorSurface;
-    //motorcar::WaylandSurfaceNode *m_cursorSurfaceNode;
-    //QtWaylandMotorcarSurface *m_cursorMotorcarSurface;
-    int m_cursorHotspotX;
-    int m_cursorHotspotY;
-
-
-    Qt::KeyboardModifiers m_modifiers;
-
-    std::map<QWaylandSurface *, QtWaylandMotorcarSurface *> m_surfaceMap;
-
-    uint32_t m_frames, m_benchmark_time;
-
-};
 }
-
 
 #endif // QWINDOWCOMPOSITOR_H

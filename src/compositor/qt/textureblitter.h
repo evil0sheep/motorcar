@@ -42,14 +42,15 @@
 #define TEXTUREBLITTER_H
 
 #include <QtGui/QMatrix4x4>
-#include <QtDebug>
 
 class QOpenGLShaderProgram;
+
 class TextureBlitter
 {
 public:
     TextureBlitter();
     ~TextureBlitter();
+
     void bind();
     void release();
     void drawTexture(int textureId, const QRectF &sourceGeometry,
@@ -59,7 +60,6 @@ public:
 private:
     QOpenGLShaderProgram *m_shaderProgram;
     QMatrix4x4 m_transformMatrix;
-
     int m_matrixLocation;
     int m_vertexCoordEntry;
     int m_textureCoordEntry;

@@ -81,9 +81,7 @@ TextureBlitter::~TextureBlitter()
 
 void TextureBlitter::bind()
 {
-
     m_shaderProgram->bind();
-
     m_vertexCoordEntry = m_shaderProgram->attributeLocation("vertexCoordEntry");
     m_textureCoordEntry = m_shaderProgram->attributeLocation("textureCoordEntry");
     m_matrixLocation = m_shaderProgram->uniformLocation("matrix");
@@ -96,7 +94,6 @@ void TextureBlitter::release()
 
 void TextureBlitter::drawTexture(int textureId, const QRectF &targetRect, const QSize &targetSize, int depth, bool targethasInvertedY, bool sourceHasInvertedY)
 {
-
     glViewport(0,0,targetSize.width(),targetSize.height());
     GLfloat zValue = depth / 1000.0f;
     //Set Texture and Vertex coordinates
@@ -134,8 +131,6 @@ void TextureBlitter::drawTexture(int textureId, const QRectF &targetRect, const 
         GLfloat(x2), GLfloat(y2), zValue,
         GLfloat(x1), GLfloat(y2), zValue
     };
-
-
 
     //Set matrix to transfrom geometry values into gl coordinate space.
     m_transformMatrix.setToIdentity();
