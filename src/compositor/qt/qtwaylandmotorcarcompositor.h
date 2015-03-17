@@ -42,22 +42,28 @@
 
 #include <qwaylandcompositor.h>
 
-#include <motorcar.h>
+#include "motorcar.h"
 
-
-#include <qt/qtwaylandmotorcaropenglcontext.h>
+#include "qt/qtwaylandmotorcaropenglcontext.h"
 #include <qt/opengldata.h>
 
 #include <QGuiApplication>
 #include <QDesktopWidget>
-
-
 #include <QObject>
 #include <QTimer>
 
+//  @@JAF - for the Buffer attacher class
+#include <QOpenGLTexture>
+#include <qwaylandsurface.h>
+#include <QtCompositor/qwaylandbufferref.h>
+//  @@JAF - END
+
 namespace qtmotorcar{
+
 class QtWaylandMotorcarSurface;
 class QtWaylandMotorcarSeat;
+
+
 class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor, public motorcar::Compositor
 {
     Q_OBJECT
@@ -65,47 +71,40 @@ public:
     QtWaylandMotorcarCompositor(QOpenGLWindow *window, QGuiApplication *app, motorcar::Scene *scene);
     ~QtWaylandMotorcarCompositor();
 
-
     static QtWaylandMotorcarCompositor *create(int argc, char **argv, motorcar::Scene *scene);
-
     virtual int start() override;
 
+    QtWaylandMotorcarSurface *getMotorcarSurface(QWaylandSurface *surface = NULL) const;
+
     virtual motorcar::OpenGLContext *getContext() override;
+
+    OpenGLData *glData() const;
+    void setGlData(OpenGLData *glData);
+
+    motorcar::Scene *scene() const;
+    void setScene(motorcar::Scene *scene);
+
+    motorcar::Seat *defaultSeat() const override;
+    void setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat);
 
     struct wl_display *wlDisplay() override;
 
     motorcar::WaylandSurface *getSurfaceFromResource(struct wl_resource *resource) override;
 
-    OpenGLData *glData() const;
-    void setGlData(OpenGLData *glData);
-
-
-
-    motorcar::Scene *scene() const;
-    void setScene(motorcar::Scene *scene);
-
-    QtWaylandMotorcarSurface *getMotorcarSurface(QWaylandSurface *surface = NULL) const;
-
-    motorcar::Seat *defaultSeat() const override;
-    void setDefaultSeat(QtWaylandMotorcarSeat *defaultSeat);
-
 private slots:
-    void surfaceDestroyed(QObject *object);
+    void surfaceDestroyed();
     void surfaceMapped();
     void surfaceUnmapped();
     void surfaceDamaged();
     void surfacePosChanged();
 
     void render();
+
 protected:
     void surfaceDamaged(QWaylandSurface *surface);
     void surfaceCreated(QWaylandSurface *surface);
 
     QWaylandSurface* surfaceAt(const QPointF &point, QPointF *local = 0);
-
-//    GLuint composeSurface(QWaylandSurface *surface);
-//    void paintChildren(QWaylandSurface *surface, QWaylandSurface *window);
-
 
     bool eventFilter(QObject *obj, QEvent *event);
     QPointF toSurface(QWaylandSurface *surface, const QPointF &point) const;
@@ -113,7 +112,6 @@ protected:
     void setCursorSurface(QWaylandSurface *surface, int hotspotX, int hotspotY);
 
     void ensureKeyboardFocusSurface(QWaylandSurface *oldSurface);
-//    QImage makeBackgroundImage(const QString &fileName);
 
 private slots:
     void sendExpose();
@@ -124,10 +122,8 @@ private:
     QtWaylandMotorcarSeat *m_defaultSeat;
 
     motorcar::Scene *m_scene;
-    //QList<QWaylandSurface *> m_surfaces;
     OpenGLData *m_glData;
     QTimer m_renderScheduler;
-
 
     //Dragging windows around
     QWaylandSurface *m_draggingWindow;
@@ -136,20 +132,65 @@ private:
 
     //Cursor
     QWaylandSurface *m_cursorSurface;
-    //motorcar::WaylandSurfaceNode *m_cursorSurfaceNode;
-    //QtWaylandMotorcarSurface *m_cursorMotorcarSurface;
     int m_cursorHotspotX;
     int m_cursorHotspotY;
-
 
     Qt::KeyboardModifiers m_modifiers;
 
     std::map<QWaylandSurface *, QtWaylandMotorcarSurface *> m_surfaceMap;
 
     uint32_t m_frames, m_benchmark_time;
+};
 
+//  This is borowed from the qtwayland examples
+class BufferAttacher : public QWaylandBufferAttacher
+{
+public:
+    BufferAttacher()
+        : QWaylandBufferAttacher()
+        , shmTex(0)
+    {
+    }
+
+    ~BufferAttacher()
+    {
+        delete shmTex;
+    }
+
+    void attach(const QWaylandBufferRef &ref) Q_DECL_OVERRIDE
+    {
+        if (bufferRef) {
+            if (bufferRef.isShm()) {
+                delete shmTex;
+                shmTex = 0;
+            } else {
+                bufferRef.destroyTexture();
+            }
+        }
+
+        bufferRef = ref;
+
+        if (bufferRef) {
+            if (bufferRef.isShm()) {
+                shmTex = new QOpenGLTexture(bufferRef.image(), QOpenGLTexture::DontGenerateMipMaps);
+                texture = shmTex->textureId();
+            } else {
+                texture = bufferRef.createTexture();
+            }
+        }
+    }
+
+    QImage image() const
+    {
+        if (!bufferRef || !bufferRef.isShm())
+            return QImage();
+        return bufferRef.image();
+    }
+
+    QOpenGLTexture *shmTex;
+    QWaylandBufferRef bufferRef;
+    GLuint texture;
 };
 }
-
 
 #endif // QWINDOWCOMPOSITOR_H

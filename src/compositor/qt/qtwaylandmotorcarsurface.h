@@ -32,60 +32,61 @@
 **
 **
 ****************************************************************************/
+
 #ifndef QTWAYLANDMOTORCARSURFACE_H
 #define QTWAYLANDMOTORCARSURFACE_H
 
-#include <motorcar.h>
-#include <qt/opengldata.h>
-#include <qt/qtwaylandmotorcarcompositor.h>
+#include "motorcar.h"
+#include "qt/opengldata.h"
+#include "qt/qtwaylandmotorcarcompositor.h"
 
-#include <qwaylandinput.h>
 #include <qwaylandsurface.h>
-#include <QtDebug>
+#include <qwaylandinput.h>
+
+#include <QLinkedList>
+#include <QtCompositor/qwaylandsurfaceview.h>
+
 #include <glm/glm.hpp>
 
 namespace qtmotorcar{
-    class QtWaylandMotorcarCompositor;
-    class QtWaylandMotorcarSurface : public motorcar::WaylandSurface
-    {
-    public:
-        QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor, motorcar::WaylandSurface::SurfaceType type);
-        ~QtWaylandMotorcarSurface(){}
 
-        //inherited from WaylandSurface
-        GLuint texture() override;
-        ///Get the size of this surface in surface local coordinates
-        glm::ivec2 size() override;
-        ///Set the size of this surface in surface local coordinates
-        void setSize(glm::ivec2 newSize) override;
-        ///Get the position of this surface in parent surface-local coordinates
-        glm::ivec2 position() override;
-        ///return the parent surface
-        WaylandSurface *parentSurface() override;
+class QtWaylandMotorcarCompositor;
 
-        void prepare() override;      
-        void sendEvent(const motorcar::Event &event) override;
-        bool valid() override;
+class QtWaylandMotorcarSurface : public motorcar::WaylandSurface
+{
+public:
+    QtWaylandMotorcarSurface(QWaylandSurface *surface, QtWaylandMotorcarCompositor *compositor, motorcar::WaylandSurface::SurfaceType type);
+    ~QtWaylandMotorcarSurface(){}
 
+    //  inherited from WaylandSurface
+    GLuint texture() override;
+    //  Get the size of this surface in surface local coordinates
+    glm::ivec2 size() override;
+    //  Set the size of this surface in surface local coordinates
+    void setSize(glm::ivec2 newSize) override;
+    //  Get the position of this surface in parent surface-local coordinates
+    glm::ivec2 position() override;
+    //  return the parent surface
+    WaylandSurface *parentSurface() override;
 
-        QWaylandSurface *surface() const;
-        void setSurface(QWaylandSurface *surface);
+    void prepare() override;
+    void sendEvent(const motorcar::Event &event) override;
+    bool valid() override;
 
-    private:
-        QWaylandSurface *m_surface;
-        bool m_ownsTexture;
-        GLuint m_textureID;
+    QWaylandSurface *surface() const;
+    void setSurface(QWaylandSurface *surface);
 
-        QtWaylandMotorcarCompositor *m_compositor;
+private:
+    QWaylandSurface *m_surface;
+    GLuint m_textureID;
 
-        GLuint composeSurface(QWaylandSurface *surface, bool *textureOwned, OpenGLData *glData);
-        void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, const QSize &windowSize, OpenGLData *glData);
-        void computeSurfaceTransform(float ppcm);
+    QtWaylandMotorcarCompositor *m_compositor;
 
+    GLuint composeSurface(QWaylandSurface *surface, OpenGLData *glData);
+    void paintChildren(QWaylandSurface *surface, QWaylandSurface *window, const QSize &windowSize, OpenGLData *glData);
+    void computeSurfaceTransform(float ppcm);
+};
 
-
-    };
 }
-
 
 #endif // QTWAYLANDMOTORCARSURFACE_H
