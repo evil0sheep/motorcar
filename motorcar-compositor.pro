@@ -21,6 +21,11 @@ TEMPLATE = lib
 MOTORCAR_PROTOCOL_PATH=$$PWD/src/protocol/
 system(cd $$MOTORCAR_PROTOCOL_PATH; make)
 
+
+libmotorcarclient.commands = echo "testing123" && cd src/client && make -f Makefile
+
+QMAKE_EXTRA_TARGETS += libmotorcarclient
+
 INCLUDEPATH += $$MOTORCAR_PROTOCOL_PATH
 #LIBS +=  -L $$MOTORCAR_PROTOCOL_PATH -lmotorcar-server
 HEADERS += $$MOTORCAR_PROTOCOL_PATH/motorcar-server-protocol.h
@@ -48,6 +53,7 @@ INCLUDEPATH += $$QTWAYLANDSOURCEPATH/include
 #RESOURCES += motorcar-compositor.qrc
 
 target.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
+target.depends = libmotorcarclient
 sources.files = $$SOURCES $$HEADERS $$RESOURCES $$FORMS motorcar-compositor.pro
 sources.path = $$[QT_INSTALL_EXAMPLES]/qtwayland/motorcar-compositor
 INSTALLS += target sources
