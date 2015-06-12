@@ -34,6 +34,16 @@
 ****************************************************************************/
 #include <gl/openglshader.h>
 #include <gl/GLSLHelper.h>
+#include "shaders/motorcarbarreldistortion.frag"
+#include "shaders/motorcarbarreldistortion.vert"
+#include "shaders/motorcarsurface.vert"
+#include "shaders/motorcarsurface.frag"
+#include "shaders/depthcompositedsurface.vert"
+#include "shaders/depthcompositedsurface.frag"
+#include "shaders/depthcompositedsurfaceblitter.vert"
+#include "shaders/depthcompositedsurfaceblitter.frag"
+#include "shaders/motorcarline.vert"
+#include "shaders/motorcarline.frag"
 
 using namespace motorcar;
 
@@ -46,36 +56,29 @@ using namespace motorcar;
 #define STRINGIZE(x) #x
 #define STRINGIZE_VALUE_OF(x) STRINGIZE(x)
 
-OpenGLShader::OpenGLShader(std::string vertexShaderFileName, std::string fragmentShaderFileName)
-{
-    std::string shaderDirPath = STRINGIZE_VALUE_OF(MOTORCAR_SHADER_PATH);
-    shaderDirPath += "/";
-    std::cout << "shader path: " << STRINGIZE_VALUE_OF(MOTORCAR_SHADER_PATH) << std::endl;
-    std::ifstream vertexShaderStream(shaderDirPath + vertexShaderFileName), fragmentShaderStream(shaderDirPath + fragmentShaderFileName) ;
-    std::string vertexShader, fragmentShader;
-
-
-
-    //intitialize
-    vertexShaderStream.seekg(0, std::ios::end);
-    vertexShader.reserve(vertexShaderStream.tellg());
-    vertexShaderStream.seekg(0, std::ios::beg);
-
-    fragmentShaderStream.seekg(0, std::ios::end);
-    fragmentShader.reserve(fragmentShaderStream.tellg());
-    fragmentShaderStream.seekg(0, std::ios::beg);
-
-    vertexShader.assign((std::istreambuf_iterator<char>(vertexShaderStream)),
-                     std::istreambuf_iterator<char>());
-
-    fragmentShader.assign((std::istreambuf_iterator<char>(fragmentShaderStream)),
-                     std::istreambuf_iterator<char>());
-
-    //std::cout << vertexShader << std::endl << fragmentShader << std::endl;
-
-    vertexShaderStream.close();
-    fragmentShaderStream.close();
-
+OpenGLShader::OpenGLShader(std::string vertexShaderFileName,
+                           std::string fragmentShaderFileName) {
+  std::string vertexShader, fragmentShader;
+  std::cout << "Shader: " << vertexShader << std::endl;
+  if (vertexShaderFileName == "motorcarbarreldistortion.vert") {
+    fragmentShader = shader_motorcarbarreldistortion_frag;
+    vertexShader = shader_motorcarbarreldistortion_vert;
+  } else if (vertexShaderFileName == "motorcarsurface.vert") {
+    fragmentShader = shader_motorcarsurface_frag;
+    vertexShader = shader_motorcarsurface_vert;
+  } else if (vertexShaderFileName == "depthcompositedsurface.vert") {
+    fragmentShader = shader_depthcompositedsurface_frag;
+    vertexShader = shader_depthcompositedsurface_vert;
+  } else if (vertexShaderFileName == "depthcompositedsurfaceblitter.vert") {
+    fragmentShader = shader_depthcompositedsurfaceblitter_frag;
+    vertexShader = shader_depthcompositedsurfaceblitter_vert;
+  } else if (vertexShaderFileName == "motorcarline.vert") {
+    fragmentShader = shader_motorcarline_frag;
+    vertexShader = shader_motorcarline_vert;
+  } else {
+	std::cerr << "Failed to find shader" << std::endl;
+	exit (0);
+ }
     m_handle = compileShaderFromStrings(vertexShader, fragmentShader);
 
 }

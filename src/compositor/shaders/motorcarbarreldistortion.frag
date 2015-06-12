@@ -1,46 +1,53 @@
-//precision highp float;
-uniform sampler2D uTexSampler;
+#ifndef MOTORCAR_SHADER_MOTORCARBARRELDISTORTION_FRAG__
+#define MOTORCAR_SHADER_MOTORCARBARRELDISTORTION_FRAG__
 
-//barrel distortion coefficients
-uniform vec4 uDistortionK;
-//offset and size of view in uv space
-uniform vec4 uViewportParams;
-//lense center in NDC Space
-uniform vec2 uLenseCenter;
-uniform float uScaleFactor;
+std::string shader_motorcarbarreldistortion_frag =
 
-//varying vec2 vTexCoord;
+"//precision highp float;\n"
+"uniform sampler2D uTexSampler;\n"
 
-//Fragment position in Uniform Device Coordinates [-1, 1]^2
-varying vec2 vUDCPos;
+"//barrel distortion coefficients\n"
+"uniform vec4 uDistortionK;\n"
+"//offset and size of view in uv space\n"
+"uniform vec4 uViewportParams;\n"
+"//lense center in NDC Space\n"
+"uniform vec2 uLenseCenter;\n"
+"uniform float uScaleFactor;\n"
+"\n"
+"//varying vec2 vTexCoord;\n"
+"\n"
+"//Fragment position in Uniform Device Coordinates [-1, 1]^2\n"
+"varying vec2 vUDCPos;\n"
+"\n"
+"void main(void)\n"
+"{\n"
+"    vec4 k = uDistortionK;\n"
+"\n"
+"    //Radius vector in lense space\n"
+"    vec2 rVecIn = vUDCPos - uLenseCenter;\n"
+"\n"
+"    //Length Squared of lense space radius vector\n"
+"    float rSq = rVecIn.x * rVecIn.x + rVecIn.y * rVecIn.y;\n"
+"\n"
+"    //Lense Space Radius Vector with barrel distortion applied\n"
+"    vec2 rVecDistorted = rVecIn * (k[0] + k[1] * rSq + k[2] * rSq * rSq + k[3] * rSq * rSq * rSq);\n"
+"\n"
+"    //Fragment position in Uniform Device Coordinates with barrel distortion applied\n"
+"    vec2 newUDCPos = rVecDistorted / uScaleFactor + uLenseCenter;\n"
+"\n"
+"\n"
+"\n"
+"    //gl_FragColor = vec4(0,0,0,1);\n"
+"    //gl_FragColor = vec4(abs(newUDCPos),0,1);\n"
+"    if(clamp(newUDCPos, vec2(-1), vec2(1)) != newUDCPos){\n"
+"\n"
+"        gl_FragColor = vec4(0,0,0,1);\n"
+"\n"
+"    }else{\n"
+"        vec2 uv = ((newUDCPos + vec2(1))/ vec2(2)) * uViewportParams.zw + uViewportParams.xy;\n"
+"        gl_FragColor = texture2D(uTexSampler, uv);\n"
+"    }\n"
+"\n"
+"}\n";
 
-void main(void)
-{
-    vec4 k = uDistortionK;
-
-    //Radius vector in lense space
-    vec2 rVecIn = vUDCPos - uLenseCenter;
-
-    //Length Squared of lense space radius vector
-    float rSq = rVecIn.x * rVecIn.x + rVecIn.y * rVecIn.y;
-
-    //Lense Space Radius Vector with barrel distortion applied
-    vec2 rVecDistorted = rVecIn * (k[0] + k[1] * rSq + k[2] * rSq * rSq + k[3] * rSq * rSq * rSq);
-
-    //Fragment position in Uniform Device Coordinates with barrel distortion applied
-    vec2 newUDCPos = rVecDistorted / uScaleFactor + uLenseCenter;
-
-
-
-    //gl_FragColor = vec4(0,0,0,1);
-    //gl_FragColor = vec4(abs(newUDCPos),0,1);
-    if(clamp(newUDCPos, vec2(-1), vec2(1)) != newUDCPos){
-
-        gl_FragColor = vec4(0,0,0,1);
-
-    }else{
-        vec2 uv = ((newUDCPos + vec2(1))/ vec2(2)) * uViewportParams.zw + uViewportParams.xy;
-        gl_FragColor = texture2D(uTexSampler, uv);
-    }
-
-}
+#endif
