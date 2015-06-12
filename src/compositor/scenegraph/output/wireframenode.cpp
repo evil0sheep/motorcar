@@ -52,7 +52,7 @@ WireframeNode::WireframeNode(float *segments, int numSegments, glm::vec3 lineCol
     ,m_segments(NULL)
     ,m_numSegments(numSegments)
     ,m_lineColor(lineColor)
-    ,m_lineShader(new motorcar::OpenGLShader(std::string("motorcarline.vert"), std::string("motorcarline.frag")))
+    ,m_lineShader(new motorcar::OpenGLShader(SHADER_MOTORCARLINE))
 {
     m_segments = new float[numSegments * 2 * 3];
     memcpy (m_segments, segments, numSegments * 2 * 3 * sizeof (float)) ;
