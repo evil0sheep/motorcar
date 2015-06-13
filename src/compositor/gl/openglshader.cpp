@@ -34,6 +34,8 @@
 ****************************************************************************/
 #include <gl/openglshader.h>
 #include <gl/GLSLHelper.h>
+
+//  Motorcar Shaders
 #include "shaders/motorcarbarreldistortion.frag"
 #include "shaders/motorcarbarreldistortion.vert"
 #include "shaders/motorcarsurface.vert"
@@ -88,10 +90,15 @@ OpenGLShader::OpenGLShader(std::string vertexShaderFileName,
   vertexShaderStream.close();
   fragmentShaderStream.close();
   m_handle = compileShaderFromStrings(vertexShader, fragmentShader);
+  if (m_handle == 0) {
+      std::cerr << "Shader compilation failed." << std::endl;
+      exit (EXIT_FAILURE);
+  }
 }
+
 OpenGLShader::OpenGLShader(int shader) {
   std::string vertexShader, fragmentShader;
-  std::string shaderName;
+  std::string shaderName = "UNKNOWN";
 
   switch (shader) {
   case SHADER_MOTORCARBARRELDISTORTION:
@@ -126,11 +133,16 @@ OpenGLShader::OpenGLShader(int shader) {
     break;
   default:
     std::cerr << "Failed to find shader" << std::endl;
-    exit(0);
+    exit(EXIT_FAILURE);
   }
   std::cout << "Loading shader: " << shaderName << std::endl;
   m_handle = compileShaderFromStrings(vertexShader, fragmentShader);
+  if (m_handle == 0) {
+      std::cerr << "Shader compilation failed." << std::endl;
+      exit (EXIT_FAILURE);
+  }
 }
+
 GLuint OpenGLShader::handle() const
 {
     return m_handle;
@@ -142,13 +154,10 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
     GLuint FS; //handles to frag shader object
     GLint vCompiled, fCompiled, linked; //status of shader
 
-
     //create a program object and attach the compiled shader
     m_handle = glCreateProgram();
 
     if(vertexShader.length() > 0){
-
-
         VS = glCreateShader(GL_VERTEX_SHADER);
         const char *vs_c_str = vertexShader.c_str();
         glShaderSource(VS, 1, &vs_c_str, NULL);
