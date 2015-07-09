@@ -46,22 +46,27 @@
 
 
 
-namespace motorcar{
-class OpenGLShader
-{
+namespace motorcar {
+
+#define SHADER_MOTORCARBARRELDISTORTION 0x01
+#define SHADER_MOTORCARSURFACE 0x02
+#define SHADER_DEPTHCOMPOSITEDSURFACE 0x03
+#define SHADER_DEPTHCOMPOSITEDSURFACEBLITTER 0x04
+#define SHADER_MOTORCARLINE 0x05
+#define SHADER_SOFTKINETICDEPTHCAM 0x06
+
+class OpenGLShader {
 public:
-    //OpenGLShader(std::string &vertexShader, std::string &fragmentShader);
-    OpenGLShader(std::string vertexShaderFileName, std::string fragmentShaderFileName);
-
-    GLuint handle() const;
-
-
+  // OpenGLShader(std::string &vertexShader, std::string &fragmentShader);
+  OpenGLShader(std::string vertexShaderFileName,
+               std::string fragmentShaderFileName);
+  OpenGLShader(int SHADER);
+  GLuint handle() const;
 
 private:
-    GLuint m_handle;
-    GLuint compileShaderFromStrings(std::string &vertexShader, std::string &fragmentShader);
+  GLuint m_handle;
+  GLuint compileShaderFromStrings(std::string &vertexShader,
+                                  std::string &fragmentShader);
 };
 }
-
-
 #endif // OPENGLSHADER_H

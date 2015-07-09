@@ -1,8 +1,14 @@
-//precision highp float;
-uniform mat4 uMVPMatrix;
-attribute vec3 aPosition;
+#ifndef MOTORCAR_SHADER_MOTORCARLINE_VERT__
+#define MOTORCAR_SHADER_MOTORCARLINE_VERT__
 
-void main(void)
-{
-    gl_Position =   uMVPMatrix * vec4(aPosition, 1);
-}
+std::string shader_motorcarline_vert =
+"//precision highp float;\n"
+"uniform mat4 uMVPMatrix;\n"
+"attribute vec3 aPosition;\n"
+"\n"
+"void main(void)\n"
+"{\n"
+"    gl_Position =   uMVPMatrix * vec4(aPosition, 1);\n"
+"}\n";
+
+#endif

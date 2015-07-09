@@ -351,7 +351,7 @@ void cameraEventLoop() {
 
 SoftKineticDepthCamera::SoftKineticDepthCamera(SceneGraphNode *parent, const glm::mat4 &transform)
     :Drawable(parent, transform)
-    ,m_pointCloudShader(new motorcar::OpenGLShader(std::string("../motorcar/src/shaders/softkineticdepthcam.vert"), std::string("../motorcar/src/shaders/softkineticdepthcam.frag")))
+    ,m_pointCloudShader(new motorcar::OpenGLShader(SHADER_SOFTKINETICDEPTHCAM))
 {
 
 

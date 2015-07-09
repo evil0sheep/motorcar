@@ -1,20 +1,27 @@
-uniform mat4 uMVPMatrix;
-attribute vec3 aPosition;
-attribute float aConfidence;
-attribute vec2 aTexCoord;
+#ifndef MOTORCAR_SHADER_SOFTKINETICDEPTHCAM_VERT__
+#define MOTORCAR_SHADER_SOFTKINETICDEPTHCAM_VERT__
 
-varying vec2 vTexCoord;
-varying float vIsValid;
+std::string shader_softkineticdepthcam_vert = 
 
-void main(void)
-{
-    if(aConfidence < 500.f || aPosition.z < 0.01f){
+"uniform mat4 uMVPMatrix;\n"
+"attribute vec3 aPosition;\n"
+"attribute float aConfidence;\n"
+"attribute vec2 aTexCoord;\n"
+"\n"
+"varying vec2 vTexCoord;\n"
+"varying float vIsValid;\n"
+"\n"
+"void main(void)\n"
+"{\n"
+"    if(aConfidence < 500.f || aPosition.z < 0.01f){\n"
+"\n"
+"        vIsValid = 0.f;\n"
+"    }else{\n"
+"        vIsValid = 1.f;\n"
+"    }\n"
+"    gl_Position =   uMVPMatrix * vec4(aPosition, 1);\n"
+"    vTexCoord = aTexCoord;\n"
+"\n"
+"}\n";
 
-        vIsValid = 0.f;
-    }else{
-        vIsValid = 1.f;
-    }
-    gl_Position =   uMVPMatrix * vec4(aPosition, 1);
-    vTexCoord = aTexCoord;
-
-}
+#endif
