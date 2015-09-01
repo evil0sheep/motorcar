@@ -1,6 +1,8 @@
 ﻿Motorcar
 ========
 
+**For technical questions regarding Motorcar please contact the [motorcar-devel mailing list](https://groups.google.com/forum/#!forum/motorcar-devel)**
+
 Motorcar is a framework for 3D windowing built on top of Wayland which I originally developed for my Master's thesis at Cal Poly ([pdf](https://github.com/evil0sheep/MastersThesis/blob/master/thesis.pdf?raw=true), [defense slides](https://docs.google.com/presentation/d/1svgGMxxbfmcHy_KuS5Q9hah8PQOsXqvjBKOoMIzW24Y/edit?usp=sharing)). It is designed to provide basic 3D windowing infrastructure that gives 3D applications desktop flexibility in the how their 3D content is drawn while supporting unmodified Wayland applications in the same 3D compositor space, and to do this with the simplest mechanism possible.
 
 Motorcar is free and open source (under the BSD license), and I am very open to contributions (both conceptual and functional) from the community. If you have any questions, comments, or critical feedback about the software, or if you are interested in using or contributing Motorcar, or if you are working on something related, please feel free to contact me, I would love to hear from you.
@@ -33,33 +35,33 @@ Motorcar has significant external dependencies, some of which may need to be bui
 
 Build instructions for QtWayland can be found on the [QtWayland page](http://qt-project.org/wiki/QtWayland), and these cover most everything needed to get build QtWayland. Getting it to work properly with EGL and desktop OpenGL is a little bit tricky, and I have copied my build command below for reference, which I imagine will probably work on most systems, though this is of course not guaranteed. 
 
-Below are the hashes of the commits which I am currently using for the Qt dependencies, which I include mainly for reference since they are known to work together. Other combinations may work as well. Please note that qtbase and qtwayland are git submodules of the qt5 repository.
+Below are the hashes of the commits which I am using for the Qt dependencies, which are currently the top of branch 5.5 at the time of this writing. Please note that qtbase and qtwayland are git submodules of the qt5 repository.
 
 * Qt5: 
-	* e198c124d3259dea657fcfa4c9b9b43bcd2d9fd0
-	* The most recent commit might work here but if the version exceeds 5.3.0 you may run into problems with the QtWayland private includes
+	* 1497a398e34e18abb18f705b2294464840629ca1
+	* The most recent commit will probably work here
 * qtbase 
-	* 625002f7067271b8f03f7bfa13baff6128c72e68
+	* 7010da2e6274febf71db40a535ce1d0c4858f143
 	* The most recent commit will probably work here
 * qtwayland
-	* 5c605d363e2fc42f5ec80413d093b69614027da4
+	* 3dc9cfdbd2771c28c770d432b99e571db43fe599
 	* This is the most likely to cause problems as the Compositor API changes quite frequently.
 
 Here is the build sequence I use for Qt5 and QtWayland to get them to support EGL with desktop OpenGL. Again, this is certainly not guaranteed to work on every system, it is included here mainly as a reference.  Please refer to the [Qt5 build instructions](http://qt-project.org/wiki/Building_Qt_5_from_Git) and the [QtWayland build instructions](http://qt-project.org/wiki/QtWayland) for more information.
 
 	$ git clone git://gitorious.org/qt/qt5.git qt5
 	$ cd qt5
-	$ git checkout e198c124d3259dea657fcfa4c9b9b43bcd2d9fd0
+	$ git checkout 5.5
 	$ ./init-repository --no-webkit  --module-subset=qtbase,qtjsbackend,qtdeclarative,qtwayland
 
 Other modules may be required to run some of the Qt clients, but not for Motorcar itself
 
 	$ cd qtbase
-	$ git checkout 625002f7067271b8f03f7bfa13baff6128c72e68
+	$ git checkout 5.5
 	$ cd ../qtwayland
-	$ git checkout e7a1e121d9cb92e89e53baba81aceedca24f2b94
+	$ git checkout 5.5
 	$ cd ../
-	$ ./configure -prefix /opt/qt5  -debug -confirm-license -opensource -egl -opengl  -no-xcb-xlib
+	$ ./configure -prefix /opt/qt5  -debug -confirm-license -opensource -egl -opengl -no-xcb-xlib
 
 I install into opt/qt5, but this is not a hard requirement, just make sure that when you run qmake it is running the executable installed here. The -no-xcb-xlib argument is required to build against EGL and desktop OpenGL in the commit listed above, but this may have been fixed in newer versions of QtWayland
 
