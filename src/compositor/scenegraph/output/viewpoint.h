@@ -67,7 +67,7 @@ public:
     glm::mat4 projectionMatrix() const;
 
 
-    //returns camera vertical field of view in degrees
+    //returns camera vertical field of view in radians
     float fov(Display *display);
 
     Geometry::Ray worldRayAtDisplayPosition(float pixelX, float pixelY);

@@ -117,7 +117,7 @@ void QtwaylandSurfaceNode::computeSurfaceTransform(float ppcm)
 {
     if(ppcm > 0.0f){
         float ppm = ppcm * 100.f;
-        glm::mat4 surfaceRotation = glm::rotate(glm::mat4(1), 180.0f ,glm::vec3(0.0f, 0.0f, 1.0f));
+        glm::mat4 surfaceRotation = glm::rotate(glm::mat4(1), glm::radians(180.0f) ,glm::vec3(0.0f, 0.0f, 1.0f));
         glm::mat4 surfaceScale = glm::scale(glm::mat4(1), glm::vec3( m_surface->size().width() / ppm,  m_surface->size().height() / ppm, 1.0f));
         glm::mat4 surfaceOffset = glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, 0.0f));
         m_surfaceTransform = surfaceRotation * surfaceScale * surfaceOffset  ;

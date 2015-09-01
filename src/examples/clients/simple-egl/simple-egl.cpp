@@ -917,7 +917,7 @@ void Box::draw(struct window *window, std::vector<struct viewpoint *> &viewpoint
 	glm::mat4 model =  window->transformMatrix
 						* window_offset
 						* this->transform
-						* glm::rotate(glm::mat4(), (time / 25.0f), glm::vec3(0.0f,1.0f,0.0f)) 
+                                                * glm::rotate(glm::mat4(), glm::radians((time / 25.0f)), glm::vec3(0.0f,1.0f,0.0f))
 						* glm::scale(glm::mat4(), this->size);
 
 	int i = 0;

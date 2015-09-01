@@ -148,14 +148,14 @@ WaylandSurfaceNode *WindowManager::mapSurface(motorcar::WaylandSurface *surface,
          std::cout << "mapping top level surface" << std::endl;
         surfaceNode->setParentNode(this->scene());
 //        surfaceNode->setTransform(glm::mat4(1)
-//                      //  * glm::rotate(glm::mat4(1), -90.f, glm::vec3(0, 1, 0))
+//                      //  * glm::rotate(glm::mat4(1), glm::radians(-90.f), glm::vec3(0, 1, 0))
 //                        * glm::translate(glm::mat4(1), glm::vec3(0, 0 ,1.25f))
-//                       // * glm::rotate(glm::mat4(1), (-1 +  m_numSurfacesMapped % 3) * 30.f, glm::vec3(0, -1, 0))
-//                    //* glm::rotate(glm::mat4(1),  (-1 + m_numSurfacesMapped / 3) * 30.f, glm::vec3(-1, 0, 0))
+//                       // * glm::rotate(glm::mat4(1), glm::radians((-1 +  m_numSurfacesMapped % 3) * 30.f), glm::vec3(0, -1, 0))
+//                    //* glm::rotate(glm::mat4(1),  glm::radians((-1 + m_numSurfacesMapped / 3) * 30.f), glm::vec3(-1, 0, 0))
 //                    * glm::translate(glm::mat4(1), glm::vec3(0,0.0,-1.5f))
 //                    * glm::mat4(1));
         surfaceNode->setTransform(glm::translate(glm::mat4(1), glm::vec3(0.0f, 0.0f ,1.0f)) *
-                            glm::rotate(glm::mat4(1.0f), (m_numSurfacesMapped - 1) * thetaOffset, glm::vec3(0.0f, 1.0f ,0.0f)) *
+                            glm::rotate(glm::mat4(1.0f), glm::radians((m_numSurfacesMapped - 1) * thetaOffset), glm::vec3(0.0f, 1.0f ,0.0f)) *
                                     glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f ,zOffset)));
 
        // surfaceNode->setTransform(glm::mat4());

@@ -67,7 +67,7 @@ void OculusHMD::prepareForDraw()
 
     glm::vec3 axis =glm::vec3(OVRaxis.x, OVRaxis.y, OVRaxis.z);
 
-    glm::quat orientation = glm::angleAxis(glm::degrees(angle), glm::normalize(axis));
+    glm::quat orientation = glm::angleAxis(angle, glm::normalize(axis));
 
     glm::vec3 parentPos = glm::vec3(parentNode()->worldTransform() * glm::vec4(0,0,0,1));
 

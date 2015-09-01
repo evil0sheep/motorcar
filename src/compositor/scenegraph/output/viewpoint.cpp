@@ -124,7 +124,7 @@ Geometry::Ray ViewPoint::worldRayAtDisplayPosition(float pixelX, float pixelY)
 
     glm::vec2 normalizedPixelPos = glm::vec2(-1.0f, 1.0f) * m_viewport->displayCoordsToViewportCoords(pixelX, pixelY);
     float h = (m_viewport->height()/m_viewport->width()) /2.0f;
-    float theta = glm::radians(fov(display()) / 2.0f);
+    float theta = fov(display()) / 2.0f;
     float d = h / glm::tan(theta);
 
     return Geometry::Ray(glm::vec3(0.0f), glm::normalize(glm::vec3(normalizedPixelPos, d))).transform(this->worldTransform());
@@ -144,7 +144,7 @@ float ViewPoint::fov(Display *display)
     float eyeToScreenDistance = glm::abs(glm::dot(cameraToDisplayVector, displayNormal));
 
 
-    return glm::degrees(2.0f * atan(display->dimensions().y / (2.0f * eyeToScreenDistance)));
+    return 2.0f * atan(display->dimensions().y / (2.0f * eyeToScreenDistance));
 }
 
 

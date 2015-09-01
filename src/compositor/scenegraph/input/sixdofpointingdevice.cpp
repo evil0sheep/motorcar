@@ -62,7 +62,7 @@ SixDOFPointingDevice::SixDOFPointingDevice(Seat *seat, PhysicalNode *parent, con
     };
     new WireframeNode(vertices, 3, glm::vec3(0.25), this);
 
-    //new WireframeNode(vertices, 3, glm::vec3(0,1,0), this, glm::rotate(glm::mat4(), -45.f, glm::vec3(1,0,0)));
+    //new WireframeNode(vertices, 3, glm::vec3(0,1,0), this, glm::rotate(glm::mat4(), glm::radians(-45.f), glm::vec3(1,0,0)));
 
 
     m_global = wl_global_create(scene()->compositor()->wlDisplay(),
