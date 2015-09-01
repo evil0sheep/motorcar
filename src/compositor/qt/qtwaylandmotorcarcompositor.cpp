@@ -59,7 +59,7 @@
 using namespace qtmotorcar;
 
 QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, QGuiApplication *app, motorcar::Scene * scene)
-    : QWaylandCompositor(window, 0, DefaultExtensions | SubSurfaceExtension)
+    : QWaylandCompositor(0, DefaultExtensions | SubSurfaceExtension)
     , m_scene(scene)
     , m_glData(new OpenGLData(window))
     , m_renderScheduler(this)
@@ -72,7 +72,9 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     , m_app(app)
     , m_defaultSeat(NULL)
     , m_frames(0)
+    , m_window(window)
 {
+    m_window->makeCurrent();
     setDisplay(NULL);
 
     m_renderScheduler.setSingleShot(true);
@@ -86,6 +88,7 @@ QtWaylandMotorcarCompositor::QtWaylandMotorcarCompositor(QOpenGLWindow *window, 
     setOutputRefreshRate(qRound(qGuiApp->primaryScreen()->refreshRate() * 1000.0));
 
     m_defaultSeat = new QtWaylandMotorcarSeat(this->defaultInputDevice());
+    createOutput(window, "", "");
     addDefaultShell();
 }
 

@@ -70,6 +70,7 @@ class QtWaylandMotorcarCompositor : public QObject, public QWaylandCompositor, p
 public:
     QtWaylandMotorcarCompositor(QOpenGLWindow *window, QGuiApplication *app, motorcar::Scene *scene);
     ~QtWaylandMotorcarCompositor();
+    QOpenGLWindow *m_window;
 
     static QtWaylandMotorcarCompositor *create(int argc, char **argv, motorcar::Scene *scene);
     virtual int start() override;
