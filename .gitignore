@@ -38,5 +38,16 @@ Thumbs.db
 
 # qmake generated files #
 ######################
-# Makefile
+#Makefile
+
+# Motorcar specific ignores #
+#############################
+motorcar-client-protocol.h
+motorcar-server-protocol.h
+motorcar-wayland-extensions.c
+motorcar-demo-client
+simple-compositor
+rift-hydra-compositor
+lib/*
+motorcar-compositor.pro.user
 

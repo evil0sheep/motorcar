@@ -40,14 +40,13 @@
 
 #include <motorcar.h>
 #include <sixensemotionsensingsystem.h>
-#include <oculushmd.h>
+#include <ovr_0_5_0_1_hmd.h>
 
 
 int main(int argc, char *argv[])
 {
-    #ifdef GL_EXT_frag_depth
-        std::cout << "depth extension available" << std::endl
-    #endif
+
+    motorcar::OculusHMD::initializeLibOVR();
 
     motorcar::Scene *scene = new motorcar::Scene();
 
@@ -61,13 +60,14 @@ int main(int argc, char *argv[])
 
     motorcar::Skeleton *skeleton = new motorcar::Skeleton(scene);
 
-    motorcar::OculusHMD *hmd = motorcar::OculusHMD::create(context, skeleton, scene);
+    motorcar::OculusHMD *hmd = new motorcar::OculusHMD(skeleton, context, scene);
 
-    if(hmd){
+    if(hmd->isInitialized()){
         std::cout << "Using Oculus Display" << std::endl;
         compositor->setDisplay(hmd);
     }else{
         std::cout << "Using Default Display" << std::endl;
+        delete hmd;
         float camToDisplayDistance = 0.1f;
         motorcar::Display *display = new motorcar::Display(context, glm::vec2(0.325f, 0.1f), scene, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.8f, 1.25f))
                                                                                                  * glm::rotate(glm::mat4(1.0f), glm::radians(-25.0f), glm::vec3(1.0f, 0.0f, 0.0f)));

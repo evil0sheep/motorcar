@@ -38,7 +38,8 @@
 
 #include <scenegraph/output/display/rendertotexturedisplay.h>
 #include <scenegraph/input/singlebonetracker.h>
-#include <OVR.h>
+#include "OVR_Version.h"
+#include "OVR_CAPI.h"
 #include <glm/gtc/quaternion.hpp>
 
 namespace motorcar {

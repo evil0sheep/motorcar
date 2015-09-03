@@ -93,6 +93,8 @@ private:
 protected:
     GLuint m_scratchFrameBuffer, m_scratchColorBufferTexture, m_scratchDepthBufferTexture;
 
+    void createOrUpdateFBO(uint &fbo, uint &fbo_tex,  uint &fbo_depth, int width, int height);
+
 
 
 

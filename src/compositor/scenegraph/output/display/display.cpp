@@ -198,8 +198,56 @@ GLuint Display::scratchDepthBufferTexture() const
     return m_scratchDepthBufferTexture;
 }
 
+unsigned int next_pow2(unsigned int x)
+{
+    x -= 1;
+    x |= x >> 1;
+    x |= x >> 2;
+    x |= x >> 4;
+    x |= x >> 8;
+    x |= x >> 16;
+    return x + 1;
+}
 
+/* creates (and/or resizes) a framebuffer object to be used to draw to this display */
+void Display::createOrUpdateFBO(uint &fbo, uint &fbo_tex, uint &fbo_depth, int width, int height)
+{
 
+    if(!fbo) {
+        /* if fbo does not exist, then nothing does... create every opengl object */
+        glGenFramebuffers(1, &fbo);
+        glGenTextures(1, &fbo_tex);
+        glGenRenderbuffers(1, &fbo_depth);
+
+        glBindTexture(GL_TEXTURE_2D, fbo_tex);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+    /* calculate the next power of two in both dimensions and use that as a texture size */
+    uint fb_tex_width = next_pow2(width);
+    uint fb_tex_height = next_pow2(height);
+
+    /* create and attach the texture that will be used as a color buffer */
+    glBindTexture(GL_TEXTURE_2D, fbo_tex);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, fb_tex_width, fb_tex_height, 0,
+            GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbo_tex, 0);
+
+    /* create and attach the renderbuffer that will serve as our z-buffer */
+    glBindRenderbuffer(GL_RENDERBUFFER, fbo_depth);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, fb_tex_width, fb_tex_height);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, fbo_depth);
+
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+        fprintf(stderr, "incomplete framebuffer!\n");
+    }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    printf("created render target: %dx%d (texture size: %dx%d)\n", width, height, fb_tex_width, fb_tex_height);
+}
 
 
 

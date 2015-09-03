@@ -32,7 +32,7 @@
 **
 **
 ****************************************************************************/
-#include "oculushmd.h"
+#include "ovr_0_1_3_hmd.h"
 
 using namespace motorcar;
 using namespace OVR;
