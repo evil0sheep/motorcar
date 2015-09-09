@@ -58,10 +58,14 @@ public:
     //Motorcar equivilent of ovrDistortionMesh
     typedef struct DistortionMesh_
     {
-        DistortionVertex*   pVertexData; ///< The distortion vertices representing each point in the mesh.
-        unsigned short*      pIndexData;  ///< Indices for connecting the mesh vertices into polygons.
+        DistortionVertex*    VertexData; ///< The distortion vertices representing each point in the mesh.
+        unsigned short*      IndexData;  ///< Indices for connecting the mesh vertices into polygons.
         unsigned int         VertexCount; ///< The number of vertices in the mesh.
         unsigned int         IndexCount;  ///< The number of indices in the mesh.
+        GLuint VertexBuffer;
+        GLuint IndexBuffer;
+        glm::vec2 EyeToSourceUVScale;
+        glm::vec2 EyeToSourceUVOffset;
     } DistortionMesh; 
 
     //used by interface for Oculus 0.1.3 sdk
@@ -93,13 +97,13 @@ private:
     float m_scale;
     glm::vec4 m_distortionK;
     GLuint m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
-    GLint h_aPosition_distortion, h_aTexCoord_distortion, h_uDistortionK, h_uLenseCenter, h_uViewportParams, h_uScaleFactor;
+    GLint h_aTexCoord_distortion, h_uDistortionK, h_uLenseCenter, h_uViewportParams, h_uScaleFactor;
 
 
     //used by interface for Oculus 0.5.0.1 sdk
     DistortionMesh m_distortionMesh[2];
-    GLuint m_distortionVertexBuffers[2], m_distortionIndexBuffers[2];
-    // GLint h_aPos_Mesh, h_aTexCoord_distortion, h_uDistortionK, h_uLenseCenter, h_uViewportParams, h_uScaleFactor;
+    
+    GLint h_aPosition_distortion, h_aTanEyeAnglesR, h_aTanEyeAnglesG, h_aTanEyeAnglesB,  h_uEyeToSourceUVScale, h_uEyeToSourceUVOffset;
 
     //common
     bool m_renderingToTexture, m_usingDistortionMesh;

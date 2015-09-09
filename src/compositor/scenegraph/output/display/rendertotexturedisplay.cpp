@@ -90,18 +90,15 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
 
 void RenderToTextureDisplay::setDistortionMesh(DistortionMesh distortionMesh[2])
 {
-
-    
-
-    glGenBuffers(2, m_distortionVertexBuffers);
-    glGenBuffers(2, m_distortionIndexBuffers);
     for(int i = 0; i < 2; i++){
         m_distortionMesh[i] = distortionMesh[i];
-        glBindBuffer(GL_ARRAY_BUFFER, m_distortionVertexBuffers[i]);
-        glBufferData(GL_ARRAY_BUFFER, m_distortionMesh[i].VertexCount * sizeof(DistortionVertex), m_distortionMesh[i].pVertexData, GL_STATIC_DRAW);
+        glGenBuffers(1, &(m_distortionMesh[i].VertexBuffer));
+        glGenBuffers(1, &(m_distortionMesh[i].IndexBuffer));
+        glBindBuffer(GL_ARRAY_BUFFER, m_distortionMesh[i].VertexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, m_distortionMesh[i].VertexCount * sizeof(DistortionVertex), m_distortionMesh[i].VertexData, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_distortionIndexBuffers[i]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_distortionMesh[i].IndexCount * sizeof(unsigned short), m_distortionMesh[i].pIndexData, GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_distortionMesh[i].IndexBuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_distortionMesh[i].IndexCount * sizeof(unsigned short), m_distortionMesh[i].IndexData, GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
@@ -113,13 +110,23 @@ RenderToTextureDisplay::RenderToTextureDisplay(OpenGLContext *glContext, glm::ve
     ,m_frameBuffer(0)
     ,m_usingDistortionMesh(true)
 {
-    h_aPosition_distortion =  glGetAttribLocation(m_distortionShader->handle(), "aPos");
+    h_aPosition_distortion =  glGetAttribLocation(m_distortionShader->handle(), "aPosition");
+    h_aTanEyeAnglesR =  glGetAttribLocation(m_distortionShader->handle(), "aTanEyeAnglesR"); 
+    h_aTanEyeAnglesG =  glGetAttribLocation(m_distortionShader->handle(), "aTanEyeAnglesG"); 
+    h_aTanEyeAnglesB =  glGetAttribLocation(m_distortionShader->handle(), "aTanEyeAnglesB"); 
+    h_uEyeToSourceUVScale =  glGetUniformLocation(m_distortionShader->handle(), "uEyeToSourceUVScale"); 
+    h_uEyeToSourceUVOffset =  glGetUniformLocation(m_distortionShader->handle(), "uEyeToSourceUVOffset");
 
     printOpenGLError();
 
-    if(h_aPosition_distortion < 0){
+    if( h_aPosition_distortion < 0 || h_aTanEyeAnglesR < 0 || h_aTanEyeAnglesG < 0 || h_aTanEyeAnglesB < 0 ||  h_uEyeToSourceUVScale < 0 || h_uEyeToSourceUVOffset < 0 ){
        std::cout << "problem with distortion shader handles: "
                  << h_aPosition_distortion
+                 << ", "<< h_aTanEyeAnglesR
+                 << ", "<< h_aTanEyeAnglesG
+                 << ", "<< h_aTanEyeAnglesB
+                 << ", "<< h_uEyeToSourceUVScale
+                 << ", "<< h_uEyeToSourceUVOffset
                  << std::endl;
     }
 
@@ -134,8 +141,8 @@ RenderToTextureDisplay::~RenderToTextureDisplay()
     delete m_distortionShader;
 
     for(int i = 0; i < 2; i++){
-        free(m_distortionMesh[i].pVertexData);
-        free(m_distortionMesh[i].pIndexData);
+        free(m_distortionMesh[i].VertexData);
+        free(m_distortionMesh[i].IndexData);
     }
 
 }
@@ -164,30 +171,37 @@ void RenderToTextureDisplay::finishDraw()
     if(m_usingDistortionMesh){
         glDisable(GL_CULL_FACE);
         m_renderingToTexture = false;
+        glViewport(0,0, size().x, size().y);
+
+        glBindTexture(GL_TEXTURE_2D, m_colorBufferTexture);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
         glEnableVertexAttribArray(h_aPosition_distortion);
-        // glEnableVertexAttribArray(1);
-        // glEnableVertexAttribArray(2);
-        // glEnableVertexAttribArray(3);
-        //glEnableVertexAttribArray(4);
+        glEnableVertexAttribArray(h_aTanEyeAnglesR);
+        glEnableVertexAttribArray(h_aTanEyeAnglesG);
+        glEnableVertexAttribArray(h_aTanEyeAnglesB);
         for(int i=0; i<2; i++){
-            glBindBuffer(GL_ARRAY_BUFFER, m_distortionVertexBuffers[i]);
+            glUniform2fv(h_uEyeToSourceUVScale, 1, glm::value_ptr( m_distortionMesh[i].EyeToSourceUVScale));
+            glUniform2fv(h_uEyeToSourceUVOffset, 1, glm::value_ptr( m_distortionMesh[i].EyeToSourceUVOffset));
+            glBindBuffer(GL_ARRAY_BUFFER, m_distortionMesh[i].VertexBuffer);
 
-            glVertexAttribPointer(h_aPosition_distortion, 4, GL_FLOAT, GL_FALSE, 40, (void*)0);  //vec4 pos
-            // glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 16, (void*)0); //glm::vec2 TanEyeAnglesR
-            // glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 24, (void*)0); //glm::vec2 TanEyeAnglesG
-            // glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 32, (void*)0); //glm::vec2 TanEyeAnglesB
-            // glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, 44, (void*)0); //float textureCords[2]
+            glVertexAttribPointer(h_aPosition_distortion, 4, GL_FLOAT, GL_FALSE, sizeof(DistortionVertex), (void*)0);  //vec4 pos
+            glVertexAttribPointer(h_aTanEyeAnglesR, 2, GL_FLOAT, GL_FALSE, sizeof(DistortionVertex), (void*)16); //glm::vec2 TanEyeAnglesR
+            glVertexAttribPointer(h_aTanEyeAnglesG, 2, GL_FLOAT, GL_FALSE, sizeof(DistortionVertex), (void*)24); //glm::vec2 TanEyeAnglesG
+            glVertexAttribPointer(h_aTanEyeAnglesB, 2, GL_FLOAT, GL_FALSE, sizeof(DistortionVertex), (void*)32); //glm::vec2 TanEyeAnglesB
 
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_distortionIndexBuffers[i]);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_distortionMesh[i].IndexBuffer);
 
             glDrawElements(GL_TRIANGLES, m_distortionMesh[i].IndexCount, GL_UNSIGNED_SHORT, (void*)0);
 
         }
         glDisableVertexAttribArray(h_aPosition_distortion);
-        // glDisableVertexAttribArray(1);
-        // glDisableVertexAttribArray(2);
-        // glDisableVertexAttribArray(3);
-       // glDisableVertexAttribArray(4);
+        glDisableVertexAttribArray(h_aTanEyeAnglesR);
+        glDisableVertexAttribArray(h_aTanEyeAnglesG);
+        glDisableVertexAttribArray(h_aTanEyeAnglesB);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
         m_renderingToTexture = true;
     }else{
         glEnableVertexAttribArray(h_aPosition_distortion);

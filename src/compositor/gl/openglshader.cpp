@@ -164,7 +164,7 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
     //create a program object and attach the compiled shader
     m_handle = glCreateProgram();
 
-    printf("    \n");
+    printf("       \n");
     if(vertexShader.length() > 0){
         VS = glCreateShader(GL_VERTEX_SHADER);
         const char *vs_c_str = vertexShader.c_str();
@@ -178,10 +178,12 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
 
         if (!vCompiled) {
                 std::cerr << "Error compiling vertex shader:\n" << std::endl;
-                printf("Full shader source:\n\n%s\n", vs_c_str);
+                printf("Full VS shader source:\n\n%s\n", vs_c_str);
                 return 0;
         }
         glAttachShader(m_handle, VS);
+        //printf("Full VS shader source:\n\n%s\n", vs_c_str);
+
     }
 
     if(fragmentShader.length() > 0){
@@ -198,10 +200,12 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
 
         if (!fCompiled) {
                 std::cerr << "Error compiling fragment shader:\n" << std::endl;
-                printf("Full shader source:\n\n%s\n", fs_c_str);
+                printf("Full FS shader source:\n\n%s\n", fs_c_str);
                 return 0;
         }
         glAttachShader(m_handle, FS);
+        //printf("Full FS shader source:\n\n%s\n", fs_c_str);
+
 
     }
 

@@ -166,42 +166,54 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 	distortionCaps =  ovrDistortionCap_Overdrive;
 
 	float near = .01f, far = 10.0f;
-	RenderToTextureDisplay::DistortionMesh distortionMesh[2];
+	RenderToTextureDisplay::DistortionMesh distortionMeshes[2];
 	for(int i=0; i<2; i++) {
 		ovrEyeType eye = hmd->EyeRenderOrder[i];
 		ovrDistortionMesh mesh;
 		ovrHmd_CreateDistortionMesh(hmd, eye, hmd->DefaultEyeFov[eye], distortionCaps, &mesh);
 		assert(sizeof(ovrDistortionVertex) == sizeof(RenderToTextureDisplay::DistortionVertex));
+		
 
-		distortionMesh[i].VertexCount = mesh.VertexCount;
+		distortionMeshes[i].VertexCount = mesh.VertexCount;
 		size_t vertexDataSize = mesh.VertexCount * sizeof(RenderToTextureDisplay::DistortionVertex);
-		distortionMesh[i].pVertexData = (RenderToTextureDisplay::DistortionVertex *) malloc(vertexDataSize);
-		memcpy(distortionMesh[i].pVertexData, mesh.pVertexData, vertexDataSize);
+		distortionMeshes[i].VertexData = (RenderToTextureDisplay::DistortionVertex *) malloc(vertexDataSize);
+		memcpy(distortionMeshes[i].VertexData, mesh.pVertexData, vertexDataSize);
 
-		distortionMesh[i].IndexCount = mesh.IndexCount;
+		distortionMeshes[i].IndexCount = mesh.IndexCount;
 		size_t indexDataSize = mesh.IndexCount * sizeof(unsigned short);
-		distortionMesh[i].pIndexData = (unsigned short*) malloc(indexDataSize);
-		memcpy(distortionMesh[i].pIndexData, mesh.pIndexData, indexDataSize);
+		distortionMeshes[i].IndexData = (unsigned short*) malloc(indexDataSize);
+		memcpy(distortionMeshes[i].IndexData, mesh.pIndexData, indexDataSize);
 
 		ovrHmd_DestroyDistortionMesh(&mesh);
 
 		ovrEyeRenderDesc desc = ovrHmd_GetRenderDesc(hmd, eye, hmd->DefaultEyeFov[eye]);
 
-		proj[i] = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], near, far, 1);
+		ovrVector2f uvScaleOffsetOut[2];
+		ovrHmd_GetRenderScaleAndOffset(desc.Fov, hmd->Resolution, desc.DistortedViewport, uvScaleOffsetOut);
+		distortionMeshes[i].EyeToSourceUVScale = glm::vec2(uvScaleOffsetOut[0].x, uvScaleOffsetOut[0].y);
+        distortionMeshes[i].EyeToSourceUVOffset = glm::vec2(uvScaleOffsetOut[1].x, uvScaleOffsetOut[1].y);
 
-		glm::vec3 HmdToEyeViewOffset = glm::vec3(	desc.HmdToEyeViewOffset.x,
+		printf("size: %d, %d; viewport offest: %d, %d; viewport size %d, %d\n", hmd->Resolution.w, hmd->Resolution.h, 
+																				desc.DistortedViewport.Pos.x, desc.DistortedViewport.Pos.y, 
+																				desc.DistortedViewport.Size.w, desc.DistortedViewport.Size.h);
+
+		proj[i] = ovrMatrix4f_Projection(desc.Fov, near, far, 1);
+
+		glm::vec3 HmdToEyeViewOffset = -1.0f * glm::vec3(	desc.HmdToEyeViewOffset.x,
 													desc.HmdToEyeViewOffset.y,
 													desc.HmdToEyeViewOffset.z );
 
 		ViewPoint *cam = new ViewPoint(near, far, this, this,
-	                                 glm::translate(glm::mat4(), glm::vec3(0,0,0)),
-	                                 glm::vec4(0.5f - (i * 0.5f),0.0f,.5f,1.0f), HmdToEyeViewOffset);
+	                                 glm::translate(glm::mat4(), HmdToEyeViewOffset),
+	                                 glm::vec4(0.5f - (i * 0.5f),0.0f,.5f,1.0f), glm::vec3(0));
 		addViewpoint(cam);
+
+
 
 		
 	}
 
-	setDistortionMesh(distortionMesh);
+	setDistortionMesh(distortionMeshes);
 
 	
 
