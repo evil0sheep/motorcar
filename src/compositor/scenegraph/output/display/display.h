@@ -64,7 +64,6 @@ public:
 
     //returns resolution of this display in pixels, inherited from rectangle
     virtual glm::ivec2 size() override;
-    virtual void setSize(glm::ivec2 size) override;
 
     //returns the size of this display in meters
     virtual glm::vec2 dimensions() const;

@@ -72,7 +72,7 @@ private:
     ovrEyeRenderDesc eye_rdesc[2];
     ovrGLTexture fb_ovr_tex[2];
     union ovrGLConfig glcfg;
-    unsigned int distort_caps;
+    unsigned int distortionCaps;
     unsigned int hmd_caps;
 
     int win_width, win_height;

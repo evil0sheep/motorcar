@@ -46,7 +46,7 @@ void OculusHMD::prepareForDraw()
 	}
 
 
-    Display::prepareForDraw();
+    RenderToTextureDisplay::prepareForDraw();
 
 
 	// printf("GLX Display: %p\n", glXGetCurrentDisplay());
@@ -70,7 +70,7 @@ void OculusHMD::prepareForDraw()
 
 void OculusHMD::finishDraw()
 {
-
+	RenderToTextureDisplay::finishDraw();
 
 	// ovrHmd_EndFrame(hmd, pose, &fb_ovr_tex[0].Texture);
 
@@ -78,7 +78,7 @@ void OculusHMD::finishDraw()
 
 
 OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode *parent)
-    :RenderToTextureDisplay(2 * glContext->defaultFramebufferSize(), glContext, glm::vec2(0.5, 0.5), parent)
+    :RenderToTextureDisplay(glContext, glm::vec2(0.126, 0.0706), parent)
     , initialized(false)
     , firstDraw(true)
 {
@@ -110,11 +110,9 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 	fb_width = eyeres[0].w + eyeres[1].w;
 	fb_height = eyeres[0].h > eyeres[1].h ? eyeres[0].h : eyeres[1].h;
 
-	// updateRendertarget(fb_width, fb_height);
-	// createOrUpdateFBO(fbo, fb_tex, fb_depth, fb_width, fb_height);
-	// //m_size = glm::vec2(fb_width, fb_height);
+	setRenderTargetSize(glm::ivec2(fb_width, fb_height));
 
-	// /* fill in the ovrGLTexture structures that describe our render target texture */
+	/* fill in the ovrGLTexture structures that describe our render target texture */
 	
 	// for(int i=0; i<2; i++) {
 	// 	fb_ovr_tex[i].OGL.Header.API = ovrRenderAPI_OpenGL;
@@ -125,7 +123,7 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Pos.y = 0;
 	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Size.w = fb_width / 2.0;
 	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Size.h = fb_height;
-	// 	fb_ovr_tex[i].OGL.TexId = fb_tex;	/* both eyes will use the same texture id */
+	// 	fb_ovr_tex[i].OGL.TexId = m_colorBufferTexture;	/* both eyes will use the same texture id */
 	// }
 
 	// /* fill in the ovrGLConfig structure needed by the SDK to draw our stereo pair
@@ -143,17 +141,16 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 	// if(hmd->HmdCaps & ovrHmdCap_ExtendDesktop) {
 	// 	printf("running in \"extended desktop\" mode\n");
 	// } else {
-	// 	 void *GLXDrawable = (void*)glXGetCurrentDrawable();
-	// 	 printf("GLX Drawable: %p\n", GLXDrawable);
-	// 	if(!ovrHmd_AttachToWindow(hmd, GLXDrawable, 0, 0)){
-	// 		printf("ovrHmd_AttachToWindow failes\n");
-	// 	}
 	// 	printf("running in \"direct-hmd\" mode\n");
+	// 	printf(" \"direct-hmd\" mode not supported!\n");
+	// 	initialized=false;
+	// 	return;
 	// }
 
-	// /* enable low-persistence display and dynamic prediction for lattency compensation */
-	// hmd_caps = ovrHmdCap_LowPersistence | ovrHmdCap_DynamicPrediction;
-	// ovrHmd_SetEnabledCaps(hmd, hmd_caps);
+	/* enable low-persistence display and dynamic prediction for lattency compensation */
+	hmd_caps = ovrHmdCap_LowPersistence | ovrHmdCap_DynamicPrediction;
+	ovrHmd_SetEnabledCaps(hmd, hmd_caps);
+
 
 	// /* configure SDK-rendering and enable OLED overdrive and timewrap, which
 	//  * shifts the image before drawing to counter any lattency between the call
@@ -166,7 +163,53 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 	// 	// return;
 	// }
 
-	initialized =false;
+	distortionCaps =  ovrDistortionCap_Overdrive;
+
+	float near = .01f, far = 10.0f;
+	RenderToTextureDisplay::DistortionMesh distortionMesh[2];
+	for(int i=0; i<2; i++) {
+		ovrEyeType eye = hmd->EyeRenderOrder[i];
+		ovrDistortionMesh mesh;
+		ovrHmd_CreateDistortionMesh(hmd, eye, hmd->DefaultEyeFov[eye], distortionCaps, &mesh);
+		assert(sizeof(ovrDistortionVertex) == sizeof(RenderToTextureDisplay::DistortionVertex));
+
+		distortionMesh[i].VertexCount = mesh.VertexCount;
+		size_t vertexDataSize = mesh.VertexCount * sizeof(RenderToTextureDisplay::DistortionVertex);
+		distortionMesh[i].pVertexData = (RenderToTextureDisplay::DistortionVertex *) malloc(vertexDataSize);
+		memcpy(distortionMesh[i].pVertexData, mesh.pVertexData, vertexDataSize);
+
+		distortionMesh[i].IndexCount = mesh.IndexCount;
+		size_t indexDataSize = mesh.IndexCount * sizeof(unsigned short);
+		distortionMesh[i].pIndexData = (unsigned short*) malloc(indexDataSize);
+		memcpy(distortionMesh[i].pIndexData, mesh.pIndexData, indexDataSize);
+
+		ovrHmd_DestroyDistortionMesh(&mesh);
+
+		ovrEyeRenderDesc desc = ovrHmd_GetRenderDesc(hmd, eye, hmd->DefaultEyeFov[eye]);
+
+		proj[i] = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], near, far, 1);
+
+		glm::vec3 HmdToEyeViewOffset = glm::vec3(	desc.HmdToEyeViewOffset.x,
+													desc.HmdToEyeViewOffset.y,
+													desc.HmdToEyeViewOffset.z );
+
+		ViewPoint *cam = new ViewPoint(near, far, this, this,
+	                                 glm::translate(glm::mat4(), glm::vec3(0,0,0)),
+	                                 glm::vec4(0.5f - (i * 0.5f),0.0f,.5f,1.0f), HmdToEyeViewOffset);
+		addViewpoint(cam);
+
+		
+	}
+
+	setDistortionMesh(distortionMesh);
+
+	
+
+
+
+
+
+	// initialized =false;
 
 }
 

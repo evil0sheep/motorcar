@@ -48,6 +48,8 @@
 #include "shaders/motorcarline.frag"
 #include "shaders/softkineticdepthcam.frag"
 #include "shaders/softkineticdepthcam.vert"
+#include "shaders/motorcarmeshdistortion.frag"
+#include "shaders/motorcarmeshdistortion.vert"
 
 using namespace motorcar;
 
@@ -131,6 +133,11 @@ OpenGLShader::OpenGLShader(int shader) {
     fragmentShader = shader_softkineticdepthcam_frag;
     vertexShader = shader_softkineticdepthcam_vert;
     break;
+  case SHADER_MOTORCARMESHDISTORTION:
+    shaderName = "SHADER_MOTORCARMESHDISTORTION";
+    fragmentShader = shader_motorcarmeshdistortion_frag;
+    vertexShader = shader_motorcarmeshdistortion_vert;
+    break;
   default:
     std::cerr << "Failed to find shader" << std::endl;
     exit(EXIT_FAILURE);
@@ -157,6 +164,7 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
     //create a program object and attach the compiled shader
     m_handle = glCreateProgram();
 
+    printf("    \n");
     if(vertexShader.length() > 0){
         VS = glCreateShader(GL_VERTEX_SHADER);
         const char *vs_c_str = vertexShader.c_str();
@@ -170,6 +178,7 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
 
         if (!vCompiled) {
                 std::cerr << "Error compiling vertex shader:\n" << std::endl;
+                printf("Full shader source:\n\n%s\n", vs_c_str);
                 return 0;
         }
         glAttachShader(m_handle, VS);
@@ -189,6 +198,7 @@ GLuint OpenGLShader::compileShaderFromStrings(std::string &vertexShader, std::st
 
         if (!fCompiled) {
                 std::cerr << "Error compiling fragment shader:\n" << std::endl;
+                printf("Full shader source:\n\n%s\n", fs_c_str);
                 return 0;
         }
         glAttachShader(m_handle, FS);

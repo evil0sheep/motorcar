@@ -46,7 +46,9 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
 
 {
     m_glContext->makeCurrent();
-    setSize(m_glContext->defaultFramebufferSize());
+    createOrUpdateFBO("Display Scratch Frame Buffer", m_scratchFrameBuffer,
+                        m_scratchColorBufferTexture, true, 
+                        m_scratchDepthBufferTexture, true, size());
 
 }
 
@@ -123,15 +125,10 @@ glm::vec3 Display::worldPositionAtDisplayPosition(glm::vec2 pixel)
 
 glm::ivec2 Display::size()
 {
-    return Geometry::Rectangle::size();
+    return m_glContext->defaultFramebufferSize();
 }
 
-void Display::setSize(glm::ivec2 size){
-    Geometry::Rectangle::setSize(size);
-    createOrUpdateFBO("Display Scratch Frame Buffer", m_scratchFrameBuffer,
-                        m_scratchColorBufferTexture, true, 
-                        m_scratchDepthBufferTexture, true, size);
-}
+
 
 
 OpenGLContext *Display::glContext() const
@@ -186,9 +183,10 @@ void Display::createOrUpdateFBO(const char *fboName, uint &fbo, uint &fboColorBu
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        }else{
+            glGenRenderbuffers(1, &fboColorBuffer);
         }
-
-
+        
         if(useDepthTexture){
             glGenTextures(1, &fboDepthBuffer);
             glBindTexture(GL_TEXTURE_2D, fboDepthBuffer);
@@ -196,6 +194,8 @@ void Display::createOrUpdateFBO(const char *fboName, uint &fbo, uint &fboColorBu
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        }else{
+            glGenRenderbuffers(1, &fboDepthBuffer);
         }
         
     }
@@ -214,7 +214,6 @@ void Display::createOrUpdateFBO(const char *fboName, uint &fbo, uint &fboColorBu
         glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, fboTexRes.x, fboTexRes.y);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, fboColorBuffer);
     }
-
     if(useDepthTexture){
         glBindTexture(GL_TEXTURE_2D, fboDepthBuffer);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, fboTexRes.x, fboTexRes.y, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, 0);

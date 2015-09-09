@@ -67,7 +67,7 @@ public:
     //used by interface for Oculus 0.1.3 sdk
     RenderToTextureDisplay(float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
     //used by interface for Oculus 0.5.0.1 sdk
-    RenderToTextureDisplay(glm::ivec2 renderTargetSize, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
+    RenderToTextureDisplay(OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
     virtual ~RenderToTextureDisplay();
 
     //inherited from Display
@@ -77,23 +77,40 @@ public:
 
     //inherited from Display, apply scaling factor to base class output
     virtual glm::ivec2 size() override;
-    virtual void setSize(glm::ivec2 size) override;
     virtual glm::vec2 dimensions() const override;
 
 
 
     virtual GLuint activeFrameBuffer() const override;
     virtual GLuint depthBufferTexture() const override;
-
+protected:
+        //sets size of intermediate render target
+        void setRenderTargetSize(glm::ivec2 size);
+        void setDistortionMesh(DistortionMesh distortionMesh[2]);
+        
 private:
+    //used by interface for Oculus 0.1.3 sdk
     float m_scale;
     glm::vec4 m_distortionK;
-    GLuint m_frameBuffer, m_colorBufferTexture, m_depthBufferTexture, m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
+    GLuint m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
+    GLint h_aPosition_distortion, h_aTexCoord_distortion, h_uDistortionK, h_uLenseCenter, h_uViewportParams, h_uScaleFactor;
+
+
+    //used by interface for Oculus 0.5.0.1 sdk
+    DistortionMesh m_distortionMesh[2];
+    GLuint m_distortionVertexBuffers[2], m_distortionIndexBuffers[2];
+    // GLint h_aPos_Mesh, h_aTexCoord_distortion, h_uDistortionK, h_uLenseCenter, h_uViewportParams, h_uScaleFactor;
+
+    //common
+    bool m_renderingToTexture, m_usingDistortionMesh;
+    glm::ivec2 m_renderTargetSize;
+    GLuint m_frameBuffer, m_colorBufferTexture, m_depthBufferTexture;
+
+    
     //shaders
     OpenGLShader *m_distortionShader;
 
-    //shader variable handles
-    GLint h_aPosition_distortion, h_aTexCoord_distortion, h_uDistortionK, h_uLenseCenter, h_uViewportParams, h_uScaleFactor;
+    
 
 
 };

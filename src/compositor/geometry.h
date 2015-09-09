@@ -86,7 +86,6 @@ public:
         virtual ~Rectangle() {}
 
         virtual glm::ivec2 size() {return m_size;}
-        virtual void setSize(glm::ivec2 size){m_size = size;}
 
     protected:
         glm::ivec2 m_size;
