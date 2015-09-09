@@ -41,21 +41,28 @@ using namespace motorcar;
 
 void OculusHMD::prepareForDraw()
 {
+	if(firstDraw){
+		firstDraw=false;
+	}
+
 
     Display::prepareForDraw();
 
+
+	// printf("GLX Display: %p\n", glXGetCurrentDisplay());
+
     	/* the drawing starts with a call to ovrHmd_BeginFrame */
-	ovrHmd_BeginFrame(hmd, 0);
+	// ovrHmd_BeginFrame(hmd, 0);
 
 
 
-	for(int i=0; i<2; i++) {
-		ovrEyeType eye = hmd->EyeRenderOrder[i];
+	// for(int i=0; i<2; i++) {
+	// 	ovrEyeType eye = hmd->EyeRenderOrder[i];
 
-		proj[i] = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.5, 500.0, 1);
+	// 	proj[i] = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.5, 500.0, 1);
 		
-		pose[eye] = ovrHmd_GetHmdPosePerEye(hmd, eye);
-	}
+	// 	pose[eye] = ovrHmd_GetHmdPosePerEye(hmd, eye);
+	// }
 
 
 }
@@ -65,14 +72,15 @@ void OculusHMD::finishDraw()
 {
 
 
-	ovrHmd_EndFrame(hmd, pose, &fb_ovr_tex[0].Texture);
+	// ovrHmd_EndFrame(hmd, pose, &fb_ovr_tex[0].Texture);
 
 }
 
 
 OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode *parent)
-    :Display(glContext, glm::vec2(1), parent)
+    :RenderToTextureDisplay(2 * glContext->defaultFramebufferSize(), glContext, glm::vec2(0.5, 0.5), parent)
     , initialized(false)
+    , firstDraw(true)
 {
 
 	printf("detected %d hmds\n", ovrHmd_Detect());
@@ -103,56 +111,62 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 	fb_height = eyeres[0].h > eyeres[1].h ? eyeres[0].h : eyeres[1].h;
 
 	// updateRendertarget(fb_width, fb_height);
-	createOrUpdateFBO(fbo, fb_tex, fb_depth, fb_width, fb_height);
-	//m_size = glm::vec2(fb_width, fb_height);
+	// createOrUpdateFBO(fbo, fb_tex, fb_depth, fb_width, fb_height);
+	// //m_size = glm::vec2(fb_width, fb_height);
 
-	/* fill in the ovrGLTexture structures that describe our render target texture */
-	for(int i=0; i<2; i++) {
-		fb_ovr_tex[i].OGL.Header.API = ovrRenderAPI_OpenGL;
-		fb_ovr_tex[i].OGL.Header.TextureSize.w = fb_tex_width;
-		fb_ovr_tex[i].OGL.Header.TextureSize.h = fb_tex_height;
-		/* this next field is the only one that differs between the two eyes */
-		fb_ovr_tex[i].OGL.Header.RenderViewport.Pos.x = i == 0 ? 0 : fb_width / 2.0;
-		fb_ovr_tex[i].OGL.Header.RenderViewport.Pos.y = 0;
-		fb_ovr_tex[i].OGL.Header.RenderViewport.Size.w = fb_width / 2.0;
-		fb_ovr_tex[i].OGL.Header.RenderViewport.Size.h = fb_height;
-		fb_ovr_tex[i].OGL.TexId = fb_tex;	/* both eyes will use the same texture id */
-	}
+	// /* fill in the ovrGLTexture structures that describe our render target texture */
+	
+	// for(int i=0; i<2; i++) {
+	// 	fb_ovr_tex[i].OGL.Header.API = ovrRenderAPI_OpenGL;
+	// 	fb_ovr_tex[i].OGL.Header.TextureSize.w = fb_tex_width;
+	// 	fb_ovr_tex[i].OGL.Header.TextureSize.h = fb_tex_height;
+	// 	/* this next field is the only one that differs between the two eyes */
+	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Pos.x = i == 0 ? 0 : fb_width / 2.0;
+	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Pos.y = 0;
+	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Size.w = fb_width / 2.0;
+	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Size.h = fb_height;
+	// 	fb_ovr_tex[i].OGL.TexId = fb_tex;	/* both eyes will use the same texture id */
+	// }
 
-	/* fill in the ovrGLConfig structure needed by the SDK to draw our stereo pair
-	 * to the actual HMD display (SDK-distortion mode)
-	 */
-	memset(&glcfg, 0, sizeof glcfg);
-	glcfg.OGL.Header.API = ovrRenderAPI_OpenGL;
-	glcfg.OGL.Header.BackBufferSize.w = win_width;
-	glcfg.OGL.Header.BackBufferSize.h = win_height;
-	glcfg.OGL.Header.Multisample = 1;
+	// /* fill in the ovrGLConfig structure needed by the SDK to draw our stereo pair
+	//  * to the actual HMD display (SDK-distortion mode)
+	//  */
+	// memset(&glcfg, 0, sizeof glcfg);
+	// glcfg.OGL.Header.API = ovrRenderAPI_OpenGL;
+	// glcfg.OGL.Header.BackBufferSize.w = win_width;
+	// glcfg.OGL.Header.BackBufferSize.h = win_height;
+	// glcfg.OGL.Header.Multisample = 1;
 
-	glcfg.OGL.Disp = glXGetCurrentDisplay();
+	// // glcfg.OGL.Disp = glXGetCurrentDisplay();
+	// // printf("GLX Display: %p\n", glcfg.OGL.Disp);
 
-	if(hmd->HmdCaps & ovrHmdCap_ExtendDesktop) {
-		printf("running in \"extended desktop\" mode\n");
-	} else {
-		 
-		ovrHmd_AttachToWindow(hmd, (void*)glXGetCurrentDrawable(), 0, 0);
-		printf("running in \"direct-hmd\" mode\n");
-	}
+	// if(hmd->HmdCaps & ovrHmdCap_ExtendDesktop) {
+	// 	printf("running in \"extended desktop\" mode\n");
+	// } else {
+	// 	 void *GLXDrawable = (void*)glXGetCurrentDrawable();
+	// 	 printf("GLX Drawable: %p\n", GLXDrawable);
+	// 	if(!ovrHmd_AttachToWindow(hmd, GLXDrawable, 0, 0)){
+	// 		printf("ovrHmd_AttachToWindow failes\n");
+	// 	}
+	// 	printf("running in \"direct-hmd\" mode\n");
+	// }
 
-	/* enable low-persistence display and dynamic prediction for lattency compensation */
-	hmd_caps = ovrHmdCap_LowPersistence | ovrHmdCap_DynamicPrediction;
-	ovrHmd_SetEnabledCaps(hmd, hmd_caps);
+	// /* enable low-persistence display and dynamic prediction for lattency compensation */
+	// hmd_caps = ovrHmdCap_LowPersistence | ovrHmdCap_DynamicPrediction;
+	// ovrHmd_SetEnabledCaps(hmd, hmd_caps);
 
-	/* configure SDK-rendering and enable OLED overdrive and timewrap, which
-	 * shifts the image before drawing to counter any lattency between the call
-	 * to ovrHmd_GetEyePose and ovrHmd_EndFrame.
-	 */
-	distort_caps =  ovrDistortionCap_Overdrive;
-	if(!ovrHmd_ConfigureRendering(hmd, &glcfg.Config, distort_caps, hmd->DefaultEyeFov, eye_rdesc)) {
-		fprintf(stderr, "failed to configure distortion renderer\n");
-		initialized = false;
-		return;
-	}
+	// /* configure SDK-rendering and enable OLED overdrive and timewrap, which
+	//  * shifts the image before drawing to counter any lattency between the call
+	//  * to ovrHmd_GetEyePose and ovrHmd_EndFrame.
+	//  */
+	// distort_caps =  ovrDistortionCap_Overdrive;
+	// if(!ovrHmd_ConfigureRendering(hmd, &glcfg.Config, distort_caps, hmd->DefaultEyeFov, eye_rdesc)) {
+	// 	fprintf(stderr, "failed to configure distortion renderer\n");
+	// 	// initialized =false;
+	// 	// return;
+	// }
 
+	initialized =false;
 
 }
 
@@ -160,6 +174,8 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 
 OculusHMD::~OculusHMD()
 {
+	ovrHmd_Destroy(hmd);
+	ovr_Shutdown();
 }
 
 void myOvrLogCallback(int level, const char* message){

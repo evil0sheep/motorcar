@@ -60,14 +60,20 @@ int main(int argc, char *argv[])
 
     motorcar::Skeleton *skeleton = new motorcar::Skeleton(scene);
 
+    bool force_oculus = true;
     motorcar::OculusHMD *hmd = new motorcar::OculusHMD(skeleton, context, scene);
 
     if(hmd->isInitialized()){
         std::cout << "Using Oculus Display" << std::endl;
         compositor->setDisplay(hmd);
     }else{
-        std::cout << "Using Default Display" << std::endl;
         delete hmd;
+        if(force_oculus){
+            printf("rift use is forced but rift did not initialize, abandoning ship\n");
+            delete scene;
+            exit(1);
+        }
+        std::cout << "Using Default Display" << std::endl;
         float camToDisplayDistance = 0.1f;
         motorcar::Display *display = new motorcar::Display(context, glm::vec2(0.325f, 0.1f), scene, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.8f, 1.25f))
                                                                                                  * glm::rotate(glm::mat4(1.0f), glm::radians(-25.0f), glm::vec3(1.0f, 0.0f, 0.0f)));

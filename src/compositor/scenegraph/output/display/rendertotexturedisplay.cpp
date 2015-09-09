@@ -44,6 +44,7 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     ,m_scale(scale)
     ,m_distortionK(distortionK)
     ,m_distortionShader(new motorcar::OpenGLShader(SHADER_MOTORCARBARRELDISTORTION))
+    ,m_frameBuffer(0)
 {
 
     h_aPosition_distortion =  glGetAttribLocation(m_distortionShader->handle(), "aPosition");
@@ -82,112 +83,18 @@ RenderToTextureDisplay::RenderToTextureDisplay(float scale, glm::vec4 distortion
     glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexCoordinates);
     glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertexCoordinates, GL_STATIC_DRAW);
 
-
-    glm::ivec2 res = size();
-
-    std::cout << res.x << " , " << res.y <<std::endl;
-
-
-    glGenFramebuffers(1, &m_frameBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
-
-    glGenTextures(1, &m_colorBufferTexture);
-    glBindTexture(GL_TEXTURE_2D, m_colorBufferTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, res.x, res.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colorBufferTexture, 0);
-
-//    glGenTextures(1, &m_depthBufferTexture);
-//    glBindTexture(GL_TEXTURE_2D, m_depthBufferTexture);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-//    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, res.x, res.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
-//    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthBufferTexture, 0);
-
-
-        glGenRenderbuffers(1, &m_depthBufferTexture);
-        glBindRenderbuffer(GL_RENDERBUFFER, m_depthBufferTexture);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, res.x, res.y);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_depthBufferTexture);
-
-    std::cout << "Checking Distortion Framebuffer:" << std::endl;
-    switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
-            case(GL_FRAMEBUFFER_COMPLETE):
-                std::cout << "Framebuffer Complete" << std::endl;
-                break;
-            case(GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT):
-                std::cout << "Framebuffer Attachment Incomplete" << std::endl;
-                break;
-            case(GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT):
-                std::cout << "Framebuffer Attachment Incomplete/Missing" << std::endl;
-                break;
-            case(GL_FRAMEBUFFER_UNSUPPORTED):
-                std::cout << "Framebuffer Unsupported" << std::endl;
-                break;
-            default:
-                std::cout << "Framebuffer is Incomplete for Unknown Reasons" << std::endl;
-                break;
-    }
-
-
-    //generate new renderbuffers of correct size
-    glBindFramebuffer(GL_FRAMEBUFFER, m_scratchFrameBuffer);
-
-    glGenTextures(1, &m_scratchColorBufferTexture);
-    glBindTexture(GL_TEXTURE_2D, m_scratchColorBufferTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, res.x, res.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_scratchColorBufferTexture, 0);
-
-    glGenTextures(1, &m_scratchDepthBufferTexture);
-    glBindTexture(GL_TEXTURE_2D, m_scratchDepthBufferTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, res.x, res.y, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_scratchDepthBufferTexture, 0);
-
-//    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchColorBuffer);
-//    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, res.x, res.y);
-//    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_scratchColorBuffer);
-
-//    glBindRenderbuffer(GL_RENDERBUFFER, m_scratchDepthBuffer);
-//    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, res.x, res.y);
-//    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_scratchDepthBuffer);
-
-    std::cout << "Checking Modified Scratch Framebuffer:" << std::endl;
-    switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
-            case(GL_FRAMEBUFFER_COMPLETE):
-                std::cout << "Framebuffer Complete" << std::endl;
-                break;
-            case(GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT):
-                std::cout << "Framebuffer Attachment Incomplete" << std::endl;
-                break;
-            case(GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT):
-                std::cout << "Framebuffer Attachment Incomplete/Missing" << std::endl;
-                break;
-            case(GL_FRAMEBUFFER_UNSUPPORTED):
-                std::cout << "Framebuffer Unsupported" << std::endl;
-                break;
-            default:
-                std::cout << "Framebuffer is Incomplete for Unknown Reasons" << std::endl;
-                break;
-    }
-
-
-    glEnable(GL_TEXTURE_2D);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+    setSize(glm::ivec2(scale * glm::vec2(glContext->defaultFramebufferSize())));
 }
+
+
+RenderToTextureDisplay::RenderToTextureDisplay(glm::ivec2 renderTargetSize, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform)
+    :Display(glContext, displayDimensions, parent, transform)
+    ,m_distortionShader(new motorcar::OpenGLShader(SHADER_MOTORCARBARRELDISTORTION))
+    ,m_frameBuffer(0)
+{
+    setSize(renderTargetSize);
+}
+
 
 RenderToTextureDisplay::~RenderToTextureDisplay()
 {
@@ -266,6 +173,14 @@ void RenderToTextureDisplay::finishDraw()
 glm::ivec2 RenderToTextureDisplay::size()
 {
     return glm::ivec2(m_scale * glm::vec2(Display::size()));
+
+}
+
+void RenderToTextureDisplay::setSize(glm::ivec2 size){
+    Display::setSize(size);
+    createOrUpdateFBO("RenderToTextureDisplay Primary Frame Buffer", m_frameBuffer,
+                        m_colorBufferTexture, true, 
+                        m_depthBufferTexture, false, size);
 }
 
 glm::vec2 RenderToTextureDisplay::dimensions() const

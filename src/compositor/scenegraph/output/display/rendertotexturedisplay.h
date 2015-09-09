@@ -42,7 +42,32 @@ namespace motorcar{
 class RenderToTextureDisplay : public Display
 {
 public:
+
+    //Motorcar equivilent of ovrDistortionVertex
+    typedef struct DistortionVertex_
+    {
+        glm::vec2 ScreenPosNDC;    ///< [-1,+1],[-1,+1] over the entire framebuffer.
+        float       TimeWarpFactor;  ///< Lerp factor between time-warp matrices. Can be encoded in Pos.z.
+        float       VignetteFactor;  ///< Vignette fade factor. Can be encoded in Pos.w.
+        glm::vec2 TanEyeAnglesR;   ///< The tangents of the horizontal and vertical eye angles for the red channel.
+        glm::vec2 TanEyeAnglesG;   ///< The tangents of the horizontal and vertical eye angles for the green channel.
+        glm::vec2 TanEyeAnglesB;   ///< The tangents of the horizontal and vertical eye angles for the blue channel.
+    } DistortionVertex;
+
+
+    //Motorcar equivilent of ovrDistortionMesh
+    typedef struct DistortionMesh_
+    {
+        DistortionVertex*   pVertexData; ///< The distortion vertices representing each point in the mesh.
+        unsigned short*      pIndexData;  ///< Indices for connecting the mesh vertices into polygons.
+        unsigned int         VertexCount; ///< The number of vertices in the mesh.
+        unsigned int         IndexCount;  ///< The number of indices in the mesh.
+    } DistortionMesh; 
+
+    //used by interface for Oculus 0.1.3 sdk
     RenderToTextureDisplay(float scale, glm::vec4 distortionK, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
+    //used by interface for Oculus 0.5.0.1 sdk
+    RenderToTextureDisplay(glm::ivec2 renderTargetSize, OpenGLContext *glContext, glm::vec2 displayDimensions, PhysicalNode *parent, const glm::mat4 &transform = glm::mat4());
     virtual ~RenderToTextureDisplay();
 
     //inherited from Display
@@ -52,10 +77,14 @@ public:
 
     //inherited from Display, apply scaling factor to base class output
     virtual glm::ivec2 size() override;
+    virtual void setSize(glm::ivec2 size) override;
     virtual glm::vec2 dimensions() const override;
+
+
 
     virtual GLuint activeFrameBuffer() const override;
     virtual GLuint depthBufferTexture() const override;
+
 private:
     float m_scale;
     glm::vec4 m_distortionK;

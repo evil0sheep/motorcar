@@ -42,61 +42,19 @@ Display::Display(OpenGLContext *glContext, glm::vec2 displayDimensions, Physical
     :PhysicalNode(parent, transform)
     ,m_glContext(glContext)
     ,m_dimensions(displayDimensions)
+    ,m_scratchFrameBuffer(0)
 
 {
     m_glContext->makeCurrent();
-
-    glm::ivec2 res = this->size();
-
-
-    glGenFramebuffers(1, &m_scratchFrameBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_scratchFrameBuffer);
-
-    glGenTextures(1, &m_scratchColorBufferTexture);
-    glBindTexture(GL_TEXTURE_2D, m_scratchColorBufferTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, res.x, res.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_scratchColorBufferTexture, 0);
-
-    glGenTextures(1, &m_scratchDepthBufferTexture);
-    glBindTexture(GL_TEXTURE_2D, m_scratchDepthBufferTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, res.x, res.y, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_scratchDepthBufferTexture, 0);
-
-
-
-    std::cout << "Checking Scratch Framebuffer:" << std::endl;
-    switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
-            case(GL_FRAMEBUFFER_COMPLETE):
-                std::cout << "Framebuffer Complete" << std::endl;
-                break;
-            case(GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT):
-                std::cout << "Framebuffer Attachment Incomplete" << std::endl;
-                break;
-            case(GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT):
-                std::cout << "Framebuffer Attachment Incomplete/Missing" << std::endl;
-                break;
-            case(GL_FRAMEBUFFER_UNSUPPORTED):
-                std::cout << "Framebuffer Unsupported" << std::endl;
-                break;
-            default:
-                std::cout << "Framebuffer is Incomplete for Unknown Reasons" << std::endl;
-                break;
-    }
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    setSize(m_glContext->defaultFramebufferSize());
 
 }
 
 Display::~Display()
-
 {
+    glDeleteTextures(1, &m_scratchColorBufferTexture);
+    glDeleteTextures(1, &m_scratchDepthBufferTexture);
+    glDeleteFramebuffers(1, &m_scratchFrameBuffer);
 }
 
 void Display::prepareForDraw()
@@ -165,13 +123,15 @@ glm::vec3 Display::worldPositionAtDisplayPosition(glm::vec2 pixel)
 
 glm::ivec2 Display::size()
 {
-    return glContext()->defaultFramebufferSize();
+    return Geometry::Rectangle::size();
 }
 
-
-
-
-
+void Display::setSize(glm::ivec2 size){
+    Geometry::Rectangle::setSize(size);
+    createOrUpdateFBO("Display Scratch Frame Buffer", m_scratchFrameBuffer,
+                        m_scratchColorBufferTexture, true, 
+                        m_scratchDepthBufferTexture, true, size);
+}
 
 
 OpenGLContext *Display::glContext() const
@@ -209,44 +169,84 @@ unsigned int next_pow2(unsigned int x)
     return x + 1;
 }
 
-/* creates (and/or resizes) a framebuffer object to be used to draw to this display */
-void Display::createOrUpdateFBO(uint &fbo, uint &fbo_tex, uint &fbo_depth, int width, int height)
+/* creates (and/or resizes) a framebuffer object to be used to draw to this display 
+ * code adpted from https://codelab.wordpress.com/2014/09/07/oculusvr-sdk-and-simple-oculus-rift-dk2-opengl-test-program/
+ */
+void Display::createOrUpdateFBO(const char *fboName, uint &fbo, uint &fboColorBuffer, bool useColorTexture, uint &fboDepthBuffer, bool useDepthTexture, glm::ivec2 resolution)
 {
 
-    if(!fbo) {
-        /* if fbo does not exist, then nothing does... create every opengl object */
+    bool create = !fbo; //if fbo is null create all objects
+    if(create){
         glGenFramebuffers(1, &fbo);
-        glGenTextures(1, &fbo_tex);
-        glGenRenderbuffers(1, &fbo_depth);
+        
+        if(useColorTexture){
+            glGenTextures(1, &fboColorBuffer);
+            glBindTexture(GL_TEXTURE_2D, fboColorBuffer);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        }
 
-        glBindTexture(GL_TEXTURE_2D, fbo_tex);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        if(useDepthTexture){
+            glGenTextures(1, &fboDepthBuffer);
+            glBindTexture(GL_TEXTURE_2D, fboDepthBuffer);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        }
+        
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
     /* calculate the next power of two in both dimensions and use that as a texture size */
-    uint fb_tex_width = next_pow2(width);
-    uint fb_tex_height = next_pow2(height);
+    glm::ivec2 fboTexRes = glm::ivec2(next_pow2(resolution.x), next_pow2(resolution.y));
 
-    /* create and attach the texture that will be used as a color buffer */
-    glBindTexture(GL_TEXTURE_2D, fbo_tex);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, fb_tex_width, fb_tex_height, 0,
-            GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbo_tex, 0);
-
-    /* create and attach the renderbuffer that will serve as our z-buffer */
-    glBindRenderbuffer(GL_RENDERBUFFER, fbo_depth);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, fb_tex_width, fb_tex_height);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, fbo_depth);
-
-    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-        fprintf(stderr, "incomplete framebuffer!\n");
+    if(useColorTexture){
+        glBindTexture(GL_TEXTURE_2D, fboColorBuffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fboTexRes.x, fboTexRes.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fboColorBuffer, 0);
+    }else{
+        glBindRenderbuffer(GL_RENDERBUFFER, fboColorBuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, fboTexRes.x, fboTexRes.y);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, fboColorBuffer);
     }
 
+    if(useDepthTexture){
+        glBindTexture(GL_TEXTURE_2D, fboDepthBuffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, fboTexRes.x, fboTexRes.y, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, fboDepthBuffer, 0);
+    }else{
+        glBindRenderbuffer(GL_RENDERBUFFER, fboDepthBuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, fboTexRes.x, fboTexRes.y);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, fboDepthBuffer);
+    }
+   
+    std::cout << "Checking Framebuffer \"" << std::string(fboName) << "\": ";
+    switch(glCheckFramebufferStatus(GL_FRAMEBUFFER)){
+            case(GL_FRAMEBUFFER_COMPLETE):
+                std::cout << "Framebuffer Complete" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT):
+                std::cout << "Framebuffer Attachment Incomplete" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT):
+                std::cout << "Framebuffer Attachment Incomplete/Missing" << std::endl;
+                break;
+            case(GL_FRAMEBUFFER_UNSUPPORTED):
+                std::cout << "Framebuffer Unsupported" << std::endl;
+                break;
+            default:
+                std::cout << "Framebuffer is Incomplete for Unknown Reasons" << std::endl;
+                break;
+    }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    printf("created render target: %dx%d (texture size: %dx%d)\n", width, height, fb_tex_width, fb_tex_height);
+
+    printf("Successfully %s framebuffer \"%s\": %dx%d (texture size: %dx%d)\n", create ? "created" : "resized",
+             fboName, resolution.x, resolution.y, fboTexRes.x, fboTexRes.y);
 }
 
 

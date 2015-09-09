@@ -64,6 +64,7 @@ public:
 
     //returns resolution of this display in pixels, inherited from rectangle
     virtual glm::ivec2 size() override;
+    virtual void setSize(glm::ivec2 size) override;
 
     //returns the size of this display in meters
     virtual glm::vec2 dimensions() const;
@@ -93,7 +94,7 @@ private:
 protected:
     GLuint m_scratchFrameBuffer, m_scratchColorBufferTexture, m_scratchDepthBufferTexture;
 
-    void createOrUpdateFBO(uint &fbo, uint &fbo_tex,  uint &fbo_depth, int width, int height);
+    void createOrUpdateFBO(const char *fboName, uint &fbo, uint &fboColorBuffer, bool useColorTexture, uint &fboDepthBuffer, bool useDepthTexture, glm::ivec2 resolution);
 
 
 

@@ -36,7 +36,7 @@
 #ifndef OCULUSHMD_H
 #define OCULUSHMD_H
 
-#include <scenegraph/output/display/display.h>
+#include <scenegraph/output/display/rendertotexturedisplay.h>
 #include <scenegraph/input/singlebonetracker.h>
 
 #include <OVR_Version.h>
@@ -46,11 +46,9 @@
 
 #include <glm/gtc/quaternion.hpp>
 
-
-
 namespace motorcar {
 
-class OculusHMD : public Display
+class OculusHMD : public RenderToTextureDisplay
 {
 public:
     
@@ -82,6 +80,8 @@ private:
     unsigned int fbo, fb_tex, fb_depth;
     int fb_width, fb_height;
     int fb_tex_width, fb_tex_height;
+
+    bool firstDraw;
 };
 }
 
