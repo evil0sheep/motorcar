@@ -41,30 +41,23 @@ using namespace motorcar;
 
 void OculusHMD::prepareForDraw()
 {
-	if(firstDraw){
-		firstDraw=false;
-	}
-
-	//this->setTransform(glm::rotate(glm::mat4(1), glm::radians(90.0f), glm::vec3(0,1,0)) * this->transform());
-	//this->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,-0.1)) * this->transform());
 
     RenderToTextureDisplay::prepareForDraw();
 
+    ovrPosef outEyePoses[2];
+    ovrTrackingState outHmdTrackingState;
 
-	// printf("GLX Display: %p\n", glXGetCurrentDisplay());
+	ovrHmd_GetEyePoses(hmd, m_frameIndex, m_hmdToEyeViewOffset, outEyePoses, &outHmdTrackingState);
 
-    	/* the drawing starts with a call to ovrHmd_BeginFrame */
-	// ovrHmd_BeginFrame(hmd, 0);
+	ovrPosef pose = outHmdTrackingState.HeadPose.ThePose;
+	glm::vec3 position = glm::vec3(pose.Position.x, pose.Position.y, pose.Position.z);
+    glm::quat orientation = glm::make_quat(&pose.Orientation.x);
+    glm::mat4 transform = glm::translate(glm::mat4(), position) * glm::mat4_cast(orientation);
+    this->setTransform(transform);
 
+    /* the drawing starts with a call to ovrHmd_BeginFrame */
+	//ovrHmd_BeginFrame(hmd, 0);
 
-
-	// for(int i=0; i<2; i++) {
-	// 	ovrEyeType eye = hmd->EyeRenderOrder[i];
-
-	// 	proj[i] = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.5, 500.0, 1);
-		
-	// 	pose[eye] = ovrHmd_GetHmdPosePerEye(hmd, eye);
-	// }
 
 
 }
@@ -74,15 +67,16 @@ void OculusHMD::finishDraw()
 {
 	RenderToTextureDisplay::finishDraw();
 
-	// ovrHmd_EndFrame(hmd, pose, &fb_ovr_tex[0].Texture);
+	//ovrHmd_EndFrame(hmd, pose, &fb_ovr_tex[0].Texture);
+	m_frameIndex++;
 
 }
 
 
 OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode *parent)
-    :RenderToTextureDisplay(glContext, glm::vec2(0.126, 0.0706), parent, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f)))
+    :RenderToTextureDisplay(glContext, glm::vec2(0.126, 0.0706), parent, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.10f)))
     , initialized(false)
-    , firstDraw(true)
+    , m_frameIndex(0)
 {
 
 	printf("detected %d hmds\n", ovrHmd_Detect());
@@ -142,16 +136,17 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 
 		ovrHmd_DestroyDistortionMesh(&mesh);
 
-		ovrEyeRenderDesc desc = ovrHmd_GetRenderDesc(hmd, eye, hmd->DefaultEyeFov[eye]);
+		eye_rdesc[i] = ovrHmd_GetRenderDesc(hmd, eye, hmd->DefaultEyeFov[eye]);
+		m_hmdToEyeViewOffset[i] = eye_rdesc[i].HmdToEyeViewOffset;
 
 		ovrVector2f uvScaleOffsetOut[2];
-		ovrHmd_GetRenderScaleAndOffset(hmd->DefaultEyeFov[eye], hmd->Resolution, desc.DistortedViewport, uvScaleOffsetOut);
+		ovrHmd_GetRenderScaleAndOffset(hmd->DefaultEyeFov[eye], hmd->Resolution, eye_rdesc[i].DistortedViewport, uvScaleOffsetOut);
 		distortionMeshes[i].EyeToSourceUVScale = glm::vec2(uvScaleOffsetOut[0].x, uvScaleOffsetOut[0].y);
         distortionMeshes[i].EyeToSourceUVOffset = glm::vec2(uvScaleOffsetOut[1].x, uvScaleOffsetOut[1].y);
 
 		printf("size: %d, %d; viewport offest: %d, %d; viewport size %d, %d\n", hmd->Resolution.w, hmd->Resolution.h, 
-																				desc.DistortedViewport.Pos.x, desc.DistortedViewport.Pos.y, 
-																				desc.DistortedViewport.Size.w, desc.DistortedViewport.Size.h);
+																				eye_rdesc[i].DistortedViewport.Pos.x, eye_rdesc[i].DistortedViewport.Pos.y, 
+																				eye_rdesc[i].DistortedViewport.Size.w, eye_rdesc[i].DistortedViewport.Size.h);
 
 		proj[i] = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], near, far, ovrProjection_ClipRangeOpenGL | ovrProjection_RightHanded);
 		float projectionOverrideValues[16];
@@ -164,12 +159,12 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 		glm::mat4 projectionOverride = glm::transpose(glm::make_mat4(projectionOverrideValues));
 
 
-		glm::vec3 HmdToEyeViewOffset = -1.0f * glm::vec3(	desc.HmdToEyeViewOffset.x,
-													desc.HmdToEyeViewOffset.y,
-													desc.HmdToEyeViewOffset.z );
+		glm::vec3 HmdToEyeViewOffset = -1.0f * glm::vec3(m_hmdToEyeViewOffset[i].x,
+													m_hmdToEyeViewOffset[i].y,
+													m_hmdToEyeViewOffset[i].z );
 
 		ViewPoint *vp = new ViewPoint(near, far, this, this,
-	                                 glm::mat4(),//glm::translate(glm::mat4(), HmdToEyeViewOffset),
+	                                 glm::translate(glm::mat4(), HmdToEyeViewOffset),
 	                                 glm::vec4(0.5f - (i * 0.5f),0.0f,.5f,1.0f), glm::vec3(0));
 		vp->overrideProjectionMatrix(projectionOverride);
 		addViewpoint(vp);

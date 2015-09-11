@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 
 
     };
-    new motorcar::WireframeNode(vertices, 3, glm::vec3(1, 0, 0), scene, glm::mat4(0.01));
+    new motorcar::WireframeNode(vertices, 3, glm::vec3(1, 0, 0), scene, glm::translate(glm::mat4(0.01), glm::vec3(0,-1,-1)));
 
     bool force_oculus = false;
     motorcar::OculusHMD *hmd = new motorcar::OculusHMD(skeleton, context, scene);

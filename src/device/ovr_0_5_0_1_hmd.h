@@ -62,7 +62,7 @@ public:
     ~OculusHMD();
 
 private:
-        ovrPosef pose[2];
+    ovrPosef pose[2];
     ovrMatrix4f proj[2];
     // void updateRendertarget(int width, int height);
 
@@ -70,6 +70,7 @@ private:
     ovrHmd hmd;
     ovrSizei eyeres[2];
     ovrEyeRenderDesc eye_rdesc[2];
+    ovrVector3f m_hmdToEyeViewOffset[2];
     ovrGLTexture fb_ovr_tex[2];
     union ovrGLConfig glcfg;
     unsigned int distortionCaps;
@@ -77,11 +78,12 @@ private:
 
     int win_width, win_height;
 
-    unsigned int fbo, fb_tex, fb_depth;
+
     int fb_width, fb_height;
     int fb_tex_width, fb_tex_height;
 
-    bool firstDraw;
+    unsigned int m_frameIndex;
+
 };
 }
 
