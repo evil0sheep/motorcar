@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 
 
     };
-    new motorcar::WireframeNode(vertices, 3, glm::vec3(1, 0, 0), scene, glm::translate(glm::mat4(0.01), glm::vec3(0,-1,-1)));
+    //new motorcar::WireframeNode(vertices, 3, glm::vec3(1, 0, 0), scene, glm::translate(glm::mat4(0.01), glm::vec3(0,-1,-1)));
 
     bool force_oculus = false;
     motorcar::OculusHMD *hmd = new motorcar::OculusHMD(skeleton, context, scene);
@@ -114,27 +114,36 @@ int main(int argc, char *argv[])
         //ds325->setParentNode(handController);
         //ds325->setParentNode(compositor->display());
 
-        baseNode->setTransform(glm::translate(glm::mat4(1.0f), glm::vec3(0.5f,0.25f,.25f)));
-
-        handController->setPointingDevice(new motorcar::SixDOFPointingDevice(compositor->defaultSeat(),handController));
-
-        headController->setBoneTracker(new motorcar::SingleBoneTracker(skeleton->headBone(), glm::translate(glm::mat4(), glm::vec3(0.0f, .073f, .184f)),
-                                                                       skeleton, baseNode));
-
-        std::cout << "parenting display to controller "<<std::endl;
-        compositor->display()->setParentNode(skeleton->headBone());
+        // baseNode->setTransform(glm::translate(glm::mat4(1.0f), glm::vec3(0.5f,0.25f,.25f)));
+        baseNode->setTransform(glm::translate(glm::mat4(1.0f), glm::vec3(-0.25f,-0.5f,-0.5f)));
 
 
+        for(auto controller : baseNode->controllers()){
+            printf("attaching pointing device to controller %p\n", controller);
+            controller->setPointingDevice(new motorcar::SixDOFPointingDevice(compositor->defaultSeat(),controller));
+        }
 
-          glm::vec3 displayPosition = glm::vec3(0.0f, .127f, -.165f);
+        // handController->setPointingDevice(new motorcar::SixDOFPointingDevice(compositor->defaultSeat(),handController));
 
-          glm::mat4 displayTransform = glm::translate(glm::mat4(), displayPosition);
+        // headController->setBoneTracker(new motorcar::SingleBoneTracker(skeleton->headBone(), glm::translate(glm::mat4(), glm::vec3(0.0f, .073f, .184f)),
+        //                                                                skeleton, baseNode));
 
-          compositor->display()->setTransform(displayTransform);
+        // std::cout << "parenting display to controller "<<std::endl;
+        // compositor->display()->setParentNode(skeleton->headBone());
+
+
+
+        //   glm::vec3 displayPosition = glm::vec3(0.0f, .127f, -.165f);
+
+        //   glm::mat4 displayTransform = glm::translate(glm::mat4(), displayPosition);
+
+        //   compositor->display()->setTransform(displayTransform);
 
 //        headController->setBoneTracker(NULL);
 //        compositor->display()->setParentNode(headController);
 //        compositor->display()->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,-0.25, 0)));
+    }else{
+        printf("sixense system does not appear to be working\n");
     }
 
 
