@@ -57,14 +57,11 @@ public:
     ~ViewPoint();
 
 
-
-
-
-
     void updateViewMatrix();
     void updateProjectionMatrix();
     glm::mat4 viewMatrix() const;
     glm::mat4 projectionMatrix() const;
+    void overrideProjectionMatrix(glm::mat4 projectionMatrix);
 
 
     //returns camera vertical field of view in radians
@@ -117,6 +114,7 @@ private:
 
     //cached matrices
     glm::mat4 m_viewMatrix, m_projectionMatrix, m_viewProjectionMatrix;
+    bool m_projectionMatrixOverridden;
 
     struct motorcar_viewpoint *m_viewpointHandle;
     struct wl_global *m_global;

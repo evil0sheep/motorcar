@@ -55,6 +55,7 @@ ViewPoint::ViewPoint(float near, float far, Display *display, SceneGraphNode *pa
     , m_clientDepthViewport(NULL)
     , m_viewpointHandle(NULL)
     , m_global(NULL)
+    , m_projectionMatrixOverridden(false)
 
 {
 
@@ -113,9 +114,17 @@ void ViewPoint::updateViewMatrix()
 
 void ViewPoint::updateProjectionMatrix()
 {
-    m_projectionMatrix = m_COFTransform * glm::perspective(fov(display()), (m_viewport->width())/ (m_viewport->height()), near, far);
+    if(!m_projectionMatrixOverridden){
+         m_projectionMatrix = m_COFTransform * glm::perspective(fov(display()), (m_viewport->width())/ (m_viewport->height()), near, far);
+    }
 
     this->sendProjectionMatrixToClients();
+}
+
+void ViewPoint::overrideProjectionMatrix(glm::mat4 projectionMatrix){
+     m_projectionMatrix = projectionMatrix;
+     m_projectionMatrixOverridden = true;
+     updateProjectionMatrix();
 }
 
 

@@ -108,7 +108,7 @@ void Geometry::printMatrix(glm::mat4 m)
     for(int i=0; i<4; i++){
             glm::vec4 row= glm::row(m, i);
             std::cout.precision(2);
-            std::cout << row.x << " " << row.y << " " << row.z << " " << row.w << std::endl;
+            std::cout << row.x << "\t" << row.y << "\t" << row.z << "\t" << row.w << std::endl;
         }
         std::cout << std::endl;
 }

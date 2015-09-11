@@ -40,6 +40,7 @@
 
 #include <motorcar.h>
 #include <sixensemotionsensingsystem.h>
+#include <scenegraph/output/wireframenode.h>
 #include <ovr_0_5_0_1_hmd.h>
 
 
@@ -60,7 +61,20 @@ int main(int argc, char *argv[])
 
     motorcar::Skeleton *skeleton = new motorcar::Skeleton(scene);
 
-    bool force_oculus = true;
+
+    float vertices[]= {
+        -5.f, 0.0f, 0.0f,
+        5.f, 0.0f, 0.0f,
+        0.0f, -5.f, 0.0f,
+        0.0f, 5.f, 0.0f,
+        0.0f, 0.0f, -5.0f,
+        0.0f, 0.0f, 5.f,
+
+
+    };
+    new motorcar::WireframeNode(vertices, 3, glm::vec3(1, 0, 0), scene, glm::mat4(0.01));
+
+    bool force_oculus = false;
     motorcar::OculusHMD *hmd = new motorcar::OculusHMD(skeleton, context, scene);
 
     if(hmd->isInitialized()){

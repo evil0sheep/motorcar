@@ -45,6 +45,8 @@ void OculusHMD::prepareForDraw()
 		firstDraw=false;
 	}
 
+	//this->setTransform(glm::rotate(glm::mat4(1), glm::radians(90.0f), glm::vec3(0,1,0)) * this->transform());
+	//this->setTransform(glm::translate(glm::mat4(1), glm::vec3(0,0,-0.1)) * this->transform());
 
     RenderToTextureDisplay::prepareForDraw();
 
@@ -78,7 +80,7 @@ void OculusHMD::finishDraw()
 
 
 OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode *parent)
-    :RenderToTextureDisplay(glContext, glm::vec2(0.126, 0.0706), parent)
+    :RenderToTextureDisplay(glContext, glm::vec2(0.126, 0.0706), parent, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f)))
     , initialized(false)
     , firstDraw(true)
 {
@@ -112,56 +114,10 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 
 	setRenderTargetSize(glm::ivec2(fb_width, fb_height));
 
-	/* fill in the ovrGLTexture structures that describe our render target texture */
-	
-	// for(int i=0; i<2; i++) {
-	// 	fb_ovr_tex[i].OGL.Header.API = ovrRenderAPI_OpenGL;
-	// 	fb_ovr_tex[i].OGL.Header.TextureSize.w = fb_tex_width;
-	// 	fb_ovr_tex[i].OGL.Header.TextureSize.h = fb_tex_height;
-	// 	/* this next field is the only one that differs between the two eyes */
-	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Pos.x = i == 0 ? 0 : fb_width / 2.0;
-	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Pos.y = 0;
-	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Size.w = fb_width / 2.0;
-	// 	fb_ovr_tex[i].OGL.Header.RenderViewport.Size.h = fb_height;
-	// 	fb_ovr_tex[i].OGL.TexId = m_colorBufferTexture;	/* both eyes will use the same texture id */
-	// }
-
-	// /* fill in the ovrGLConfig structure needed by the SDK to draw our stereo pair
-	//  * to the actual HMD display (SDK-distortion mode)
-	//  */
-	// memset(&glcfg, 0, sizeof glcfg);
-	// glcfg.OGL.Header.API = ovrRenderAPI_OpenGL;
-	// glcfg.OGL.Header.BackBufferSize.w = win_width;
-	// glcfg.OGL.Header.BackBufferSize.h = win_height;
-	// glcfg.OGL.Header.Multisample = 1;
-
-	// // glcfg.OGL.Disp = glXGetCurrentDisplay();
-	// // printf("GLX Display: %p\n", glcfg.OGL.Disp);
-
-	// if(hmd->HmdCaps & ovrHmdCap_ExtendDesktop) {
-	// 	printf("running in \"extended desktop\" mode\n");
-	// } else {
-	// 	printf("running in \"direct-hmd\" mode\n");
-	// 	printf(" \"direct-hmd\" mode not supported!\n");
-	// 	initialized=false;
-	// 	return;
-	// }
-
 	/* enable low-persistence display and dynamic prediction for lattency compensation */
 	hmd_caps = ovrHmdCap_LowPersistence | ovrHmdCap_DynamicPrediction;
 	ovrHmd_SetEnabledCaps(hmd, hmd_caps);
 
-
-	// /* configure SDK-rendering and enable OLED overdrive and timewrap, which
-	//  * shifts the image before drawing to counter any lattency between the call
-	//  * to ovrHmd_GetEyePose and ovrHmd_EndFrame.
-	//  */
-	// distort_caps =  ovrDistortionCap_Overdrive;
-	// if(!ovrHmd_ConfigureRendering(hmd, &glcfg.Config, distort_caps, hmd->DefaultEyeFov, eye_rdesc)) {
-	// 	fprintf(stderr, "failed to configure distortion renderer\n");
-	// 	// initialized =false;
-	// 	// return;
-	// }
 
 	distortionCaps =  ovrDistortionCap_Overdrive;
 
@@ -189,7 +145,7 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 		ovrEyeRenderDesc desc = ovrHmd_GetRenderDesc(hmd, eye, hmd->DefaultEyeFov[eye]);
 
 		ovrVector2f uvScaleOffsetOut[2];
-		ovrHmd_GetRenderScaleAndOffset(desc.Fov, hmd->Resolution, desc.DistortedViewport, uvScaleOffsetOut);
+		ovrHmd_GetRenderScaleAndOffset(hmd->DefaultEyeFov[eye], hmd->Resolution, desc.DistortedViewport, uvScaleOffsetOut);
 		distortionMeshes[i].EyeToSourceUVScale = glm::vec2(uvScaleOffsetOut[0].x, uvScaleOffsetOut[0].y);
         distortionMeshes[i].EyeToSourceUVOffset = glm::vec2(uvScaleOffsetOut[1].x, uvScaleOffsetOut[1].y);
 
@@ -197,16 +153,26 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 																				desc.DistortedViewport.Pos.x, desc.DistortedViewport.Pos.y, 
 																				desc.DistortedViewport.Size.w, desc.DistortedViewport.Size.h);
 
-		proj[i] = ovrMatrix4f_Projection(desc.Fov, near, far, 1);
+		proj[i] = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], near, far, ovrProjection_ClipRangeOpenGL | ovrProjection_RightHanded);
+		float projectionOverrideValues[16];
+		for(int j = 0; j < 4; j ++){
+			for(int k = 0; k < 4; k++){
+				projectionOverrideValues[j * 4 + k] = proj[i].M[j][k];
+			}
+
+		}
+		glm::mat4 projectionOverride = glm::transpose(glm::make_mat4(projectionOverrideValues));
+
 
 		glm::vec3 HmdToEyeViewOffset = -1.0f * glm::vec3(	desc.HmdToEyeViewOffset.x,
 													desc.HmdToEyeViewOffset.y,
 													desc.HmdToEyeViewOffset.z );
 
-		ViewPoint *cam = new ViewPoint(near, far, this, this,
-	                                 glm::translate(glm::mat4(), HmdToEyeViewOffset),
+		ViewPoint *vp = new ViewPoint(near, far, this, this,
+	                                 glm::mat4(),//glm::translate(glm::mat4(), HmdToEyeViewOffset),
 	                                 glm::vec4(0.5f - (i * 0.5f),0.0f,.5f,1.0f), glm::vec3(0));
-		addViewpoint(cam);
+		vp->overrideProjectionMatrix(projectionOverride);
+		addViewpoint(vp);
 
 
 

@@ -204,6 +204,7 @@ void Display::createOrUpdateFBO(const char *fboName, uint &fbo, uint &fboColorBu
 
     /* calculate the next power of two in both dimensions and use that as a texture size */
     glm::ivec2 fboTexRes = glm::ivec2(next_pow2(resolution.x), next_pow2(resolution.y));
+    fboTexRes=resolution;
 
     if(useColorTexture){
         glBindTexture(GL_TEXTURE_2D, fboColorBuffer);
