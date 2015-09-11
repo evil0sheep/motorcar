@@ -93,20 +93,11 @@ protected:
         void setDistortionMesh(DistortionMesh distortionMesh[2]);
         
 private:
-    //used by interface for Oculus 0.1.3 sdk
-    float m_scale;
-    glm::vec4 m_distortionK;
-    GLuint m_surfaceTextureCoordinates, m_surfaceVertexCoordinates;
-    GLint h_aTexCoord_distortion, h_uDistortionK, h_uLenseCenter, h_uViewportParams, h_uScaleFactor;
 
-
-    //used by interface for Oculus 0.5.0.1 sdk
-    DistortionMesh m_distortionMesh[2];
-    
+    DistortionMesh m_distortionMesh[2];   
     GLint h_aPosition_distortion, h_aTanEyeAnglesR, h_aTanEyeAnglesG, h_aTanEyeAnglesB,  h_uEyeToSourceUVScale, h_uEyeToSourceUVOffset;
 
-    //common
-    bool m_renderingToTexture, m_usingDistortionMesh;
+    bool m_renderingToTexture;
     glm::ivec2 m_renderTargetSize;
     GLuint m_frameBuffer, m_colorBufferTexture, m_depthBufferTexture;
 

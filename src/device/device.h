@@ -36,7 +36,7 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
-#include "oculushmd.h"
+#include "ovr_0_5_0_1_hmd.h.h"
 #include "sixensecontrollernode.h"
 #include "sixensemotionsensingsystem.h"
 #include "softkineticdepthcamera.h"

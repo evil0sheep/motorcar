@@ -33,9 +33,6 @@
 **
 ****************************************************************************/
 #include "ovr_0_5_0_1_hmd.h"
-#include <GL/gl.h>
-#include <X11/Xlib.h>
-#include <GL/glx.h>
 
 using namespace motorcar;
 
@@ -47,7 +44,7 @@ void OculusHMD::prepareForDraw()
     ovrPosef outEyePoses[2];
     ovrTrackingState outHmdTrackingState;
 
-	ovrHmd_GetEyePoses(hmd, m_frameIndex, m_hmdToEyeViewOffset, outEyePoses, &outHmdTrackingState);
+	ovrHmd_GetEyePoses(m_hmd, m_frameIndex, m_hmdToEyeViewOffset, outEyePoses, &outHmdTrackingState);
 
 	ovrPosef pose = outHmdTrackingState.HeadPose.ThePose;
 	glm::vec3 position = glm::vec3(pose.Position.x, pose.Position.y, pose.Position.z);
@@ -75,32 +72,36 @@ void OculusHMD::finishDraw()
 
 OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode *parent)
     :RenderToTextureDisplay(glContext, glm::vec2(0.126, 0.0706), parent, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.10f)))
-    , initialized(false)
+    , m_initialized(false)
     , m_frameIndex(0)
 {
+    
+    int win_width, win_height;
+    int fb_width, fb_height;
 
 	printf("detected %d hmds\n", ovrHmd_Detect());
-	if(!(hmd = ovrHmd_Create(0))) {
+	if(!(m_hmd = ovrHmd_Create(0))) {
 		fprintf(stderr, "failed to open Oculus HMD, falling back to virtual debug HMD\n");
-		if(!(hmd = ovrHmd_CreateDebug(ovrHmd_DK2))) {
+		if(!(m_hmd = ovrHmd_CreateDebug(ovrHmd_DK2))) {
 			fprintf(stderr, "failed to create virtual debug HMD\n");
 			return;
 		}
 	}
-	printf("initialized HMD: %s - %s\n", hmd->Manufacturer, hmd->ProductName);
-	initialized = true;
+	printf("initialized HMD: %s - %s\n", m_hmd->Manufacturer, m_hmd->ProductName);
+	m_initialized = true;
 
-	win_width = hmd->Resolution.w;
-	win_height = hmd->Resolution.h;
+	win_width = m_hmd->Resolution.w;
+	win_height = m_hmd->Resolution.h;
 	printf("Reported hmd size: %d, %d. Default Framebuffer size: %d, %d\n",win_width, win_height, glContext->defaultFramebufferSize().x, glContext->defaultFramebufferSize().y );
 
 	//m_size = glm::vec2(win_width, win_height);
 
 	/* enable position and rotation tracking */
-	ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0);
+	ovrHmd_ConfigureTracking(m_hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0);
 	/* retrieve the optimal render target resolution for each eye */
-	eyeres[0] = ovrHmd_GetFovTextureSize(hmd, ovrEye_Left, hmd->DefaultEyeFov[0], 1.0);
-	eyeres[1] = ovrHmd_GetFovTextureSize(hmd, ovrEye_Right, hmd->DefaultEyeFov[1], 1.0);
+	ovrSizei eyeres[2];
+	eyeres[0] = ovrHmd_GetFovTextureSize(m_hmd, ovrEye_Left, m_hmd->DefaultEyeFov[0], 1.0);
+	eyeres[1] = ovrHmd_GetFovTextureSize(m_hmd, ovrEye_Right, m_hmd->DefaultEyeFov[1], 1.0);
 
 	/* and create a single render target texture to encompass both eyes */
 	fb_width = eyeres[0].w + eyeres[1].w;
@@ -109,18 +110,18 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 	setRenderTargetSize(glm::ivec2(fb_width, fb_height));
 
 	/* enable low-persistence display and dynamic prediction for lattency compensation */
-	hmd_caps = ovrHmdCap_LowPersistence | ovrHmdCap_DynamicPrediction;
-	ovrHmd_SetEnabledCaps(hmd, hmd_caps);
+	unsigned int hmdCaps = ovrHmdCap_LowPersistence | ovrHmdCap_DynamicPrediction;
+	ovrHmd_SetEnabledCaps(m_hmd, hmdCaps);
 
 
-	distortionCaps =  ovrDistortionCap_Overdrive;
+	unsigned int distortionCaps =  ovrDistortionCap_Overdrive;
 
 	float near = .01f, far = 10.0f;
 	RenderToTextureDisplay::DistortionMesh distortionMeshes[2];
 	for(int i=0; i<2; i++) {
-		ovrEyeType eye = hmd->EyeRenderOrder[i];
+		ovrEyeType eye = m_hmd->EyeRenderOrder[i];
 		ovrDistortionMesh mesh;
-		ovrHmd_CreateDistortionMesh(hmd, eye, hmd->DefaultEyeFov[eye], distortionCaps, &mesh);
+		ovrHmd_CreateDistortionMesh(m_hmd, eye, m_hmd->DefaultEyeFov[eye], distortionCaps, &mesh);
 		assert(sizeof(ovrDistortionVertex) == sizeof(RenderToTextureDisplay::DistortionVertex));
 		
 
@@ -135,24 +136,29 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 		memcpy(distortionMeshes[i].IndexData, mesh.pIndexData, indexDataSize);
 
 		ovrHmd_DestroyDistortionMesh(&mesh);
-
-		eye_rdesc[i] = ovrHmd_GetRenderDesc(hmd, eye, hmd->DefaultEyeFov[eye]);
-		m_hmdToEyeViewOffset[i] = eye_rdesc[i].HmdToEyeViewOffset;
+		ovrEyeRenderDesc renderDescriptors[2];
+		renderDescriptors[i] = ovrHmd_GetRenderDesc(m_hmd, eye, m_hmd->DefaultEyeFov[eye]);
+		m_hmdToEyeViewOffset[i] = renderDescriptors[i].HmdToEyeViewOffset;
 
 		ovrVector2f uvScaleOffsetOut[2];
-		ovrHmd_GetRenderScaleAndOffset(hmd->DefaultEyeFov[eye], hmd->Resolution, eye_rdesc[i].DistortedViewport, uvScaleOffsetOut);
+		ovrHmd_GetRenderScaleAndOffset(m_hmd->DefaultEyeFov[eye], m_hmd->Resolution, renderDescriptors[i].DistortedViewport, uvScaleOffsetOut);
 		distortionMeshes[i].EyeToSourceUVScale = glm::vec2(uvScaleOffsetOut[0].x, uvScaleOffsetOut[0].y);
         distortionMeshes[i].EyeToSourceUVOffset = glm::vec2(uvScaleOffsetOut[1].x, uvScaleOffsetOut[1].y);
 
-		printf("size: %d, %d; viewport offest: %d, %d; viewport size %d, %d\n", hmd->Resolution.w, hmd->Resolution.h, 
-																				eye_rdesc[i].DistortedViewport.Pos.x, eye_rdesc[i].DistortedViewport.Pos.y, 
-																				eye_rdesc[i].DistortedViewport.Size.w, eye_rdesc[i].DistortedViewport.Size.h);
+		printf("size: %d, %d; viewport offest: %d, %d; viewport size %d, %d\n", m_hmd->Resolution.w, m_hmd->Resolution.h, 
+																				renderDescriptors[i].DistortedViewport.Pos.x, renderDescriptors[i].DistortedViewport.Pos.y, 
+																				renderDescriptors[i].DistortedViewport.Size.w, renderDescriptors[i].DistortedViewport.Size.h);
 
-		proj[i] = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], near, far, ovrProjection_ClipRangeOpenGL | ovrProjection_RightHanded);
+		glm::vec4 normalizedViewportParams = glm::vec4( renderDescriptors[i].DistortedViewport.Pos.x / ((float)m_hmd->Resolution.w),
+														renderDescriptors[i].DistortedViewport.Pos.y / ((float)m_hmd->Resolution.h),
+														renderDescriptors[i].DistortedViewport.Size.w / ((float)m_hmd->Resolution.w),
+														renderDescriptors[i].DistortedViewport.Size.h / ((float)m_hmd->Resolution.h));
+
+		ovrMatrix4f ovrProjection = ovrMatrix4f_Projection(m_hmd->DefaultEyeFov[eye], near, far, ovrProjection_ClipRangeOpenGL | ovrProjection_RightHanded);
 		float projectionOverrideValues[16];
 		for(int j = 0; j < 4; j ++){
 			for(int k = 0; k < 4; k++){
-				projectionOverrideValues[j * 4 + k] = proj[i].M[j][k];
+				projectionOverrideValues[j * 4 + k] = ovrProjection.M[j][k];
 			}
 
 		}
@@ -165,7 +171,7 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 
 		ViewPoint *vp = new ViewPoint(near, far, this, this,
 	                                 glm::translate(glm::mat4(), HmdToEyeViewOffset),
-	                                 glm::vec4(0.5f - (i * 0.5f),0.0f,.5f,1.0f), glm::vec3(0));
+	                                 normalizedViewportParams, glm::vec3(0));
 		vp->overrideProjectionMatrix(projectionOverride);
 		addViewpoint(vp);
 
@@ -182,7 +188,7 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 
 
 
-	// initialized =false;
+	// m_initialized =false;
 
 }
 
@@ -190,7 +196,7 @@ OculusHMD::OculusHMD(Skeleton *skeleton, OpenGLContext *glContext, PhysicalNode 
 
 OculusHMD::~OculusHMD()
 {
-	ovrHmd_Destroy(hmd);
+	ovrHmd_Destroy(m_hmd);
 	ovr_Shutdown();
 }
 

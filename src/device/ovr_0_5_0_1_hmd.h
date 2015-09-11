@@ -52,7 +52,7 @@ class OculusHMD : public RenderToTextureDisplay
 {
 public:
     
-    bool isInitialized(){ return initialized;}
+    bool isInitialized(){ return m_initialized;}
 
     virtual void prepareForDraw() override;
     virtual void finishDraw() override;
@@ -62,25 +62,11 @@ public:
     ~OculusHMD();
 
 private:
-    ovrPosef pose[2];
-    ovrMatrix4f proj[2];
-    // void updateRendertarget(int width, int height);
 
-    bool initialized;
-    ovrHmd hmd;
-    ovrSizei eyeres[2];
-    ovrEyeRenderDesc eye_rdesc[2];
+    bool m_initialized;
+    ovrHmd m_hmd;
     ovrVector3f m_hmdToEyeViewOffset[2];
-    ovrGLTexture fb_ovr_tex[2];
-    union ovrGLConfig glcfg;
-    unsigned int distortionCaps;
-    unsigned int hmd_caps;
 
-    int win_width, win_height;
-
-
-    int fb_width, fb_height;
-    int fb_tex_width, fb_tex_height;
 
     unsigned int m_frameIndex;
 
