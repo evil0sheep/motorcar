@@ -46,7 +46,7 @@ SixenseControllerNode::SixenseControllerNode(int controllerIndex, PhysicalNode *
     ,m_enabled(true)
     ,m_bumperDown(false)
     ,m_filteredPos(0)
-    ,m_filterConstant(.8)
+    ,m_filterConstant(.7)
 {
 
 }
@@ -69,15 +69,13 @@ void SixenseControllerNode::updateState(sixenseControllerData data)
         m_pointingDevice->setLeftMouseDown((data.buttons & SIXENSE_BUTTON_1) != 0);
         m_pointingDevice->setRightMouseDown((data.buttons & SIXENSE_BUTTON_2) != 0);
         m_pointingDevice->setMiddleMouseDown((data.buttons & SIXENSE_BUTTON_JOYSTICK) != 0);
+
     }
 
     glm::mat3 rotation = glm::make_mat3((float *)data.rot_mat);
     glm::vec3 newPosition = (glm::make_vec3(data.pos) / 1000.f);
 
     m_filteredPos = (1-m_filterConstant) * m_filteredPos + m_filterConstant * newPosition;
-
-
-
 
 
     glm::mat4 controllerTransform = glm::translate(glm::mat4(), m_filteredPos);// *
@@ -87,7 +85,20 @@ void SixenseControllerNode::updateState(sixenseControllerData data)
                                                               glm::vec4(rotation[1], 0),
                                                               glm::vec4(rotation[2], 0),
                                                               glm::vec4(0,0,0, 1));
-    setTransform(controllerTransform);
+
+
+    if(data.buttons & SIXENSE_BUTTON_START){
+        printf("Calibrating sixense controller to display\n\tHold controller with joystick on chin\n\tand point controller at nose\n");
+        glm::mat4 displayTransform = this->scene()->activeDisplay()->worldTransform();
+        glm::mat4 targetTransform = displayTransform * glm::translate(glm::mat4(), glm::vec3(0, -0.15, 0.05)) 
+                                                        * glm::rotate(glm::mat4(), glm::radians(90.f), glm::vec3(1, 0, 0));
+        glm::mat4 transformError = glm::inverse(targetTransform) * (this->parentNode()->worldTransform() * controllerTransform);
+
+        m_tranformOffset = glm::inverse(transformError);
+
+    }
+
+    setTransform(controllerTransform * m_tranformOffset);
 
 
     if(m_boneTracker != NULL){

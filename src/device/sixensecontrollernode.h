@@ -68,6 +68,8 @@ private:
 
     glm::vec3 m_filteredPos;
     float m_filterConstant;
+
+    glm::mat4 m_tranformOffset;
 };
 }
 
