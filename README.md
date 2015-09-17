@@ -1,7 +1,7 @@
 ﻿Motorcar
 ========
 
-**For technical questions regarding Motorcar please contact the [motorcar-devel mailing list](https://groups.google.com/forum/#!forum/motorcar-devel)**
+**For technical questions regarding Motorcar please contact the [motorcar-devel](https://groups.google.com/forum/#!forum/motorcar-devel)  mailing list**
 
 Motorcar is a framework for 3D windowing built on top of Wayland which I originally developed for my Master's thesis at Cal Poly ([pdf](https://github.com/evil0sheep/MastersThesis/blob/master/thesis.pdf?raw=true), [defense slides](https://docs.google.com/presentation/d/1svgGMxxbfmcHy_KuS5Q9hah8PQOsXqvjBKOoMIzW24Y/edit?usp=sharing)). It is designed to provide basic 3D windowing infrastructure that gives 3D applications desktop flexibility in the how their 3D content is drawn while supporting unmodified Wayland applications in the same 3D compositor space, and to do this with the simplest mechanism possible.
 
@@ -14,7 +14,41 @@ Building Motorcar
 
 In general if you are looking to build Motorcar you should pull the stable branch, as the master branch may periodically go into unbuildable states. Please note that the software in the stable branch is not guaranteed to *actually be* stable, but I will not knowingly commit broken code to stable.
 
-If you have trouble building Motorcar or feedback regarding the build process please contact me. At the time of me writing these build instructions this software has not been built on another system to my knowledge, so there could be significant problems with the software or build system that I am simply unaware of.
+If you have trouble building Motorcar or feedback regarding the build process please contact me. 
+
+
+Using the Build Script
+----------------------
+
+The repository contains a simple build script, [build.sh](https://github.com/evil0sheep/motorcar/blob/master/build.sh), which will build qt5.5 with qtwayland, libmotorcar-server, and the two example compositors. It is invoked as follows:
+
+	$ ./build.sh [target1 [target2 [...]]]
+
+Where target is one of the following:
+
+* qtwayland
+	* Builds qt5.5 with qtwayland as per the instructions below
+	* This target will prompt twice to verify that EGL settings are correct, once when configuring qt5 and once after running qmake for qtwayland. If the output when these prompts appear do not show EGL being supported on Desktop OpenGL the compositor will not work with EGL clients like the motorcar example client. SHM clients may still work
+* libmotorcar-compositor
+	* Builds the motorcar compositor libraries, used by the example compositors
+	* This target has no prompts
+ *simple-compositor
+	* Builds a simple demo compositor with no hardware dependencies
+	* Produces a shell script "run-simple-compositor.sh" which runs the compiled compositor
+	* This target has no prompts
+* rift-hydra-compositor
+	* Builds the compositor which uses the Oculus Rift DK2 and Razer Hydra to create an immersive 3D windowing experience
+	* This target depends on the [OculusVR SDK 0.5.0.1](https://developer.oculus.com/downloads/pc/0.5.0.1-beta/Oculus_SDK_for_Linux_(Experimental)/) and the [SixenseVR SDK](http://sixense.com/linuxsdkdownload) and will prompt for the location of the downloaded SDK archives in order to set up linking properly (it will only prompt the first time it is built)
+	* Produces a shell script "run-rift-hydra-compositor.sh" which runs the compiled compositor
+ * motorcar-demo-client
+ 	* Builds a simple 3D windowing demo client which uses the motorcar 3D windowing extensions to create a cuboid window and draw a rotating colored cube inside of it.
+ 	* Produces a shell script "run-motorcar-demo-client.sh" which runs the compiled client
+
+Multiple targets can be built simultaneously, but they are built in the order that they are specified, so if you want to build mutliple targets you need to specify qtwayland before libmotorcar-compositor and libmotorcar-compositor before either of the example compositors. To build all targets, pass
+
+ 	$ ./build.sh qtwayland libmotorcar-compositor rift-hydra-compositor simple-compositor motorcar-demo-client
+
+The build script requires tar, and unzip to function
 
 
 Dependencies
