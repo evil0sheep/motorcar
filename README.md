@@ -83,7 +83,7 @@ Below are the hashes of the commits which I am using for the Qt dependencies, wh
 
 Here is the build sequence I use for Qt5 and QtWayland to get them to support EGL with desktop OpenGL. Again, this is certainly not guaranteed to work on every system, it is included here mainly as a reference.  Please refer to the [Qt5 build instructions](http://qt-project.org/wiki/Building_Qt_5_from_Git) and the [QtWayland build instructions](http://qt-project.org/wiki/QtWayland) for more information.
 
-	$ git clone git://gitorious.org/qt/qt5.git qt5
+	$ git clone git://code.qt.io/qt/qt5.git qt5
 	$ cd qt5
 	$ git checkout 5.5
 	$ ./init-repository --no-webkit  --module-subset=qtbase,qtjsbackend,qtdeclarative,qtwayland
