@@ -32,7 +32,7 @@ Where target is one of the following:
 * libmotorcar-compositor
 	* Builds the motorcar compositor libraries, used by the example compositors
 	* This target has no prompts
- *simple-compositor
+* simple-compositor
 	* Builds a simple demo compositor with no hardware dependencies
 	* Produces a shell script "run-simple-compositor.sh" which runs the compiled compositor
 	* This target has no prompts
@@ -40,7 +40,7 @@ Where target is one of the following:
 	* Builds the compositor which uses the Oculus Rift DK2 and Razer Hydra to create an immersive 3D windowing experience
 	* This target depends on the [OculusVR SDK 0.5.0.1](https://developer.oculus.com/downloads/pc/0.5.0.1-beta/Oculus_SDK_for_Linux_(Experimental)/) and the [SixenseVR SDK](http://sixense.com/linuxsdkdownload) and will prompt for the location of the downloaded SDK archives in order to set up linking properly (it will only prompt the first time it is built)
 	* Produces a shell script "run-rift-hydra-compositor.sh" which runs the compiled compositor
- * motorcar-demo-client
+* motorcar-demo-client
  	* Builds a simple 3D windowing demo client which uses the motorcar 3D windowing extensions to create a cuboid window and draw a rotating colored cube inside of it.
  	* Produces a shell script "run-motorcar-demo-client.sh" which runs the compiled client
 
