@@ -32,6 +32,7 @@
 **
 **
 ****************************************************************************/
+#include <GL/glew.h>
 #include <scenegraph/output/display/rendertotexturedisplay.h>
 
 #include <gl/GLSLHelper.h>

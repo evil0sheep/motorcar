@@ -54,3 +54,4 @@ motorcar-compositor.pro.user
 run-rift-hydra-compositor.sh
 run-simple-compositor.sh
 run-motorcar-demo-client.sh
+release/*

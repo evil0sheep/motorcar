@@ -32,6 +32,7 @@
 **
 **
 ****************************************************************************/
+#include <GL/glew.h>
 #include <scenegraph/output/wayland/motorcarsurfacenode.h>
 #include <scenegraph/output/display/display.h>
 #include <scenegraph/output/wireframenode.h>

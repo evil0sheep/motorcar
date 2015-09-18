@@ -32,10 +32,12 @@
 **
 **
 ****************************************************************************/
+#include <GL/glew.h>
 #include <scenegraph/output/wayland/waylandsurfacenode.h>
 #include <scenegraph/output/display/display.h>
 #include <gl/viewport.h>
 #include <scenegraph/output/wireframenode.h>
+
 
 using namespace motorcar;
 

@@ -32,6 +32,7 @@
 **
 **
 ****************************************************************************/
+#include <GL/glew.h>
 #include <gl/openglshader.h>
 #include <gl/GLSLHelper.h>
 

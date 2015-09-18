@@ -33,7 +33,6 @@
 **
 ****************************************************************************/
 #include <compositor.h>
-#include <qt/qtwaylandmotorcarcompositor.h>
 using namespace motorcar;
 
 
@@ -44,7 +43,8 @@ Compositor::~Compositor()
 
 Compositor *Compositor::createCompositor(int argc, char **argv, Scene *scene)
 {
-    return qtmotorcar::QtWaylandMotorcarCompositor::create(argc, argv, scene);
+	printf("FIXME: RETURNING NULL COMPOSITOR, WILL SEGFAULT SOON\n");
+    return NULL;
 }
 
 Display *Compositor::display() const

@@ -6,7 +6,7 @@
  *  Created by zwood on 2/21/10.
  *
  */
-
+#include <GL/glew.h>
 #include <gl/GLSLHelper.h>
 
 #include <iostream>
