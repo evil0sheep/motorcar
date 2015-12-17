@@ -11,4 +11,5 @@ compositor: main.cpp
 	${CC}  main.cpp  ${CFLAGS} ${INCLUDES} ${LIBS} -o simple-compositor 
 
 clean:
-	rm simple-compositor 
+	rm -f simple-compositor
+ 
